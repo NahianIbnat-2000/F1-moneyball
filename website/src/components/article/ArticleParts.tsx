@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import type { Article, Hypothesis, Reference, ResultBlock, ResultsBasis } from "../../lib/articles";
 import { Callout } from "../Ui";
 import { BRAND } from "../../lib/brand";
-import { useStatuses } from "../../lib/data";
+import { useDataset, useStatuses } from "../../lib/data";
+import DataTable from "../DataTable";
 import { dataReadiness, fmtDate } from "../../lib/status";
 import DatasetStatusPanel, { StatusBadge } from "../DatasetStatusPanel";
 
@@ -214,5 +215,21 @@ export function HowToCite({ a }: { a: Article }) {
         <button className="underline decoration-accent underline-offset-2" onClick={() => copy(bib, "bib")}>{copied === "bib" ? "Copied" : "Copy BibTeX"}</button>
       </div>
     </section>
+  );
+}
+
+/** Every robustness estimate for one article, read live from the robustness_checks dataset. */
+export function RobustnessTable({ study }: { study: string }) {
+  const { status, rows, entry } = useDataset("robustness_checks");
+  if (status !== "ready") return null;
+  const v = rows.filter((r) => r.study === study);
+  if (!v.length) return null;
+  return (
+    <details className="mt-4 font-sans">
+      <summary className="cursor-pointer label !text-accent-fg">Show all {v.length} estimates (robustness_checks dataset)</summary>
+      <div className="mt-3">
+        <DataTable rows={v} columns={["check", "metric", "model", "coef", "ci_low", "ci_high", "p_value", "p_wild", "baseline_coef"]} specs={entry?.columns} pageSize={15} />
+      </div>
+    </details>
   );
 }

@@ -20,6 +20,7 @@ from f1moneyball.econometrics.efficiency import efficiency_table, financial_pane
 from f1moneyball.econometrics.gp_economy import event_study as gp_event_study
 from f1moneyball.econometrics.gp_economy import synthetic_control
 from f1moneyball.econometrics.models import run_models
+from f1moneyball.econometrics.robustness import run_robustness
 from f1moneyball.feature_engineering.competitive_balance import balance_table
 from f1moneyball.feature_engineering.sporting import (
     LONG_STOP_S,
@@ -161,7 +162,8 @@ def cmd_build_snapshot(args) -> None:
 def _load_processed() -> dict[str, pd.DataFrame]:
     out = {}
     for name in ("constructor_season", "competitive_balance", "race_result", "pit_stop", "efficiency", "model_results",
-                 "cost_cap_models", "cost_cap_event_study", "gp_event_study", "gp_scm_path", "gp_scm_inference"):
+                 "cost_cap_models", "cost_cap_event_study", "gp_event_study", "gp_scm_path", "gp_scm_inference",
+                 "robustness_checks"):
         p = config.PROCESSED_DIR / f"{name}.parquet"
         if p.exists():
             out[name] = pd.read_parquet(p)
@@ -225,14 +227,31 @@ def cmd_validate(args) -> dict:
     return summary
 
 
+def build_robustness() -> None:
+    """Sensitivity checks for all three studies, from the processed outputs. Runs on every publish."""
+    out = config.PROCESSED_DIR / "robustness_checks.parquet"
+    out.unlink(missing_ok=True)
+    t = _load_processed()
+    if "constructor_season" not in t or "competitive_balance" not in t:
+        log.info("No sporting data: robustness checks skipped")
+        return
+    r = run_robustness(t.get("efficiency"), t["constructor_season"], t["competitive_balance"],
+                       t["gp_tourism_monthly"], t["gp_race_events"], t.get("gp_scm_inference"))
+    if len(r):
+        r.to_parquet(out, index=False)
+        log.info("Robustness checks: %d estimates", len(r))
+
+
 def cmd_publish(args) -> None:
     summary = cmd_validate(args)  # exits before writing anything if there are errors
     build_gp()
+    build_robustness()
     t = _load_processed()
     entries, published = [], {}
     for name in ("constructor_season", "race_result", "pit_stop", "competitive_balance", "regulation_event",
                  "financial_observation", "efficiency", "model_results", "cost_cap_models", "cost_cap_event_study",
-                 "gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference"):
+                 "gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference",
+                 "robustness_checks"):
         if name in t and len(t[name]):
             entries.append(publish_dataset(name, t[name]))
             published[name] = t[name]

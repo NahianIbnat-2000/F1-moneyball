@@ -29,6 +29,7 @@ export interface Article {
   strategy: string[];
   results: ResultBlock[]; // empty until the pipeline produces real outputs
   resultsBasedOn?: ResultsBasis;
+  robustnessResults?: ResultBlock[]; // written results of the checks in `robustness` (robustness_checks dataset)
   robustness: string[];
   interpretation: string[];
   limitations: string[];
@@ -67,7 +68,7 @@ export const ARTICLES: Article[] = [
       { id: "H3", statement: "The link between resources and points is weaker under the cost cap than before it.", test: "Interaction between resources and a cost-cap period indicator. Descriptive, because all teams were capped at once." },
       { id: "H4", statement: "Holding resources fixed, reliability and race-day execution explain part of the remaining differences.", test: "Adding completion rate, mechanical retirement rate and grid-to-finish gains to the H1 model." },
     ],
-    datasets: ["constructor_season", "financial_observation", "efficiency", "model_results", "race_result", "regulation_event"],
+    datasets: ["constructor_season", "financial_observation", "efficiency", "model_results", "race_result", "regulation_event", "robustness_checks"],
     variables: [
       { name: "points_share", definition: "Team points divided by all teams' points in the season. Used instead of raw points because the points system changed.", dataset: "constructor_season" },
       { name: "resource measure", definition: "One clearly named financial measure per chart (for example audited operating costs of the team entity). Different measures are never combined.", dataset: "financial_observation" },
@@ -89,21 +90,31 @@ export const ARTICLES: Article[] = [
       { kind: "observed", text: "Average efficiency ratio (points share divided by turnover share), 2014 to 2025: Mercedes 1.48, Red Bull 1.23, Silverstone lineage 1.09, McLaren 0.69, Williams 0.47, Enstone 0.46. In 2025 McLaren had the highest ratio (1.85) and Enstone the lowest (0.10)." },
       { kind: "model_estimate", text: "Pooled model: 10% more turnover in the previous season goes with a points share about 1.0 percentage point higher (coefficient 0.108 on log turnover, 95% CI 0.058 to 0.159). Staff costs and headcount give similar pooled results (about 1.6 points each)." },
       { kind: "model_estimate", text: "With team fixed effects the turnover link almost disappears: 0.009 (95% CI -0.093 to 0.111, p = 0.87). With team and season fixed effects it is 0.020 (p = 0.60). Headcount behaves the same way. Most of the pooled link comes from lasting differences between teams, not from a team doing better in the years when it had more money." },
-      { kind: "model_estimate", text: "Staff costs are the exception. With team and season fixed effects the coefficient is 0.288 (95% CI 0.046 to 0.531, p = 0.02), about 2.7 percentage points of points share per 10% more staff spending. The result is fragile: with team fixed effects alone it is 0.061 (p = 0.41), and the standard errors rest on only six team clusters." },
+      { kind: "model_estimate", text: "Staff costs are the exception. With team and season fixed effects the coefficient is 0.288 (95% CI 0.046 to 0.531, p = 0.02), about 2.7 percentage points of points share per 10% more staff spending. The result is fragile: with team fixed effects alone it is 0.061 (p = 0.41), and a wild cluster bootstrap that allows for only six teams gives p = 0.17 (see Robustness)." },
       { kind: "association", text: "Pit stop operations: teams with higher turnover had faster pit stops relative to the fastest team in the same race (Spearman rank correlation -0.48 across the same 70 team-seasons). Each team appears up to 12 times, so this is a description, not a test." },
     ],
     resultsBasedOn: { date: "2026-11-19", versions: { financial_observation: "22bb6565b17e", efficiency: "dc3323619a40", model_results: "a4ef1b5f7497", constructor_season: "e94cc086e8e9" } },
+    robustnessResults: [
+      { kind: "model_estimate", text: "Few clusters. With six teams, the usual clustered p-values are too small. A wild cluster bootstrap (Webb weights, 9,999 draws) gives p = 0.17 for the staff-cost coefficient with team and season fixed effects, against 0.02 from the usual formula. Once inference allows for six clusters, no resource measure has a clear link with points within teams (turnover p = 0.58, headcount p = 0.57)." },
+      { kind: "model_estimate", text: "Leave one team out: the staff-cost coefficient ranges from 0.155 (without McLaren, p = 0.16) to 0.347 (without Red Bull). The turnover coefficient stays between -0.009 and 0.045 whichever team is left out." },
+      { kind: "model_estimate", text: "Without the rule-reset seasons (2014, 2017, 2022) the estimates barely move. With team and season fixed effects: turnover 0.015 (main result 0.020), staff costs 0.311 (0.288), headcount 0.075 (0.073)." },
+      { kind: "model_estimate", text: "Championship position as the outcome gives the same pattern: a clear link in the pooled model (10% more turnover goes with about 0.24 places higher) that disappears with team fixed effects (p = 0.61)." },
+      { kind: "model_estimate", text: "H3: the link between resources and points does not change measurably under the cost cap. The interaction with the cap period (2021 on) is 0.026 for turnover (bootstrap p = 0.75), 0.085 for staff costs (p = 0.50) and -0.040 for headcount (p = 0.90)." },
+      { kind: "model_estimate", text: "H4: adding completion rate and grid-to-finish gains raises the share of variation explained (R-squared from 0.71 to 0.79 with turnover, team and season fixed effects), while the turnover coefficient stays near zero (-0.022). The staff-cost coefficient falls from 0.288 to 0.222 (p = 0.05). Both controls come from the same season as the outcome, so this split is descriptive." },
+    ],
     robustness: [
-      "Alternative financial measures (operating costs, staff costs, turnover), each in its own model.",
+      "Wild cluster bootstrap p-values for the six-team models.",
+      "Leaving out one team at a time.",
+      "Alternative financial measures (staff costs, turnover, headcount), each in its own model.",
       "Team lineage treated as continuous through rebrands versus each rebrand as a new team.",
       "Excluding seasons with large rule resets (2014, 2017, 2022).",
       "Points share versus championship position as the outcome.",
-      "Restricting to teams with audited figures only.",
+      "H3 and H4 tested as extra terms in the main model.",
     ],
     interpretation: [
       "H1 holds as a description: among the teams covered, richer teams score more points. H2 does not: within a team, more money in one season does not reliably come before more points in the next. This fits a picture in which money and success build up together over many years, since winning teams earn more prize money and attract more sponsors, rather than one in which extra spending quickly buys points.",
-      "The staff-cost result is the one sign of a within-team link, but it disappears in the simpler fixed-effects model and needs more teams or seasons before it can carry weight.",
-      "H3 (a weaker link under the cost cap) and H4 (reliability and race-day execution) have not been tested in a model yet. The Cost Cap Paradox study looks at the cap from the side of competitive balance.",
+      "The staff-cost result looked like a within-team link, but it does not survive inference that allows for six teams (bootstrap p = 0.17) and it shifts a lot depending on which team is left out. It should not be read as a finding.",
+      "H3 is not supported: the money-points link looks the same before and under the cost cap. H4 gets some support as a description: reliability and race-day gains explain part of the differences that money does not, but they are measured in the same season as the points, so the direction is unclear.",
       "None of these results is a causal effect of spending.",
     ],
     limitations: [
@@ -151,7 +162,7 @@ export const ARTICLES: Article[] = [
       { id: "H2", statement: "Team order changes more between seasons after 2021.", test: "Rank persistence and mean absolute rank change." },
       { id: "H3", statement: "Teams that had to cut spending most lost ground relative to others.", test: "Dose-response comparison using audited pre-2021 spending. Suggestive only." },
     ],
-    datasets: ["competitive_balance", "regulation_event", "cost_cap_models", "cost_cap_event_study", "constructor_season", "financial_observation"],
+    datasets: ["competitive_balance", "regulation_event", "cost_cap_models", "cost_cap_event_study", "constructor_season", "financial_observation", "robustness_checks"],
     variables: [
       { name: "hhi_normalized", definition: "HHI of points shares, rescaled so 0 = equal shares and 1 = one team scores everything.", dataset: "competitive_balance" },
       { name: "gini", definition: "Gini coefficient of constructor points.", dataset: "competitive_balance" },
@@ -173,10 +184,15 @@ export const ARTICLES: Article[] = [
       { kind: "model_estimate", text: "Dose-response: teams with one standard deviation more pre-cap turnover (2018 to 2020 average) changed their points share by 0.009 after 2021 relative to others (95% CI -0.072 to 0.089, p = 0.83). In the event study, only 2019 differs from the 2020 reference before the cap (0.023, 95% CI 0.001 to 0.046)." },
     ],
     resultsBasedOn: { date: "2026-11-19", versions: { competitive_balance: "737f103cf04f", cost_cap_models: "6b1276a8dddc", cost_cap_event_study: "5d51f60d7441" } },
-    robustness: ["Alternative indicators", "Excluding 2020 and 2021 (COVID-19 calendars)", "Placebo years"],
+    robustnessResults: [
+      { kind: "model_estimate", text: "Without 2020 (COVID calendar, an unusually close season), the drops at 2021 become larger and pass the usual 5% test: normalized HHI -0.022 (p = 0.05), top-three share -0.066 (p = 0.03), leader's points share -0.066 (p = 0.02). With 2020 kept they are -0.008, -0.012 and -0.056. Rank persistence rises by 0.124 (p < 0.001)." },
+      { kind: "model_estimate", text: "Dose-response: close to zero in every version. Exposure from turnover 0.009 (wild cluster bootstrap p = 0.85), from staff costs 0.004 (p = 0.94). Without 2020 and 2021: 0.005 (p = 0.93) and -0.001 (p = 0.99)." },
+    ],
+    robustness: ["Alternative indicators", "Excluding 2020 (COVID-19 calendar)", "Placebo years", "Dose-response with staff costs instead of turnover, and without 2020-2021", "Wild cluster bootstrap p-values for the six-team dose-response model"],
     interpretation: [
       "In its first five seasons there is no evidence that the cost cap changed competitive balance. The changes after 2021 point towards a slightly closer field, but they are about the size of normal swings from year to year, as the placebo years show.",
       "H1 (lower concentration) is not supported beyond a small descriptive drop. H2 (more movement in team order) gets mixed evidence: the averages say yes, the time-series model says no. H3 (big spenders lose ground) is not supported: the dose-response estimate is close to zero.",
+      "One check points the other way: leaving out 2020 makes the post-2021 drops in concentration pass conventional tests. That rests on a single unusual season and the placebo comparison was not repeated for it, so it does not change the conclusion, but it agrees with the averages that the field became slightly closer.",
       "This does not show that the cap had no effect. With five capped seasons, no uncapped teams to compare against and the 2022 technical reset at the same time, only a large effect could have been detected.",
     ],
     limitations: [
@@ -217,7 +233,7 @@ export const ARTICLES: Article[] = [
       { id: "H1", statement: "Visitor arrivals in the race month rise above what comparable regions would predict.", test: "Event study and synthetic control on monthly arrivals." },
       { id: "H2", statement: "Part of the race-month rise is offset by fewer visitors in nearby months (displacement).", test: "Pre- and post-race month effects." },
     ],
-    datasets: ["gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference"],
+    datasets: ["gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference", "robustness_checks"],
     variables: [
       { name: "arrivals", definition: "Guest arrivals at accommodation establishments per month and federal state, all accommodation types (Statistik Austria).", dataset: "gp_tourism_monthly" },
       { name: "overnight stays", definition: "Nights spent at accommodation establishments per month and federal state, all accommodation types (Statistik Austria).", dataset: "gp_tourism_monthly" },
@@ -234,9 +250,14 @@ export const ARTICLES: Article[] = [
       { kind: "model_estimate", text: "Synthetic control: a weighted mix of Lower Austria (0.32), Salzburg (0.29), Upper Austria (0.20), Vorarlberg (0.10), Tyrol (0.04) and Vienna (0.04) tracked Styria's arrivals closely before June 2014 (pre-entry RMSPE 0.069 log points, under the 0.10 rule). After 2014, Styria was on average only 0.6% above its synthetic version. Its post/pre RMSPE ratio (0.91) is smaller than that of 7 of the 8 placebo states (p = 0.89). For overnight stays the gap is +2.1% (p = 0.44)." },
     ],
     resultsBasedOn: { date: "2026-11-19", versions: { gp_tourism_monthly: "b5d0083b403f", gp_event_study: "49bc9cde2312", gp_scm_inference: "6a9e34197817" } },
-    robustness: ["Different comparison pools", "Excluding COVID-19 years", "Placebo race months"],
+    robustnessResults: [
+      { kind: "model_estimate", text: "Same race months, states without a race: several also rise in Styria's race months. Arrivals: Tyrol +13.8%, Salzburg +12.2%, Vorarlberg +8.8%, Carinthia +8.3%; Vienna, Lower Austria, Upper Austria and Burgenland +2% to +5%. Styria's +13.3% is not unusual. Much of the race-month rise reflects growth in early-summer tourism across Austria in 2014-2019." },
+      { kind: "model_estimate", text: "Styria relative to the rest of Austria: in race months, Styria's arrivals rose 4.6% more than the rest of the country (95% CI 1.6% to 7.7%), and overnight stays 4.1% more (1.3% to 7.0%). This is the closer estimate of a race-specific bump, about a third of the raw figure." },
+      { kind: "model_estimate", text: "Synthetic control using only placebo states that fit about as well as Styria before 2014 (within twice its pre-entry error: Lower Austria, Salzburg, Upper Austria): p = 0.75 for arrivals and for overnight stays. With four units the smallest possible p-value is 0.25, so this test cannot detect an effect either way." },
+    ],
+    robustness: ["Same race months in states without a race (placebo states)", "Host relative to the rest of the country", "Synthetic control p-value with good-fit placebos only", "Excluding COVID-19 years (main analysis ends December 2019)"],
     interpretation: [
-      "Race months in Styria are busier than usual, but the region as a whole did not gain visitors relative to a comparable mix of Austrian states after the race returned. H1 holds only in this narrow, month-level sense.",
+      "Race months in Styria are busier than usual, but much of that rise also appears in Austrian states without a race. Relative to the rest of the country, the race-month bump is about 4 to 5%. Over the whole year, Styria did not gain visitors relative to a comparable mix of Austrian states after the race returned. H1 holds only in this narrow, month-level sense.",
       "H2 (displacement) is not supported in the expected form: the months before the race show no drop. The months after the race are also higher, which looks more like a general rise in Styria's summer tourism than an effect of one race weekend. MotoGP has raced at the same circuit every August since 2016, which adds to the summer months.",
       "These figures count visitors, not spending, hosting fees or public costs, so they cannot say whether hosting is a good deal for the region.",
     ],

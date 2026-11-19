@@ -134,6 +134,15 @@ cost_cap_models:
   why_unavailable: Needs competitive_balance (sporting data not yet collected). The dose-response model also needs pre-cap financial figures for at least 4 teams.
   needed_for_publication: Sporting data for 2010-2025 from the first pipeline run.
 
+robustness_checks:
+  name: Robustness checks
+  modules: [moneyball, cost_cap, grand_prix_economy]
+  source_ids: [jolpica, companies_house, national_statistics]
+  status_if_absent: not_yet_collected
+  would_contain: Sensitivity checks for all three studies, one estimate per row, with wild cluster bootstrap p-values for the six-team models.
+  why_unavailable: Needs the model outputs of the three studies.
+  needed_for_publication: Financial figures, sporting data and Grand Prix inputs from the pipeline.
+
 cost_cap_event_study:
   name: Cost cap event study
   modules: [cost_cap]

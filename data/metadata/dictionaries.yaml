@@ -652,6 +652,80 @@ model_results:
     note:
       type: str
       description: Caveats for this model
+robustness_checks:
+  title: Robustness checks
+  description: Sensitivity checks for the three studies. Each row is one estimate next to the main result it tests.
+  key:
+  - study
+  - check_id
+  - check
+  - metric
+  - model
+  sources:
+  - jolpica
+  - companies_house
+  - national_statistics
+  limitations:
+  - Associations and descriptive comparisons, not causal effects.
+  - The six-team models stay imprecise even with bootstrap p-values.
+  columns:
+    study:
+      type: str
+      description: Article slug the check belongs to
+    check_id:
+      type: str
+      description: Short check identifier
+    check:
+      type: str
+      description: What the check changes
+    metric:
+      type: str
+      description: Resource measure, balance indicator or tourism series
+    model:
+      type: str
+      description: Model or specification
+    coef:
+      type: float
+      description: 'Coefficient of interest (for the synthetic control row: mean post-entry gap, percent)'
+    se:
+      type: float
+      description: 'Standard error (clustered by team, Newey-West or HAC as in the main model)'
+    ci_low:
+      type: float
+      description: 95% CI lower bound
+    ci_high:
+      type: float
+      description: 95% CI upper bound
+    p_value:
+      type: float
+      description: Conventional p-value
+    p_wild:
+      type: float
+      description: 'Wild cluster restricted bootstrap p-value, Webb weights, 9,999 draws (six-team models only)'
+    pct_effect:
+      type: float
+      description: 'Coefficient as a percent change (event studies)'
+    r2:
+      type: float
+      description: R-squared
+    n_obs:
+      type: int
+      description: 'Observations (team-seasons, seasons, months or units)'
+    n_teams:
+      type: int
+      description: 'Teams (clusters)'
+    baseline_coef:
+      type: float
+      description: The main estimate the check is compared with
+    dropped:
+      type: str
+      description: 'Team left out (leave-one-team-out rows)'
+    region:
+      type: str
+      description: 'Region (Grand Prix rows)'
+    note:
+      type: str
+      description: Notes
 cost_cap_models:
   title: Cost cap models
   description: Interrupted time series, placebo break years and dose-response estimates for the 2021 cost cap.

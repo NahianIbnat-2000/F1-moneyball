@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import type { Article } from "../../lib/articles";
 import {
   HowToCite, ArticleHeader, ArticleMetadata, ArticleSection, DataAvailability, HypothesisPanel, LimitationsPanel,
-  MethodologyPanel, ReferencesList, ResearchQuestion, ResultsPanel, SECTIONS, TableOfContents,
+  MethodologyPanel, ReferencesList, ResearchQuestion, ResultsPanel, RobustnessTable, SECTIONS, TableOfContents,
 } from "./ArticleParts";
 
 const P = ({ items }: { items: string[] }) => <>{items.map((t) => <p key={t}>{t}</p>)}</>;
@@ -39,7 +39,14 @@ export default function ResearchArticle({ a }: { a: Article }) {
           ))}
           {S("strategy", <MethodologyPanel steps={a.strategy} />)}
           {S("results", <ResultsPanel results={a.results} datasets={a.datasets} interactive={a.interactive?.to} basis={a.resultsBasedOn} />)}
-          {S("robustness", <><p>Planned checks. Each will be reported next to the main result it tests.</p><ul>{a.robustness.map((r) => <li key={r}>{r}</li>)}</ul></>)}
+          {S("robustness", a.robustnessResults?.length ? (
+            <>
+              <p>Checks run:</p>
+              <ul>{a.robustness.map((r) => <li key={r}>{r}</li>)}</ul>
+              <ResultsPanel results={a.robustnessResults} datasets={["robustness_checks"]} />
+              <RobustnessTable study={a.slug} />
+            </>
+          ) : <><p>Planned checks. Each will be reported next to the main result it tests.</p><ul>{a.robustness.map((r) => <li key={r}>{r}</li>)}</ul></>)}
           {S("interpretation", a.interpretation.length ? <P items={a.interpretation} /> : <p>No interpretation is offered before results exist.</p>)}
           {S("limitations", <LimitationsPanel items={a.limitations} />)}
           {S("availability", <><p>All published data can be inspected and downloaded in the <Link className="underline decoration-accent" to="/data">Data Explorer</Link>, with its data dictionary and sources.</p><DataAvailability datasets={a.datasets} /></>)}
