@@ -735,6 +735,16 @@
         "robustness_checks"
       ],
       "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "89 rows, version 0d1d4a2f4e1a (previously 5217c7b79250, 89 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
     }
   ]
 }

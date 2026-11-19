@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T17:35:27+00:00",
+  "generated_at_utc": "2026-11-19T18:19:14+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -1383,8 +1383,8 @@
           "share": 0.2022
         },
         "p_wild": {
-          "missing": 76,
-          "share": 0.8539
+          "missing": 64,
+          "share": 0.7191
         },
         "pct_effect": {
           "missing": 71,
@@ -1419,8 +1419,8 @@
           "share": 0.8539
         }
       },
-      "version": "5217c7b79250",
-      "last_updated": "2026-11-19T17:35:27+00:00",
+      "version": "0d1d4a2f4e1a",
+      "last_updated": "2026-11-19T18:19:14+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
