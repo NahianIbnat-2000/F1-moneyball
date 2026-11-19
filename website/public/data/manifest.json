@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T16:57:36+00:00",
-  "pipeline_commit": "3e0def4",
+  "generated_at_utc": "2026-11-19T17:12:14+00:00",
+  "pipeline_commit": "471ae41",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -198,7 +198,7 @@
         "Team lineages are a modelling choice: a rebrand is treated as the same team if the factory stays the same.",
         "Until the automated pull runs, rows come from a checked standings snapshot: points, position and wins only."
       ],
-      "version": "d9cfc5c1dc45",
+      "version": "b58389e1adeb",
       "sources": [
         {
           "id": "jolpica",
@@ -367,7 +367,7 @@
         "Sprint race results are not included.",
         "Retirement causes are often unspecified from 2024."
       ],
-      "version": "c6d2353d09d7",
+      "version": "c6052a12c957",
       "sources": [
         {
           "id": "jolpica",
@@ -497,7 +497,7 @@
         "Stops over 60 seconds (red-flag waits, repairs) are kept but flagged and left out of team comparisons.",
         "The source does not label penalty or repair stops. Only the 60-second rule separates them, so short penalty stops stay in."
       ],
-      "version": "be806580320f",
+      "version": "673916810c16",
       "sources": [
         {
           "id": "jolpica",
@@ -631,7 +631,7 @@
         "HHI and Gini depend on the number of teams; use hhi_normalized when the grid size changes.",
         "Descriptive indicators. A change after 2021 is not evidence that the cost cap caused it."
       ],
-      "version": "c233427524b1",
+      "version": "de9ae7bc4adb",
       "sources": [
         {
           "id": "jolpica",
@@ -747,7 +747,7 @@
         "Cost-cap values are sourced to secondary reporting until checked against the FIA regulations (see verified_against_primary).",
         "Base cap levels only. Adjustments for extra races and inflation are not included."
       ],
-      "version": "0c4c9c1f22b9",
+      "version": "e87772e09b05",
       "sources": [
         {
           "id": "fia_regulations",
@@ -937,7 +937,7 @@
         "Accounting periods and currencies differ. Values are never converted or combined in this table.",
         "Coverage is limited to entities that file comparable accounts, mainly in the UK."
       ],
-      "version": "7ef03c01fd18",
+      "version": "c12aa42dc2bd",
       "sources": [
         {
           "id": "companies_house",
@@ -1191,7 +1191,7 @@
         "No currency conversion: teams reporting in different currencies are never in the same group.",
         "Legal-entity accounts may not capture the full cost of running a team."
       ],
-      "version": "0a46183d198c",
+      "version": "1a33f19523ff",
       "sources": [
         {
           "id": "companies_house",
@@ -1370,7 +1370,7 @@
         "With few teams, clustered standard errors are unreliable.",
         "Fixed-effects estimates rely on small within-team changes and are imprecise."
       ],
-      "version": "2ed36239a60c",
+      "version": "faf4b2171b2d",
       "sources": [
         {
           "id": "companies_house",
@@ -1576,7 +1576,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "6429a108a3e6",
+      "version": "b8910c04f01c",
       "sources": [
         {
           "id": "jolpica",
@@ -1673,7 +1673,7 @@
         "Few teams: clustered standard errors are unreliable.",
         "Pre-cap coefficients near zero support, but do not prove, parallel trends."
       ],
-      "version": "0224ee031cee",
+      "version": "77a11924a0dc",
       "sources": [
         {
           "id": "jolpica",
@@ -1704,7 +1704,7 @@
         "month",
         "series"
       ],
-      "rows": 3888,
+      "rows": 4140,
       "n_variables": 13,
       "columns": {
         "region_id": {
@@ -1804,7 +1804,7 @@
         "Monthly data cannot isolate a single race weekend.",
         "Comparison regions must be chosen before looking at results; the choice is recorded in notes."
       ],
-      "version": "b5d0083b403f",
+      "version": "eb1f7485c55c",
       "sources": [
         {
           "id": "national_statistics",
@@ -1825,7 +1825,7 @@
         "region_id",
         "year"
       ],
-      "rows": 12,
+      "rows": 28,
       "n_variables": 7,
       "columns": {
         "region_id": {
@@ -1881,7 +1881,7 @@
       "limitations": [
         "Race month is the month of the race start date."
       ],
-      "version": "acf44bdf40cb",
+      "version": "2283be868777",
       "sources": [
         {
           "id": "jolpica",
@@ -1903,7 +1903,7 @@
         "series",
         "k"
       ],
-      "rows": 10,
+      "rows": 15,
       "n_variables": 13,
       "columns": {
         "region_id": {
@@ -2003,7 +2003,7 @@
         "No comparison region: descriptive, not causal.",
         "A race month may coincide with other events or holidays."
       ],
-      "version": "fe3790ce0119",
+      "version": "90fe59f0044d",
       "sources": [
         {
           "id": "national_statistics",
@@ -2082,7 +2082,7 @@
         "Valid only if the pre-entry fit is good (see gp_scm_inference).",
         "Other events after entry also enter the gap."
       ],
-      "version": "6092286fd83b",
+      "version": "2015cdb5e881",
       "sources": [
         {
           "id": "national_statistics",
@@ -2104,7 +2104,7 @@
         "series",
         "unit"
       ],
-      "rows": 18,
+      "rows": 19,
       "n_variables": 14,
       "columns": {
         "region_id": {
@@ -2211,7 +2211,7 @@
         "With few comparison regions the smallest possible p-value is 1/(regions+1).",
         "Poor pre-entry fit invalidates the estimate."
       ],
-      "version": "64f09f442d79",
+      "version": "7240d4cdbbf4",
       "sources": [
         {
           "id": "national_statistics",
@@ -2235,7 +2235,7 @@
         "metric",
         "model"
       ],
-      "rows": 89,
+      "rows": 90,
       "n_variables": 19,
       "columns": {
         "study": {
@@ -2376,7 +2376,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "The six-team models stay imprecise even with bootstrap p-values."
       ],
-      "version": "8a26be727917",
+      "version": "e179eb76c6ba",
       "sources": [
         {
           "id": "jolpica",
