@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T16:16:04+00:00",
-  "pipeline_commit": "4cde0a4",
+  "generated_at_utc": "2026-11-19T16:57:36+00:00",
+  "pipeline_commit": "3e0def4",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -774,7 +774,7 @@
         "financial_year_end",
         "metric"
       ],
-      "rows": 357,
+      "rows": 527,
       "n_variables": 22,
       "columns": {
         "team_id": {
@@ -937,7 +937,7 @@
         "Accounting periods and currencies differ. Values are never converted or combined in this table.",
         "Coverage is limited to entities that file comparable accounts, mainly in the UK."
       ],
-      "version": "22bb6565b17e",
+      "version": "7ef03c01fd18",
       "sources": [
         {
           "id": "companies_house",
@@ -960,7 +960,7 @@
         "metric",
         "entity_name"
       ],
-      "rows": 210,
+      "rows": 312,
       "n_variables": 30,
       "columns": {
         "team_id": {
@@ -1191,7 +1191,7 @@
         "No currency conversion: teams reporting in different currencies are never in the same group.",
         "Legal-entity accounts may not capture the full cost of running a team."
       ],
-      "version": "f153f640aba9",
+      "version": "0a46183d198c",
       "sources": [
         {
           "id": "companies_house",
@@ -1209,7 +1209,7 @@
         "csv": "data/efficiency.csv"
       },
       "coverage": {
-        "season_min": 2014,
+        "season_min": 2010,
         "season_max": 2025
       }
     },
@@ -1370,7 +1370,7 @@
         "With few teams, clustered standard errors are unreliable.",
         "Fixed-effects estimates rely on small within-team changes and are imprecise."
       ],
-      "version": "ce30cb29f372",
+      "version": "2ed36239a60c",
       "sources": [
         {
           "id": "companies_house",
@@ -2235,7 +2235,7 @@
         "metric",
         "model"
       ],
-      "rows": 83,
+      "rows": 89,
       "n_variables": 19,
       "columns": {
         "study": {
@@ -2376,7 +2376,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "The six-team models stay imprecise even with bootstrap p-values."
       ],
-      "version": "8e3b44a25d9d",
+      "version": "8a26be727917",
       "sources": [
         {
           "id": "jolpica",

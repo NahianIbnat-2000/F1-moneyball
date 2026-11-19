@@ -495,6 +495,46 @@
         "cost_cap_event_study"
       ],
       "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Financial observations updated",
+      "detail": "527 rows, version 7ef03c01fd18 (previously 22bb6565b17e, 357 rows)",
+      "datasets": [
+        "financial_observation"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Financial efficiency indicators updated",
+      "detail": "312 rows, version a544a6ff8ec7 (previously dc3323619a40, 210 rows)",
+      "datasets": [
+        "efficiency"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Resources and performance models updated",
+      "detail": "9 rows, version e276104d02c2 (previously 405df87a363e, 9 rows)",
+      "datasets": [
+        "model_results"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "89 rows, version 8a26be727917 (previously 8e3b44a25d9d, 83 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
     }
   ]
 }

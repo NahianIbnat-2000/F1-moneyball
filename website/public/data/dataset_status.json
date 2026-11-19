@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T16:16:04+00:00",
+  "generated_at_utc": "2026-11-19T16:57:35+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -407,9 +407,9 @@
         "why_unavailable": "No API provides F1 team finances. Figures must be read from statutory accounts (mainly UK Companies House filings) and entered by hand with page references. Ferrari and some other teams do not file comparable accounts.",
         "needed_for_publication": "Audited figures for at least 4 teams in the same seasons, entered and validated."
       },
-      "coverage_start": 2014,
+      "coverage_start": 2010,
       "coverage_end": 2025,
-      "observation_count": 357,
+      "observation_count": 527,
       "variable_count": 22,
       "missingness": {
         "team_id": {
@@ -418,7 +418,7 @@
         },
         "season_mapped": {
           "missing": 5,
-          "share": 0.014
+          "share": 0.0095
         },
         "entity_name": {
           "missing": 0,
@@ -434,7 +434,7 @@
         },
         "value": {
           "missing": 2,
-          "share": 0.0056
+          "share": 0.0038
         },
         "currency": {
           "missing": 0,
@@ -450,7 +450,7 @@
         },
         "accounting_basis": {
           "missing": 2,
-          "share": 0.0056
+          "share": 0.0038
         },
         "source_class": {
           "missing": 0,
@@ -466,18 +466,18 @@
         },
         "document_title": {
           "missing": 2,
-          "share": 0.0056
+          "share": 0.0038
         },
         "document_page": {
           "missing": 2,
-          "share": 0.0056
+          "share": 0.0038
         },
         "publication_date": {
-          "missing": 357,
+          "missing": 527,
           "share": 1.0
         },
         "retrieval_date": {
-          "missing": 357,
+          "missing": 527,
           "share": 1.0
         },
         "confidence": {
@@ -494,15 +494,15 @@
         },
         "transformation": {
           "missing": 2,
-          "share": 0.0056
+          "share": 0.0038
         },
         "comparability_warning": {
-          "missing": 332,
-          "share": 0.93
+          "missing": 432,
+          "share": 0.8197
         }
       },
-      "version": "22bb6565b17e",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "7ef03c01fd18",
+      "last_updated": "2026-11-19T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -954,9 +954,9 @@
         "why_unavailable": "Computed by the pipeline from financial_observation and constructor_season. Neither is published yet.",
         "needed_for_publication": "At least 4 teams reporting the same measure in the same currency for the same season."
       },
-      "coverage_start": 2014,
+      "coverage_start": 2010,
       "coverage_end": 2025,
-      "observation_count": 210,
+      "observation_count": 312,
       "variable_count": 30,
       "missingness": {
         "team_id": {
@@ -996,7 +996,7 @@
           "share": 0.0
         },
         "exclusion_reason": {
-          "missing": 210,
+          "missing": 312,
           "share": 1.0
         },
         "points": {
@@ -1060,7 +1060,7 @@
           "share": 0.0
         },
         "points_per_million": {
-          "missing": 70,
+          "missing": 104,
           "share": 0.3333
         },
         "resource_rank": {
@@ -1080,8 +1080,8 @@
           "share": 0.0
         }
       },
-      "version": "dc3323619a40",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "a544a6ff8ec7",
+      "last_updated": "2026-11-19T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1188,8 +1188,8 @@
           "share": 0.0
         }
       },
-      "version": "405df87a363e",
-      "last_updated": "2026-11-19T16:16:04+00:00",
+      "version": "e276104d02c2",
+      "last_updated": "2026-11-19T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1339,7 +1339,7 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 83,
+      "observation_count": 89,
       "variable_count": 19,
       "missingness": {
         "study": {
@@ -1368,31 +1368,31 @@
         },
         "se": {
           "missing": 2,
-          "share": 0.0241
+          "share": 0.0225
         },
         "ci_low": {
           "missing": 2,
-          "share": 0.0241
+          "share": 0.0225
         },
         "ci_high": {
           "missing": 2,
-          "share": 0.0241
+          "share": 0.0225
         },
         "p_value": {
           "missing": 18,
-          "share": 0.2169
+          "share": 0.2022
         },
         "p_wild": {
-          "missing": 70,
-          "share": 0.8434
+          "missing": 76,
+          "share": 0.8539
         },
         "pct_effect": {
-          "missing": 65,
-          "share": 0.7831
+          "missing": 71,
+          "share": 0.7978
         },
         "r2": {
           "missing": 25,
-          "share": 0.3012
+          "share": 0.2809
         },
         "n_obs": {
           "missing": 0,
@@ -1400,27 +1400,27 @@
         },
         "n_teams": {
           "missing": 25,
-          "share": 0.3012
+          "share": 0.2809
         },
         "baseline_coef": {
           "missing": 36,
-          "share": 0.4337
+          "share": 0.4045
         },
         "dropped": {
           "missing": 65,
-          "share": 0.7831
+          "share": 0.7303
         },
         "region": {
-          "missing": 63,
-          "share": 0.759
+          "missing": 69,
+          "share": 0.7753
         },
         "note": {
-          "missing": 70,
-          "share": 0.8434
+          "missing": 76,
+          "share": 0.8539
         }
       },
-      "version": "8e3b44a25d9d",
-      "last_updated": "2026-11-19T16:16:04+00:00",
+      "version": "8a26be727917",
+      "last_updated": "2026-11-19T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
