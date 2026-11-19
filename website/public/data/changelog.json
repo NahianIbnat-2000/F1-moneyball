@@ -415,6 +415,16 @@
         "pit_stop"
       ],
       "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Regulation events updated",
+      "detail": "8 rows, version 0c4c9c1f22b9 (previously 9aaebb92a4ac, 8 rows)",
+      "datasets": [
+        "regulation_event"
+      ],
+      "automatic": true
     }
   ]
 }

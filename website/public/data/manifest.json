@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T13:49:33+00:00",
-  "pipeline_commit": "bfbfcb0",
+  "generated_at_utc": "2026-11-19T15:57:24+00:00",
+  "pipeline_commit": "32d55a3",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -747,7 +747,7 @@
         "Cost-cap values are sourced to secondary reporting until checked against the FIA regulations (see verified_against_primary).",
         "Base cap levels only. Adjustments for extra races and inflation are not included."
       ],
-      "version": "9aaebb92a4ac",
+      "version": "0c4c9c1f22b9",
       "sources": [
         {
           "id": "fia_regulations",
@@ -2241,7 +2241,7 @@
   },
   "quality": {
     "n_errors": 0,
-    "n_warnings": 2,
+    "n_warnings": 1,
     "issues": [
       {
         "dataset": "constructor_season",
@@ -2249,13 +2249,6 @@
         "severity": "warning",
         "message": "Standings points differ from summed race points in seasons [2020, 2021, 2022, 2023, 2024, 2025] (expected where sprint races or penalties apply)",
         "n_rows": 37
-      },
-      {
-        "dataset": "regulation_event",
-        "check": "primary_verification",
-        "severity": "warning",
-        "message": "Events not yet checked against the primary FIA document",
-        "n_rows": 4
       }
     ]
   }

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T13:49:33+00:00",
+  "generated_at_utc": "2026-11-19T15:57:24+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -386,12 +386,10 @@
           "share": 0.0
         }
       },
-      "version": "9aaebb92a4ac",
-      "last_updated": "2026-11-19T13:21:50+00:00",
-      "validation_status": "passed_with_warnings",
-      "validation_warnings": [
-        "Events not yet checked against the primary FIA document"
-      ],
+      "version": "0c4c9c1f22b9",
+      "last_updated": "2026-11-19T15:57:24+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
       "status_note": null,
       "status": "published"
     },
