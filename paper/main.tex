@@ -62,7 +62,7 @@
   \large\textit{Financial Resources and Sporting Performance in Formula~1, \FirstSeason{} to \LastSeason}}
 \author{Nahian Ibnat\thanks{Working paper, November 2026. Not peer reviewed. Part of F1 Moneyball, an independent
   Formula~1 economics and finance research platform: \url{\site/}. The interactive version of this study is at
-  \url{\site/research/does-money-buy-speed}. Data and code: \url{\repo}.}}
+  \url{\site/research/does-money-buy-speed}. Data and code: \url{\repo}. Project overview: \url{\site/hub/}.}}
 \date{November 2026}
 
 \begin{document}
@@ -75,12 +75,14 @@ spending. This paper asks whether teams with more money score more points, and w
 after it spends more. I build a panel of audited accounts from the UK statutory filings of \NTeams{} team lineages
 (\NTeamSeasons{} team-seasons, \FirstSeason{} to \LastSeason) and link them to championship results. Between teams, money
 and success move together: the correlation between turnover share and points share is \CorrAll, and 10\% more turnover in
-the previous season goes with a points share about \PpTurnPooled{} percentage points higher. Within teams the link is weak
-and unstable. With team fixed effects the turnover coefficient falls from \CoefTurnPooled{} to \CoefTurnFe{}
-($p = \PTurnFe$); adding season effects gives \CoefTurnTwfe{} ($p = \PTurnTwfe$). Some within-team estimates pass
-conventional tests, but they change sharply when one team is left out, and the two inference methods used here, clustered
-standard errors and a wild cluster bootstrap for few clusters, do not agree. The link does not change measurably under the
-cost cap. The results describe associations and do not identify a causal effect of spending.
+the previous season goes with a points share about \PpTurnPooled{} percentage points higher. Within teams the evidence is
+weaker and depends on the measure. With team fixed effects alone the turnover coefficient falls from \CoefTurnPooled{} to
+\CoefTurnFe{} ($p = \PTurnFe$). Once season effects also remove changes common to all teams, the estimates are positive for
+all three measures and clearest for staff costs: 10\% more staff spending goes with a points share about \PpStaffTwfe{}
+percentage points higher the next season (wild cluster bootstrap $p = \PwildStaffTwfe$) and a better championship position
+(bootstrap $p = \PosPwildStaffcosts$). When one team is left out, the size of the staff-cost estimate for points share changes, but its sign does not.
+The link does not change measurably under the cost cap. With \NTeams{} teams and several tests, the within-team results are
+suggestive rather than conclusive, and all results describe associations, not a causal effect of spending.
 
 \medskip\noindent\textbf{Keywords:} sports economics, competitive balance, Formula~1, team finances, panel data, cost cap.\\
 \textbf{JEL codes:} Z21, Z23, L83, C23.
@@ -145,7 +147,9 @@ Force India, Racing Point and Aston Martin).
 
 \paragraph{Comparison groups.} Shares are computed within each season among the covered teams that report the same measure
 in the same currency, with at least four teams. Points share is a team's share of those teams' combined points; the
-efficiency ratio is points share divided by resource share.
+efficiency ratio is points share divided by resource share. The descriptive statistics use all \NTeamSeasons{}
+team-seasons. The models use \NObs, because the one-season lag drops each team's first season and the season after a gap in
+its accounts (\NDroppedByLag{} team-seasons in all).
 
 \begin{table}[htbp]
 \centering
@@ -183,7 +187,11 @@ where $i$ is a team lineage and $t$ a season. Resources enter with a one-season 
 sponsorship, so a same-season link would partly run from points to money. Lagging reduces this problem but does not remove
 it. Three versions are estimated for each measure: pooled (without $\alpha_i$ and $\gamma_t$), with team fixed effects
 $\alpha_i$, and with team and season fixed effects. The pooled model compares teams with each other; the fixed-effects models
-ask whether a team does better in the seasons after it had more money than usual. Because points share is in units of
+ask whether a team does better in the seasons after it had more money than usual. Season effects matter for a specific
+reason here. Points shares add up to one in every season, while money in nominal pounds rises for almost every team over
+time through inflation and growth in the sport's revenue. Without season effects, that common rise in spending has no
+matching rise in points to explain, which pulls the within-team estimate towards zero. The model with team and season
+effects is therefore the main within-team test. Because points share is in units of
 0 to 1, $\beta \times \log(1.1) \times 100$ is the change in percentage points that goes with 10\% more of a resource.
 
 Standard errors are clustered by team. With only \NTeams{} teams, clustered standard errors can be too small
@@ -217,8 +225,9 @@ turnover in the previous season goes with a points share about \PpTurnPooled{} p
 differences between teams, not from a team doing better in the years when it had more money. Adding season effects moves the
 estimates up (\CoefTurnTwfe{} for turnover, $p = \PTurnTwfe$). The largest within-team estimate is for staff costs with team
 and season effects (\CoefStaffTwfe, about \PpStaffTwfe{} percentage points per 10\% more staff spending): its clustered
-$p$-value is \PStaffTwfe{} and its bootstrap $p$-value \PwildStaffTwfe. The two methods disagree on which side of 0.05 the
-estimate falls, which is itself a reason for caution.
+$p$-value is \PStaffTwfe{} and its bootstrap $p$-value \PwildStaffTwfe. The two methods fall on different sides of 0.05,
+so this estimate alone is not strong evidence; Section~\ref{sec:rob} shows that the same pattern appears with championship
+position as the outcome.
 
 \begin{table}[htbp]
 \centering
@@ -251,13 +260,19 @@ restricted bootstrap, Webb six-point weights, 9,999 draws, within-team models on
 
 % ============================================================================ 6
 \section{Robustness}
+\label{sec:rob}
 
 Table~\ref{tab:rob} collects the main checks, all with team and season fixed effects. Leaving out the seasons with large rule
-resets barely changes the estimates. The within-team estimates move a lot when one team is left out: the staff-cost
-coefficient ranges from \LooStaffcostsMin{} to \LooStaffcostsMax{}, and the turnover coefficient from \LooTurnoverMin{} to
-\LooTurnoverMax. With championship position as the outcome, where a lower number is better, all three measures go with a
-better position (turnover \PosTurnover{} places per log point, $p = \PosPTurnover$; staff costs \PosStaffcosts,
-$p = \PosPStaffcosts$; headcount \PosHeadcount, $p = \PosPHeadcount$; clustered $p$-values). The link does not change
+resets barely changes the estimates. The size of the within-team estimates moves a lot when one team is left out, but
+the sign never changes: the staff-cost coefficient ranges from \LooStaffcostsMin{} to \LooStaffcostsMax{}, and the turnover
+coefficient from \LooTurnoverMin{} to \LooTurnoverMax. With championship position as the outcome, where a lower number is
+better, all three measures go with a better position the next season: turnover \PosTurnover{} places per log point
+(clustered $p = \PosPTurnover$, bootstrap $p = \PosPwildTurnover$), staff costs \PosStaffcosts{} ($p = \PosPStaffcosts$,
+bootstrap $p = \PosPwildStaffcosts$) and headcount \PosHeadcount{} ($p = \PosPHeadcount$, bootstrap
+$p = \PosPwildHeadcount$). In economic terms, 10\% more staff spending goes with a finish about \PosTenStaffcosts{}
+places higher the next season, and 10\% more turnover with about \PosTenTurnover{} places. Here the two inference methods
+give similar $p$-values. Six within-team tests are reported for the main
+specification (three measures, two outcomes), so a single $p$-value near 0.01 should be read with that in mind. The link does not change
 measurably under the cost cap. Adding reliability and race-day gains raises the share of variation explained from
 \RsqBase{} to \RsqOps{} and absorbs part of the staff-cost link, but both controls are measured in the same season as the
 outcome, so they may themselves be results of spending. Every estimate behind Table~\ref{tab:rob}, including each
@@ -280,6 +295,7 @@ Check & Measure & Coefficient & $p$-value (bootstrap) & Main result \\
 \item \textit{Notes:} ``Main result'' is the team and season fixed-effects coefficient from Table~\ref{tab:models}.
 Clustered $p$-values; wild bootstrap $p$-values in brackets where computed.
 $^{a}$~Coefficient on log resource $\times$ cost-cap period (2021 onward).
+$^{b}$~Places in the championship per log point of the resource; negative means a better position.
 \textit{Source:} dataset \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
 \code{src/f1moneyball/econometrics/robustness.py}.
 \end{tablenotes}
@@ -289,12 +305,14 @@ $^{a}$~Coefficient on log resource $\times$ cost-cap period (2021 onward).
 % ============================================================================ 7
 \section{Discussion and limitations}
 
-Between teams, money and points go together: the richest teams win most. Within teams, the evidence that more money in one
-season comes before more points in the next is weak and mixed. Without season effects there is no link; with them, some
-estimates pass conventional tests but are not stable across samples or inference methods. The fairest reading is that if
-extra spending helps a team within its own history, the effect is small and cannot be measured reliably with \NTeams{}
-teams. This fits a picture in which money and success build up together over many years, since winning teams earn more
-prize money and attract more sponsors.
+Between teams, money and points go together: the richest teams win most. Within teams, the picture depends on how the
+comparison is made. Comparing a team only with its own average shows no link. Comparing it with its own average and with
+the other teams in the same season, more money, and staff spending in particular, comes before better results in the next
+season, in both points share and championship position. The direction is the same in every leave-one-out sample, but the
+size is uncertain and the evidence rests on \NTeams{} teams. The fairest reading is that extra spending, especially on
+people, goes with modest improvements within a team, while most of the gap between teams reflects differences that last for
+many years. This fits a picture in which money and success build up together, since winning teams earn more prize money and
+attract more sponsors.
 
 The main limitations are:
 \begin{itemize}[leftmargin=1.2em,itemsep=0.1em,topsep=0.2em]
@@ -303,6 +321,8 @@ The main limitations are:
         elsewhere in a group;
   \item accounting periods and standards that differ across teams and years;
   \item reverse causality, which a one-season lag only reduces;
+  \item money measured in nominal pounds, which season effects absorb in the fixed-effects models but the pooled model
+        does not;
   \item the absence of Ferrari and the non-UK teams;
   \item the cost cap and the 2022 technical rules arriving one season apart, so their effects cannot be separated with
         season-level data.

@@ -6,6 +6,11 @@
 <title>F1 Moneyball | Nahian Ibnat</title>
 <meta name="description" content="F1 Moneyball: a personal, independent research project by Nahian Ibnat on the economics and finance of Formula 1. Website, working paper and code.">
 <meta name="author" content="Nahian Ibnat">
+<meta property="og:type" content="website">
+<meta property="og:title" content="F1 Moneyball: The Economics Behind the Speed">
+<meta property="og:description" content="A personal, independent research project by Nahian Ibnat on the economics and finance of Formula 1. Website, working paper and code.">
+<meta property="og:url" content="https://nahianibnat-2000.github.io/F1-moneyball/hub/">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
@@ -38,6 +43,15 @@
               border-left: 3px solid var(--amber); background: var(--panel); padding: 14px 18px; font-size: .97rem; }
   .personal strong { font-family: var(--mono); font-weight: 500; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); white-space: nowrap; padding-top: 3px; }
 
+  .linkbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .linkbar a { display: inline-flex; flex-direction: column; gap: 2px; text-decoration: none; border: 1px solid var(--line);
+               background: var(--panel); padding: 10px 14px; min-width: 15rem; }
+  .linkbar a:hover, .linkbar a:focus-visible { border-color: var(--red); outline: none; }
+  .linkbar .lb { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); }
+  .linkbar .lu { font-family: var(--mono); font-size: .8rem; color: var(--fg); word-break: break-all; }
+  .study-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-family: var(--mono); font-size: .8rem; }
+  .study-links a { color: var(--amber); text-decoration: none; }
+  .study-links a:hover, .study-links a:focus-visible { text-decoration: underline; }
   h2 { font-family: var(--display); font-weight: 600; font-size: 1.9rem; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; margin: 0 0 6px; }
   .sec-label { font-family: var(--mono); font-size: .72rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
   section { padding: 40px 0; border-top: 1px solid var(--line); }
@@ -97,6 +111,10 @@
     <p class="tagline">The Economics Behind the Speed</p>
     <p class="lede">Formula 1 teams are firms. They raise money, hire engineers, and compete for a fixed set of prizes, and since 2021 a cost cap limits how much most of them can spend. F1 Moneyball uses public financial filings, race data and tourism statistics to study one question from three sides: <em>does money buy speed, and who else gains from the sport?</em></p>
     <div class="personal"><strong>Personal research</strong><span>This is my own independent project, done in my own time. It is not connected to any university, team, the FIA or Formula 1, and it has not been peer reviewed. All data and code are public so anyone can check the work.</span></div>
+    <nav class="linkbar" aria-label="Project links">
+      <a href="https://nahianibnat-2000.github.io/F1-moneyball/"><span class="lb">Website</span><span class="lu">nahianibnat-2000.github.io/F1-moneyball</span></a>
+      <a href="https://github.com/NahianIbnat-2000/F1-moneyball"><span class="lb">GitHub</span><span class="lu">github.com/NahianIbnat-2000/F1-moneyball</span></a>
+    </nav>
   </header>
 
   <section aria-labelledby="explore">
@@ -113,7 +131,7 @@
       <a class="card" href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">
         <span class="fkey">F2 · PAPER</span>
         <h3>Working paper</h3>
-        <p><em>Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025.</em> PDF, 8 pages.</p>
+        <p><em>Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025.</em> PDF.</p>
         <span class="go">Read the paper (PDF) →</span>
         <span class="url">LaTeX source in the repository</span>
       </a>
@@ -137,7 +155,8 @@
           <h3>Does Money Buy Speed?</h3>
           <p class="q">Do richer teams score more points, and does a team do better after it spends more?</p>
           <p>Audited accounts from UK Companies House filings for 8 team lineages, linked to championship results from 2010 to 2025. Panel models with team and season fixed effects, and a wild cluster bootstrap because there are few teams.</p>
-          <p class="finding"><b>Finding:</b> between teams, money and points move together (correlation 0.78). Within a team over time, the link is weak and unstable. These are associations, not causal effects.</p>
+          <p class="finding"><b>Finding:</b> between teams, money and points move together (correlation 0.78). Within a team, the link is smaller: once changes common to all teams in a season are removed, more staff spending comes before modestly better results the next season. With eight teams this is suggestive, not conclusive, and these are associations, not causal effects.</p>
+          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/does-money-buy-speed">Read the article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/moneyball">Explore the data →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">Working paper (PDF) →</a></div>
         </div>
       </article>
       <article class="study">
@@ -147,6 +166,7 @@
           <p class="q">Did the 2021 cost cap bring the teams closer together?</p>
           <p>Competitive balance before and after the cap, with an interrupted time series, placebo break years, and a dose-response design that compares teams the cap restricted more with those it restricted less.</p>
           <p class="finding"><b>Finding:</b> so far, the change after 2021 cannot be told apart from changes in placebo years. The cap and the 2022 technical rules came one season apart, so their effects cannot be separated.</p>
+          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/cost-cap-paradox">Read the article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/cost-cap">Explore the data →</a></div>
         </div>
       </article>
       <article class="study">
@@ -156,6 +176,7 @@
           <p class="q">Does hosting a race bring more tourists to the region?</p>
           <p>Monthly tourism data for Austria (Styria, the Austrian Grand Prix) and Singapore, studied with an event study and a synthetic control. The analysis stops in 2019 to avoid COVID.</p>
           <p class="finding"><b>Finding:</b> Styria's race month shows more arrivals than usual, but much less once compared with the rest of Austria, and the synthetic control does not separate it from chance. Singapore shows no clear race-month rise.</p>
+          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/grand-prix-economy">Read the article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/grand-prix-economy">Explore the data →</a></div>
         </div>
       </article>
     </div>

@@ -101,12 +101,18 @@ def moneyball_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> 
             sub = panel[~panel["season"].isin(RESET_SEASONS)]
             rows.append({**base, "check_id": "no_reset_seasons", "check": "Without rule-reset seasons (2014, 2017, 2022)",
                          "model": spec, **_fit(f, sub, x), "baseline_coef": b["coef"]})
+            pos_panel = panel.dropna(subset=["position"])
+            pos = _fit(f"position ~ {x}{fe}", pos_panel, x)
+            if wild and spec != "pooled":  # same few-cluster correction as the main models
+                pos["p_wild"] = wild_cluster_p(f"position ~ {x}{fe}", pos_panel, x, "team_id")
             rows.append({**base, "check_id": "position_outcome",
                          "check": "Outcome: championship position (negative = better)", "model": spec,
-                         **_fit(f"position ~ {x}{fe}", panel.dropna(subset=["position"]), x), "baseline_coef": None})
+                         **pos, "baseline_coef": None})
             if spec != "pooled":
                 ctrl = panel.dropna(subset=["completion_rate", "mean_grid_to_finish"])
                 h4 = _fit(f"points_share ~ {x} + completion_rate + mean_grid_to_finish{fe}", ctrl, x)
+                if wild:
+                    h4["p_wild"] = wild_cluster_p(f"points_share ~ {x} + completion_rate + mean_grid_to_finish{fe}", ctrl, x, "team_id")
                 h4["note"] = f"R-squared {b['r2']:.3f} without the two controls, {h4['r2']:.3f} with them."
                 rows.append({**base, "check_id": "h4_operations", "check": "H4: adding completion rate and grid-to-finish gains",
                              "model": spec, **h4, "baseline_coef": b["coef"]})
