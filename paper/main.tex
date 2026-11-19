@@ -55,6 +55,7 @@
   \fancyfoot[R]{\footnotesize\thepage}}
 
 \setlength{\parskip}{0.35em}
+\setlength{\emergencystretch}{2em} % lets long URLs in the references break without overflowing
 \onehalfspacing
 
 \title{\textbf{Does Money Buy Speed?}\\[0.3em]
@@ -126,10 +127,12 @@ team spending.
 \section{Data}
 
 \paragraph{Financial data.} Team accounts come from the statutory annual accounts filed at Companies House by the UK company
-that runs each team. Eight lineages have such accounts: Red Bull (Red Bull Technology Limited), Mercedes (Mercedes-Benz
-Grand Prix Limited), McLaren (McLaren Racing Limited), Williams (Williams Grand Prix Engineering Limited), Enstone (Renault,
-Lotus, Alpine), Silverstone (Force India, Racing Point, Aston Martin), Banbury (Virgin, Marussia, Manor, 2010 to 2016) and
-Leafield (Lotus Racing, Caterham, 2010 to 2012). The scanned filings were read with optical character recognition and every
+that runs each team, taken from each company's public filing history. Eight lineages have such accounts: Red Bull
+\citep{ch_redbull}, Mercedes \citep{ch_mercedes}, McLaren \citep{ch_mclaren}, Williams \citep{ch_williams}, Enstone,
+which raced as Renault, Lotus and Alpine \citep{ch_enstone}, Silverstone, which raced as Force India, Racing Point and Aston
+Martin \citep{ch_forceindia,ch_amr}, Banbury, which raced as Virgin, Marussia and Manor from 2010 to 2016 \citep{ch_manor},
+and Leafield, which raced as Lotus Racing and Caterham from 2010 to 2012 \citep{ch_caterham}. Appendix~\ref{app:sources}
+gives the link to each filing history. The scanned filings were read with optical character recognition and every
 figure was checked against the prior-year column of the next filing or against the page image. Where a later filing
 restated a figure, the figure as first reported is used and the restatement is recorded. Three measures are used: turnover,
 staff costs and the average number of employees. Ferrari, Sauber, Racing Bulls and Haas do not file comparable UK accounts
@@ -321,6 +324,37 @@ download link, and the GitHub repository \url{\repo} holds the pipeline, the eco
 
 % ============================================================================ appendix
 \appendix
+\section{Data sources}
+\label{app:sources}
+
+\noindent Every figure in this paper comes from one of the public sources below. Each link opens the page the data were
+collected from (accessed 19 November 2026). The same links are stored next to every figure in the published datasets
+(column \texttt{source\_url}) and shown in the \sitepage{data}{data explorer}.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Data & Source & Link \\
+\midrule
+Mercedes accounts & \citet{ch_mercedes} & \url{https://find-and-update.company-information.service.gov.uk/company/00787446/filing-history} \\
+Red Bull accounts & \citet{ch_redbull} & \url{https://find-and-update.company-information.service.gov.uk/company/05202976/filing-history} \\
+McLaren accounts & \citet{ch_mclaren} & \url{https://find-and-update.company-information.service.gov.uk/company/01517478/filing-history} \\
+Williams accounts & \citet{ch_williams} & \url{https://find-and-update.company-information.service.gov.uk/company/01297497/filing-history} \\
+Enstone accounts (Renault, Lotus, Alpine) & \citet{ch_enstone} & \url{https://find-and-update.company-information.service.gov.uk/company/01806337/filing-history} \\
+Silverstone accounts, 2010--2016 (Force India) & \citet{ch_forceindia} & \url{https://find-and-update.company-information.service.gov.uk/company/02417588/filing-history} \\
+Silverstone accounts, 2019--2025 (Racing Point, Aston Martin) & \citet{ch_amr} & \url{https://find-and-update.company-information.service.gov.uk/company/11496673/filing-history} \\
+Banbury accounts (Virgin, Marussia, Manor) & \citet{ch_manor} & \url{https://find-and-update.company-information.service.gov.uk/company/06661964/filing-history} \\
+Leafield accounts (Lotus Racing, Caterham) & \citet{ch_caterham} & \url{https://find-and-update.company-information.service.gov.uk/company/07042086/filing-history} \\
+\addlinespace
+Race results, championship standings & \citet{jolpica} & \url{https://api.jolpi.ca/ergast/f1/} \\
+Cost cap levels & \citet{fia2021} & \url{https://www.fia.com/sites/default/files/formula_1_-_financial_regulations_-_2021_-_iss_8_-_2021-10-15.pdf} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
 \section{Where each result comes from}
 \label{app:code}
 
