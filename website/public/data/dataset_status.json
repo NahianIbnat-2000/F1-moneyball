@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T11:36:37+00:00",
+  "generated_at_utc": "2026-11-19T12:03:08+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -114,8 +114,8 @@
           "share": 0.0
         }
       },
-      "version": "a3b1321a833f",
-      "last_updated": "2026-11-19T08:17:37+00:00",
+      "version": "3ee7229e8c88",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed_with_warnings",
       "validation_warnings": [
         "Standings points differ from summed race points in seasons [2020, 2021, 2022, 2023, 2024, 2025] (expected where sprint races or penalties apply)"
@@ -219,8 +219,8 @@
           "share": 0.1754
         }
       },
-      "version": "92d9fbdcbc08",
-      "last_updated": "2026-11-19T08:17:37+00:00",
+      "version": "d0cfcda6b70c",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -298,8 +298,8 @@
           "share": 0.0625
         }
       },
-      "version": "9a3b416818bf",
-      "last_updated": "2026-11-19T08:17:37+00:00",
+      "version": "737f103cf04f",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -374,8 +374,8 @@
           "share": 0.0
         }
       },
-      "version": "c64301825bc0",
-      "last_updated": "2026-11-19T08:17:37+00:00",
+      "version": "bc7c9de02987",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed_with_warnings",
       "validation_warnings": [
         "Events not yet checked against the primary FIA document"
@@ -491,8 +491,8 @@
           "share": 0.93
         }
       },
-      "version": "417f4c6befe4",
-      "last_updated": "2026-11-19T11:36:37+00:00",
+      "version": "22bb6565b17e",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -676,7 +676,7 @@
       },
       "coverage_start": 2014,
       "coverage_end": 2025,
-      "observation_count": 350,
+      "observation_count": 210,
       "variable_count": 30,
       "missingness": {
         "team_id": {
@@ -717,7 +717,7 @@
         },
         "exclusion_reason": {
           "missing": 210,
-          "share": 0.6
+          "share": 1.0
         },
         "points": {
           "missing": 0,
@@ -768,40 +768,40 @@
           "share": 0.0
         },
         "resource_share": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "points_share_in_group": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "efficiency_ratio": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "points_per_million": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 70,
+          "share": 0.3333
         },
         "resource_rank": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "points_rank": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "rank_gap": {
-          "missing": 140,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "included": {
           "missing": 0,
           "share": 0.0
         }
       },
-      "version": "d18a05c87c9c",
-      "last_updated": "2026-11-19T11:36:37+00:00",
+      "version": "dc3323619a40",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -824,7 +824,7 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 15,
+      "observation_count": 9,
       "variable_count": 20,
       "missingness": {
         "metric": {
@@ -872,44 +872,44 @@
           "share": 0.0
         },
         "coef": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "se": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "ci_low": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "ci_high": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "p_value": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "r2": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "effect_10pct_pp": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "se_type": {
-          "missing": 6,
-          "share": 0.4
+          "missing": 0,
+          "share": 0.0
         },
         "note": {
           "missing": 0,
           "share": 0.0
         }
       },
-      "version": "9cd77c1c68d7",
-      "last_updated": "2026-11-19T11:36:37+00:00",
+      "version": "405df87a363e",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1032,8 +1032,8 @@
           "share": 0.975
         }
       },
-      "version": "3e61312932a5",
-      "last_updated": "2026-11-19T11:36:37+00:00",
+      "version": "88ec5d8bfd90",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1096,8 +1096,8 @@
           "share": 0.0
         }
       },
-      "version": "dc57b92ed53e",
-      "last_updated": "2026-11-19T11:36:37+00:00",
+      "version": "0224ee031cee",
+      "last_updated": "2026-11-19T12:03:08+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

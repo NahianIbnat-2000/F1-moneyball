@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T11:36:38+00:00",
-  "pipeline_commit": "582ce60",
+  "generated_at_utc": "2026-11-19T12:03:08+00:00",
+  "pipeline_commit": "8a62101",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -176,7 +176,7 @@
         "Team lineages are a modelling choice: a rebrand is treated as the same team if the factory stays the same.",
         "Until the automated pull runs, rows come from a checked standings snapshot: points, position and wins only."
       ],
-      "version": "a11c0fc41b05",
+      "version": "29de1a12e3a3",
       "sources": [
         {
           "id": "jolpica",
@@ -345,7 +345,7 @@
         "Sprint race results are not included.",
         "Retirement causes are often unspecified from 2024."
       ],
-      "version": "1b36c80e9165",
+      "version": "c6d2353d09d7",
       "sources": [
         {
           "id": "jolpica",
@@ -479,7 +479,7 @@
         "HHI and Gini depend on the number of teams; use hhi_normalized when the grid size changes.",
         "Descriptive indicators. A change after 2021 is not evidence that the cost cap caused it."
       ],
-      "version": "6f28af0decc8",
+      "version": "c233427524b1",
       "sources": [
         {
           "id": "jolpica",
@@ -595,7 +595,7 @@
         "Cost-cap values are sourced to secondary reporting until checked against the FIA regulations (see verified_against_primary).",
         "Base cap levels only. Adjustments for extra races and inflation are not included."
       ],
-      "version": "c64301825bc0",
+      "version": "bc7c9de02987",
       "sources": [
         {
           "id": "fia_regulations",
@@ -785,7 +785,7 @@
         "Accounting periods and currencies differ. Values are never converted or combined in this table.",
         "Coverage is limited to entities that file comparable accounts, mainly in the UK."
       ],
-      "version": "417f4c6befe4",
+      "version": "22bb6565b17e",
       "sources": [
         {
           "id": "companies_house",
@@ -808,7 +808,7 @@
         "metric",
         "entity_name"
       ],
-      "rows": 350,
+      "rows": 210,
       "n_variables": 30,
       "columns": {
         "team_id": {
@@ -1039,7 +1039,7 @@
         "No currency conversion: teams reporting in different currencies are never in the same group.",
         "Legal-entity accounts may not capture the full cost of running a team."
       ],
-      "version": "ef2e5242b890",
+      "version": "f153f640aba9",
       "sources": [
         {
           "id": "companies_house",
@@ -1068,7 +1068,7 @@
       "key": [
         "model_id"
       ],
-      "rows": 15,
+      "rows": 9,
       "n_variables": 20,
       "columns": {
         "model_id": {
@@ -1218,7 +1218,7 @@
         "With few teams, clustered standard errors are unreliable.",
         "Fixed-effects estimates rely on small within-team changes and are imprecise."
       ],
-      "version": "57a27c34952b",
+      "version": "ce30cb29f372",
       "sources": [
         {
           "id": "companies_house",
@@ -1424,7 +1424,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "9e5195a9f731",
+      "version": "6429a108a3e6",
       "sources": [
         {
           "id": "jolpica",
@@ -1521,7 +1521,7 @@
         "Few teams: clustered standard errors are unreliable.",
         "Pre-cap coefficients near zero support, but do not prove, parallel trends."
       ],
-      "version": "dc57b92ed53e",
+      "version": "0224ee031cee",
       "sources": [
         {
           "id": "jolpica",
@@ -1547,15 +1547,15 @@
   "status_file": "data/dataset_status.json",
   "changelog_file": "data/changelog.json",
   "environment": {
-    "python": "3.13.13",
+    "python": "3.12.16",
     "packages": {
-      "pandas": "2.3.3",
-      "numpy": "2.3.3",
-      "scipy": "1.16.2",
+      "pandas": "3.1.1",
+      "numpy": "2.5.5",
+      "scipy": "1.18.1",
       "statsmodels": "0.15.0",
-      "pyarrow": "21.0.0",
-      "duckdb": "1.4.1",
-      "requests": "2.32.5"
+      "pyarrow": "26.0.1",
+      "duckdb": "2.0.0",
+      "requests": "2.34.2"
     }
   },
   "quality": {
