@@ -64,3 +64,7 @@
 {"date": "2026-11-19", "category": "updated_data", "title": "Cost cap models updated", "detail": "40 rows, version 1038e9bafc8e (previously ce14dea3c390, 40 rows)", "datasets": ["cost_cap_models"], "automatic": true}
 {"date": "2026-11-19", "category": "updated_data", "title": "Robustness checks updated", "detail": "89 rows, version 5217c7b79250 (previously e179eb76c6ba, 90 rows)", "datasets": ["robustness_checks"], "automatic": true}
 {"date": "2026-11-19", "category": "updated_data", "title": "Robustness checks updated", "detail": "89 rows, version 0d1d4a2f4e1a (previously 5217c7b79250, 89 rows)", "datasets": ["robustness_checks"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Synthetic control paths updated", "detail": "288 rows, version 2015cdb5e881 (previously 91ff1e2d910c, 288 rows)", "datasets": ["gp_scm_path"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Synthetic control inference updated", "detail": "19 rows, version 7240d4cdbbf4 (previously cfcb19cb05ee, 19 rows)", "datasets": ["gp_scm_inference"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Cost cap models updated", "detail": "40 rows, version ce14dea3c390 (previously 1038e9bafc8e, 40 rows)", "datasets": ["cost_cap_models"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Robustness checks updated", "detail": "89 rows, version d4a1a5dcbc91 (previously 0d1d4a2f4e1a, 89 rows)", "datasets": ["robustness_checks"], "automatic": true}

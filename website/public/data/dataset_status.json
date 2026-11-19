@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T18:19:14+00:00",
+  "generated_at_utc": "2026-11-19T22:51:00+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -849,8 +849,8 @@
           "share": 0.0
         }
       },
-      "version": "91ff1e2d910c",
-      "last_updated": "2026-11-19T17:35:27+00:00",
+      "version": "2015cdb5e881",
+      "last_updated": "2026-11-19T22:51:00+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -932,8 +932,8 @@
           "share": 0.0
         }
       },
-      "version": "cfcb19cb05ee",
-      "last_updated": "2026-11-19T17:35:27+00:00",
+      "version": "7240d4cdbbf4",
+      "last_updated": "2026-11-19T22:51:00+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1312,8 +1312,8 @@
           "share": 0.975
         }
       },
-      "version": "1038e9bafc8e",
-      "last_updated": "2026-11-19T17:35:27+00:00",
+      "version": "ce14dea3c390",
+      "last_updated": "2026-11-19T22:51:00+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1419,8 +1419,8 @@
           "share": 0.8539
         }
       },
-      "version": "0d1d4a2f4e1a",
-      "last_updated": "2026-11-19T18:19:14+00:00",
+      "version": "d4a1a5dcbc91",
+      "last_updated": "2026-11-19T22:51:00+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
