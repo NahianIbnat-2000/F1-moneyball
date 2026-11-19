@@ -19,6 +19,9 @@ const LAYERS = [
 ];
 
 const fmt = (v: Row[string], d = 1) => (typeof v === "number" ? v.toFixed(d) : "n/a");
+// Readable labels for region ids ("at_lower_austria" -> "Lower Austria") and series names.
+const pretty = (id: unknown) => String(id ?? "").replace(/^[a-z]{2}_/, "").split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+const seriesLabel = (s: unknown) => String(s ?? "").replace(/_/g, " ");
 const sel = "border-0 border-b border-fg/60 bg-transparent px-1 py-1 text-sm text-fg";
 
 function useHostSeries(rows: Row[]) {
@@ -27,7 +30,7 @@ function useHostSeries(rows: Row[]) {
   const [region, series] = key.split("|");
   const control = keys.length > 1 ? (
     <label className="label grid gap-1">Host and series
-      <select className={sel} value={key} onChange={(e) => setKey(e.target.value)}>{keys.map((k) => <option key={k} value={k}>{k.replace("|", " · ")}</option>)}</select>
+      <select className={sel} value={key} onChange={(e) => setKey(e.target.value)}>{keys.map((k) => { const [r, s] = k.split("|"); return <option key={k} value={k}>{`${pretty(r)} · ${seriesLabel(s)}`}</option>; })}</select>
     </label>
   ) : undefined;
   return { region, series, control, view: rows.filter((r) => r.region_id === region && r.series === series) };
@@ -41,7 +44,7 @@ function EventStudy({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
   return (
     <ChartFrame
       meta={{ id: "GP-1", dataset: entry, methodology: "race-month event study",
-        title: `Race months against the usual season: ${h.region ?? ""}`,
+        title: `Race months against the usual season: ${pretty(h.region)}, ${seriesLabel(h.series)}`,
         caption: "If a race brings extra visitors, the race month (0) should sit above the same month in other years. Lower values in the months either side would suggest visitors were moved, not added.",
         source: "gp_event_study dataset, from official monthly series in gp_tourism_monthly.",
         shows: "Approximate % difference from the seasonal pattern and trend, with 95% intervals (HAC standard errors).",
@@ -72,10 +75,10 @@ function ScmPath({ path, inf, pathEntry, infEntry }: { path: Row[]; inf: Row[]; 
     <div className="grid gap-12">
       <ChartFrame
         meta={{ id: "GP-2", dataset: pathEntry, methodology: "synthetic control",
-          title: `${h.region ?? ""}: observed against synthetic control`,
+          title: `${pretty(h.region)}: observed against synthetic control`,
           caption: "The synthetic line is a weighted mix of comparison regions chosen to track the host before its first race. After entry, the gap between the lines is the estimate of what the race added.",
           source: "gp_scm_path dataset (synthetic control, Abadie, Diamond and Hainmueller 2010).",
-          shows: `Log monthly ${h.series}. Weights: ${host?.weights ?? "n/a"}.`,
+          shows: `Log monthly ${seriesLabel(h.series)}. Weights: ${host?.weights ? String(host.weights).replace(/\b[a-z]{2}_[a-z_]+/g, (m) => pretty(m)) : "n/a"}.`,
           doesNotShow: "Spending, jobs or net benefit. Other changes after the race entered the calendar also enter the gap.",
           estimateWarning: poor ? "The pre-entry fit is poor: the gap should not be read as an effect." : undefined,
           summary: host ? `Pre-entry fit (RMSPE) ${fmt(host.rmspe_pre, 3)}; mean post-entry gap ${fmt(host.mean_post_gap_pct)}%; placebo p-value ${fmt(host.p_value, 2)}.` : undefined }}
@@ -86,7 +89,7 @@ function ScmPath({ path, inf, pathEntry, infEntry }: { path: Row[]; inf: Row[]; 
             { type: "scatter", mode: "lines", name: "Observed host", x: v.map((r) => String(r.month)), y: v.map((r) => r.observed as number), line: { color: ACCENT, width: 2 } },
             { type: "scatter", mode: "lines", name: "Synthetic control", x: v.map((r) => String(r.month)), y: v.map((r) => r.synthetic as number), line: { color: SERIES, width: 2, dash: "dash" } },
           ]}
-          layout={{ showlegend: true, legend: { orientation: "h", y: -0.2 }, xaxis: { title: { text: "Month" } }, yaxis: { title: { text: `log ${h.series}` } },
+          layout={{ showlegend: true, legend: { orientation: "h", y: -0.2 }, xaxis: { title: { text: "Month" } }, yaxis: { title: { text: `log ${seriesLabel(h.series)}` } },
             shapes: entryMonth ? [{ type: "line", xref: "x", yref: "paper", x0: entryMonth, x1: entryMonth, y0: 0, y1: 1, line: { color: MUTED, width: 1.5, dash: "dot" } }] : [] }} />
       </ChartFrame>
       {placebos.length > 1 && (
@@ -100,9 +103,9 @@ function ScmPath({ path, inf, pathEntry, infEntry }: { path: Row[]; inf: Row[]; 
             summary: host ? `Host ratio ${fmt(host.rmspe_ratio, 2)}; rank-based p-value ${fmt(host.p_value, 2)} from ${placebos.length} units.` : undefined }}
           table={<DataTable rows={placebos} columns={["unit", "is_host", "rmspe_pre", "rmspe_post", "rmspe_ratio", "mean_post_gap_pct", "poor_pre_fit"]} specs={infEntry?.columns} />}>
           <Plot ariaLabel="Bar chart of RMSPE ratios for host and placebo regions" height={Math.max(240, placebos.length * 34 + 80)}
-            data={[{ type: "bar", orientation: "h", y: placebos.map((r) => String(r.unit)), x: placebos.map((r) => r.rmspe_ratio as number),
+            data={[{ type: "bar", orientation: "h", y: placebos.map((r) => pretty(r.unit)), x: placebos.map((r) => r.rmspe_ratio as number),
               marker: { color: placebos.map((r) => (r.is_host ? ACCENT : MUTED)), line: { color: BG, width: 1 } }, hovertemplate: "%{y}: %{x:.2f}<extra></extra>" } as Data]}
-            layout={{ margin: { l: 120, r: 24, t: 10, b: 50 }, xaxis: { title: { text: "Post / pre RMSPE ratio" } }, yaxis: { categoryorder: "total ascending" } }} />
+            layout={{ margin: { l: 130, r: 24, t: 10, b: 50 }, xaxis: { title: { text: "Post / pre RMSPE ratio" } }, yaxis: { categoryorder: "total ascending" } }} />
         </ChartFrame>
       )}
     </div>

@@ -1,1 +1,13 @@
 region_id,race_name,year,race_start_date,race_end_date,source_url,notes
+at_styria,Austrian Grand Prix,2014,2014-06-20,2014-06-22,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2015,2015-06-19,2015-06-21,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2016,2016-07-01,2016-07-03,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2017,2017-07-07,2017-07-09,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2018,2018-06-29,2018-07-01,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2019,2019-06-28,2019-06-30,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix / Styrian Grand Prix,2020,2020-07-03,2020-07-12,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only). Two races this year: Austrian Grand Prix 2020-07-05; Styrian Grand Prix 2020-07-12. Held without spectators (COVID-19).
+at_styria,Styrian Grand Prix / Austrian Grand Prix,2021,2021-06-25,2021-07-04,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only). Two races this year: Styrian Grand Prix 2021-06-27; Austrian Grand Prix 2021-07-04.
+at_styria,Austrian Grand Prix,2022,2022-07-08,2022-07-10,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2023,2023-06-30,2023-07-02,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2024,2024-06-28,2024-06-30,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).
+at_styria,Austrian Grand Prix,2025,2025-06-27,2025-06-29,https://api.jolpi.ca/ergast/f1/,Weekend start = race day minus 2 days (race results hold race day only).

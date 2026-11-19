@@ -28,12 +28,16 @@ MIN_PRE_MONTHS, MIN_DONORS = 24, 3
 MAX_PRE_RMSPE = 0.10  # in log points (about 10%)
 ES_NOTE = "Compared with the same calendar month in other years, after a linear trend. Descriptive: no comparison region."
 POOR_FIT = "Pre-entry fit is poor: do not read the gap as an effect."
+# Months after this are left out of both designs: COVID-19 closures (from March 2020) move tourism far more
+# than any race, and no comparison region escaped them. The series stay in the published data.
+ANALYSIS_END = pd.Period("2019-12", freq="M")
 
 
 def _monthly(df: pd.DataFrame, series: str) -> pd.DataFrame:
     d = df[(df["series"] == series)].copy()
     d["month"] = pd.PeriodIndex(d["month"], freq="M")
     d["y"] = np.log(pd.to_numeric(d["value"], errors="coerce"))
+    d = d[d["month"] <= ANALYSIS_END]
     return d.dropna(subset=["y"])
 
 
@@ -42,7 +46,8 @@ def event_study(df: pd.DataFrame, events: pd.DataFrame, series: str = "arrivals"
     d = _monthly(df, series)
     for region, g in d[d["is_host"]].groupby("region_id"):
         g = g.sort_values("month").copy()
-        race_months = {pd.Period(x, freq="M") for x in events[events["region_id"] == region]["race_start_date"]}
+        race_months = {m for m in (pd.Period(x, freq="M") for x in events[events["region_id"] == region]["race_start_date"])
+                       if m <= ANALYSIS_END}
         base = {"region_id": region, "region_name": g["region_name"].iat[0], "series": series}
         if len(g) < MIN_MONTHS_ES or not race_months:
             rows.append({**base, "k": None, "estimated": False,
