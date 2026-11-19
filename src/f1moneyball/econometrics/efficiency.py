@@ -7,6 +7,11 @@ Rules that protect comparability:
     are never put in the same denominator.
   * A group needs at least `min_teams` teams, otherwise its rows are kept but excluded,
     with the reason written in `exclusion_reason`.
+  * Only RESOURCE measures enter the panel. Profit measures (operating profit, profit before
+    tax) are outcomes, can be negative and have no meaningful share, so they stay in
+    financial_observation but are not used here.
+  * Headcount is a count of people, not money: its `currency` is set to "persons" so it never
+    shares a comparison group with a currency, and points per million is not computed for it.
   * Points share is recomputed within the group (team points / points of the teams in the
     group), so both shares refer to the same set of teams.
 
@@ -20,6 +25,10 @@ import pandas as pd
 
 SOURCE_RANK = {"audited": 0, "official_disclosure": 1, "secondary_estimate": 2, "derived_estimate": 3}
 REPORTED = {"audited", "official_disclosure"}
+RESOURCE_METRICS = {"revenue", "turnover", "operating_costs", "staff_costs", "estimated_budget",
+                    "sponsorship_revenue", "headcount"}
+COUNT_METRICS = {"headcount"}
+PERSONS = "persons"
 
 SPORT_COLS = ["points", "points_share", "position", "wins", "podiums", "completion_rate",
               "mechanical_dnf_rate", "mean_grid_to_finish", "median_quali_gap_pct", "team_name"]
@@ -27,7 +36,8 @@ SPORT_COLS = ["points", "points_share", "position", "wins", "podiums", "completi
 
 def financial_panel(fin: pd.DataFrame, cs: pd.DataFrame) -> pd.DataFrame:
     """Join usable financial figures to constructor seasons. One row per team, season, metric."""
-    f = fin[fin["source_class"] != "missing"].copy()
+    f = fin[(fin["source_class"] != "missing") & fin["metric"].isin(RESOURCE_METRICS)].copy()
+    f.loc[f["metric"].isin(COUNT_METRICS), "currency"] = PERSONS
     f["value"] = pd.to_numeric(f["value"], errors="coerce")
     f = f.dropna(subset=["value", "season_mapped"])
     f["season"] = f["season_mapped"].astype(int)
@@ -71,7 +81,8 @@ def efficiency_table(panel: pd.DataFrame, min_teams: int = 4) -> pd.DataFrame:
         df.loc[idx, "resource_share"] = res_share
         df.loc[idx, "points_share_in_group"] = pts_share
         df.loc[idx, "efficiency_ratio"] = pts_share / res_share
-        df.loc[idx, "points_per_million"] = g["points"] / (g["value"] / 1e6)
+        if ccy != PERSONS:
+            df.loc[idx, "points_per_million"] = g["points"] / (g["value"] / 1e6)
         df.loc[idx, "resource_rank"] = g["value"].rank(ascending=False, method="min")
         df.loc[idx, "points_rank"] = g["points"].rank(ascending=False, method="min")
         # Positive rank_gap: the team finished higher on points than its resource rank.

@@ -30,13 +30,22 @@ function Select({ label, value, onChange, options }: { label: string; value: str
 
 const METRIC_LABEL: Record<string, string> = {
   operating_costs: "Operating costs", revenue: "Revenue", turnover: "Turnover", staff_costs: "Staff costs",
-  estimated_budget: "Estimated budget", sponsorship_revenue: "Sponsorship revenue",
+  estimated_budget: "Estimated budget", sponsorship_revenue: "Sponsorship revenue", headcount: "Headcount",
+  operating_profit: "Operating profit", profit_before_tax: "Profit before tax",
 };
 const mLabel = (m: string) => METRIC_LABEL[m] ?? m;
+// Money measures first, headcount last; the first one is the default selection.
+const METRIC_ORDER = ["turnover", "revenue", "operating_costs", "staff_costs", "estimated_budget", "sponsorship_revenue", "headcount"];
+const byOrder = (a: string, b: string) => (METRIC_ORDER.indexOf(a) + 1 || 99) - (METRIC_ORDER.indexOf(b) + 1 || 99);
+// Headcount is a count of people (currency "persons"), not money: no scaling to millions.
+const isMoney = (ccy: string) => ccy !== "persons";
+const scaleOf = (ccy: string) => (isMoney(ccy) ? 1e6 : 1);
+const unitOf = (ccy: string) => (isMoney(ccy) ? `${ccy} millions` : "employees, average for the year");
+const fmtVal = (v: number, ccy: string) => (isMoney(ccy) ? `${(v / 1e6).toFixed(1)}M ${ccy}` : `${Math.round(v).toLocaleString("en-US")} employees`);
 
 // ---------------------------------------------------------------- A. resources vs performance
 function useFinancialControls(rows: Row[]) {
-  const metrics = uniq(rows.map((r) => String(r.metric)));
+  const metrics = uniq(rows.map((r) => String(r.metric))).sort(byOrder);
   const [metric, setMetric] = useState(metrics[0] ?? "");
   const currencies = uniq(rows.filter((r) => r.metric === metric).map((r) => String(r.currency)));
   const [currency, setCurrency] = useState(currencies[0] ?? "");
@@ -46,7 +55,7 @@ function useFinancialControls(rows: Row[]) {
   const controls = (
     <>
       <Select label="Financial measure" value={metric} onChange={setMetric} options={metrics.map((m) => [m, mLabel(m)])} />
-      <Select label="Currency" value={ccy} onChange={setCurrency} options={currencies.map((c) => [c, c])} />
+      <Select label="Currency / unit" value={ccy} onChange={setCurrency} options={currencies.map((c) => [c, c])} />
       <Select label="Season" value={season} onChange={setSeason} options={[["all", "All seasons"], ...seasons.map((s): [string, string] => [String(s), String(s)])]} />
     </>
   );
@@ -56,16 +65,16 @@ function useFinancialControls(rows: Row[]) {
   return { metric, ccy, season, controls, view };
 }
 
-function scatterTraces(view: Row[], y: (r: Row) => number, labels: boolean) {
+function scatterTraces(view: Row[], y: (r: Row) => number, labels: boolean, ccy: string) {
   return (["reported", "estimate"] as const).map((kind): Data => {
     const rs = view.filter((r) => (kind === "reported") === Boolean(r.is_reported));
     return {
       type: "scatter", mode: labels ? "text+markers" : "markers", name: kind === "reported" ? "Reported figure (audited or official)" : "Estimate",
-      x: rs.map((r) => (r.value as number) / 1e6), y: rs.map(y),
+      x: rs.map((r) => (r.value as number) / scaleOf(ccy)), y: rs.map(y),
       text: rs.map((r) => `${r.team_name ?? r.team_id} ${String(r.season).slice(2)}`), textposition: "top center",
       textfont: { size: 10, color: MUTED },
       marker: { symbol: SYMBOL[kind], size: 10, color: rs.map((r) => teamHex(String(r.team_id))), line: { width: kind === "estimate" ? 2 : 1, color: kind === "estimate" ? rs.map((r) => teamHex(String(r.team_id))) : BG } },
-      hovertemplate: "<b>%{text}</b><br>%{x:,.1f}M<br>%{y}<extra></extra>",
+      hovertemplate: isMoney(ccy) ? "<b>%{text}</b><br>%{x:,.1f}M<br>%{y}<extra></extra>" : "<b>%{text}</b><br>%{x:,} employees<br>%{y}<extra></extra>",
     };
   }).filter((t) => (t as { x: number[] }).x.length > 0);
 }
@@ -83,16 +92,16 @@ function ResourcesVsPerformance({ rows, entry }: { rows: Row[]; entry?: DatasetE
         title: `${mLabel(c.metric)} and ${outcome === "points_share" ? "share of championship points" : "championship position"}`,
         caption: "If money buys speed, teams further right should sit higher. Each point is one team in one season, measured with one financial measure only.",
         source: "efficiency dataset: statutory accounts entered by hand (financial_observation) joined to Jolpica-F1 standings.",
-        shows: `${mLabel(c.metric)} in ${c.ccy} millions (original currency, not inflation-adjusted) against ${outcome === "points_share" ? "points share of the whole grid" : "final position"}.`,
+        shows: `${mLabel(c.metric)} in ${unitOf(c.ccy)}${isMoney(c.ccy) ? " (original currency, not inflation-adjusted)" : ""} against ${outcome === "points_share" ? "points share of the whole grid" : "final position"}.`,
         doesNotShow: "Whether spending causes results. Success also raises income, so the link can run both ways.",
         estimateWarning: est ? "Hollow markers are estimates, not reported figures." : undefined,
-        summary: top ? `${c.view.length} team-seasons shown. The largest figure is ${top.team_name} in ${top.season} (${((top.value as number) / 1e6).toFixed(1)}M ${c.ccy}), which finished P${top.position} with ${pct(num(top.points_share))} of points.` : "No rows match the selection.",
+        summary: top ? `${c.view.length} team-seasons shown. The largest figure is ${top.team_name} in ${top.season} (${fmtVal(top.value as number, c.ccy)}), which finished P${top.position} with ${pct(num(top.points_share))} of points.` : "No rows match the selection.",
       }}
       controls={<>{c.controls}<Select label="Outcome" value={outcome} onChange={(v) => setOutcome(v as typeof outcome)} options={[["points_share", "Points share"], ["position", "Championship position"]]} /></>}
       table={<DataTable rows={c.view} columns={["season", "team_name", "entity_name", "value", "currency", "source_class", "points_share", "position"]} specs={entry?.columns} />}>
-      <Plot ariaLabel={`Scatter of ${mLabel(c.metric)} against ${outcome}`} height={440} data={scatterTraces(c.view, y, c.season !== "all")}
+      <Plot ariaLabel={`Scatter of ${mLabel(c.metric)} against ${outcome}`} height={440} data={scatterTraces(c.view, y, c.season !== "all", c.ccy)}
         layout={{ showlegend: true, legend: { orientation: "h", y: -0.2 },
-          xaxis: { title: { text: `${mLabel(c.metric)} (${c.ccy} millions, log scale)` }, type: "log" },
+          xaxis: { title: { text: `${mLabel(c.metric)} (${unitOf(c.ccy)}, log scale)` }, type: "log" },
           yaxis: { title: { text: outcome === "points_share" ? "Share of all constructor points (%)" : "Championship position" }, autorange: outcome === "position" ? "reversed" : true } }} />
     </ChartFrame>
   );
@@ -159,7 +168,9 @@ function Trajectories({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
 function EfficiencyBars({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
   const inc = rows.filter((r) => r.included);
   const c = useFinancialControls(inc);
-  const [measure, setMeasure] = useState<"efficiency_ratio" | "points_per_million" | "rank_gap">("efficiency_ratio");
+  const [measureRaw, setMeasure] = useState<"efficiency_ratio" | "points_per_million" | "rank_gap">("efficiency_ratio");
+  // Points per million only exists for money measures.
+  const measure = measureRaw === "points_per_million" && !isMoney(c.ccy) ? "efficiency_ratio" : measureRaw;
   const seasons = seasonsOf(inc.filter((r) => r.metric === c.metric && r.currency === c.ccy));
   const season = c.season === "all" ? String(seasons.at(-1) ?? "") : c.season;
   const v = inc.filter((r) => r.metric === c.metric && r.currency === c.ccy && String(r.season) === season)
@@ -182,7 +193,7 @@ function EfficiencyBars({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) 
         doesNotShow: "Technical or production efficiency, and nothing causal. Teams outside the group are not ranked.",
         estimateWarning: est ? "Hatched bars use estimated figures." : undefined,
         summary: best ? `Highest ${labels[measure][0].toLowerCase()} in this group: ${best.team_name} (${(best[measure] as number).toFixed(2)}). ${excluded.length ? `${excluded.length} team rows for this season are excluded; see the data table.` : ""}` : "No comparison group for this selection." }}
-      controls={<>{c.controls}<Select label="Measure" value={measure} onChange={(v2) => setMeasure(v2 as typeof measure)} options={[["efficiency_ratio", "Efficiency ratio"], ["points_per_million", "Points per million"], ["rank_gap", "Rank gap"]]} /></>}
+      controls={<>{c.controls}<Select label="Measure" value={measure} onChange={(v2) => setMeasure(v2 as typeof measure)} options={isMoney(c.ccy) ? [["efficiency_ratio", "Efficiency ratio"], ["points_per_million", "Points per million"], ["rank_gap", "Rank gap"]] : [["efficiency_ratio", "Efficiency ratio"], ["rank_gap", "Rank gap"]]} /></>}
       table={<DataTable rows={[...v, ...excluded]} columns={["team_name", "value", "resource_share", "points_share_in_group", "efficiency_ratio", "points_per_million", "rank_gap", "source_class", "exclusion_reason"]} specs={entry?.columns} />}>
       {v.length ? (
         <Plot ariaLabel={`Bar chart of ${labels[measure][0]} by team`} height={Math.max(260, v.length * 38 + 80)}

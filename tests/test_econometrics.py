@@ -60,6 +60,17 @@ def test_duplicate_entities_are_excluded():
     assert len(dup) == 2 and dup["exclusion_reason"].str.contains("More than one entity").all()
 
 
+def test_profit_measures_excluded_and_headcount_is_persons():
+    fin, cs = make_data(seasons=[2015])
+    profit = fin.assign(metric="operating_profit", value=-fin["value"])
+    heads = fin.assign(metric="headcount", value=700.0)
+    eff = efficiency_table(financial_panel(pd.concat([fin, profit, heads]), cs), min_teams=4)
+    assert "operating_profit" not in set(eff["metric"])
+    h = eff[eff["metric"] == "headcount"]
+    assert (h["currency"] == "persons").all() and h["included"].all()
+    assert h["points_per_million"].isna().all()
+
+
 def test_estimates_flagged_not_reported():
     fin, cs = make_data(seasons=[2015])
     fin.loc[0, "source_class"] = "secondary_estimate"

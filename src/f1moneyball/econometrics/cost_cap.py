@@ -93,6 +93,11 @@ def its_models(balance: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+# Exposure is read from the first measure, in this order, that covers enough teams before the cap.
+# Money measures come first; headcount is a last resort and is labelled as persons.
+EXPOSURE_PREFERENCE = ["operating_costs", "turnover", "revenue", "staff_costs", "estimated_budget", "headcount"]
+
+
 def exposure_panel(cs: pd.DataFrame, eff: pd.DataFrame | None) -> tuple[pd.DataFrame, dict]:
     """Team exposure from pre-cap resources, joined to team-seasons in the event window."""
     info = {"metric": None, "currency": None, "n_teams": 0}
@@ -102,7 +107,9 @@ def exposure_panel(cs: pd.DataFrame, eff: pd.DataFrame | None) -> tuple[pd.DataF
     pre = usable[usable["season"].between(*EXPOSURE_YEARS)]
     if pre.empty:
         return pd.DataFrame(), info
-    metric = pre["metric"].mode().iat[0]
+    counts = pre.groupby("metric")["team_id"].nunique()
+    ranked = [m for m in EXPOSURE_PREFERENCE if counts.get(m, 0) >= MIN_EXPOSED_TEAMS]
+    metric = ranked[0] if ranked else counts.idxmax()
     currency = pre[pre["metric"] == metric]["currency"].mode().iat[0]
     p = pre[(pre["metric"] == metric) & (pre["currency"] == currency)]
     expo = np.log(p.groupby("team_id")["value"].mean())
