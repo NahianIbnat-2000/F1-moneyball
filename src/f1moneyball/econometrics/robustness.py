@@ -212,6 +212,8 @@ def grand_prix_checks(tourism: pd.DataFrame, events: pd.DataFrame, inference: pd
             if hrow.empty:
                 continue
             hr = hrow.iloc[0]
+            if not bool(hr.get("estimated", True)) or pd.isna(hr.get("rmspe_pre")):
+                continue  # no synthetic control for this host (e.g. no comparison regions)
             keep = g[~g["is_host"] & (g["rmspe_pre"] <= GOOD_FIT_MULTIPLE * hr["rmspe_pre"])]
             ratios = np.r_[hr["rmspe_ratio"], keep["rmspe_ratio"].to_numpy()]
             rows.append({**base, "check_id": "scm_good_fit_placebos",
