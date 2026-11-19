@@ -127,6 +127,9 @@ const GROUPS: Group[] = [
       qa("why-eight", "Why only eight teams? Where is Ferrari?",
         <p>Only teams run by a UK company file detailed public accounts at Companies House. Ferrari's F1 team is part of Ferrari N.V., an Italian group, and does not publish comparable team accounts. Sauber, Haas and Racing Bulls do not file comparable UK accounts either. Using press estimates for them would mix reliable and unreliable figures, so they are left out.</p>,
         "Only teams run by UK companies file detailed public accounts. Ferrari, Sauber, Haas and Racing Bulls do not, and press estimates are not used."),
+      qa("why-austria-singapore", "Why Austria and Singapore? Why not Hungary or another race?",
+        <p>To see whether a race brings tourists, you need a "before": years when the place had no race. So the study only uses hosts where the race started or came back during the years with data. The Austrian Grand Prix in Styria returned in 2014 after ten years away, and the regional data starts in 2008. Singapore's first race was in 2008, and its data starts in 2005. Hungary has hosted a race every year since 1986, so there is no "before". The two hosts are not compared with each other: each is compared with its own past, and Styria also with the rest of Austria. Singapore is a city-state, so it has no other regions to compare with.</p>,
+        "The study needs years without a race to compare with. Austria's race returned in 2014 (data from 2008) and Singapore's began in 2008 (data from 2005). Hungary has hosted every year since 1986, so there is no before."),
       qa("eight-enough", "Are eight teams enough?",
         <p>Enough to describe the pattern clearly, but not enough for confident within-team conclusions. This is the main limit of the study, and it is why every within-team result is called suggestive and checked with methods built for few groups.</p>,
         "Enough to describe the pattern, not enough for confident within-team conclusions. It is the study's main limit."),
@@ -155,8 +158,13 @@ const GROUPS: Group[] = [
         <p>No. The <a href={PAPER}>paper</a> is a working paper: a finished study shared before peer review, which is the usual way economists share research for feedback. That is why the data and code are fully public, so anyone can check the work.</p>,
         "No. It is a working paper, a study shared before peer review. Data and code are public so anyone can check it."),
       qa("cite", "How do I cite it?",
-        <p className="font-mono text-sm">Ibnat, N. (2026). <em>Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025</em> [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/</p>,
-        "Ibnat, N. (2026). Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025 [Working paper]. F1 Moneyball."),
+        <>
+          <p>It depends on what you use. For the working paper (Study 01):</p>
+          <p className="font-mono text-sm">Ibnat, N. (2026). <em>Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025</em> [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf</p>
+          <p>For the cost cap or Grand Prix study, the data, or the project as a whole:</p>
+          <p className="font-mono text-sm">Ibnat, N. (2026). <em>F1 Moneyball: An independent Formula 1 economics and finance research platform</em> [Website]. https://nahianibnat-2000.github.io/F1-moneyball/</p>
+        </>,
+        "For the working paper: Ibnat, N. (2026). Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025 [Working paper]. F1 Moneyball. For the other studies, the data or the project: Ibnat, N. (2026). F1 Moneyball: An independent Formula 1 economics and finance research platform [Website]."),
     ],
   },
 ];

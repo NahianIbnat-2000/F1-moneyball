@@ -35,7 +35,13 @@ F1 Moneyball studies how financial resources, regulation, operational efficiency
 
 ### How to cite
 
-> Ibnat, N. (2026). *Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025* [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/
+For the working paper (Study 01, *Does Money Buy Speed?*):
+
+> Ibnat, N. (2026). *Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025* [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf
+
+For the cost cap or Grand Prix study, the data, or the project as a whole:
+
+> Ibnat, N. (2026). *F1 Moneyball: An independent Formula 1 economics and finance research platform* [Website]. https://nahianibnat-2000.github.io/F1-moneyball/
 
 ## Status (milestone log)
 

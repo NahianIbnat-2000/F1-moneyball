@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>F1 Moneyball | Nahian Ibnat</title>
+<title>F1 Moneyball: one-page summary | Nahian Ibnat</title>
 <meta name="description" content="F1 Moneyball: a personal, independent research project by Nahian Ibnat on the economics and finance of Formula 1. Website, working paper and code.">
 <meta name="author" content="Nahian Ibnat">
 <meta property="og:type" content="website">
@@ -17,106 +17,135 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
+  /* One-page summary: a light "research brief" look, deliberately different from the dark website.
+     The red-and-white kerb stripe is the only shared element. */
   :root {
-    --bg: #0A0D10; --panel: #11161B; --line: #232B33;
-    --fg: #E8ECEF; --muted: #98A2A8;
-    --red: #E5372A; --amber: #F5A524;
+    --bg: #F4F2EC; --paper: #FFFFFF; --tint: #F7F5F0; --line: #DCD7CC;
+    --fg: #1B1D21; --muted: #575E66;
+    --accent: #1D4E89;   /* navy: links, labels, emphasis (7.9:1 on white) */
+    --red: #B3261E;      /* race red, small marks only (6.5:1 on white) */
     --serif: "Source Serif 4", Georgia, serif;
-    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --sans: "Inter", system-ui, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, monospace;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 1.06rem; line-height: 1.65; }
-  a { color: inherit; }
-  .kerb { height: 6px; background: repeating-linear-gradient(90deg, var(--red) 0 28px, #F2F2F2 28px 56px); }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--accent); }
+  .kerb { margin: 0 -44px; height: 5px; background: repeating-linear-gradient(90deg, var(--red) 0 22px, #FFFFFF 22px 44px); }
+  .wrap { max-width: 900px; margin: 28px auto 40px; padding: 0 44px; background: var(--paper);
+          border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.05); }
 
-  .status { font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; color: var(--muted);
-            display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); text-transform: uppercase; }
-  .status b { color: var(--amber); font-weight: 500; }
+  .status { font-family: var(--mono); font-size: .7rem; letter-spacing: .06em; color: var(--muted);
+            display: flex; justify-content: space-between; gap: 12px; padding: 14px 0 12px; border-bottom: 1px solid var(--line); text-transform: uppercase; }
+  .status b { color: var(--red); font-weight: 500; }
 
-  header { padding: 64px 0 40px; }
-  .eyebrow { font-family: var(--mono); font-size: .75rem; color: var(--red); letter-spacing: .12em; text-transform: uppercase; }
-  h1 { font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 9vw, 5.6rem); line-height: .95; margin: 14px 0 10px; letter-spacing: .01em; text-transform: uppercase; }
-  .tagline { font-family: var(--display); font-weight: 500; font-size: clamp(1.3rem, 3.4vw, 1.8rem); color: var(--amber); margin: 0 0 22px; }
-  .lede { max-width: 690px; font-size: 1.14rem; margin: 0; }
-  .personal { margin-top: 26px; display: inline-flex; gap: 12px; align-items: flex-start; max-width: 690px;
-              border-left: 3px solid var(--amber); background: var(--panel); padding: 14px 18px; font-size: .97rem; }
-  .personal strong { font-family: var(--mono); font-weight: 500; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); white-space: nowrap; padding-top: 3px; }
+  header { padding: 52px 0 36px; }
+  .eyebrow { font-family: var(--sans); font-size: .76rem; font-weight: 600; color: var(--red); letter-spacing: .14em; text-transform: uppercase; }
+  h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(2.6rem, 7vw, 4.2rem); line-height: 1.02; margin: 12px 0 6px; letter-spacing: -.01em; }
+  .tagline { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(1.2rem, 3vw, 1.55rem); color: var(--muted); margin: 0 0 26px; }
+  .lede { max-width: 700px; font-size: 1.12rem; margin: 0; }
+  ol.questions { max-width: 700px; margin: 16px 0 0; padding-left: 1.5em; font-size: 1.06rem; }
+  ol.questions li { margin-bottom: 8px; padding-left: 4px; }
+  ol.questions li::marker { color: var(--red); font-family: var(--sans); font-weight: 700; }
+  ol.questions strong { color: var(--accent); font-weight: 700; }
+  .lede-after { margin-top: 14px; font-size: .98rem; color: var(--muted); }
+  .personal { margin-top: 26px; display: flex; gap: 14px; align-items: flex-start; max-width: 700px;
+              border-left: 3px solid var(--red); background: var(--tint); padding: 14px 18px; font-size: .96rem; }
+  .personal strong { font-family: var(--sans); font-weight: 700; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--red); white-space: nowrap; padding-top: 3px; }
 
-  .linkbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .whatisthis { max-width: 700px; margin: 22px 0 0; font-size: .97rem; color: var(--muted); }
+  .whatisthis b { color: var(--fg); font-weight: 600; }
+  .linkbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .linkbar a { display: inline-flex; flex-direction: column; gap: 2px; text-decoration: none; border: 1px solid var(--line);
-               background: var(--panel); padding: 10px 14px; min-width: 15rem; }
-  .linkbar a:hover, .linkbar a:focus-visible { border-color: var(--red); outline: none; }
-  .linkbar .lb { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--amber); }
+               background: var(--paper); padding: 10px 14px; min-width: 15rem; border-radius: 4px; }
+  .linkbar a:hover, .linkbar a:focus-visible { border-color: var(--accent); background: var(--tint); outline: none; }
+  .linkbar .lb { font-family: var(--sans); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
   .linkbar .lu { font-family: var(--mono); font-size: .8rem; color: var(--fg); word-break: break-all; }
-  .study-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-family: var(--mono); font-size: .8rem; }
-  .study-links a { color: var(--amber); text-decoration: none; }
+  .sec-intro { max-width: 760px; margin: 10px 0 0; color: var(--muted); font-size: 1rem; }
+  .sec-intro b { color: var(--fg); font-weight: 600; }
+  .study-status { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .badge { font-family: var(--sans); font-size: .66rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; border: 1px solid var(--line); color: var(--muted); padding: 2px 8px; border-radius: 3px; background: var(--paper); }
+  .badge.paper { border-color: var(--accent); color: var(--paper); background: var(--accent); }
+  .study-links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 10px; font-family: var(--sans); font-size: .86rem; font-weight: 600; }
+  .study-links a { color: var(--accent); text-decoration: none; }
   .study-links a:hover, .study-links a:focus-visible { text-decoration: underline; }
-  h2 { font-family: var(--display); font-weight: 600; font-size: 1.9rem; line-height: 1.1; text-transform: uppercase; letter-spacing: .02em; margin: 0 0 6px; }
-  .sec-label { font-family: var(--mono); font-size: .72rem; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
-  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: var(--serif); font-weight: 700; font-size: 1.8rem; line-height: 1.15; margin: 2px 0 6px; }
+  .sec-label { font-family: var(--sans); font-size: .72rem; font-weight: 600; color: var(--red); letter-spacing: .12em; text-transform: uppercase; }
+  section { padding: 38px 0; border-top: 1px solid var(--line); }
 
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
-  .card { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); padding: 22px 20px 20px;
-          text-decoration: none; transition: border-color .15s, transform .15s; position: relative; }
-  .card:hover, .card:focus-visible { border-color: var(--red); transform: translateY(-2px); outline: none; }
-  .card .fkey { font-family: var(--mono); font-size: .72rem; color: var(--red); letter-spacing: .08em; }
-  .card h3 { font-family: var(--display); font-weight: 600; font-size: 1.6rem; text-transform: uppercase; margin: 8px 0 6px; }
-  .card p { margin: 0 0 16px; color: var(--muted); font-size: .96rem; flex: 1; }
-  .card .go { font-family: var(--mono); font-size: .8rem; color: var(--amber); }
+  .card { display: flex; flex-direction: column; background: var(--paper); border: 1px solid var(--line); padding: 20px 18px 18px;
+          text-decoration: none; color: var(--fg); transition: border-color .15s, background .15s; position: relative; border-radius: 4px; }
+  .card:hover, .card:focus-visible { border-color: var(--accent); background: var(--tint); outline: none; }
+  .card .fkey { font-family: var(--sans); font-size: .68rem; font-weight: 700; color: var(--red); letter-spacing: .1em; }
+  .card h3 { font-family: var(--serif); font-weight: 700; font-size: 1.35rem; margin: 6px 0 6px; }
+  .card p { margin: 0 0 16px; color: var(--muted); font-size: .95rem; flex: 1; }
+  .card .go { font-family: var(--sans); font-size: .86rem; font-weight: 600; color: var(--accent); }
   .card .url { font-family: var(--mono); font-size: .68rem; color: var(--muted); margin-top: 6px; word-break: break-all; }
 
-  .studies { display: grid; gap: 14px; margin-top: 22px; }
-  .study { display: grid; grid-template-columns: 54px 1fr; gap: 16px; background: var(--panel); border: 1px solid var(--line); padding: 20px; }
-  .study .num { font-family: var(--display); font-weight: 700; font-size: 2.4rem; line-height: 1; color: var(--red); }
-  .study h3 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; text-transform: uppercase; margin: 0 0 2px; }
-  .study .q { font-style: italic; color: var(--amber); margin: 0 0 8px; }
+  .studies { display: grid; gap: 0; margin-top: 18px; }
+  .study { display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .study:first-child { border-top: none; }
+  .study .num { font-family: var(--serif); font-weight: 700; font-size: 2.2rem; line-height: 1; color: var(--red); }
+  .study h3 { font-family: var(--serif); font-weight: 700; font-size: 1.35rem; margin: 0 0 2px; }
+  .study .q { font-style: italic; color: var(--accent); margin: 0 0 8px; }
   .study p { margin: 0 0 8px; }
-  .finding { font-size: .95rem; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 8px; margin-top: 4px; }
-  .finding b { color: var(--fg); font-weight: 600; }
+  .finding { font-size: .95rem; color: var(--fg); background: var(--tint); border-left: 3px solid var(--accent); padding: 10px 14px; margin-top: 8px; }
+  .finding b { font-weight: 700; }
 
   .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 22px; }
-  .fact { background: var(--panel); padding: 16px; }
-  .fact .v { font-family: var(--mono); font-size: 1.35rem; color: var(--fg); }
-  .fact .k { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .fact { background: var(--paper); padding: 16px; }
+  .fact .v { font-family: var(--serif); font-weight: 700; font-size: 1.6rem; color: var(--fg); }
+  .fact .k { font-family: var(--sans); font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 
+  .plain { max-width: 720px; margin: 12px 0 0; }
   ul.rules { margin: 14px 0 0; padding-left: 1.1em; }
   ul.rules li { margin-bottom: 6px; }
   ul.rules li::marker { color: var(--red); }
 
-  .cite { font-family: var(--mono); font-size: .8rem; background: var(--panel); border: 1px solid var(--line); padding: 16px 18px; margin-top: 16px; line-height: 1.6; overflow-wrap: anywhere; }
-  .cite i { font-family: var(--mono); }
+  .cite-label { font-family: var(--sans); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-top: 20px; }
+  .cite + .cite-label { margin-top: 18px; }
+  .cite { font-family: var(--serif); font-size: .95rem; background: var(--tint); border: 1px solid var(--line); padding: 14px 18px; margin-top: 6px; line-height: 1.6; overflow-wrap: anywhere; padding-left: 2.2em; text-indent: -1.4em; }
 
-  footer { border-top: 1px solid var(--line); padding: 28px 0 44px; font-family: var(--mono); font-size: .75rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-  footer a { color: var(--fg); }
+  footer { border-top: 1px solid var(--line); padding: 24px 0 30px; font-family: var(--sans); font-size: .78rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
 
   @media (max-width: 760px) {
+    .wrap { margin: 0; padding: 0 20px; border: none; box-shadow: none; }
+    .kerb { margin: 0 -20px; }
+    .linkbar a { min-width: 0; width: 100%; }
     .cards { grid-template-columns: 1fr; }
     .facts { grid-template-columns: repeat(2, 1fr); }
     .study { grid-template-columns: 1fr; gap: 6px; }
     .status span:last-child { display: none; }
     .personal { flex-direction: column; gap: 4px; }
   }
-  @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+  @media print { body { background: #fff; } .wrap { border: none; box-shadow: none; margin: 0; } }
+  @media (prefers-reduced-motion: reduce) { .card { transition: none; } }
 </style>
 </head>
 <body>
-<div class="kerb" aria-hidden="true"></div>
 <div class="wrap">
-  <div class="status"><span><b>●</b> F1 Moneyball / research hub</span><span>Personal research project · Nahian Ibnat · 2026</span></div>
+  <div class="kerb" aria-hidden="true"></div>
+  <div class="status"><span><b>●</b> F1 Moneyball / one-page summary</span><span>Personal research project · Nahian Ibnat · 2026</span></div>
 
   <header>
     <div class="eyebrow">An Independent Formula 1 Economics &amp; Finance Research Platform</div>
     <h1>F1 Moneyball</h1>
     <p class="tagline">The Economics Behind the Speed</p>
-    <p class="lede">Formula 1 teams are firms. They raise money, hire engineers, and compete for a fixed set of prizes, and since 2021 a cost cap limits how much most of them can spend. F1 Moneyball uses public financial filings, race data and tourism statistics to study one question from three sides: <em>does money buy speed, and who else gains from the sport?</em></p>
+    <p class="lede">Formula 1 teams are firms. They raise money, hire engineers, and compete for a fixed set of prizes, and since 2021 a cost cap limits how much most of them can spend. F1 Moneyball uses public financial filings, race data and tourism statistics to answer three questions, each in its own study:</p>
+    <ol class="questions">
+      <li><strong>Does money buy speed?</strong> Do richer teams score more points?</li>
+      <li><strong>Did the cost cap work?</strong> Did the 2021 spending limit make the sport more equal?</li>
+      <li><strong>Who else gains?</strong> Does hosting a Grand Prix bring more tourists to the region?</li>
+    </ol>
+    <p class="lede lede-after">Each study is published as an article on the website. The first is also written up as a working paper.</p>
     <div class="personal"><strong>Personal research</strong><span>This is my own independent project, done in my own time. It is not connected to any university, team, the FIA or Formula 1, and it has not been peer reviewed. All data and code are public so anyone can check the work.</span></div>
+    <p class="whatisthis"><b>What is this page?</b> A one-page summary of the project, for sharing. The full <a href="https://nahianibnat-2000.github.io/F1-moneyball/">F1 Moneyball website</a> has the interactive charts, the three research articles and all the data.</p>
     <nav class="linkbar" aria-label="Project links">
-      <a href="https://nahianibnat-2000.github.io/F1-moneyball/"><span class="lb">Website</span><span class="lu">nahianibnat-2000.github.io/F1-moneyball</span></a>
+      <a href="https://nahianibnat-2000.github.io/F1-moneyball/"><span class="lb">Full website</span><span class="lu">nahianibnat-2000.github.io/F1-moneyball</span></a>
       <a href="https://github.com/NahianIbnat-2000/F1-moneyball"><span class="lb">GitHub</span><span class="lu">github.com/NahianIbnat-2000/F1-moneyball</span></a>
     </nav>
   </header>
@@ -135,7 +164,7 @@
       <a class="card" href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">
         <span class="fkey">F2 · PAPER</span>
         <h3>Working paper</h3>
-        <p><em>Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025.</em> PDF.</p>
+        <p>The written-up version of <b>Study 01</b>: <em>Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025.</em> PDF.</p>
         <span class="go">Read the paper (PDF) →</span>
         <span class="url">LaTeX source in the repository</span>
       </a>
@@ -152,35 +181,39 @@
   <section aria-labelledby="studies">
     <div class="sec-label">The Economics of Competitive Advantage</div>
     <h2 id="studies">Three studies</h2>
+    <p class="sec-intro">One project, three questions. All three studies use the same team, race and regulation data, built by the same pipeline. Each one is published as a research <b>article on the website</b>, with interactive charts. So far only Study 01 is also written up as a formal <b>working paper</b> (PDF).</p>
     <div class="studies">
       <article class="study">
         <div class="num">01</div>
         <div>
           <h3>Does Money Buy Speed?</h3>
+          <div class="study-status"><span class="badge">Web article</span><span class="badge paper">Working paper</span></div>
           <p class="q">Do richer teams score more points, and does a team do better after it spends more?</p>
           <p>Audited accounts from UK Companies House filings for 8 team lineages, linked to championship results from 2010 to 2025. Panel models with team and season fixed effects, and a wild cluster bootstrap because there are few teams.</p>
-          <p class="finding"><b>Finding:</b> between teams, money and points move together (correlation 0.78). Within a team, the link is smaller: once changes common to all teams in a season are removed, more staff spending comes before modestly better results the next season. With eight teams this is suggestive, not conclusive, and these are associations, not causal effects.</p>
-          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/does-money-buy-speed">Read the article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/moneyball">Explore the data →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">Working paper (PDF) →</a></div>
+          <p class="finding"><b>Finding:</b> comparing <b>different teams</b>, richer teams score more points: money share and points share move closely together (correlation 0.78). Comparing <b>each team with itself</b> in its other seasons, the link is much smaller: in the years after a team spent more on staff than it usually does, it did only slightly better, once changes that affected every team that season are taken out. With eight teams this is suggestive, not proof, and it shows things moving together, not that money caused the results.</p>
+          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/does-money-buy-speed">Read the web article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/moneyball">Interactive charts →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">Working paper (PDF) →</a></div>
         </div>
       </article>
       <article class="study">
         <div class="num">02</div>
         <div>
           <h3>The Cost Cap Paradox</h3>
+          <div class="study-status"><span class="badge">Web article</span></div>
           <p class="q">Did the 2021 cost cap bring the teams closer together?</p>
-          <p>Competitive balance before and after the cap, with an interrupted time series, placebo break years, and a dose-response design that compares teams the cap restricted more with those it restricted less.</p>
+          <p>Measures how evenly points are spread across teams, before and after the cap. To check whether the 2021 change is unusual, the same test is also run with <b>fake start dates</b>: pretending the cap began in other years when nothing changed (called <b>placebo years</b>). If those fake dates show changes just as large, the real one is not special. A second test compares teams the cap restricted more with teams it restricted less.</p>
           <p class="finding"><b>Finding:</b> so far, the change after 2021 cannot be told apart from changes in placebo years. The cap and the 2022 technical rules came one season apart, so their effects cannot be separated.</p>
-          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/cost-cap-paradox">Read the article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/cost-cap">Explore the data →</a></div>
+          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/cost-cap-paradox">Read the web article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/cost-cap">Interactive charts →</a></div>
         </div>
       </article>
       <article class="study">
         <div class="num">03</div>
         <div>
           <h3>The Grand Prix Economy</h3>
+          <div class="study-status"><span class="badge">Web article</span></div>
           <p class="q">Does hosting a race bring more tourists to the region?</p>
-          <p>Monthly tourism data for Austria (Styria, the Austrian Grand Prix) and Singapore, studied with an event study and a synthetic control. The analysis stops in 2019 to avoid COVID.</p>
+          <p>Monthly tourist arrivals for two hosts where the race <b>started or came back</b> during the years with data: Austria (Styria, back on the calendar in 2014; data from 2008) and Singapore (first race 2008; data from 2005). Each host is compared with <b>its own past</b>, and Styria also with the rest of Austria. The two hosts are not compared with each other. Long-running hosts such as Hungary (a race every year since 1986) have no "before" to compare with. The analysis stops in 2019 to avoid COVID.</p>
           <p class="finding"><b>Finding:</b> Styria's race month shows more arrivals than usual, but much less once compared with the rest of Austria, and the synthetic control does not separate it from chance. Singapore shows no clear race-month rise.</p>
-          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/grand-prix-economy">Read the article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/grand-prix-economy">Explore the data →</a></div>
+          <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/grand-prix-economy">Read the web article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/grand-prix-economy">Interactive charts →</a></div>
         </div>
       </article>
     </div>
@@ -194,19 +227,19 @@
   </section>
 
   <section aria-labelledby="rules">
-    <div class="sec-label">How the work is done</div>
-    <h2 id="rules">Research rules</h2>
-    <ul class="rules">
-      <li><strong>Every number can be traced.</strong> Each dataset shows its source, version and checks. The paper's numbers are generated from the same published data, not typed by hand.</li>
-      <li><strong>Estimates are labelled.</strong> Results are described as associations unless the design supports more, and the limits are stated next to the results.</li>
-      <li><strong>Open by default.</strong> Data, code and the paper's LaTeX source are public on GitHub.</li>
-    </ul>
+    <div class="sec-label">Method</div>
+    <h2 id="rules">How I worked</h2>
+    <p class="plain">I only used figures I could check against an original source, and every dataset on the website links back to where it came from. The numbers in the paper are pulled from that same data by code, so the paper and the website always match. With eight teams and two race hosts, most results show things moving together rather than one causing the other, and I say that wherever it applies. The data, the code and the paper's LaTeX source are all on GitHub, so anyone can check or rerun the work.</p>
   </section>
 
   <section aria-labelledby="cite">
     <div class="sec-label">Citation</div>
     <h2 id="cite">How to cite</h2>
-    <div class="cite">Ibnat, N. (2026). <i>Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025</i> [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/</div>
+    <p class="plain">Use the first citation for the working paper (Study 01). Use the second for the project as a whole, including Studies 02 and 03 and the data.</p>
+    <div class="cite-label">Working paper (Study 01)</div>
+    <div class="cite">Ibnat, N. (2026). <i>Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025</i> [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf</div>
+    <div class="cite-label">The project, Studies 02 and 03, or the data</div>
+    <div class="cite">Ibnat, N. (2026). <i>F1 Moneyball: An independent Formula 1 economics and finance research platform</i> [Website]. https://nahianibnat-2000.github.io/F1-moneyball/</div>
   </section>
 
   <footer>
