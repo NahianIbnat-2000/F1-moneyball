@@ -1,0 +1,195 @@
+"""Build every number, table and figure used in paper/main.tex from the published datasets.
+
+Nothing in the paper is typed by hand: run this script, then compile main.tex.
+
+    python paper/make_assets.py          # reads website/public/data, writes paper/generated/
+    cd paper && latexmk -pdf main.tex
+
+Source data: the same CSV files the website shows at
+https://nahianibnat-2000.github.io/F1-moneyball/data
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+import pandas as pd  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA = ROOT / "website" / "public" / "data"
+OUT = Path(__file__).resolve().parent / "generated"
+OUT.mkdir(exist_ok=True)
+
+STUDY = "does-money-buy-speed"
+METRICS = (("turnover", "Turnover"), ("staff_costs", "Staff costs"), ("headcount", "Headcount"))
+SPECS = (("pooled", "Pooled"), ("team_fe", "Team FE"), ("twfe", "Team and season FE"))
+SHORT = {  # lineage labels used in tables and figures
+    "red_bull": "Red Bull", "mercedes": "Mercedes", "mclaren": "McLaren", "williams": "Williams",
+    "enstone": "Enstone (Renault, Lotus, Alpine)", "silverstone": "Silverstone (Force India, Racing Point, Aston Martin)",
+    "banbury": "Banbury (Virgin, Marussia, Manor)", "leafield": "Leafield (Lotus Racing, Caterham)",
+}
+TINY = {"red_bull": "Red Bull", "mercedes": "Mercedes", "mclaren": "McLaren", "williams": "Williams",
+        "enstone": "Enstone", "silverstone": "Silverstone", "banbury": "Manor", "leafield": "Caterham"}
+
+# ---------------------------------------------------------------------------- load
+status = {d["dataset_id"]: d for d in json.loads((DATA / "dataset_status.json").read_text())["datasets"]}
+models = pd.read_csv(DATA / "model_results.csv").set_index("model_id")
+rob = pd.read_csv(DATA / "robustness_checks.csv")
+rob = rob[rob["study"] == STUDY]
+eff = pd.read_csv(DATA / "efficiency.csv")
+eff = eff[eff["included"]]
+turn = eff[eff["metric"] == "turnover"]
+
+
+def num(x: float, d: int = 3) -> str:
+    """Number for LaTeX, with a proper minus sign."""
+    return "" if pd.isna(x) else f"{x:.{d}f}".replace("-", "$-$")
+
+
+def pval(x: float) -> str:
+    """p-value with two decimals; very small values shown as <0.01."""
+    return "$<$0.01" if x < 0.005 else f"{x:.2f}"
+
+
+def rk(check: str, metric: str, model: str = "twfe") -> pd.Series:
+    return rob[(rob.check_id == check) & (rob.metric == metric) & (rob.model == model)].iloc[0]
+
+
+# ---------------------------------------------------------------------------- numbers.tex
+macros: dict[str, str] = {}
+
+
+def mac(name: str, value: str) -> None:
+    macros[name] = value
+
+
+corr_season = turn.groupby("season").apply(lambda d: d.resource_share.corr(d.points_share))
+eff_team = turn.groupby("team_id").efficiency_ratio.mean()
+mac("NTeamSeasons", str(len(turn)))
+mac("NTeams", str(turn.team_id.nunique()))
+mac("FirstSeason", str(turn.season.min()))
+mac("LastSeason", str(turn.season.max()))
+mac("CorrAll", num(turn.resource_share.corr(turn.points_share), 2))
+mac("CorrMin", num(corr_season.min(), 2)); mac("CorrMinYear", str(corr_season.idxmin()))
+mac("CorrMax", num(corr_season.max(), 2)); mac("CorrMaxYear", str(corr_season.idxmax()))
+for tid, cs in (("mercedes", "Mercedes"), ("red_bull", "RedBull"), ("williams", "Williams"), ("banbury", "Manor"), ("leafield", "Caterham")):
+    mac(f"Eff{cs}", num(eff_team[tid], 2))
+
+for met, _ in METRICS:
+    for sp, _ in SPECS:
+        r = models.loc[f"{met}_{sp}"]
+        key = {"turnover": "Turn", "staff_costs": "Staff", "headcount": "Head"}[met] + \
+            {"pooled": "Pooled", "team_fe": "Fe", "twfe": "Twfe"}[sp]  # e.g. \CoefTurnFe
+        mac(f"Coef{key}", num(r.coef)); mac(f"P{key}", pval(r.p_value))
+        mac(f"CiLow{key}", num(r.ci_low)); mac(f"CiHigh{key}", num(r.ci_high))
+        mac(f"Pp{key}", num(r.effect_10pct_pp, 1))
+        b = rk("baseline", met, sp)
+        if pd.notna(b.p_wild):
+            mac(f"Pwild{key}", num(b.p_wild, 2))
+mac("NObs", str(int(models.loc["turnover_pooled"].n_obs)))
+
+loo = rob[rob.check_id == "leave_one_team_out"]
+for met in ("turnover", "staff_costs"):
+    s = loo[loo.metric == met].sort_values("coef")
+    k = met.replace("_", "").title()
+    mac(f"Loo{k}Min", num(s.coef.iloc[0])); mac(f"Loo{k}Max", num(s.coef.iloc[-1]))
+for met in ("turnover", "staff_costs", "headcount"):
+    r = rk("position_outcome", met)
+    k = met.replace("_", "").title()
+    mac(f"Pos{k}", num(r.coef, 2)); mac(f"PosP{k}", num(r.p_value, 2))
+mac("RsqBase", num(rk("baseline", "turnover").r2, 2))
+mac("RsqOps", num(rk("h4_operations", "turnover").r2, 2))
+for k in ("financial_observation", "efficiency", "model_results", "robustness_checks", "constructor_season"):
+    mac("Ver" + k.replace("_", " ").title().replace(" ", ""), status[k]["version"])
+
+(OUT / "numbers.tex").write_text(
+    "% Generated by paper/make_assets.py. Do not edit by hand.\n"
+    + "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in sorted(macros.items())))
+
+# ---------------------------------------------------------------------------- Table 1: descriptives
+wide = eff.pivot_table(index=["team_id", "season"], columns="metric", values="value").reset_index()
+wide = wide.merge(turn[["team_id", "season", "points_share", "efficiency_ratio"]], on=["team_id", "season"])
+g = (wide.groupby("team_id")
+     .agg(n=("season", "size"), a=("season", "min"), b=("season", "max"), t=("turnover", "mean"),
+          s=("staff_costs", "mean"), h=("headcount", "mean"), ps=("points_share", "mean"), e=("efficiency_ratio", "mean"))
+     .sort_values("t", ascending=False))
+lines = []
+for tid, r in g.iterrows():
+    lines.append(f"{SHORT[tid]} & {int(r.a)}--{int(r.b)} ({int(r.n)}) & {r.t / 1e6:.0f} & {r.s / 1e6:.0f} & "
+                 f"{r.h:.0f} & {r.ps * 100:.1f} & {r.e:.2f} \\\\")
+(OUT / "table1_descriptives.tex").write_text("\n".join(lines) + "\n")
+
+# ---------------------------------------------------------------------------- Table 2: main models
+lines = []
+for i, (met, lab) in enumerate(METRICS):
+    for sp, sl in SPECS:
+        r = models.loc[f"{met}_{sp}"]
+        w = rk("baseline", met, sp).p_wild
+        lines.append(f"{lab if sp == 'pooled' else ''} & {sl} & {num(r.coef)} & [{num(r.ci_low)}, {num(r.ci_high)}] & "
+                     f"{pval(r.p_value)} & {'' if pd.isna(w) else f'{w:.2f}'} & {int(r.n_obs)} & {int(r.n_teams)} \\\\")
+    if i < len(METRICS) - 1:
+        lines.append("\\addlinespace")
+(OUT / "table2_models.tex").write_text("\n".join(lines) + "\n")
+
+# ---------------------------------------------------------------------------- Table 3: robustness
+lines = []
+for cid, lab in (("no_reset_seasons", "Without rule-reset seasons (2014, 2017, 2022)"),
+                 ("h4_operations", "Add completion rate and grid-to-finish gain"),
+                 ("h3_cap_interaction", "Interaction with cost-cap period$^{a}$")):
+    for met, ml in METRICS:
+        r = rk(cid, met)
+        pv = f"{r.p_value:.2f}" + (f" ({r.p_wild:.2f})" if pd.notna(r.p_wild) else "")
+        base = num(rk("baseline", met).coef)
+        lines.append(f"{lab if met == 'turnover' else ''} & {ml} & {num(r.coef)} & {pv} & {base} \\\\")
+    lines.append("\\addlinespace")
+for met, ml in (("turnover", "Turnover"), ("staff_costs", "Staff costs")):
+    s = loo[loo.metric == met].sort_values("coef")
+    a, b = s.iloc[0], s.iloc[-1]
+    lines.append(f"{'Leave one team out (range)' if met == 'turnover' else ''} & {ml} & {num(a.coef)} to {num(b.coef)} & "
+                 f"without {TINY[a.dropped]} / {TINY[b.dropped]} & {num(rk('baseline', met).coef)} \\\\")
+(OUT / "table3_robustness.tex").write_text("\n".join(lines) + "\n")
+
+# ---------------------------------------------------------------------------- figures
+plt.rcParams.update({"font.family": "serif", "font.serif": ["Times New Roman", "Nimbus Roman", "DejaVu Serif"],
+                     "font.size": 9, "axes.spines.top": False, "axes.spines.right": False,
+                     "axes.edgecolor": "#444444", "axes.labelcolor": "#222222", "xtick.color": "#444444",
+                     "ytick.color": "#444444", "pdf.fonttype": 42})
+# Okabe-Ito palette (colour-blind safe) plus a different marker per team, so colour is never the only cue.
+OKABE = ["#0072B2", "#009E73", "#D55E00", "#CC79A7", "#E69F00", "#56B4E9", "#000000", "#999999"]
+MARKERS = ["o", "s", "^", "D", "v", "P", "X", "*"]
+order = g.index.tolist()
+
+fig, ax = plt.subplots(figsize=(6.2, 4.3))
+lim = max(turn.resource_share.max(), turn.points_share.max()) * 100 * 1.05
+ax.plot([0, lim], [0, lim], color="#999999", lw=0.8, ls="--", zorder=1)
+ax.text(lim * 0.97, lim * 0.93, "points share = turnover share", ha="right", va="top", fontsize=7.5, color="#666666", rotation=33)
+for tid, c, mk in zip(order, OKABE, MARKERS):
+    d = turn[turn.team_id == tid]
+    ax.scatter(d.resource_share * 100, d.points_share * 100, s=34 if mk in "PX*" else 24, color=c, marker=mk, edgecolor="white", linewidth=0.3,
+               label=TINY[tid], zorder=3)
+ax.set_xlim(0, lim); ax.set_ylim(0, lim)
+ax.set_xlabel("Turnover share among covered teams (%)")
+ax.set_ylabel("Points share among covered teams (%)")
+ax.grid(color="#e5e5e5", lw=0.6); ax.set_axisbelow(True)
+ax.legend(frameon=False, fontsize=7.5, loc="upper left", ncol=2, handletextpad=0.3, columnspacing=1.0)
+fig.tight_layout(); fig.savefig(OUT / "fig1_scatter.pdf"); plt.close(fig)
+
+fig, axes = plt.subplots(1, 3, figsize=(6.2, 2.5), sharey=True)
+for ax, (met, lab) in zip(axes, METRICS):
+    for j, (sp, sl) in enumerate(SPECS):
+        r = models.loc[f"{met}_{sp}"]
+        ax.errorbar(r.coef, j, xerr=[[r.coef - r.ci_low], [r.ci_high - r.coef]], fmt="o", ms=4,
+                    color="#0072B2", ecolor="#0072B2", elinewidth=1.4, capsize=0)
+    ax.axvline(0, color="#999999", lw=0.8, ls="--")
+    ax.set_title(lab, fontsize=9)
+    ax.set_yticks(range(3)); ax.set_yticklabels([s for _, s in SPECS])
+    ax.invert_yaxis() if ax is axes[0] else None
+    ax.grid(axis="x", color="#e5e5e5", lw=0.6); ax.set_axisbelow(True)
+axes[1].set_xlabel("Coefficient on log resource in previous season (95% CI)")
+fig.tight_layout(); fig.savefig(OUT / "fig2_coefficients.pdf"); plt.close(fig)
+
+print(f"Wrote {len(macros)} numbers, 3 tables and 2 figures to {OUT}")

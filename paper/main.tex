@@ -1,0 +1,355 @@
+% Does Money Buy Speed? Working paper, F1 Moneyball.
+% Every number in this file comes from generated/numbers.tex, built by make_assets.py
+% from the datasets published on the website. To rebuild:
+%   python paper/make_assets.py
+%   cd paper && latexmk -pdf main.tex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
+\usepackage{mathptmx}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{tabularx}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage[style=apa,backend=biber,natbib=true]{biblatex} % APA 7th edition
+\addbibresource{references.bib}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor={red!60!black}]{hyperref}
+
+\input{generated/numbers.tex}
+% \input inside a tabular breaks booktabs rules; the primitive form does not.
+\makeatletter\let\inputrows\@@input\makeatother
+
+% ---------------------------------------------------------------- links to the website and code
+\newcommand{\site}{https://nahianibnat-2000.github.io/F1-moneyball}
+\newcommand{\repo}{https://github.com/NahianIbnat-2000/F1-moneyball}
+\newcommand{\sitepage}[2]{\href{\site/#1}{#2}}
+\newcommand{\code}[1]{\href{\repo/blob/main/#1}{\nolinkurl{#1}}}
+
+\hypersetup{
+  pdftitle={Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1},
+  pdfauthor={Nahian Ibnat},
+  pdfsubject={Working paper, November 2026},
+  pdfkeywords={sports economics, Formula 1, team finances, panel data, cost cap}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\footnotesize\color{black!65}Ibnat, \textit{Does Money Buy Speed?} Working paper, November 2026. Not peer reviewed.}
+\fancyfoot[R]{\footnotesize\thepage}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[L]{\footnotesize\color{black!65}Ibnat, \textit{Does Money Buy Speed?} Working paper, November 2026. Not peer reviewed.}%
+  \fancyfoot[R]{\footnotesize\thepage}}
+
+\setlength{\parskip}{0.35em}
+\onehalfspacing
+
+\title{\textbf{Does Money Buy Speed?}\\[0.3em]
+  \large\textit{Financial Resources and Sporting Performance in Formula~1, \FirstSeason{} to \LastSeason}}
+\author{Nahian Ibnat\thanks{Working paper, November 2026. Not peer reviewed. Part of F1 Moneyball, an independent
+  Formula~1 economics and finance research platform: \url{\site/}. The interactive version of this study is at
+  \url{\site/research/does-money-buy-speed}. Data and code: \url{\repo}.}}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+\thispagestyle{plain}
+
+\begin{abstract}
+\noindent Formula~1 teams are firms that compete for a fixed set of prizes, and since 2021 a cost cap limits most of their
+spending. This paper asks whether teams with more money score more points, and whether a team does better in the seasons
+after it spends more. I build a panel of audited accounts from the UK statutory filings of \NTeams{} team lineages
+(\NTeamSeasons{} team-seasons, \FirstSeason{} to \LastSeason) and link them to championship results. Between teams, money
+and success move together: the correlation between turnover share and points share is \CorrAll, and 10\% more turnover in
+the previous season goes with a points share about \PpTurnPooled{} percentage points higher. Within teams the link is weak
+and unstable. With team fixed effects the turnover coefficient falls from \CoefTurnPooled{} to \CoefTurnFe{}
+($p = \PTurnFe$); adding season effects gives \CoefTurnTwfe{} ($p = \PTurnTwfe$). Some within-team estimates pass
+conventional tests, but they change sharply when one team is left out, and the two inference methods used here, clustered
+standard errors and a wild cluster bootstrap for few clusters, do not agree. The link does not change measurably under the
+cost cap. The results describe associations and do not identify a causal effect of spending.
+
+\medskip\noindent\textbf{Keywords:} sports economics, competitive balance, Formula~1, team finances, panel data, cost cap.\\
+\textbf{JEL codes:} Z21, Z23, L83, C23.
+\end{abstract}
+
+% ============================================================================ 1
+\section{Introduction}
+
+Formula~1 is a closed league of about ten firms. Each team decides how much capital to raise and how to spend it, and the
+championship is where that spending is tested. That makes it a clean setting for an old question in sports economics: do
+the biggest spenders win because they spend more, or because some organisations turn money into results better than others?
+
+The answer matters for policy. Since 2021 the FIA Financial Regulations cap most team spending, at a base of USD 145 million
+in 2021, 140 million in 2022 and 135 million from 2023 \citep[Article 2.3]{fia2021}. If money mainly buys speed, a binding
+cap should compress the field over time. If organisation, engineering choices and execution matter more, the order of teams
+should depend on how well each one uses what it has.
+
+This paper makes two contributions. First, it builds a traceable panel of audited financial figures for \NTeams{} team
+lineages from \FirstSeason{} to \LastSeason, entered from the original Companies House filings with page references and
+checked against the next year's comparative figures. Second, it separates the link between money and points across teams
+from the link within a team over time, and reports inference that allows for the small number of teams.
+
+The paper is the written version of a study published on the F1 Moneyball website \citep{f1moneyball}. The website shows the
+same results as interactive charts, lets readers download every dataset used here, and documents each source
+(\sitepage{research/does-money-buy-speed}{research article}; \sitepage{moneyball}{Moneyball dashboard};
+\sitepage{data}{data explorer}; \sitepage{methodology}{methodology}). The full code is public \citep{f1moneyballcode}, and
+Appendix~\ref{app:code} maps each table and figure to the script that produces it.
+
+% ============================================================================ 2
+\section{Related literature}
+
+\citet{rottenberg1956} and \citet{neale1964} set out why leagues need some balance between teams, since a contest with a
+certain winner loses its value. \citet{szymanski2003} surveys how contest design, including spending rules, shapes effort
+and outcomes. \citet{hall2002} test the direction of causality between payroll and performance: for Major League Baseball
+they find no evidence that causality runs from payroll to performance over the full sample, while for English football they
+cannot reject it. Their idea, testing whether past spending predicts later results, guides the lagged design used here.
+
+In Formula~1, \citet{bell2016} show that team effects explain more of results than driver effects, and increasingly so over
+time, which makes the team the right unit of analysis. \citet{jenkins2010} shows how major rule changes can reset which
+teams lead. \citet{judde2013} study competitive balance from 1950 to 2010 and the earlier Resource Restriction Agreement on
+team spending.
+
+% ============================================================================ 3
+\section{Data}
+
+\paragraph{Financial data.} Team accounts come from the statutory annual accounts filed at Companies House by the UK company
+that runs each team. Eight lineages have such accounts: Red Bull (Red Bull Technology Limited), Mercedes (Mercedes-Benz
+Grand Prix Limited), McLaren (McLaren Racing Limited), Williams (Williams Grand Prix Engineering Limited), Enstone (Renault,
+Lotus, Alpine), Silverstone (Force India, Racing Point, Aston Martin), Banbury (Virgin, Marussia, Manor, 2010 to 2016) and
+Leafield (Lotus Racing, Caterham, 2010 to 2012). The scanned filings were read with optical character recognition and every
+figure was checked against the prior-year column of the next filing or against the page image. Where a later filing
+restated a figure, the figure as first reported is used and the restatement is recorded. Three measures are used: turnover,
+staff costs and the average number of employees. Ferrari, Sauber, Racing Bulls and Haas do not file comparable UK accounts
+and are not covered. Every figure, with its filing, page and checks, can be browsed in the
+\sitepage{data}{data explorer} (dataset \texttt{financial\_observation}).
+
+\paragraph{Sporting data.} Championship standings and race results come from the Jolpica-F1 API \citep{jolpica}, the
+maintained successor of the Ergast database. Team names change often, so each team is followed as a lineage (for example
+Force India, Racing Point and Aston Martin).
+
+\paragraph{Comparison groups.} Shares are computed within each season among the covered teams that report the same measure
+in the same currency, with at least four teams. Points share is a team's share of those teams' combined points; the
+efficiency ratio is points share divided by resource share.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Covered teams, averages over their seasons}
+\label{tab:desc}
+\small
+\begin{tabular}{@{}p{4.2cm}lrrrrr@{}}
+\toprule
+Team lineage & Seasons & \multicolumn{1}{c}{Turnover} & \multicolumn{1}{c}{Staff costs} & \multicolumn{1}{c}{Staff} & \multicolumn{1}{c}{Points} & \multicolumn{1}{c}{Efficiency} \\
+ & (count) & \multicolumn{1}{c}{(GBP m)} & \multicolumn{1}{c}{(GBP m)} & \multicolumn{1}{c}{(people)} & \multicolumn{1}{c}{share (\%)} & \multicolumn{1}{c}{ratio} \\
+\midrule
+\inputrows generated/table1_descriptives.tex 
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Notes:} \NTeamSeasons{} team-seasons. Money in nominal GBP, not adjusted for inflation. Points share and
+efficiency ratio are computed among the covered teams in each season. Manor and Caterham accounts are partial: Manor bought
+in much of its engineering in 2010 and 2011, and Caterham's racing licence was held by a Malaysian company, so their figures
+understate the full team budget. \textit{Source:} datasets \texttt{financial\_observation} (version \VerFinancialObservation)
+and \texttt{efficiency} (version \VerEfficiency), \sitepage{data}{F1 Moneyball data explorer}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ============================================================================ 4
+\section{Empirical strategy}
+
+The main model regresses points share on the log of a resource measure in the previous season:
+\begin{equation}
+  \text{PointsShare}_{it} = \beta \log(\text{Resource}_{i,t-1}) + \alpha_i + \gamma_t + \varepsilon_{it},
+  \label{eq:main}
+\end{equation}
+where $i$ is a team lineage and $t$ a season. Resources enter with a one-season lag, because success raises prize money and
+sponsorship, so a same-season link would partly run from points to money. Lagging reduces this problem but does not remove
+it. Three versions are estimated for each measure: pooled (without $\alpha_i$ and $\gamma_t$), with team fixed effects
+$\alpha_i$, and with team and season fixed effects. The pooled model compares teams with each other; the fixed-effects models
+ask whether a team does better in the seasons after it had more money than usual. Because points share is in units of
+0 to 1, $\beta \times \log(1.1) \times 100$ is the change in percentage points that goes with 10\% more of a resource.
+
+Standard errors are clustered by team. With only \NTeams{} teams, clustered standard errors can be too small
+\citep{cameron2008}, so the within-team estimates also get a wild cluster restricted bootstrap $p$-value with Webb six-point
+weights and 9,999 draws, which behaves better than Rademacher weights when there are very few clusters \citep{webb2023}. No
+version identifies a causal effect of spending; all results are associations.
+
+% ============================================================================ 5
+\section{Results}
+
+\paragraph{Between teams.} Figure~\ref{fig:scatter} shows the basic pattern. Across the \NTeamSeasons{} team-seasons the
+correlation between turnover share and points share is \CorrAll; in single seasons it ranges from \CorrMin{}
+(\CorrMinYear) to \CorrMax{} (\CorrMaxYear). Over \FirstSeason{} to \LastSeason, Mercedes (efficiency ratio \EffMercedes)
+and Red Bull (\EffRedBull) turned their money into points far more effectively than Williams (\EffWilliams), Manor
+(\EffManor) or Caterham (\EffCaterham). The same chart, with team and season filters, is on the
+\sitepage{moneyball}{Moneyball dashboard}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{generated/fig1_scatter.pdf}
+\caption{Turnover share and points share by team-season, \FirstSeason{} to \LastSeason. Each point is one team in one
+season; the dashed line marks equal shares, so points above it scored more than their share of money. \textit{Source:}
+dataset \texttt{efficiency}; interactive version on the \sitepage{moneyball}{Moneyball dashboard}.}
+\label{fig:scatter}
+\end{figure}
+
+\paragraph{Main models.} Table~\ref{tab:models} and Figure~\ref{fig:coef} report the estimates. In the pooled model 10\% more
+turnover in the previous season goes with a points share about \PpTurnPooled{} percentage points higher (coefficient
+\CoefTurnPooled, 95\% CI \CiLowTurnPooled{} to \CiHighTurnPooled). With team fixed effects the coefficient falls to
+\CoefTurnFe{} ($p = \PTurnFe$, bootstrap $p = \PwildTurnFe$). Most of the pooled link therefore comes from lasting
+differences between teams, not from a team doing better in the years when it had more money. Adding season effects moves the
+estimates up (\CoefTurnTwfe{} for turnover, $p = \PTurnTwfe$). The largest within-team estimate is for staff costs with team
+and season effects (\CoefStaffTwfe, about \PpStaffTwfe{} percentage points per 10\% more staff spending): its clustered
+$p$-value is \PStaffTwfe{} and its bootstrap $p$-value \PwildStaffTwfe. The two methods disagree on which side of 0.05 the
+estimate falls, which is itself a reason for caution.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Points share on log resources in the previous season}
+\label{tab:models}
+\small
+\begin{tabular}{@{}llrcrrrr@{}}
+\toprule
+Measure & Model & Coef. & 95\% CI & $p$ (clustered) & $p$ (bootstrap) & $N$ & Teams \\
+\midrule
+\inputrows generated/table2_models.tex 
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Notes:} OLS estimates of equation~(\ref{eq:main}). Standard errors clustered by team. Bootstrap: wild cluster
+restricted bootstrap, Webb six-point weights, 9,999 draws, within-team models only. \textit{Source:} datasets
+\texttt{model\_results} (version \VerModelResults) and \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
+\code{src/f1moneyball/econometrics/models.py}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{generated/fig2_coefficients.pdf}
+\caption{Coefficients and 95\% confidence intervals from Table~\ref{tab:models}. The dashed line marks zero.}
+\label{fig:coef}
+\end{figure}
+
+% ============================================================================ 6
+\section{Robustness}
+
+Table~\ref{tab:rob} collects the main checks, all with team and season fixed effects. Leaving out the seasons with large rule
+resets barely changes the estimates. The within-team estimates move a lot when one team is left out: the staff-cost
+coefficient ranges from \LooStaffcostsMin{} to \LooStaffcostsMax{}, and the turnover coefficient from \LooTurnoverMin{} to
+\LooTurnoverMax. With championship position as the outcome, where a lower number is better, all three measures go with a
+better position (turnover \PosTurnover{} places per log point, $p = \PosPTurnover$; staff costs \PosStaffcosts,
+$p = \PosPStaffcosts$; headcount \PosHeadcount, $p = \PosPHeadcount$; clustered $p$-values). The link does not change
+measurably under the cost cap. Adding reliability and race-day gains raises the share of variation explained from
+\RsqBase{} to \RsqOps{} and absorbs part of the staff-cost link, but both controls are measured in the same season as the
+outcome, so they may themselves be results of spending. Every estimate behind Table~\ref{tab:rob}, including each
+leave-one-out run, is listed on the \sitepage{research/does-money-buy-speed}{research article page}.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Robustness checks (team and season fixed effects)}
+\label{tab:rob}
+\small
+\begin{tabular}{@{}p{4.6cm}lccc@{}}
+\toprule
+Check & Measure & Coefficient & $p$-value (bootstrap) & Main result \\
+\midrule
+\inputrows generated/table3_robustness.tex 
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Notes:} ``Main result'' is the team and season fixed-effects coefficient from Table~\ref{tab:models}.
+Clustered $p$-values; wild bootstrap $p$-values in brackets where computed.
+$^{a}$~Coefficient on log resource $\times$ cost-cap period (2021 onward).
+\textit{Source:} dataset \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
+\code{src/f1moneyball/econometrics/robustness.py}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% ============================================================================ 7
+\section{Discussion and limitations}
+
+Between teams, money and points go together: the richest teams win most. Within teams, the evidence that more money in one
+season comes before more points in the next is weak and mixed. Without season effects there is no link; with them, some
+estimates pass conventional tests but are not stable across samples or inference methods. The fairest reading is that if
+extra spending helps a team within its own history, the effect is small and cannot be measured reliably with \NTeams{}
+teams. This fits a picture in which money and success build up together over many years, since winning teams earn more
+prize money and attract more sponsors.
+
+The main limitations are:
+\begin{itemize}[leftmargin=1.2em,itemsep=0.1em,topsep=0.2em]
+  \item the small number of teams, which limits both precision and inference;
+  \item accounts that belong to legal entities rather than teams, which may include other business or leave out costs held
+        elsewhere in a group;
+  \item accounting periods and standards that differ across teams and years;
+  \item reverse causality, which a one-season lag only reduces;
+  \item the absence of Ferrari and the non-UK teams;
+  \item the cost cap and the 2022 technical rules arriving one season apart, so their effects cannot be separated with
+        season-level data.
+\end{itemize}
+
+% ============================================================================ data + code
+\section*{Data and code availability}
+\addcontentsline{toc}{section}{Data and code availability}
+
+All data, code and the data dictionary are public. The website \url{\site/} shows every dataset with its sources and a
+download link, and the GitHub repository \url{\repo} holds the pipeline, the econometrics and the source of this paper
+(folder \code{paper}). The figures in this paper come from these dataset versions:
+\texttt{financial\_observation} \VerFinancialObservation; \texttt{efficiency} \VerEfficiency;
+\texttt{model\_results} \VerModelResults; \texttt{robustness\_checks} \VerRobustnessChecks;
+\texttt{constructor\_season} \VerConstructorSeason. The website shows the current version of each dataset on its
+\sitepage{data}{data page}, so a reader can check whether the data have changed since this paper was written.
+
+\printbibliography
+
+% ============================================================================ appendix
+\appendix
+\section{Where each result comes from}
+\label{app:code}
+
+\noindent To reproduce the paper from scratch:
+\begin{verbatim}
+git clone https://github.com/NahianIbnat-2000/F1-moneyball.git
+cd F1-moneyball
+pip install -e .
+python -m f1moneyball.pipeline all     # download, build, estimate, publish
+python paper/make_assets.py            # numbers, tables, figures
+cd paper && latexmk -pdf main.tex      # this paper
+\end{verbatim}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Paper element & Code (links open the file on GitHub) \\
+\midrule
+Financial figures & \code{data/manual/financial_observations.csv}; entry rules in \code{docs/MANUAL_FINANCIAL_ENTRY.md} \\
+Race results, standings & \code{src/f1moneyball/ingestion/jolpica.py} \\
+Shares, efficiency ratio & \code{src/f1moneyball/econometrics/efficiency.py} \\
+Table~\ref{tab:models}, Figure~\ref{fig:coef} & \code{src/f1moneyball/econometrics/models.py} \\
+Table~\ref{tab:rob}, bootstrap & \code{src/f1moneyball/econometrics/robustness.py} \\
+Pipeline steps & \code{src/f1moneyball/pipeline.py} \\
+All numbers, tables, figures here & \code{paper/make_assets.py} \\
+This document & \code{paper/main.tex}, \code{paper/references.bib} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\end{document}

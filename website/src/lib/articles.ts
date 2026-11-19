@@ -36,6 +36,8 @@ export interface Article {
   reproducibility: string[];
   references: Reference[];
   interactive?: { to: string; label: string };
+  // Working-paper version: a PDF in public/papers and its LaTeX source in the repository.
+  paper?: { pdf: string; source: string };
 }
 
 const AUTHOR = "Nahian Ibnat";
@@ -140,6 +142,10 @@ export const ARTICLES: Article[] = [
       { authors: "Bell, A., Smith, J., Sabel, C. E., & Jones, K.", year: 2016, title: "Formula for success: Multilevel modelling of Formula One driver and constructor performance, 1950–2014", venue: "Journal of Quantitative Analysis in Sports, 12(2), 99–112", doi: "10.1515/jqas-2015-0050" },
     ],
     interactive: { to: "/moneyball", label: "Open the F1 Moneyball laboratory" },
+    paper: {
+      pdf: "papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf",
+      source: "https://github.com/NahianIbnat-2000/F1-moneyball/tree/main/paper",
+    },
   },
   {
     slug: "cost-cap-paradox",
