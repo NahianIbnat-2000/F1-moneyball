@@ -80,7 +80,7 @@ export default function Home() {
       </svg>
       <div className="relative mx-auto max-w-6xl px-5 pt-12 pb-10 grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-10">
         <div>
-          <div className="eyebrow">{BRAND.series}</div>
+          <div className="eyebrow">Formula 1 · Economics · Finance</div>
           <h1 className="font-serif text-[3.4rem] md:text-[5.4rem] leading-[0.98] font-semibold tracking-tight text-head mt-5">{BRAND.headline}</h1>
           <p className="mt-5 flex items-center gap-3 font-display uppercase tracking-[0.06em] text-lg md:text-xl font-semibold text-head"><span aria-hidden className="speedlines"><i /><i /><i /></span>{BRAND.positioning}</p>
           <p className="dropcap mt-5 font-serif text-xl leading-relaxed text-fg max-w-2xl">
@@ -101,7 +101,7 @@ export default function Home() {
       </div>
       </section>
 
-      <Section eyebrow="The research question" title="Does money buy speed?">
+      <Section eyebrow="The research question" title="Why Formula 1 is an economics question">
         <div className="grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-10">
           <div className="prose-body text-fg lg:columns-2 lg:gap-8">
             <p>Formula 1 teams are firms. They raise capital from owners, sponsors and prize money, and turn it into cars, people and race operations. The championship is the market where that investment is tested every weekend.</p>
@@ -119,12 +119,11 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section eyebrow="Featured research series" title={BRAND.series.replace(/\.$/, "")}>
+      <Section eyebrow="Research series" title={BRAND.series.replace(/\.$/, "")}>
         <div className="grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-10">
           <article>
             <div className="label text-accent-fg">Flagship study · {flagship.module} · {flagship.stage}</div>
-            <h3 className="font-serif text-3xl md:text-[2.6rem] leading-tight font-semibold text-head mt-2"><Link to={`/research/${flagship.slug}`} className="hover:underline decoration-accent decoration-2 underline-offset-4">{flagship.title}</Link></h3>
-            <p className="mt-3 font-serif italic text-xl text-fg/80 max-w-2xl">{flagship.dek}</p>
+            <h3 className="font-serif text-2xl md:text-[2.1rem] leading-tight font-semibold text-head mt-2 max-w-2xl"><Link to={`/research/${flagship.slug}`} className="hover:underline decoration-accent decoration-2 underline-offset-4">{flagship.dek}</Link></h3>
             <p className="mt-4 prose-body text-fg/90">{flagship.whyItMatters[0]}</p>
             <p className="text-sm text-muted">{dataReadiness(flagship.datasets, statuses).label} · {flagship.hypotheses.length} hypotheses · {flagship.references.length} references</p>
             <div className="mt-4 flex flex-wrap gap-6 text-sm">

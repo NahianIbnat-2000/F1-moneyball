@@ -228,6 +228,64 @@ function EfficiencyTrajectories({ rows, entry }: { rows: Row[]; entry?: DatasetE
   );
 }
 
+// ---------------------------------------------------------------- pit stop operations
+function PitGapTrend({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
+  const [focus, setFocus] = useState("");
+  const v = rows.filter((r) => num(r.median_pit_gap_s) !== null);
+  const teams = useMemo(() => [...new Map(v.map((r) => [String(r.team_id), String(r.team_name)])).entries()].sort((a, b) => a[1].localeCompare(b[1])), [v]);
+  const latest = Math.max(...v.map((r) => r.season as number));
+  const best = v.filter((r) => r.season === latest).sort((a, b) => (a.median_pit_gap_s as number) - (b.median_pit_gap_s as number))[0];
+  return (
+    <ChartFrame
+      meta={{ id: "MB-12", dataset: entry, methodology: "pit stops", title: "Pit stop gap to the fastest team",
+        caption: "How much slower a team's pit stops were than the best team's in the same race. Lower is better; 0 means the team was usually the fastest.",
+        source: "constructor_season dataset; stops from the Jolpica-F1 pit stop endpoint (pit_stop dataset).",
+        shows: "Per race: the team's median stop minus the fastest team's median, same pit lane. Then the median over the season's races. Stops over 60 s (red flags, repairs) left out.",
+        doesNotShow: "The stationary time alone: durations are total pit-lane time. Nor strategy: a slower stop on a better lap can still gain places.",
+        summary: best ? `${v.length} team-seasons from 2011. Fastest in ${latest}: ${best.team_name} (${(best.median_pit_gap_s as number).toFixed(2)} s gap).` : undefined }}
+      controls={<Select label="Highlight team" value={focus} onChange={setFocus} options={[["", "None"], ...teams]} />}
+      table={<DataTable rows={v} columns={["season", "team_name", "median_pit_gap_s", "pit_races", "service_pit_stops"]} specs={entry?.columns} />}>
+      <Plot ariaLabel="Line chart of pit stop gap to the fastest team by season" height={400}
+        data={teams.map(([id, name]): Data => {
+          const rs = v.filter((r) => r.team_id === id).sort((a, b) => (a.season as number) - (b.season as number));
+          const main = id in TEAM_COLOR;
+          return { type: "scatter", mode: "lines+markers", name, x: rs.map((r) => r.season as number), y: rs.map((r) => r.median_pit_gap_s as number),
+            line: { color: teamHex(id), width: main ? 2 : 1.5 }, marker: { size: 6 }, showlegend: main,
+            opacity: focus ? (focus === id ? 1 : 0.12) : main ? 1 : 0.5, hovertemplate: `<b>${name}</b><br>%{x}: %{y:.2f} s<extra></extra>` };
+        })}
+        layout={{ showlegend: true, legend: { orientation: "h", y: -0.2, font: { size: 11 } }, xaxis: { title: { text: "Season" }, dtick: 2 },
+          yaxis: { title: { text: "Seconds slower than fastest team" }, rangemode: "tozero" } }} />
+    </ChartFrame>
+  );
+}
+
+function PitVsResources({ cs, eff, entry }: { cs: Row[]; eff: Row[]; entry?: DatasetEntry }) {
+  const gap = new Map(cs.filter((r) => num(r.median_pit_gap_s) !== null).map((r) => [`${r.season}|${r.team_id}`, r]));
+  const v = eff.filter((r) => r.metric === "turnover" && num(r.value) !== null && gap.has(`${r.season}|${r.team_id}`))
+    .map((r): Row => ({ ...r, gap: gap.get(`${r.season}|${r.team_id}`)!.median_pit_gap_s as number }));
+  const teams = [...new Set(v.map((r) => String(r.team_id)))];
+  return (
+    <ChartFrame
+      meta={{ id: "MB-13", dataset: entry, methodology: "pit stops", title: "Do richer teams run faster pit stops?",
+        caption: "A different kind of efficiency: not turning money into points, but turning money into a well-drilled operation.",
+        source: "efficiency dataset (turnover from Companies House accounts) joined to constructor_season pit stop gaps.",
+        shows: "Team turnover (GBP millions, log scale) against the season's pit stop gap. Each point is one team in one season.",
+        doesNotShow: "Causation, or teams without UK accounts (Ferrari, Sauber, Racing Bulls, Haas).",
+        summary: `${v.length} team-seasons from ${teams.length} teams.` }}
+      table={<DataTable rows={v} columns={["season", "team_name", "value", "gap"]} specs={entry?.columns} />}>
+      <Plot ariaLabel="Scatter of turnover against pit stop gap" height={400}
+        data={teams.map((t): Data => {
+          const rs = v.filter((r) => r.team_id === t);
+          return { type: "scatter", mode: "markers", name: String(rs[0].team_name), x: rs.map((r) => (r.value as number) / 1e6), y: rs.map((r) => r.gap as number),
+            text: rs.map((r) => String(r.season)), marker: { size: 9, color: teamHex(t), line: { width: 1, color: BG } },
+            hovertemplate: `<b>${rs[0].team_name} %{text}</b><br>£%{x:,.0f}M<br>%{y:.2f} s<extra></extra>` };
+        })}
+        layout={{ showlegend: true, legend: { orientation: "h", y: -0.2 }, xaxis: { title: { text: "Turnover (GBP millions, log scale)" }, type: "log" },
+          yaxis: { title: { text: "Pit stop gap to fastest team (s)" }, rangemode: "tozero" } }} />
+    </ChartFrame>
+  );
+}
+
 // ---------------------------------------------------------------- C. comparison tool
 function Comparison({ cs, eff }: { cs: Row[]; eff: Row[] | null }) {
   const teams = useMemo(() => [...new Map(cs.map((r) => [String(r.team_id), String(r.team_name)])).entries()].sort((a, b) => a[1].localeCompare(b[1])), [cs]);
@@ -356,7 +414,14 @@ export default function Moneyball() {
         </div>
       </Section>
 
-      <Section eyebrow="B" title="Financial efficiency">
+      <Section eyebrow="B" title="Pit stop operations">
+        <div className="grid gap-12">
+          {status(cs, "constructor_season", <PitGapTrend rows={cs.rows} entry={cs.entry} />)}
+          {cs.status === "ready" && eff.status === "ready" && <PitVsResources cs={cs.rows} eff={eff.rows} entry={eff.entry} />}
+        </div>
+      </Section>
+
+      <Section eyebrow="C" title="Financial efficiency">
         <div className="grid gap-10">
           <Callout title="What the efficiency ratio is, and is not" tone="caution">
             The ratio compares a team's share of points with its share of resources, among teams that report the same measure in the same currency in the same season (at least four teams). Above 1 means more points than resources would suggest. It is a descriptive comparison, not an estimate of technical efficiency, and it is shown next to two other measures rather than merged into one score.
@@ -366,15 +431,15 @@ export default function Moneyball() {
         </div>
       </Section>
 
-      <Section eyebrow="C" title="Compare constructors">
+      <Section eyebrow="D" title="Compare constructors">
         {status(cs, "constructor_season", <Comparison cs={cs.rows} eff={eff.status === "ready" ? eff.rows : null} />)}
       </Section>
 
-      <Section eyebrow="D" title="Model estimates">
+      <Section eyebrow="E" title="Model estimates">
         {status(models, "model_results", <ModelTable rows={models.rows} />)}
       </Section>
 
-      <Section eyebrow="E" title="Methodological safeguards">
+      <Section eyebrow="F" title="Methodological safeguards">
         <dl className="grid md:grid-cols-2 gap-x-10 border-t-2 border-fg">
           {SAFEGUARDS.map(([k, v]) => <div key={k} className="py-3 border-b border-line"><dt className="font-serif font-semibold text-head">{k}</dt><dd className="text-sm text-fg/85 mt-1">{v}</dd></div>)}
         </dl>
