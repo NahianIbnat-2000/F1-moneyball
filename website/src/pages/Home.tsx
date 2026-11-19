@@ -73,28 +73,30 @@ export default function Home() {
   return (
     <>
       <section className="relative overflow-hidden">
-      {/* A racing line through a chicane: decorative, drawn in livery gold. */}
-      <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
-        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#B58A52" strokeWidth="46" strokeLinecap="round" />
-        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#14191C" strokeWidth="2" strokeDasharray="18 22" />
+      {/* A racing line through a chicane: decorative, drawn in race red. */}
+      <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#E5372A" strokeWidth="46" strokeLinecap="round" />
+        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#0A0D10" strokeWidth="2" strokeDasharray="18 22" />
       </svg>
       <div className="relative mx-auto max-w-6xl px-5 pt-12 pb-10 grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-10">
         <div>
           <div className="eyebrow">{BRAND.series}</div>
-          <h1 className="font-serif italic uppercase text-[3.6rem] md:text-[6rem] leading-[0.9] font-bold text-head mt-4">{BRAND.headline}</h1>
-          <p className="mt-5 text-lg md:text-xl font-semibold text-accent-fg">{BRAND.positioning}</p>
-          <p className="dropcap mt-5 text-xl leading-relaxed text-fg max-w-2xl">
+          <h1 className="font-serif text-[3.4rem] md:text-[5.4rem] leading-[0.98] font-semibold tracking-tight text-head mt-5">{BRAND.headline}</h1>
+          <p className="mt-5 flex items-center gap-3 font-display uppercase tracking-[0.06em] text-lg md:text-xl font-semibold text-head"><span aria-hidden className="speedlines"><i /><i /><i /></span>{BRAND.positioning}</p>
+          <p className="dropcap mt-5 font-serif text-xl leading-relaxed text-fg max-w-2xl">
             Formula 1 is a competition for milliseconds, but behind every performance is an economic decision. F1 Moneyball investigates how financial resources, regulatory constraints, technological investment, and organizational efficiency shape competitive advantage.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-6">
-            <Link to="/research" className="bg-accent text-bg font-semibold px-5 py-2.5 hover:bg-accent-fg -skew-x-12 inline-block"><span className="inline-block skew-x-12">Explore the Research</span></Link>
-            <Link to="/data" className="text-head underline decoration-accent decoration-2 underline-offset-4 hover:text-fg">Explore the Data</Link>
+            <Link to="/research" className="bg-accent text-bg font-mono text-sm uppercase tracking-wider font-semibold px-5 py-3 hover:bg-accent-fg inline-flex items-center gap-3">Explore the Research <span aria-hidden>→</span></Link>
+            <Link to="/data" className="font-mono text-sm uppercase tracking-wider text-head border border-line px-5 py-3 hover:border-accent hover:text-accent-fg">Explore the Data</Link>
           </div>
         </div>
-        <aside className="bg-raise/90 border-l-4 border-accent p-5 self-start">
-          <h2 className="font-serif uppercase tracking-wider text-lg font-bold text-head flex justify-between items-center">Research status</h2>
+        <aside className="panel self-start">
+          <h2 className="panel-head"><span>Research status</span><span>Pipeline metadata</span></h2>
+          <div className="px-4 pt-1 pb-4">
           <StatusFigures />
           <p className="mt-3 text-xs text-muted">Every figure here is read from the pipeline's metadata. Nothing on this site is a placeholder.</p>
+          </div>
         </aside>
       </div>
       </section>
@@ -109,7 +111,7 @@ export default function Home() {
           <ol className="border-t-2 border-fg">
             {DIMENSIONS.map((d) => (
               <li key={d.n} className="grid grid-cols-[2.5rem_1fr] gap-2 py-4 border-b border-line">
-                <span className="font-serif italic font-bold text-accent-fg text-xl">{d.n}</span>
+                <span className="font-display italic font-bold text-race text-2xl leading-none">{d.n}</span>
                 <div><div className="font-serif text-lg font-semibold text-head">{d.title}</div><p className="text-sm text-fg/80 mt-1">{d.q}</p></div>
               </li>
             ))}
@@ -122,7 +124,7 @@ export default function Home() {
           <article>
             <div className="label text-accent-fg">Flagship study · {flagship.module} · {flagship.stage}</div>
             <h3 className="font-serif text-3xl md:text-[2.6rem] leading-tight font-semibold text-head mt-2"><Link to={`/research/${flagship.slug}`} className="hover:underline decoration-accent decoration-2 underline-offset-4">{flagship.title}</Link></h3>
-            <p className="mt-3 font-serif text-xl text-fg/80 max-w-2xl">{flagship.dek}</p>
+            <p className="mt-3 font-serif italic text-xl text-fg/80 max-w-2xl">{flagship.dek}</p>
             <p className="mt-4 prose-body text-fg/90">{flagship.whyItMatters[0]}</p>
             <p className="text-sm text-muted">{dataReadiness(flagship.datasets, statuses).label} · {flagship.hypotheses.length} hypotheses · {flagship.references.length} references</p>
             <div className="mt-4 flex flex-wrap gap-6 text-sm">

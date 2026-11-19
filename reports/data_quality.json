@@ -1,6 +1,6 @@
 {
   "n_errors": 0,
-  "n_warnings": 5,
+  "n_warnings": 4,
   "issues": [
     {
       "dataset": "constructor_season",
@@ -15,13 +15,6 @@
       "severity": "warning",
       "message": "Events not yet checked against the primary FIA document",
       "n_rows": 8
-    },
-    {
-      "dataset": "financial_observation",
-      "check": "coverage",
-      "severity": "warning",
-      "message": "No financial observations entered yet",
-      "n_rows": 0
     },
     {
       "dataset": "gp_tourism_monthly",

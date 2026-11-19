@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T08:17:37+00:00",
+  "generated_at_utc": "2026-11-19T11:36:37+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -397,19 +397,106 @@
         "why_unavailable": "No API provides F1 team finances. Figures must be read from statutory accounts (mainly UK Companies House filings) and entered by hand with page references. Ferrari and some other teams do not file comparable accounts.",
         "needed_for_publication": "Audited figures for at least 4 teams in the same seasons, entered and validated."
       },
-      "coverage_start": null,
-      "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
-      "validation_warnings": [
-        "No financial observations entered yet"
-      ],
+      "coverage_start": 2014,
+      "coverage_end": 2025,
+      "observation_count": 357,
+      "variable_count": 22,
+      "missingness": {
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "season_mapped": {
+          "missing": 5,
+          "share": 0.014
+        },
+        "entity_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entity_registration": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 2,
+          "share": 0.0056
+        },
+        "currency": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "financial_year_start": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "financial_year_end": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "accounting_basis": {
+          "missing": 2,
+          "share": 0.0056
+        },
+        "source_class": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "document_title": {
+          "missing": 2,
+          "share": 0.0056
+        },
+        "document_page": {
+          "missing": 2,
+          "share": 0.0056
+        },
+        "publication_date": {
+          "missing": 357,
+          "share": 1.0
+        },
+        "retrieval_date": {
+          "missing": 357,
+          "share": 1.0
+        },
+        "confidence": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entered_by": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "notes": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "transformation": {
+          "missing": 2,
+          "share": 0.0056
+        },
+        "comparability_warning": {
+          "missing": 332,
+          "share": 0.93
+        }
+      },
+      "version": "417f4c6befe4",
+      "last_updated": "2026-11-19T11:36:37+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "pit_stop",
@@ -587,17 +674,138 @@
         "why_unavailable": "Computed by the pipeline from financial_observation and constructor_season. Neither is published yet.",
         "needed_for_publication": "At least 4 teams reporting the same measure in the same currency for the same season."
       },
-      "coverage_start": null,
-      "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "coverage_start": 2014,
+      "coverage_end": 2025,
+      "observation_count": 350,
+      "variable_count": 30,
+      "missingness": {
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "currency": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_class": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "confidence": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entity_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "financial_year_end": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "exclusion_reason": {
+          "missing": 210,
+          "share": 0.6
+        },
+        "points": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_share": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "position": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "wins": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "podiums": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "completion_rate": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mechanical_dnf_rate": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mean_grid_to_finish": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "median_quali_gap_pct": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_reported": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "group_n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "resource_share": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "points_share_in_group": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "efficiency_ratio": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "points_per_million": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "resource_rank": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "points_rank": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "rank_gap": {
+          "missing": 140,
+          "share": 0.4
+        },
+        "included": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "d18a05c87c9c",
+      "last_updated": "2026-11-19T11:36:37+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "model_results",
@@ -616,15 +824,96 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "observation_count": 15,
+      "variable_count": 20,
+      "missingness": {
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "currency": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "outcome": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "regressor": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_obs": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_seasons": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "model_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "specification": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "formula": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "se": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "ci_low": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "ci_high": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "p_value": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "r2": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "effect_10pct_pp": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "se_type": {
+          "missing": 6,
+          "share": 0.4
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "9cd77c1c68d7",
+      "last_updated": "2026-11-19T11:36:37+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "cost_cap_models",
@@ -644,7 +933,7 @@
       "coverage_start": null,
       "coverage_end": null,
       "observation_count": 40,
-      "variable_count": 23,
+      "variable_count": 24,
       "missingness": {
         "kind": {
           "missing": 0,
@@ -671,8 +960,8 @@
           "share": 0.0
         },
         "n_seasons": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "n_pre": {
           "missing": 1,
@@ -683,36 +972,36 @@
           "share": 0.025
         },
         "level_change": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "se": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "ci_low": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "ci_high": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "p_value": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "slope_change": {
           "missing": 1,
           "share": 0.025
         },
         "r2": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "se_type": {
-          "missing": 1,
-          "share": 0.025
+          "missing": 0,
+          "share": 0.0
         },
         "note": {
           "missing": 0,
@@ -734,13 +1023,17 @@
           "missing": 39,
           "share": 0.975
         },
+        "n_obs": {
+          "missing": 39,
+          "share": 0.975
+        },
         "n_teams": {
           "missing": 39,
           "share": 0.975
         }
       },
-      "version": "4052bf740724",
-      "last_updated": "2026-11-19T08:17:37+00:00",
+      "version": "3e61312932a5",
+      "last_updated": "2026-11-19T11:36:37+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -761,17 +1054,54 @@
         "why_unavailable": "Needs constructor_season and pre-cap (2018-2020) financial figures for at least 4 teams in one measure and currency.",
         "needed_for_publication": "Sporting data plus audited 2018-2020 figures for at least 4 teams."
       },
-      "coverage_start": null,
-      "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "coverage_start": 2014,
+      "coverage_end": 2025,
+      "observation_count": 12,
+      "variable_count": 9,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_low": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_high": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_reference": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "period": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "exposure_measure": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "dc57b92ed53e",
+      "last_updated": "2026-11-19T11:36:37+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     }
   ]
 }

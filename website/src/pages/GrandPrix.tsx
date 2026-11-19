@@ -127,7 +127,7 @@ export default function GrandPrix() {
             {LAYERS.map(([t, d], i) => (
               <li key={t} className="pl-5 pb-5">
                 <div className="num text-xs text-accent-fg">Layer {i + 1}</div>
-                <div className="font-serif uppercase text-xl text-head font-bold">{t}</div>
+                <div className="font-display uppercase tracking-wide text-xl text-head font-bold">{t}</div>
                 <p className="text-sm text-fg/85">{d}</p>
               </li>
             ))}

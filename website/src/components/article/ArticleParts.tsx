@@ -32,7 +32,7 @@ export function ArticleHeader({ a }: { a: Article }) {
         <nav aria-label="Breadcrumb" className="text-xs label"><Link to="/research" className="hover:text-head">Research</Link> / {a.module}</nav>
         <div className="eyebrow mt-5">{BRAND.series}</div>
         <h1 className="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-head mt-3 max-w-3xl">{a.title}</h1>
-        <p className="mt-4 text-xl text-muted max-w-2xl leading-relaxed">{a.dek}</p>
+        <p className="mt-4 font-serif italic text-xl text-muted max-w-2xl leading-relaxed">{a.dek}</p>
       </div>
     </header>
   );

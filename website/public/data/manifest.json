@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T08:17:37+00:00",
-  "pipeline_commit": null,
+  "generated_at_utc": "2026-11-19T11:36:38+00:00",
+  "pipeline_commit": "582ce60",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -612,6 +612,630 @@
         "season_max": 2026
       }
     },
+    "financial_observation": {
+      "name": "financial_observation",
+      "title": "Financial observations",
+      "description": "One row per reported or estimated financial figure, with full provenance. Entered manually and validated.",
+      "key": [
+        "team_id",
+        "entity_name",
+        "financial_year_end",
+        "metric"
+      ],
+      "rows": 357,
+      "n_variables": 22,
+      "columns": {
+        "team_id": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Team lineage"
+        },
+        "season_mapped": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Season this financial year is mapped to (documented rule)"
+        },
+        "entity_name": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Legal entity that reported the figure"
+        },
+        "entity_registration": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Company registration number"
+        },
+        "metric": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Financial metric"
+        },
+        "value": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Blank only when source_class = missing. Never estimated to fill a gap.",
+          "type": "float",
+          "description": "Original figure as reported, in full units of the original currency"
+        },
+        "currency": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "ISO 4217 currency code"
+        },
+        "financial_year_start": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "Start of accounting period"
+        },
+        "financial_year_end": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "End of accounting period"
+        },
+        "accounting_basis": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Accounting framework"
+        },
+        "source_class": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "audited | official_disclosure | secondary_estimate | derived_estimate | missing"
+        },
+        "source_name": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Source"
+        },
+        "source_url": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Source URL"
+        },
+        "document_title": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Title of the source document (e.g. 'Annual report and financial statements, year ended 31 December 2022')"
+        },
+        "document_page": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Page in the source document"
+        },
+        "publication_date": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "Date the source was published or filed"
+        },
+        "retrieval_date": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "Date the figure was extracted from the document"
+        },
+        "confidence": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "high | medium | low"
+        },
+        "entered_by": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Who entered the row"
+        },
+        "notes": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Comparability and accounting notes"
+        },
+        "transformation": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Any change made to the reported figure (e.g. 'sign flipped: loss reported in brackets'). 'none' if copied as reported."
+        },
+        "comparability_warning": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Why this figure may not be comparable with other teams or years. Required for estimates."
+        }
+      },
+      "limitations": [
+        "Figures belong to legal entities, not to 'teams'. An entity may include engine work or other business, or miss costs held in another company.",
+        "Accounting periods and currencies differ. Values are never converted or combined in this table.",
+        "Coverage is limited to entities that file comparable accounts, mainly in the UK."
+      ],
+      "version": "417f4c6befe4",
+      "sources": [
+        {
+          "id": "companies_house",
+          "name": "UK Companies House",
+          "url": "https://find-and-update.company-information.service.gov.uk/"
+        }
+      ],
+      "files": {
+        "json": "data/financial_observation.json",
+        "csv": "data/financial_observation.csv"
+      }
+    },
+    "efficiency": {
+      "name": "efficiency",
+      "title": "Financial efficiency indicators",
+      "description": "Descriptive comparison of each team's share of points with its share of resources, within groups of teams reporting the same measure, in the same currency, for the same season.",
+      "key": [
+        "team_id",
+        "season",
+        "metric",
+        "entity_name"
+      ],
+      "rows": 350,
+      "n_variables": 30,
+      "columns": {
+        "team_id": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Team lineage"
+        },
+        "season": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Season the financial year is mapped to"
+        },
+        "metric": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Financial measure used (one per row; measures are never combined)"
+        },
+        "value": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Reported figure in original currency units"
+        },
+        "currency": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "ISO currency of value"
+        },
+        "source_class": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Financial-data classification of the figure"
+        },
+        "confidence": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "high | medium | low"
+        },
+        "entity_name": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Legal entity that reported the figure"
+        },
+        "financial_year_end": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "End of the accounting period"
+        },
+        "exclusion_reason": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Why the row is not in a comparison group. Blank if included."
+        },
+        "team_name": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Lineage display name"
+        },
+        "points": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "points",
+          "description": "Final championship points"
+        },
+        "points_share": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "share",
+          "description": "Share of all teams' points (whole grid)"
+        },
+        "position": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Final championship position"
+        },
+        "wins": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Race wins"
+        },
+        "podiums": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Podiums"
+        },
+        "completion_rate": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "share",
+          "description": "Classified finishes / car starts"
+        },
+        "mechanical_dnf_rate": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "share",
+          "description": "Mechanical retirements / car starts"
+        },
+        "mean_grid_to_finish": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "places",
+          "description": "Average places gained, classified cars"
+        },
+        "median_quali_gap_pct": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "%",
+          "description": "Median gap to pole"
+        },
+        "is_reported": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "True for audited or officially disclosed figures; false for estimates"
+        },
+        "group_n_teams": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Teams in the comparison group (season, metric, currency)"
+        },
+        "resource_share": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "Computed in econometrics/efficiency.py",
+          "missing_treatment": "Blank when the row is excluded",
+          "type": "float",
+          "unit": "share",
+          "description": "Team value / sum of values in the group"
+        },
+        "points_share_in_group": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Blank when the row is excluded",
+          "type": "float",
+          "unit": "share",
+          "description": "Team points / points of teams in the group"
+        },
+        "efficiency_ratio": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Blank when the row is excluded",
+          "type": "float",
+          "unit": "ratio",
+          "description": "points_share_in_group / resource_share. Above 1: more points share than resource share"
+        },
+        "points_per_million": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Blank when the row is excluded",
+          "type": "float",
+          "unit": "points per million currency units",
+          "description": "points / (value / 1,000,000), in the original currency"
+        },
+        "resource_rank": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Rank by value within the group (1 = largest)"
+        },
+        "points_rank": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Rank by points within the group (1 = most)"
+        },
+        "rank_gap": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "places",
+          "description": "resource_rank minus points_rank. Positive: finished higher than resources rank"
+        },
+        "included": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "True if the row is in a comparison group"
+        }
+      },
+      "limitations": [
+        "Descriptive ratio, not a measure of technical or production efficiency, and not causal.",
+        "Shares cover only the teams in the comparison group, not the whole grid.",
+        "No currency conversion: teams reporting in different currencies are never in the same group.",
+        "Legal-entity accounts may not capture the full cost of running a team."
+      ],
+      "version": "ef2e5242b890",
+      "sources": [
+        {
+          "id": "companies_house",
+          "name": "UK Companies House",
+          "url": "https://find-and-update.company-information.service.gov.uk/"
+        },
+        {
+          "id": "jolpica",
+          "name": "Jolpica-F1 API (Ergast-compatible)",
+          "url": "https://github.com/jolpica/jolpica-f1"
+        }
+      ],
+      "files": {
+        "json": "data/efficiency.json",
+        "csv": "data/efficiency.csv"
+      },
+      "coverage": {
+        "season_min": 2014,
+        "season_max": 2025
+      }
+    },
+    "model_results": {
+      "name": "model_results",
+      "title": "Resources and performance models",
+      "description": "Regression estimates of points share on the previous season's log resources, by financial measure.",
+      "key": [
+        "model_id"
+      ],
+      "rows": 15,
+      "n_variables": 20,
+      "columns": {
+        "model_id": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Model identifier"
+        },
+        "metric": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Financial measure"
+        },
+        "currency": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Currency of the sample"
+        },
+        "outcome": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Dependent variable"
+        },
+        "regressor": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Main regressor"
+        },
+        "specification": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Pooled OLS | Team fixed effects | Team and season fixed effects"
+        },
+        "formula": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "statsmodels formula"
+        },
+        "estimated": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "False when the sample is too small to estimate"
+        },
+        "n_obs": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Team-seasons used"
+        },
+        "n_teams": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Teams (clusters)"
+        },
+        "n_seasons": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Seasons"
+        },
+        "coef": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Coefficient on log resources (lagged)"
+        },
+        "se": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Standard error"
+        },
+        "ci_low": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI lower bound"
+        },
+        "ci_high": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI upper bound"
+        },
+        "p_value": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "p-value"
+        },
+        "r2": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "R-squared"
+        },
+        "effect_10pct_pp": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "unit": "percentage points",
+          "description": "Change in points share associated with 10% more resources last season"
+        },
+        "se_type": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Standard error type"
+        },
+        "note": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Caveats for this model"
+        }
+      },
+      "limitations": [
+        "Associations, not causal effects. Lagging resources reduces but does not remove reverse causality.",
+        "With few teams, clustered standard errors are unreliable.",
+        "Fixed-effects estimates rely on small within-team changes and are imprecise."
+      ],
+      "version": "57a27c34952b",
+      "sources": [
+        {
+          "id": "companies_house",
+          "name": "UK Companies House",
+          "url": "https://find-and-update.company-information.service.gov.uk/"
+        },
+        {
+          "id": "jolpica",
+          "name": "Jolpica-F1 API (Ergast-compatible)",
+          "url": "https://github.com/jolpica/jolpica-f1"
+        }
+      ],
+      "files": {
+        "json": "data/model_results.json",
+        "csv": "data/model_results.csv"
+      }
+    },
     "cost_cap_models": {
       "name": "cost_cap_models",
       "title": "Cost cap models",
@@ -623,7 +1247,7 @@
         "specification"
       ],
       "rows": 40,
-      "n_variables": 23,
+      "n_variables": 24,
       "columns": {
         "kind": {
           "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
@@ -687,6 +1311,13 @@
           "missing_treatment": "Left blank. Never imputed.",
           "type": "int",
           "description": "Seasons from the break"
+        },
+        "n_obs": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Team-seasons (dose-response)"
         },
         "n_teams": {
           "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
@@ -793,7 +1424,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "dcb33e9913fa",
+      "version": "9e5195a9f731",
       "sources": [
         {
           "id": "jolpica",
@@ -809,6 +1440,107 @@
       "files": {
         "json": "data/cost_cap_models.json",
         "csv": "data/cost_cap_models.csv"
+      }
+    },
+    "cost_cap_event_study": {
+      "name": "cost_cap_event_study",
+      "title": "Cost cap event study",
+      "description": "Season-by-season coefficient on exposure (standardised log pre-cap resources) in a points-share regression with team and season effects, relative to 2020.",
+      "key": [
+        "season"
+      ],
+      "rows": 12,
+      "n_variables": 9,
+      "columns": {
+        "season": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Season"
+        },
+        "coef": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Exposure coefficient for the season"
+        },
+        "se": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Standard error (clustered by team)"
+        },
+        "ci_low": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI lower"
+        },
+        "ci_high": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI upper"
+        },
+        "is_reference": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "True for the reference season (fixed at 0)"
+        },
+        "period": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "pre-cap | cost cap"
+        },
+        "n_teams": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Teams with exposure"
+        },
+        "exposure_measure": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Measure and years used"
+        }
+      },
+      "limitations": [
+        "Reference season 2020 is a COVID-19 season.",
+        "Few teams: clustered standard errors are unreliable.",
+        "Pre-cap coefficients near zero support, but do not prove, parallel trends."
+      ],
+      "version": "dc57b92ed53e",
+      "sources": [
+        {
+          "id": "jolpica",
+          "name": "Jolpica-F1 API (Ergast-compatible)",
+          "url": "https://github.com/jolpica/jolpica-f1"
+        },
+        {
+          "id": "companies_house",
+          "name": "UK Companies House",
+          "url": "https://find-and-update.company-information.service.gov.uk/"
+        }
+      ],
+      "files": {
+        "json": "data/cost_cap_event_study.json",
+        "csv": "data/cost_cap_event_study.csv"
+      },
+      "coverage": {
+        "season_min": 2014,
+        "season_max": 2025
       }
     }
   },
@@ -828,7 +1560,7 @@
   },
   "quality": {
     "n_errors": 0,
-    "n_warnings": 5,
+    "n_warnings": 4,
     "issues": [
       {
         "dataset": "constructor_season",
@@ -843,13 +1575,6 @@
         "severity": "warning",
         "message": "Events not yet checked against the primary FIA document",
         "n_rows": 8
-      },
-      {
-        "dataset": "financial_observation",
-        "check": "coverage",
-        "severity": "warning",
-        "message": "No financial observations entered yet",
-        "n_rows": 0
       },
       {
         "dataset": "gp_tourism_monthly",

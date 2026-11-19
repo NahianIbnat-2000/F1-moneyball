@@ -165,6 +165,56 @@
         "cost_cap_models"
       ],
       "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Financial observations published",
+      "detail": "357 rows, version 417f4c6befe4",
+      "datasets": [
+        "financial_observation"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Financial efficiency indicators published",
+      "detail": "350 rows, version d18a05c87c9c",
+      "datasets": [
+        "efficiency"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Resources and performance models published",
+      "detail": "15 rows, version 9cd77c1c68d7",
+      "datasets": [
+        "model_results"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Cost cap models updated",
+      "detail": "40 rows, version 3e61312932a5 (previously 4052bf740724, 40 rows)",
+      "datasets": [
+        "cost_cap_models"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Cost cap event study published",
+      "detail": "12 rows, version dc57b92ed53e",
+      "datasets": [
+        "cost_cap_event_study"
+      ],
+      "automatic": true
     }
   ]
 }

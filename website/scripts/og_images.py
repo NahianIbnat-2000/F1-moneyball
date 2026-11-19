@@ -3,7 +3,7 @@
 Run when an article title or the brand changes:
     cd website && python scripts/og_images.py
 Needs: pip install playwright && playwright install chromium (or set CHROME_PATH).
-Images contain only text and livery motifs (chequer, kerb): no photographs, logos or third-party marks.
+Images contain only text and livery motifs (kerb): no photographs, logos or third-party marks.
 """
 import json, os, subprocess
 from pathlib import Path
@@ -19,24 +19,27 @@ def face(fam, pkg, w, style="normal"):
     return f"@font-face{{font-family:'{fam}';src:url('file://{f}') format('woff2');font-weight:{w};font-style:{style}}}"
 
 CSS = "".join([face("Display", "barlow-condensed", 700), face("Display", "barlow-condensed", 700, "italic"),
-               face("Sans", "barlow", 400), face("Sans", "barlow", 600)]) + """
-body{margin:0;width:1200px;height:630px;background:#14191C;color:#E8E5DF;font-family:Sans;box-sizing:border-box;display:flex;flex-direction:column}
-.chq{height:18px;background-color:#E8E5DF;background-image:linear-gradient(45deg,#14191C 25%,transparent 25%,transparent 75%,#14191C 75%),linear-gradient(45deg,#14191C 25%,transparent 25%,transparent 75%,#14191C 75%);background-size:18px 18px;background-position:0 0,9px 9px}
-.kerb{height:10px;background:repeating-linear-gradient(90deg,#B58A52 0 34px,#E8E5DF 34px 68px)}
-.top{background:#18252C;padding:22px 72px;display:flex;align-items:center;gap:16px}
-.plate{font-family:Display;font-weight:700;font-style:italic;font-size:34px;background:#B58A52;color:#14191C;padding:2px 12px;transform:skewX(-12deg)}
-.mast{font-family:Display;font-weight:700;font-style:italic;font-size:40px;color:#F6F5F1;text-transform:uppercase;letter-spacing:1px}
-.tag{font-size:20px;color:#D4AA6E}
-.main{padding:40px 72px 0;flex:1;display:flex;flex-direction:column}
-.kicker{font-family:Display;font-weight:700;font-size:26px;color:#D4AA6E;text-transform:uppercase;letter-spacing:2px}
-h1{font-family:Display;font-weight:700;font-style:italic;font-size:92px;line-height:0.95;margin:10px 0 0;color:#F6F5F1;text-transform:uppercase}
-.dek{font-size:30px;line-height:1.3;color:#E8E5DF;margin-top:18px;max-width:1000px}
-.foot{margin-top:auto;padding:16px 0 22px;display:flex;justify-content:space-between;font-size:20px;color:#9CA5A2}
+               face("Sans", "barlow", 400), face("Sans", "barlow", 600),
+               face("SrcSerif", "source-serif-4", 600), face("SrcSerif", "source-serif-4", 400, "italic"),
+               face("Mono", "jetbrains-mono", 400)]) + """
+body{margin:0;width:1200px;height:630px;background:#0A0D10;color:#E4E1D8;font-family:Sans;box-sizing:border-box;display:flex;flex-direction:column}
+.status{background:#0A0D10;border-bottom:1px solid #252E36;padding:10px 72px;font-family:Mono;font-size:16px;letter-spacing:2px;text-transform:uppercase;color:#98A2A8}
+.status b{display:inline-block;width:10px;height:10px;border-radius:50%;background:#E5372A;margin-right:10px}
+.kerb{height:8px;background:repeating-linear-gradient(90deg,#E5372A 0 30px,#F6F4EE 30px 60px)}
+.top{background:#0E1317;padding:20px 72px;display:flex;align-items:center;gap:16px}
+.plate{font-family:Display;font-weight:700;font-style:italic;font-size:34px;background:#E5372A;color:#fff;padding:2px 12px;transform:skewX(-12deg)}
+.mast{font-family:Display;font-weight:700;font-style:italic;font-size:40px;color:#F6F4EE;text-transform:uppercase;letter-spacing:1px;line-height:1}
+.tag{font-family:SrcSerif;font-style:italic;font-size:21px;color:#98A2A8;margin-top:4px}
+.main{padding:42px 72px 0;flex:1;display:flex;flex-direction:column}
+.kicker{font-family:Mono;font-size:20px;color:#F7B54A;text-transform:uppercase;letter-spacing:3px}
+h1{font-family:SrcSerif;font-weight:600;font-size:76px;line-height:1.02;margin:14px 0 0;color:#F6F4EE;letter-spacing:-1px}
+.dek{font-family:SrcSerif;font-style:italic;font-size:29px;line-height:1.3;color:#E4E1D8;margin-top:18px;max-width:1000px}
+.foot{margin-top:auto;padding:16px 0 22px;border-top:1px solid #252E36;display:flex;justify-content:space-between;font-family:Mono;font-size:16px;letter-spacing:1px;text-transform:uppercase;color:#98A2A8}
 """
 
 def page(kicker, title, dek):
     return f"""<html><head><style>{CSS}</style></head><body>
-<div class="chq"></div><div class="top"><span class="plate">F1</span><div><div class="mast">Moneyball</div><div class="tag">{B['tagline']}</div></div></div><div class="kerb"></div>
+<div class="status"><b></b>Research terminal</div><div class="top"><span class="plate">F1</span><div><div class="mast">Moneyball</div><div class="tag">{B['tagline']}</div></div></div><div class="kerb"></div>
 <div class="main"><div class="kicker">{kicker}</div><h1>{title}</h1><div class="dek">{dek}</div>
 <div class="foot"><span>{B['positioning']}</span><span>{B['series']}</span></div></div></body></html>"""
 

@@ -1,6 +1,6 @@
 # F1 Moneyball
 
-**The Economics Behind the Speed.**
+**The Economics Behind the Speed**
 *An Independent Formula 1 Economics & Finance Research Platform.*
 Featured research series: **The Economics of Competitive Advantage.**
 

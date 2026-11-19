@@ -1,7 +1,7 @@
 // Approved brand wording. Use these constants everywhere instead of retyping.
 export const BRAND = {
   name: "F1 Moneyball",
-  tagline: "The Economics Behind the Speed.",
+  tagline: "The Economics Behind the Speed",
   headline: "Does Money Buy Speed?",
   positioning: "An Independent Formula 1 Economics & Finance Research Platform.",
   series: "The Economics of Competitive Advantage.",
