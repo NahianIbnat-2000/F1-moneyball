@@ -1,0 +1,12 @@
+study_window: {start: 2010, end: 2025}
+# Regulatory periods used to group seasons. Boundaries follow major rule changes,
+# not our hypotheses. Each label is described on the Methodology page.
+regulatory_periods:
+  - {label: "V8 era", start: 2010, end: 2013}
+  - {label: "Hybrid era I", start: 2014, end: 2016}
+  - {label: "Hybrid era II (wider cars)", start: 2017, end: 2020}
+  - {label: "Cost cap, legacy cars", start: 2021, end: 2021}
+  - {label: "Cost cap, ground-effect cars", start: 2022, end: 2025}
+  - {label: "2026 regulations", start: 2026, end: 2026}
+# Seasons that are still running are refreshed on every pipeline run. Finished seasons are cached.
+always_refresh_current_season: true

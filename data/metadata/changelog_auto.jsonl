@@ -1,0 +1,8 @@
+{"date": "2026-11-19", "category": "new_data", "title": "Constructor seasons published", "detail": "169 rows, version 54a6b22abb60", "datasets": ["constructor_season"], "automatic": true}
+{"date": "2026-11-19", "category": "new_data", "title": "Competitive balance by season published", "detail": "16 rows, version 737f103cf04f", "datasets": ["competitive_balance"], "automatic": true}
+{"date": "2026-11-19", "category": "new_data", "title": "Cost cap models published", "detail": "40 rows, version 1d9883d8af86", "datasets": ["cost_cap_models"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Constructor seasons updated", "detail": "169 rows, version a3b1321a833f (previously 54a6b22abb60, 169 rows)", "datasets": ["constructor_season"], "automatic": true}
+{"date": "2026-11-19", "category": "new_data", "title": "Race results published", "detail": "6911 rows, version 92d9fbdcbc08", "datasets": ["race_result"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Competitive balance by season updated", "detail": "16 rows, version 9a3b416818bf (previously 737f103cf04f, 16 rows)", "datasets": ["competitive_balance"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Regulation events updated", "detail": "8 rows, version c64301825bc0 (previously bc7c9de02987, 8 rows)", "datasets": ["regulation_event"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Cost cap models updated", "detail": "40 rows, version 4052bf740724 (previously 1d9883d8af86, 40 rows)", "datasets": ["cost_cap_models"], "automatic": true}

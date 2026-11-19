@@ -1,0 +1,170 @@
+{
+  "categories": {
+    "new_data": "New data",
+    "updated_data": "Updated data",
+    "corrected_data": "Corrected data",
+    "methodology": "Methodological change",
+    "revised_analysis": "Revised analysis",
+    "publication": "New research publication",
+    "website": "Website change"
+  },
+  "entries": [
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Regulation events published",
+      "detail": "Eight financial, technical and power-unit rule changes, cost-cap levels sourced to secondary reporting and flagged until checked against FIA documents.",
+      "datasets": [
+        "regulation_event"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "methodology",
+      "title": "Financial efficiency and resource models defined",
+      "detail": "Efficiency ratio computed only within comparison groups of season, financial measure and currency with at least four teams. Points share regressed on the previous season's log resources (pooled, team fixed effects, two-way fixed effects), standard errors clustered by team. No results yet.",
+      "datasets": [
+        "efficiency",
+        "model_results"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "methodology",
+      "title": "Financial provenance fields and dataset status system",
+      "detail": "Every financial figure now records its document, transformation and comparability warning. Every dataset has one published status (published, not yet collected, under validation, insufficient coverage, unavailable at source, not comparable).",
+      "datasets": [
+        "financial_observation"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "website",
+      "title": "Editorial redesign, research article template, Data Explorer",
+      "detail": "Website changes only. No research content changed.",
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "website",
+      "title": "Faster loading, path-based URLs, citations and changelog",
+      "detail": "Website changes only. Pages and charts load on demand, each page has its own URL and preview metadata, articles can be cited, and this changelog was added.",
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "methodology",
+      "title": "Cost Cap Paradox designs defined",
+      "detail": "Interrupted time series on balance indicators (with and without a 2022 technical-reset term, Newey-West errors), placebo break years in the pre-cap period, and a dose-response comparison by pre-cap spending with an event study. No results yet; reported as descriptive or suggestive, never as the causal effect of the cap.",
+      "datasets": [
+        "cost_cap_models",
+        "cost_cap_event_study"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "methodology",
+      "title": "Grand Prix Economy designs defined",
+      "detail": "Race-month event study per host economy and synthetic control for race entry with placebo-in-space inference and a pre-fit quality rule. Monthly series are entered by hand from official sources. No data or results yet.",
+      "datasets": [
+        "gp_tourism_monthly",
+        "gp_race_events",
+        "gp_event_study",
+        "gp_scm_path",
+        "gp_scm_inference"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "website",
+      "title": "Racing theme",
+      "detail": "Website change only. Dark pit-wall design with livery colours; no research content changed.",
+      "automatic": false
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Constructor seasons published",
+      "detail": "169 rows, version 54a6b22abb60",
+      "datasets": [
+        "constructor_season"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Competitive balance by season published",
+      "detail": "16 rows, version 737f103cf04f",
+      "datasets": [
+        "competitive_balance"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Cost cap models published",
+      "detail": "40 rows, version 1d9883d8af86",
+      "datasets": [
+        "cost_cap_models"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Constructor seasons updated",
+      "detail": "169 rows, version a3b1321a833f (previously 54a6b22abb60, 169 rows)",
+      "datasets": [
+        "constructor_season"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Race results published",
+      "detail": "6911 rows, version 92d9fbdcbc08",
+      "datasets": [
+        "race_result"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Competitive balance by season updated",
+      "detail": "16 rows, version 9a3b416818bf (previously 737f103cf04f, 16 rows)",
+      "datasets": [
+        "competitive_balance"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Regulation events updated",
+      "detail": "8 rows, version c64301825bc0 (previously bc7c9de02987, 8 rows)",
+      "datasets": [
+        "regulation_event"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Cost cap models updated",
+      "detail": "40 rows, version 4052bf740724 (previously 1d9883d8af86, 40 rows)",
+      "datasets": [
+        "cost_cap_models"
+      ],
+      "automatic": true
+    }
+  ]
+}

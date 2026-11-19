@@ -1,0 +1,41 @@
+# Research changelog: hand-written entries. The pipeline adds dataset entries automatically
+# (data/metadata/changelog_auto.jsonl). Categories:
+#   new_data | corrected_data | methodology | revised_analysis | publication | website
+# Routine website changes are never described as research findings.
+- date: 2026-11-19
+  category: new_data
+  title: Regulation events published
+  detail: Eight financial, technical and power-unit rule changes, cost-cap levels sourced to secondary reporting and flagged until checked against FIA documents.
+  datasets: [regulation_event]
+- date: 2026-11-19
+  category: methodology
+  title: Financial efficiency and resource models defined
+  detail: Efficiency ratio computed only within comparison groups of season, financial measure and currency with at least four teams. Points share regressed on the previous season's log resources (pooled, team fixed effects, two-way fixed effects), standard errors clustered by team. No results yet.
+  datasets: [efficiency, model_results]
+- date: 2026-11-19
+  category: methodology
+  title: Financial provenance fields and dataset status system
+  detail: Every financial figure now records its document, transformation and comparability warning. Every dataset has one published status (published, not yet collected, under validation, insufficient coverage, unavailable at source, not comparable).
+  datasets: [financial_observation]
+- date: 2026-11-19
+  category: website
+  title: Editorial redesign, research article template, Data Explorer
+  detail: Website changes only. No research content changed.
+- date: 2026-11-19
+  category: website
+  title: Faster loading, path-based URLs, citations and changelog
+  detail: Website changes only. Pages and charts load on demand, each page has its own URL and preview metadata, articles can be cited, and this changelog was added.
+- date: 2026-11-19
+  category: methodology
+  title: Cost Cap Paradox designs defined
+  detail: Interrupted time series on balance indicators (with and without a 2022 technical-reset term, Newey-West errors), placebo break years in the pre-cap period, and a dose-response comparison by pre-cap spending with an event study. No results yet; reported as descriptive or suggestive, never as the causal effect of the cap.
+  datasets: [cost_cap_models, cost_cap_event_study]
+- date: 2026-11-19
+  category: methodology
+  title: Grand Prix Economy designs defined
+  detail: Race-month event study per host economy and synthetic control for race entry with placebo-in-space inference and a pre-fit quality rule. Monthly series are entered by hand from official sources. No data or results yet.
+  datasets: [gp_tourism_monthly, gp_race_events, gp_event_study, gp_scm_path, gp_scm_inference]
+- date: 2026-11-19
+  category: website
+  title: Racing theme
+  detail: Website change only. Dark pit-wall design with livery colours; no research content changed.

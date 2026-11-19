@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use F1 Moneyball code or data, please cite it as below. Cite individual datasets by their version shown in the Data Explorer."
+title: "F1 Moneyball: An Independent Formula 1 Economics & Finance Research Platform"
+type: software
+authors:
+  - given-names: Nahian
+    family-names: Ibnat
+version: 0.3.0
+license: MIT
+keywords: [sports economics, Formula 1, competitive balance, cost cap, panel data, research software]
+# Add `repository-code:` and `url:` once the GitHub repository is public.
+# A DOI is listed only after a release is archived (e.g. on Zenodo); none exists yet.
