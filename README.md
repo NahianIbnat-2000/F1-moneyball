@@ -119,8 +119,8 @@ Jolpica-F1 / FastF1 / manual CSV
 
 | Role | Who |
 |---|---|
-| Author and lead researcher | **Nahian Ibnat**: research questions and design, data collection, interpretation of results, and final review of everything published. |
-| Collaborator | **Claude** (AI assistant by [Anthropic](https://www.anthropic.com)): helped build the data pipeline, econometric code, website and LaTeX working paper, and helped extract and check figures from the source filings. |
+| Author and lead researcher | **Nahian Ibnat**: research questions and design, data collection, interpretation of results, documentation and final review of everything published. |
+| Collaborator | **Claude** (AI assistant by [Anthropic](https://www.anthropic.com)): helped build the data pipeline, econometric code, website and helped extract and check figures from the source filings. |
 
 
 ## Disclaimer
