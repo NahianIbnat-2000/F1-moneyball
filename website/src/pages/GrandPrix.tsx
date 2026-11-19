@@ -1,3 +1,4 @@
+import { articleBySlug } from "../lib/articles";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import type { Data } from "plotly.js";
@@ -120,8 +121,8 @@ export default function GrandPrix() {
     <>
       <PageHeader eyebrow="Extension module II" title="The Grand Prix Economy"
         lede="Does hosting a Formula 1 Grand Prix generate net additional economic benefits for the host economy?">
-        <p className="mt-4 label">Research in progress</p>
-        <Link to="/research/grand-prix-economy" className="inline-block mt-3 text-sm underline decoration-accent">Read the research design</Link>
+        <p className="mt-4 label">{articleBySlug("grand-prix-economy")?.stage}</p>
+        <Link to="/research/grand-prix-economy" className="inline-block mt-3 text-sm underline decoration-accent">Read the article and results</Link>
       </PageHeader>
 
       <Section eyebrow="Sector 1" title="From gross activity to net benefit">

@@ -127,14 +127,14 @@ export default function Home() {
             <p className="mt-4 prose-body text-fg/90">{flagship.whyItMatters[0]}</p>
             <p className="text-sm text-muted">{dataReadiness(flagship.datasets, statuses).label} · {flagship.hypotheses.length} hypotheses · {flagship.references.length} references</p>
             <div className="mt-4 flex flex-wrap gap-6 text-sm">
-              <Link to={`/research/${flagship.slug}`} className="underline decoration-accent decoration-2 underline-offset-4 text-head">Read the research design</Link>
+              <Link to={`/research/${flagship.slug}`} className="underline decoration-accent decoration-2 underline-offset-4 text-head">Read the article and results</Link>
               <Link to="/moneyball" className="underline decoration-accent decoration-2 underline-offset-4 text-head">Open the laboratory</Link>
             </div>
           </article>
           <div className="lg:border-l lg:border-line lg:pl-8 divide-y divide-line">
             {others.map((a) => (
               <article key={a.slug} className="py-4 first:pt-0">
-                <div className="label">{a.module} · Research in progress</div>
+                <div className="label">{a.module} · {a.stage}</div>
                 <h3 className="font-serif text-xl font-semibold text-head mt-1"><Link to={`/research/${a.slug}`} className="hover:underline decoration-accent underline-offset-2">{a.title}</Link></h3>
                 <p className="text-sm text-fg/80 mt-1">{a.dek}</p>
               </article>

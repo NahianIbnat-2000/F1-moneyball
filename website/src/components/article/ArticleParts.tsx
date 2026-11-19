@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import type { Article, Hypothesis, Reference, ResultBlock } from "../../lib/articles";
+import type { Article, Hypothesis, Reference, ResultBlock, ResultsBasis } from "../../lib/articles";
+import { Callout } from "../Ui";
 import { BRAND } from "../../lib/brand";
 import { useStatuses } from "../../lib/data";
 import { dataReadiness, fmtDate } from "../../lib/status";
@@ -107,8 +108,10 @@ const KIND_LABEL: Record<ResultBlock["kind"], string> = {
   interpretation: "Interpretation", causal: "Causal conclusion",
 };
 
-export function ResultsPanel({ results, datasets, interactive }: { results: ResultBlock[]; datasets: string[]; interactive?: string }) {
+export function ResultsPanel({ results, datasets, interactive, basis }: { results: ResultBlock[]; datasets: string[]; interactive?: string; basis?: ResultsBasis }) {
   const statuses = useStatuses();
+  // Datasets whose live version differs from the one the text was written from.
+  const changed = basis && statuses ? Object.entries(basis.versions).filter(([d, v]) => statuses[d] && statuses[d].version !== v).map(([d]) => d) : [];
   if (results.length === 0) {
     return (
       <div className="grid gap-4">
@@ -123,6 +126,17 @@ export function ResultsPanel({ results, datasets, interactive }: { results: Resu
   }
   return (
     <div className="grid gap-3">
+      {basis && (
+        <p className="label !normal-case !tracking-normal">
+          Figures below were computed from the published data on {fmtDate(basis.date)}
+          {" "}(dataset versions: {Object.entries(basis.versions).map(([d, v]) => `${d} ${v}`).join(", ")}).
+        </p>
+      )}
+      {changed.length > 0 && (
+        <Callout title="The data have changed since this text was written" tone="caution">
+          {changed.join(", ")} {changed.length === 1 ? "has" : "have"} a newer version than the one these results were computed from. The live charts may show different figures until the text is revised.
+        </Callout>
+      )}
       {results.map((r, i) => (
         <div key={i} className="border-t border-line pt-3">
           <div className="label text-accent-fg">{KIND_LABEL[r.kind]}</div>

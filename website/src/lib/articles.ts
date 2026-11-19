@@ -1,4 +1,5 @@
-// Research articles. Text only: no numbers that should come from the pipeline.
+// Research articles. Numbers appear only in `results`, copied from the published datasets listed in
+// `resultsBasedOn`; the article page warns if those datasets have changed since.
 // `stage` is an editorial fact (how far the writing and analysis are). Data readiness is
 // never set here; it is derived from dataset_status.json (see lib/status.ts).
 
@@ -6,6 +7,8 @@ export interface Reference { authors: string; year: number; title: string; venue
 export interface Hypothesis { id: string; statement: string; test: string }
 export interface Variable { name: string; definition: string; dataset: string }
 export interface ResultBlock { kind: "observed" | "association" | "model_estimate" | "interpretation" | "causal"; text: string }
+// The dataset versions the written results were computed from. The article warns readers if the live data differ.
+export interface ResultsBasis { date: string; versions: Record<string, string> }
 
 export interface Article {
   slug: string;
@@ -25,6 +28,7 @@ export interface Article {
   variables: Variable[];
   strategy: string[];
   results: ResultBlock[]; // empty until the pipeline produces real outputs
+  resultsBasedOn?: ResultsBasis;
   robustness: string[];
   interpretation: string[];
   limitations: string[];
@@ -42,10 +46,10 @@ export const ARTICLES: Article[] = [
     flagship: true,
     title: "Does Money Buy Speed?",
     dek: "How efficiently do Formula 1 teams convert financial resources into sporting performance?",
-    stage: "Research design",
+    stage: "Published",
     author: AUTHOR,
     draftRevised: "2026-11-19",
-    publishedOn: null,
+    publishedOn: "2026-11-19",
     question:
       "Does spending more money make a Formula 1 team faster, or does competitive success depend on how efficiently a team converts financial resources into on-track performance?",
     whyItMatters: [
@@ -79,7 +83,16 @@ export const ARTICLES: Article[] = [
       "Step 4, operations: add reliability and race-day measures to the Step 2 model and report how much the resource coefficient and fit change.",
       "Identification: none of these steps identifies a causal effect of spending. Results are reported as associations. Where a model estimate is shown, it is labelled as such.",
     ],
-    results: [],
+    results: [
+      { kind: "observed", text: "Coverage. Audited Companies House accounts exist for six team lineages with UK companies: Red Bull, Mercedes, McLaren, Williams, Enstone (Lotus, Renault, Alpine) and Silverstone (Force India, Racing Point, Aston Martin). Together they give 70 team-seasons from 2014 to 2025 with turnover, staff costs and headcount. Ferrari, Sauber, Racing Bulls and Haas do not file comparable accounts and are not covered." },
+      { kind: "association", text: "Among these six teams, a team's share of their combined turnover and its share of their combined points move together: the correlation across the 70 team-seasons is 0.75. In single seasons it ranges from 0.33 (2014) to 0.98 (2021)." },
+      { kind: "observed", text: "Average efficiency ratio (points share divided by turnover share), 2014 to 2025: Mercedes 1.48, Red Bull 1.23, Silverstone lineage 1.09, McLaren 0.69, Williams 0.47, Enstone 0.46. In 2025 McLaren had the highest ratio (1.85) and Enstone the lowest (0.10)." },
+      { kind: "model_estimate", text: "Pooled model: 10% more turnover in the previous season goes with a points share about 1.0 percentage point higher (coefficient 0.108 on log turnover, 95% CI 0.058 to 0.159). Staff costs and headcount give similar pooled results (about 1.6 points each)." },
+      { kind: "model_estimate", text: "With team fixed effects the turnover link almost disappears: 0.009 (95% CI -0.093 to 0.111, p = 0.87). With team and season fixed effects it is 0.020 (p = 0.60). Headcount behaves the same way. Most of the pooled link comes from lasting differences between teams, not from a team doing better in the years when it had more money." },
+      { kind: "model_estimate", text: "Staff costs are the exception. With team and season fixed effects the coefficient is 0.288 (95% CI 0.046 to 0.531, p = 0.02), about 2.7 percentage points of points share per 10% more staff spending. The result is fragile: with team fixed effects alone it is 0.061 (p = 0.41), and the standard errors rest on only six team clusters." },
+      { kind: "association", text: "Pit stop operations: teams with higher turnover had faster pit stops relative to the fastest team in the same race (Spearman rank correlation -0.48 across the same 70 team-seasons). Each team appears up to 12 times, so this is a description, not a test." },
+    ],
+    resultsBasedOn: { date: "2026-11-19", versions: { financial_observation: "22bb6565b17e", efficiency: "dc3323619a40", model_results: "a4ef1b5f7497", constructor_season: "e94cc086e8e9" } },
     robustness: [
       "Alternative financial measures (operating costs, staff costs, turnover), each in its own model.",
       "Team lineage treated as continuous through rebrands versus each rebrand as a new team.",
@@ -87,8 +100,14 @@ export const ARTICLES: Article[] = [
       "Points share versus championship position as the outcome.",
       "Restricting to teams with audited figures only.",
     ],
-    interpretation: [],
+    interpretation: [
+      "H1 holds as a description: among the teams covered, richer teams score more points. H2 does not: within a team, more money in one season does not reliably come before more points in the next. This fits a picture in which money and success build up together over many years, since winning teams earn more prize money and attract more sponsors, rather than one in which extra spending quickly buys points.",
+      "The staff-cost result is the one sign of a within-team link, but it disappears in the simpler fixed-effects model and needs more teams or seasons before it can carry weight.",
+      "H3 (a weaker link under the cost cap) and H4 (reliability and race-day execution) have not been tested in a model yet. The Cost Cap Paradox study looks at the cap from the side of competitive balance.",
+      "None of these results is a causal effect of spending.",
+    ],
     limitations: [
+      "Only six teams are covered, so every estimate uses six clusters and confidence intervals may be too narrow.",
       "The financial panel is small and unbalanced: statutory accounts exist mainly for UK-registered entities, and Ferrari does not file comparable accounts.",
       "Accounts belong to legal entities, not teams. An entity may include engine work or other business, or leave out costs held elsewhere in a group.",
       "Accounting periods, currencies and accounting standards differ across teams and years.",
@@ -98,7 +117,7 @@ export const ARTICLES: Article[] = [
     reproducibility: [
       "Sporting data: python -m f1moneyball.pipeline all (Jolpica-F1 API, rate-limited and cached).",
       "Financial data: data/manual/financial_observations.csv, validated by python -m f1moneyball.pipeline validate.",
-      "Models: src/f1moneyball/econometrics (added with the results).",
+      "Models: src/f1moneyball/econometrics/models.py and efficiency.py; outputs in the model_results and efficiency datasets.",
     ],
     references: [
       { authors: "Rottenberg, S.", year: 1956, title: "The baseball players' labor market", venue: "Journal of Political Economy, 64(3), 242–258" },
@@ -115,10 +134,10 @@ export const ARTICLES: Article[] = [
     module: "The Cost Cap Paradox",
     title: "The Cost Cap Paradox",
     dek: "Did the introduction of the Formula 1 cost cap change competitive balance?",
-    stage: "Research in progress",
+    stage: "Published",
     author: AUTHOR,
     draftRevised: "2026-11-19",
-    publishedOn: null,
+    publishedOn: "2026-11-19",
     question: "Did the introduction of the Formula 1 cost cap change competitive balance?",
     whyItMatters: [
       "The cost cap was introduced in 2021 partly to make the championship more competitive and partly to keep teams financially stable. Whether it changed competitive balance is a direct test of a spending rule in a real league.",
@@ -145,10 +164,23 @@ export const ARTICLES: Article[] = [
       "Placebo break years inside the pre-cap period: how often does a fake break produce a change as large as 2021?",
       "Dose-response comparison: points share on exposure × post with team and season effects, where exposure is the standardised log of pre-cap (2018–2020) resources; event study by season with 2020 as reference to check pre-trends. Reported as suggestive.",
     ],
-    results: [],
+    results: [
+      { kind: "observed", text: "Average balance before (2010 to 2020) and under the cap (2021 to 2025): normalized HHI of points 0.127 and 0.115; Gini 0.574 and 0.532; top-three share 0.723 and 0.706; leader's points share 0.321 and 0.303. Every measure points slightly towards a closer field, and every change is small." },
+      { kind: "observed", text: "Team order moved a little more under the cap: the rank correlation with the previous season averaged 0.842 before and 0.787 after, and the average change in a team's position rose from 1.16 to 1.52 places." },
+      { kind: "model_estimate", text: "Interrupted time series for normalized HHI: level change at 2021 of -0.008 (95% CI -0.027 to 0.011, p = 0.39). In 4 of the 6 placebo break years (2013 to 2018) the model finds a change at least as large, so 2021 does not stand out." },
+      { kind: "model_estimate", text: "The leader's points share drops by 0.056 at 2021 (p = 0.008), but placebo breaks in 2017 and 2018 give drops of similar size (0.061 and 0.058). Gini and top-three share show no clear change (p = 0.15 and 0.74)." },
+      { kind: "model_estimate", text: "Rank persistence: the time-series model gives a level increase of 0.088 at 2021 (p = 0.02), the opposite sign to the simple averages above. The model result depends on the pre-cap trend and should not be read on its own." },
+      { kind: "model_estimate", text: "Dose-response: teams with one standard deviation more pre-cap turnover (2018 to 2020 average) changed their points share by 0.009 after 2021 relative to others (95% CI -0.072 to 0.089, p = 0.83). In the event study, only 2019 differs from the 2020 reference before the cap (0.023, 95% CI 0.001 to 0.046)." },
+    ],
+    resultsBasedOn: { date: "2026-11-19", versions: { competitive_balance: "737f103cf04f", cost_cap_models: "6b1276a8dddc", cost_cap_event_study: "5d51f60d7441" } },
     robustness: ["Alternative indicators", "Excluding 2020 and 2021 (COVID-19 calendars)", "Placebo years"],
-    interpretation: [],
+    interpretation: [
+      "In its first five seasons there is no evidence that the cost cap changed competitive balance. The changes after 2021 point towards a slightly closer field, but they are about the size of normal swings from year to year, as the placebo years show.",
+      "H1 (lower concentration) is not supported beyond a small descriptive drop. H2 (more movement in team order) gets mixed evidence: the averages say yes, the time-series model says no. H3 (big spenders lose ground) is not supported: the dose-response estimate is close to zero.",
+      "This does not show that the cap had no effect. With five capped seasons, no uncapped teams to compare against and the 2022 technical reset at the same time, only a large effect could have been detected.",
+    ],
     limitations: [
+      "The dose-response comparison uses turnover for the six teams with UK accounts only.",
       "The 2021 cost cap and the 2022 technical regulations overlap in time. A simple before-and-after comparison cannot isolate the effect of the cap.",
       "All teams were subject to the cap, so there is no untreated control group.",
       "Only five capped seasons with comparable rules (2021 to 2025), so tests have low power.",
@@ -169,10 +201,10 @@ export const ARTICLES: Article[] = [
     module: "The Grand Prix Economy",
     title: "Who Gains When Formula 1 Comes to Town?",
     dek: "Does hosting a Formula 1 Grand Prix generate net additional economic benefits for the host economy?",
-    stage: "Research design",
+    stage: "Published",
     author: AUTHOR,
     draftRevised: "2026-11-19",
-    publishedOn: null,
+    publishedOn: "2026-11-19",
     question: "Does hosting a Formula 1 Grand Prix generate net additional economic benefits for the host economy?",
     whyItMatters: [
       "Governments often pay hosting fees and public costs to bring a Grand Prix to their city, and justify this with headline economic impact figures. Those figures usually count gross spending, not the extra activity the race actually causes.",
@@ -187,23 +219,38 @@ export const ARTICLES: Article[] = [
     ],
     datasets: ["gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference"],
     variables: [
-      { name: "monthly arrivals", definition: "International visitor arrivals per month from official statistics.", dataset: "gp_tourism_monthly" },
-      { name: "hotel occupancy", definition: "Share of available hotel rooms occupied per month.", dataset: "gp_tourism_monthly" },
+      { name: "arrivals", definition: "Guest arrivals at accommodation establishments per month and federal state, all accommodation types (Statistik Austria).", dataset: "gp_tourism_monthly" },
+      { name: "overnight stays", definition: "Nights spent at accommodation establishments per month and federal state, all accommodation types (Statistik Austria).", dataset: "gp_tourism_monthly" },
     ],
     strategy: [
       "Separate gross activity, direct spending, indirect effects, displacement, leakage and net additional benefit.",
       "Event study for each host separately: log monthly series on month-of-year effects, a trend and dummies for two months before to two months after each race month, HAC standard errors.",
       "Synthetic control for the race's entry to the calendar: non-negative donor weights summing to one, fitted on pre-entry months; inference by placebo-in-space (rank of the post/pre RMSPE ratio). If pre-entry fit is poor (RMSPE above 0.10 log points), the gap is not read as an effect.",
     ],
-    results: [],
+    results: [
+      { kind: "observed", text: "First host studied: Styria, home of the Austrian Grand Prix at the Red Bull Ring since F1 returned in June 2014. Data: monthly arrivals and overnight stays for all nine Austrian federal states, 2008 to 2025, from Statistik Austria. The analysis stops in December 2019 because COVID-19 closures from March 2020 moved tourism far more than any race, so six race years (2014 to 2019) are used." },
+      { kind: "model_estimate", text: "Event study: in race months, arrivals in Styria were 13.3% higher than in the same calendar month of other years after a linear trend (95% CI 8.7% to 18.0%). Overnight stays were 10.0% higher (95% CI 5.7% to 14.5%)." },
+      { kind: "model_estimate", text: "The two months after the race were also higher (arrivals +7.6% and +6.5%), while the two months before were not (-0.9% and +2.0%, both within their confidence intervals of zero)." },
+      { kind: "model_estimate", text: "Synthetic control: a weighted mix of Lower Austria (0.32), Salzburg (0.29), Upper Austria (0.20), Vorarlberg (0.10), Tyrol (0.04) and Vienna (0.04) tracked Styria's arrivals closely before June 2014 (pre-entry RMSPE 0.069 log points, under the 0.10 rule). After 2014, Styria was on average only 0.6% above its synthetic version. Its post/pre RMSPE ratio (0.91) is smaller than that of 7 of the 8 placebo states (p = 0.89). For overnight stays the gap is +2.1% (p = 0.44)." },
+    ],
+    resultsBasedOn: { date: "2026-11-19", versions: { gp_tourism_monthly: "b5d0083b403f", gp_event_study: "49bc9cde2312", gp_scm_inference: "6a9e34197817" } },
     robustness: ["Different comparison pools", "Excluding COVID-19 years", "Placebo race months"],
-    interpretation: [],
+    interpretation: [
+      "Race months in Styria are busier than usual, but the region as a whole did not gain visitors relative to a comparable mix of Austrian states after the race returned. H1 holds only in this narrow, month-level sense.",
+      "H2 (displacement) is not supported in the expected form: the months before the race show no drop. The months after the race are also higher, which looks more like a general rise in Styria's summer tourism than an effect of one race weekend. MotoGP has raced at the same circuit every August since 2016, which adds to the summer months.",
+      "These figures count visitors, not spending, hosting fees or public costs, so they cannot say whether hosting is a good deal for the region.",
+    ],
     limitations: [
+      "Only one host region so far (Styria). Singapore is planned but supports only the event study, since there are no clean comparison countries.",
+      "Several placebo states fit poorly before 2014 (Burgenland, Carinthia, Tyrol, Vienna, Vorarlberg). The RMSPE ratio used for the p-value adjusts for this in part.",
       "A rise in visitor numbers during a race weekend does not show that the race caused it.",
       "Hosting fees and subsidies are often not disclosed and will be shown only where officially published.",
       "Each host economy is a separate setting; results do not transfer between them.",
     ],
-    reproducibility: ["Planned: src/f1moneyball/ingestion for official tourism series"],
+    reproducibility: [
+      "Austria inputs: python -m f1moneyball.ingestion.statistik_austria (reads the Statistik Austria open data files in data/source_documents/statistik_austria).",
+      "Models: src/f1moneyball/econometrics/gp_economy.py, run by python -m f1moneyball.pipeline publish.",
+    ],
     references: [
       { authors: "Baade, R. A., & Matheson, V. A.", year: 2004, title: "The quest for the cup: Assessing the economic impact of the World Cup", venue: "Regional Studies, 38(4), 343–354" },
       { authors: "Coates, D., & Humphreys, B. R.", year: 2008, title: "Do economists reach a conclusion on subsidies for sports franchises, stadiums, and mega-events?", venue: "Econ Journal Watch, 5(3), 294–315" },

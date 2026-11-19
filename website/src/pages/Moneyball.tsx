@@ -390,7 +390,7 @@ export default function Moneyball() {
     <>
       <PageHeader eyebrow="Flagship study · The laboratory" title="F1 Moneyball"
         lede="How efficiently do Formula 1 teams convert financial resources into sporting performance?">
-        <p className="mt-4 text-sm text-muted max-w-3xl">The research design, hypotheses and references are in the article. This page holds the evidence as it is produced. <Link to="/research/does-money-buy-speed" className="underline decoration-accent underline-offset-2 text-head">Read the research design</Link></p>
+        <p className="mt-4 text-sm text-muted max-w-3xl">The research design, hypotheses, written results and references are in the article. This page holds the live evidence. <Link to="/research/does-money-buy-speed" className="underline decoration-accent underline-offset-2 text-head">Read the article and results</Link></p>
       </PageHeader>
 
       <Section eyebrow="A" title="Financial resources and sporting performance">

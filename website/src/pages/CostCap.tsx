@@ -1,3 +1,4 @@
+import { articleBySlug } from "../lib/articles";
 import DatasetStatusPanel from "../components/DatasetStatusPanel";
 import { useMemo, useState } from "react";
 import type { Data, Shape, Annotation } from "plotly.js";
@@ -178,8 +179,8 @@ export default function CostCap() {
     <>
       <PageHeader eyebrow="Extension module I" title="The Cost Cap Paradox"
         lede="Did the introduction of the Formula 1 cost cap change competitive balance?">
-        <p className="mt-4 label">Research in progress</p>
-        <Link to="/research/cost-cap-paradox" className="inline-block mt-3 text-sm underline decoration-accent">Read the research design</Link>
+        <p className="mt-4 label">{articleBySlug("cost-cap-paradox")?.stage}</p>
+        <Link to="/research/cost-cap-paradox" className="inline-block mt-3 text-sm underline decoration-accent">Read the article and results</Link>
       </PageHeader>
 
       <Section eyebrow="Sector 1" title="The treatment: what changed and when">

@@ -18,7 +18,7 @@ export default function Research() {
               <div>
                 <div className="flex flex-wrap gap-3 items-center">
                   <span className="eyebrow">{a.flagship ? `Flagship · ${a.module}` : a.module}</span>
-                  <span className="text-sm text-muted">{a.flagship ? a.stage : "Research in progress"}</span>
+                  <span className="text-sm text-muted">{a.stage}</span>
                 </div>
                 <h2 className="font-serif text-2xl md:text-3xl font-semibold text-head mt-3"><Link to={`/research/${a.slug}`} className="hover:text-accent-fg">{a.title}</Link></h2>
                 <p className="mt-2 text-muted leading-relaxed max-w-2xl">{a.question}</p>

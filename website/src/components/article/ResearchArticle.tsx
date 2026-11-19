@@ -38,7 +38,7 @@ export default function ResearchArticle({ a }: { a: Article }) {
             </dl>
           ))}
           {S("strategy", <MethodologyPanel steps={a.strategy} />)}
-          {S("results", <ResultsPanel results={a.results} datasets={a.datasets} interactive={a.interactive?.to} />)}
+          {S("results", <ResultsPanel results={a.results} datasets={a.datasets} interactive={a.interactive?.to} basis={a.resultsBasedOn} />)}
           {S("robustness", <><p>Planned checks. Each will be reported next to the main result it tests.</p><ul>{a.robustness.map((r) => <li key={r}>{r}</li>)}</ul></>)}
           {S("interpretation", a.interpretation.length ? <P items={a.interpretation} /> : <p>No interpretation is offered before results exist.</p>)}
           {S("limitations", <LimitationsPanel items={a.limitations} />)}
