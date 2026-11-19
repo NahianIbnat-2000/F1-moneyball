@@ -74,6 +74,56 @@ def download_season(
     return written
 
 
+PIT_STOPS_FROM = 2011  # the source has pit stop data from 2011 onwards
+
+
+def race_rounds(season: int, root: Path | None = None) -> list[int]:
+    """Rounds of a season, read from the already-downloaded race results (no extra request)."""
+    return sorted({int(r["round"]) for r in _races(load_pages(season, "results", root))})
+
+
+def _round_on_disk(folder: Path, rnd: int, limit: int) -> bool:
+    """True only if every page of the round was saved (a run can stop between pages)."""
+    pages = sorted(folder.glob(f"pit_stops_r{rnd:02d}_*.json"))
+    if not pages:
+        return False
+    total = int(json.loads(pages[0].read_text(encoding="utf-8"))["MRData"]["total"])
+    return len(pages) >= max(1, -(-total // limit))
+
+
+def download_pit_stops(season: int, client: RateLimitedClient, root: Path | None = None,
+                       force: bool = False) -> list[Path]:
+    """Pit stops are only served per race, so this makes one request per round (more if a race has
+    over 100 stops). Needs the season's results downloaded first. Finished seasons are cached."""
+    if season < PIT_STOPS_FROM:
+        return []
+    cfg = config.sources()["jolpica"]
+    base, limit = cfg["base_url"], cfg["page_size"]
+    folder = raw_dir(season, root)
+    current = season >= date.today().year
+    if not force and not current and _is_complete(folder, "pit_stops"):
+        log.info("Cached: %s pit_stops", season)
+        return []
+    written: list[Path] = []
+    for rnd in race_rounds(season, root):
+        # A round already on disk is kept, so an interrupted run resumes where it stopped.
+        if not force and not current and _round_on_disk(folder, rnd, limit):
+            continue
+        offset, total = 0, None
+        while total is None or offset < total:
+            payload = client.get_json(f"{base}/{season}/{rnd}/pitstops.json", params={"limit": limit, "offset": offset})
+            total = int(payload["MRData"]["total"])
+            path = folder / f"pit_stops_r{rnd:02d}_{offset:05d}.json"
+            path.write_text(json.dumps(payload), encoding="utf-8")
+            written.append(path)
+            offset += limit
+            if total == 0:
+                break
+    if not current:
+        (folder / "pit_stops.complete").write_text(str(len(race_rounds(season, root))), encoding="utf-8")
+    return written
+
+
 def load_pages(season: int, kind: str, root: Path | None = None) -> list[dict]:
     folder = raw_dir(season, root)
     return [json.loads(p.read_text(encoding="utf-8")) for p in sorted(folder.glob(f"{kind}_*.json"))]
@@ -176,6 +226,22 @@ def parse_driver_standings(pages: list[dict]) -> pd.DataFrame:
                     "wins": int(s.get("wins", 0)),
                 })
     return pd.DataFrame(rows)
+
+
+def parse_pit_stops(pages: list[dict]) -> pd.DataFrame:
+    """One row per stop. Durations are total pit-lane time as published (entry to exit), in seconds."""
+    rows = []
+    for race in _races(pages):
+        for ps in race.get("PitStops", []):
+            ms = _lap_ms(ps.get("duration"))
+            rows.append({
+                "season": int(race["season"]), "round": int(race["round"]),
+                "race_name": race["raceName"], "circuit_id": race["Circuit"]["circuitId"],
+                "driver_id": ps["driverId"], "stop": _int(ps.get("stop")), "lap": _int(ps.get("lap")),
+                "duration_s": ms / 1000 if ms is not None else None,
+            })
+    return pd.DataFrame(rows, columns=["season", "round", "race_name", "circuit_id", "driver_id", "stop", "lap",
+                                       "duration_s"])
 
 
 PARSERS = {

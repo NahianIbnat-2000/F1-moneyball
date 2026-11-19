@@ -21,7 +21,14 @@ from f1moneyball.econometrics.gp_economy import event_study as gp_event_study
 from f1moneyball.econometrics.gp_economy import synthetic_control
 from f1moneyball.econometrics.models import run_models
 from f1moneyball.feature_engineering.competitive_balance import balance_table
-from f1moneyball.feature_engineering.sporting import constructor_season, enrich_results, gap_to_pole
+from f1moneyball.feature_engineering.sporting import (
+    LONG_STOP_S,
+    constructor_season,
+    enrich_results,
+    gap_to_pole,
+    pit_season,
+    pit_stop_table,
+)
 from f1moneyball.ingestion import jolpica
 from f1moneyball.ingestion.snapshot import constructor_season_from_snapshot
 from f1moneyball.publishing.changelog import build_changelog
@@ -49,6 +56,7 @@ def cmd_ingest(args) -> None:
     for season in _window(args):
         log.info("Season %s", season)
         jolpica.download_season(season, client, force=args.force)
+        jolpica.download_pit_stops(season, client, force=args.force)
 
 
 def cmd_build(args) -> None:
@@ -70,6 +78,12 @@ def cmd_build(args) -> None:
     if "qualifying" in tables:
         gap_to_pole(tables["qualifying"]).to_parquet(config.PROCESSED_DIR / "qualifying.parquet", index=False)
     cs = constructor_season(tables["constructor_standings"], tables["results"], tables.get("qualifying"))
+    stops = [jolpica.parse_pit_stops(p) for s in _window(args) if (p := jolpica.load_pages(s, "pit_stops"))]
+    if stops:
+        pits = pit_stop_table(pd.concat(stops, ignore_index=True), tables["results"])
+        pits.to_parquet(config.PROCESSED_DIR / "pit_stop.parquet", index=False)
+        cs = cs.merge(pit_season(pits), on=["season", "team_id"], how="left")
+        log.info("Pit stops: %d (%d flagged as longer than %.0f s)", len(pits), int(pits["is_long_stop"].sum()), LONG_STOP_S)
     cs.to_parquet(config.PROCESSED_DIR / "constructor_season.parquet", index=False)
     balance = balance_table(cs)
     balance.to_parquet(config.PROCESSED_DIR / "competitive_balance.parquet", index=False)
@@ -146,7 +160,7 @@ def cmd_build_snapshot(args) -> None:
 
 def _load_processed() -> dict[str, pd.DataFrame]:
     out = {}
-    for name in ("constructor_season", "competitive_balance", "race_result", "efficiency", "model_results",
+    for name in ("constructor_season", "competitive_balance", "race_result", "pit_stop", "efficiency", "model_results",
                  "cost_cap_models", "cost_cap_event_study", "gp_event_study", "gp_scm_path", "gp_scm_inference"):
         p = config.PROCESSED_DIR / f"{name}.parquet"
         if p.exists():
@@ -174,6 +188,8 @@ def run_validation(t: dict[str, pd.DataFrame]) -> list[checks.Issue]:
         issues += checks.season_points_positive(cs)
         if "race_result" in t:
             issues += checks.points_reconcile(cs, t["race_result"])
+    if "pit_stop" in t:
+        issues += checks.pit_stops(t["pit_stop"])
     if "efficiency" in t:
         issues += checks.unique_key(t["efficiency"], ["team_id", "season", "metric", "entity_name"], "efficiency")
     issues += checks.regulation_events(t["regulation_event"])
@@ -214,7 +230,7 @@ def cmd_publish(args) -> None:
     build_gp()
     t = _load_processed()
     entries, published = [], {}
-    for name in ("constructor_season", "race_result", "competitive_balance", "regulation_event",
+    for name in ("constructor_season", "race_result", "pit_stop", "competitive_balance", "regulation_event",
                  "financial_observation", "efficiency", "model_results", "cost_cap_models", "cost_cap_event_study",
                  "gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference"):
         if name in t and len(t[name]):

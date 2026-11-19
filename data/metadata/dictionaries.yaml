@@ -89,6 +89,21 @@ constructor_season:
     regulatory_period:
       type: str
       description: Regulatory period label (config/seasons.yaml)
+    median_pit_gap_s:
+      type: float
+      unit: seconds
+      description: Median over the season's races of the team's pit stop gap to the fastest team in that race
+      transformation: 'Per race: team median service stop - fastest team median (same race, same pit lane); then
+        median over races. Stops over 60 s excluded'
+      missing_treatment: Blank before 2011 or if the team had no comparable race
+    pit_races:
+      type: int
+      description: Races in which the team's pit stop gap could be computed
+      missing_treatment: Blank before 2011
+    service_pit_stops:
+      type: int
+      description: Pit stops of 60 seconds or less in the season
+      missing_treatment: Blank before 2011
     data_source:
       type: str
       description: 'Where the row came from: the automated Jolpica-F1 pull, or the standings snapshot (standings
@@ -300,6 +315,69 @@ financial_observation:
     costs held in another company.
   - Accounting periods and currencies differ. Values are never converted or combined in this table.
   - Coverage is limited to entities that file comparable accounts, mainly in the UK.
+pit_stop:
+  title: Pit stops
+  description: One row per pit stop from the Jolpica-F1 pit stop endpoint (2011 onwards), with the team and each
+    team's gap to the fastest team in the same race.
+  key:
+  - season
+  - round
+  - driver_id
+  - stop
+  sources:
+  - jolpica
+  limitations:
+  - Duration is total pit-lane time (entry to exit), not the stationary tyre change. It depends on the length of each
+    pit lane, so seconds are compared only within a race.
+  - Stops over 60 seconds (red-flag waits, repairs) are kept but flagged and left out of team comparisons.
+  - The source does not label penalty or repair stops. Only the 60-second rule separates them, so short penalty
+    stops stay in.
+  columns:
+    season:
+      type: int
+      description: Championship season
+    round:
+      type: int
+      description: Round number within the season
+    race_name:
+      type: str
+      description: Grand Prix name
+    circuit_id:
+      type: str
+      description: Circuit ID
+    driver_id:
+      type: str
+      description: Driver ID
+    constructor_id:
+      type: str
+      description: Constructor ID, from the race results
+    team_id:
+      type: str
+      description: Stable team lineage ID
+      transformation: Joined from race results on season, round and driver
+    stop:
+      type: int
+      description: Stop number for the driver in that race
+    lap:
+      type: int
+      description: Lap of the stop
+    duration_s:
+      type: float
+      unit: seconds
+      description: Total pit-lane time as published
+    is_long_stop:
+      type: bool
+      description: True if over 60 seconds or missing (red-flag wait, repair); excluded from team comparisons
+    team_median_s:
+      type: float
+      unit: seconds
+      description: Team's median service stop in this race
+      missing_treatment: Blank for long stops or if fewer than 3 teams had service stops in the race
+    gap_to_best_team_s:
+      type: float
+      unit: seconds
+      description: team_median_s minus the fastest team's median in the same race
+      missing_treatment: Blank when team_median_s is blank
 race_result:
   title: Race results
   description: One row per car per Grand Prix from the Jolpica-F1 race results endpoint, with retirement causes

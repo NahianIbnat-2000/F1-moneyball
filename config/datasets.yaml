@@ -59,8 +59,8 @@ pit_stop:
   source_ids: [jolpica, openf1]
   status_if_absent: not_yet_collected
   would_contain: One row per pit stop (2011 onwards) with lap, duration and team, for the operational efficiency analysis.
-  why_unavailable: Ingestion for this endpoint is planned for Phase 2b and not yet written.
-  needed_for_publication: Ingestion code, validation of durations, and a decision on how to treat red-flag and drive-through stops.
+  why_unavailable: The pit stop download is written but has not run yet. It runs in the Data pipeline workflow (one request per race, 2011 onwards).
+  needed_for_publication: One successful Data pipeline run. Stops over 60 seconds are flagged as red-flag or repair stops and left out of team comparisons.
 
 gp_tourism_monthly:
   name: Host-economy tourism series

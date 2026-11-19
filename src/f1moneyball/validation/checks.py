@@ -97,6 +97,19 @@ def season_points_positive(cs: pd.DataFrame, ds: str = "constructor_season") -> 
                   len(bad)) if len(bad) else []
 
 
+def pit_stops(df: pd.DataFrame) -> list[Issue]:
+    ds = "pit_stop"
+    out = unique_key(df, ["season", "round", "driver_id", "stop"], ds)
+    out += no_missing(df, ["season", "round", "driver_id", "stop"], ds)
+    bad = df["duration_s"].notna() & (df["duration_s"] <= 0)
+    if bad.any():
+        out += _issue(ds, "duration_positive", "error", "Pit stop durations must be positive", int(bad.sum()))
+    no_team = df["team_id"].isna()
+    if no_team.any():
+        out += _issue(ds, "team_match", "warning", "Stops whose driver is not in that race's results", int(no_team.sum()))
+    return out
+
+
 # ----------------------------------------------------------------------------- financial
 SOURCE_CLASSES = {"audited", "official_disclosure", "secondary_estimate", "derived_estimate", "missing"}
 METRICS = {"revenue", "operating_costs", "operating_profit", "staff_costs", "estimated_budget",
