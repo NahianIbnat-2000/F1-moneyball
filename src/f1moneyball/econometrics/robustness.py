@@ -167,9 +167,17 @@ def grand_prix_checks(tourism: pd.DataFrame, events: pd.DataFrame, inference: pd
     if tourism.empty or events.empty:
         return rows
     for host, ev in events.groupby("region_id"):
-        for series in sorted(tourism["series"].unique()):
+        hrows = tourism[tourism["region_id"] == host]
+        if hrows.empty:
+            continue
+        # Only regions in the host's own country are comparable.
+        same = tourism[(tourism["country"] == hrows["country"].iat[0]) & (tourism["region_id"] != host)] \
+            if "country" in tourism else tourism[tourism["region_id"] != host]
+        if same.empty:
+            continue
+        for series in sorted(hrows["series"].unique()):
             # (1) Same race months, other states: is the race-month rise specific to the host?
-            for state, sg in tourism[tourism["region_id"] != host].groupby("region_id"):
+            for state, sg in same[same["series"] == series].groupby("region_id"):
                 t = sg.assign(is_host=True)
                 e = gp.event_study(t, ev.assign(region_id=state), series)
                 k0 = e[(e["k"] == 0) & e["estimated"]]
@@ -182,7 +190,7 @@ def grand_prix_checks(tourism: pd.DataFrame, events: pd.DataFrame, inference: pd
             # (2) Host minus the rest of the country: race-month rise relative to the other states.
             d = tourism[tourism["series"] == series].copy()
             d["value"] = pd.to_numeric(d["value"], errors="coerce")
-            others = d[d["region_id"] != host].groupby("month")["value"].sum()
+            others = d[d["region_id"].isin(same["region_id"].unique())].groupby("month")["value"].sum()
             h = d[d["region_id"] == host].set_index("month")["value"]
             rel = (h / others.reindex(h.index)).rename("value").reset_index()  # the model takes logs: log(host) - log(rest)
             rel = rel.assign(region_id=host, region_name=d[d["region_id"] == host]["region_name"].iat[0],

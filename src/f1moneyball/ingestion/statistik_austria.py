@@ -90,10 +90,18 @@ def build_races() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def replace_rows(name: str, new: pd.DataFrame, prefix: str) -> None:
+    """Replace this source's rows (region_id starting with `prefix`) and keep other hosts' rows."""
+    path = config.MANUAL_DIR / name
+    old = pd.read_csv(path) if path.exists() and path.stat().st_size else pd.DataFrame(columns=new.columns)
+    keep = old[~old["region_id"].astype(str).str.startswith(prefix)] if len(old) else old
+    pd.concat([keep, new], ignore_index=True).to_csv(path, index=False)
+
+
 def main() -> None:
     t, e = build_tourism(), build_races()
-    t.to_csv(config.MANUAL_DIR / "gp_tourism_monthly.csv", index=False)
-    e.to_csv(config.MANUAL_DIR / "gp_race_events.csv", index=False)
+    replace_rows("gp_tourism_monthly.csv", t, "at_")
+    replace_rows("gp_race_events.csv", e, "at_")
     print(f"gp_tourism_monthly.csv: {len(t)} rows ({t['region_id'].nunique()} states, {t['month'].min()} to {t['month'].max()})")
     print(f"gp_race_events.csv: {len(e)} race years ({e['year'].min()}-{e['year'].max()})")
 

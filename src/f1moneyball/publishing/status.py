@@ -29,7 +29,9 @@ def registry() -> dict:
 
 def content_version(df: pd.DataFrame) -> str:
     """Short, stable hash of the published content."""
-    h = hashlib.sha256(df.to_csv(index=False).encode("utf-8")).hexdigest()
+    # Floats are written to 10 significant digits before hashing, so rounding noise between runs
+    # (last-digit differences from linear algebra libraries) does not count as a new version.
+    h = hashlib.sha256(df.to_csv(index=False, float_format="%.10g").encode("utf-8")).hexdigest()
     return h[:12]
 
 

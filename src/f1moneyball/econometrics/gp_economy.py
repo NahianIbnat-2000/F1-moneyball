@@ -97,8 +97,11 @@ def _fit_unit(panel: pd.DataFrame, unit: str, donors: list[str], pre: np.ndarray
 def synthetic_control(df: pd.DataFrame, events: pd.DataFrame, series: str = "arrivals") -> tuple[pd.DataFrame, pd.DataFrame]:
     d = _monthly(df, series)
     paths, inference = [], []
-    donors_all = sorted(d[~d["is_host"]]["region_id"].unique())
     for host in sorted(d[d["is_host"]]["region_id"].unique()):
+        # Comparison regions come from the host's own country (same statistics office and definitions).
+        country = d.loc[d["region_id"] == host, "country"].iat[0] if "country" in d else None
+        pool = d[~d["is_host"] & ((d["country"] == country) if country is not None else True)]
+        donors_all = sorted(pool["region_id"].unique())
         ev = events[events["region_id"] == host]
         entry = pd.Period(min(ev["race_start_date"]), freq="M") if len(ev) else None
         wide = d[d["region_id"].isin([host, *donors_all])].pivot_table(index="month", columns="region_id", values="y").dropna()
