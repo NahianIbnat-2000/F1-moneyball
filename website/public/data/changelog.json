@@ -305,6 +305,96 @@
         "cost_cap_event_study"
       ],
       "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Regulation events updated",
+      "detail": "8 rows, version 9aaebb92a4ac (previously bc7c9de02987, 8 rows)",
+      "datasets": [
+        "regulation_event"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Host-economy tourism series published",
+      "detail": "3888 rows, version b5d0083b403f",
+      "datasets": [
+        "gp_tourism_monthly"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Grand Prix race dates published",
+      "detail": "12 rows, version acf44bdf40cb",
+      "datasets": [
+        "gp_race_events"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Race-month event study published",
+      "detail": "10 rows, version 49bc9cde2312",
+      "datasets": [
+        "gp_event_study"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Synthetic control paths published",
+      "detail": "288 rows, version ca739e8c1c34",
+      "datasets": [
+        "gp_scm_path"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Synthetic control inference published",
+      "detail": "18 rows, version 6a9e34197817",
+      "datasets": [
+        "gp_scm_inference"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Resources and performance models updated",
+      "detail": "9 rows, version a4ef1b5f7497 (previously 405df87a363e, 9 rows)",
+      "datasets": [
+        "model_results"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Cost cap models updated",
+      "detail": "40 rows, version 6b1276a8dddc (previously 88ec5d8bfd90, 40 rows)",
+      "datasets": [
+        "cost_cap_models"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Cost cap event study updated",
+      "detail": "12 rows, version 5d51f60d7441 (previously 0224ee031cee, 12 rows)",
+      "datasets": [
+        "cost_cap_event_study"
+      ],
+      "automatic": true
     }
   ]
 }

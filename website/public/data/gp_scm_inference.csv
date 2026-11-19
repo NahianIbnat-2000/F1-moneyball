@@ -1,0 +1,19 @@
+region_id,series,unit,is_host,estimated,entry_month,rmspe_pre,rmspe_post,rmspe_ratio,mean_post_gap_pct,p_value,weights,poor_pre_fit,note
+at_styria,arrivals,at_styria,True,True,2014-06,0.06939466619533323,0.06309190848717519,0.9091751851587998,0.6387276999560072,0.8888888888888888,at_lower_austria: 0.32; at_salzburg: 0.29; at_tyrol: 0.04; at_upper_austria: 0.20; at_vienna: 0.04; at_vorarlberg: 0.10,False,Host. 
+at_styria,arrivals,at_burgenland,False,True,2014-06,0.9942991281975982,0.979028554896511,0.9846418719799456,-60.98624770896704,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,arrivals,at_carinthia,False,True,2014-06,0.3350270514385894,0.34791935220684955,1.0384813725127606,-5.081756030031678,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,arrivals,at_lower_austria,False,True,2014-06,0.08088170070895873,0.09269728852704867,1.1460848092278209,-5.499878835704593,,,False,Placebo (no race). 
+at_styria,arrivals,at_salzburg,False,True,2014-06,0.06987413473508036,0.06338853302773287,0.9071816526682313,2.4188168016084464,,,False,Placebo (no race). 
+at_styria,arrivals,at_tyrol,False,True,2014-06,0.4640066782431098,0.44010672220975566,0.9484922154055031,54.60141273178929,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,arrivals,at_upper_austria,False,True,2014-06,0.03599637709750696,0.034329277658180356,0.9536870214796682,1.223416453696453,,,False,Placebo (no race). 
+at_styria,arrivals,at_vienna,False,True,2014-06,0.3335977794896921,0.38708474630357176,1.1603337015483113,30.732460766935393,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,arrivals,at_vorarlberg,False,True,2014-06,0.3770596441308443,0.34726312292214323,0.9209766367934052,-14.579941201237185,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,overnight_stays,at_styria,True,True,2014-06,0.07082275808614859,0.07114812911463692,1.004594159240347,2.0762402411137924,0.4444444444444444,at_lower_austria: 0.38; at_salzburg: 0.41; at_upper_austria: 0.17; at_vorarlberg: 0.03,False,Host. 
+at_styria,overnight_stays,at_burgenland,False,True,2014-06,0.9278330009791314,0.9267949371687623,0.9988811954206483,-59.638539761167486,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,overnight_stays,at_carinthia,False,True,2014-06,0.42552874363311105,0.4139339679418137,0.9727520740613135,-2.080679748032904,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,overnight_stays,at_lower_austria,False,True,2014-06,0.08202895646327318,0.12198924700209902,1.4871485907140274,-9.555032156572555,,,False,Placebo (no race). 
+at_styria,overnight_stays,at_salzburg,False,True,2014-06,0.08225874402365659,0.08148415549769887,0.9905835113926009,3.743370343320249,,,False,Placebo (no race). 
+at_styria,overnight_stays,at_tyrol,False,True,2014-06,0.5756245551988107,0.541218203991193,0.9402277910195572,70.73329872168286,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,overnight_stays,at_upper_austria,False,True,2014-06,0.05227703056981647,0.058797947374627374,1.1247377047573917,2.246034223451016,,,False,Placebo (no race). 
+at_styria,overnight_stays,at_vienna,False,True,2014-06,0.29344227196795597,0.41235521763021804,1.4052345453324715,38.900203306295,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
+at_styria,overnight_stays,at_vorarlberg,False,True,2014-06,0.44582513799050866,0.40618395972290966,0.9110835731554399,-17.615609701780237,,,True,Placebo (no race). Pre-entry fit is poor: do not read the gap as an effect.
