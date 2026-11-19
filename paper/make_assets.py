@@ -154,7 +154,7 @@ for met, ml in (("turnover", "Turnover"), ("staff_costs", "Staff costs")):
 (OUT / "table3_robustness.tex").write_text("\n".join(lines) + "\n")
 
 # ---------------------------------------------------------------------------- figures
-plt.rcParams.update({"font.family": "serif", "font.serif": ["Times New Roman", "Nimbus Roman", "DejaVu Serif"],
+plt.rcParams.update({"font.family": "STIXGeneral", "mathtext.fontset": "stix",  # Times-style, ships with matplotlib
                      "font.size": 9, "axes.spines.top": False, "axes.spines.right": False,
                      "axes.edgecolor": "#444444", "axes.labelcolor": "#222222", "xtick.color": "#444444",
                      "ytick.color": "#444444", "pdf.fonttype": 42})
