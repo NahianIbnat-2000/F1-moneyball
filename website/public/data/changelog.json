@@ -395,6 +395,26 @@
         "cost_cap_event_study"
       ],
       "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "updated_data",
+      "title": "Constructor seasons updated",
+      "detail": "169 rows, version e94cc086e8e9 (previously 3ee7229e8c88, 169 rows)",
+      "datasets": [
+        "constructor_season"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-19",
+      "category": "new_data",
+      "title": "Pit stops published",
+      "detail": "12192 rows, version cff66c782dc8",
+      "datasets": [
+        "pit_stop"
+      ],
+      "automatic": true
     }
   ]
 }

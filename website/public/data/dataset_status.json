@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T13:21:50+00:00",
+  "generated_at_utc": "2026-11-19T13:49:33+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -27,7 +27,7 @@
       "coverage_start": 2010,
       "coverage_end": 2025,
       "observation_count": 169,
-      "variable_count": 21,
+      "variable_count": 24,
       "missingness": {
         "season": {
           "missing": 0,
@@ -112,10 +112,22 @@
         "regulatory_period": {
           "missing": 0,
           "share": 0.0
+        },
+        "median_pit_gap_s": {
+          "missing": 12,
+          "share": 0.071
+        },
+        "pit_races": {
+          "missing": 12,
+          "share": 0.071
+        },
+        "service_pit_stops": {
+          "missing": 12,
+          "share": 0.071
         }
       },
-      "version": "3ee7229e8c88",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "e94cc086e8e9",
+      "last_updated": "2026-11-19T13:49:33+00:00",
       "validation_status": "passed_with_warnings",
       "validation_warnings": [
         "Standings points differ from summed race points in seasons [2020, 2021, 2022, 2023, 2024, 2025] (expected where sprint races or penalties apply)"
@@ -510,20 +522,73 @@
       ],
       "explanation": {
         "would_contain": "One row per pit stop (2011 onwards) with lap, duration and team, for the operational efficiency analysis.",
-        "why_unavailable": "Ingestion for this endpoint is planned for Phase 2b and not yet written.",
-        "needed_for_publication": "Ingestion code, validation of durations, and a decision on how to treat red-flag and drive-through stops."
+        "why_unavailable": "The pit stop download is written but has not run yet. It runs in the Data pipeline workflow (one request per race, 2011 onwards).",
+        "needed_for_publication": "One successful Data pipeline run. Stops over 60 seconds are flagged as red-flag or repair stops and left out of team comparisons."
       },
-      "coverage_start": null,
-      "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "coverage_start": 2011,
+      "coverage_end": 2025,
+      "observation_count": 12192,
+      "variable_count": 13,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "round": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "circuit_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "driver_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "stop": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "lap": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "duration_s": {
+          "missing": 14,
+          "share": 0.0011
+        },
+        "constructor_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_long_stop": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_median_s": {
+          "missing": 22,
+          "share": 0.0018
+        },
+        "gap_to_best_team_s": {
+          "missing": 22,
+          "share": 0.0018
+        }
+      },
+      "version": "cff66c782dc8",
+      "last_updated": "2026-11-19T13:49:33+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "gp_tourism_monthly",

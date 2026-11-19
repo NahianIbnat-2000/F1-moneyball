@@ -29,3 +29,5 @@
 {"date": "2026-11-19", "category": "updated_data", "title": "Resources and performance models updated", "detail": "9 rows, version a4ef1b5f7497 (previously 405df87a363e, 9 rows)", "datasets": ["model_results"], "automatic": true}
 {"date": "2026-11-19", "category": "updated_data", "title": "Cost cap models updated", "detail": "40 rows, version 6b1276a8dddc (previously 88ec5d8bfd90, 40 rows)", "datasets": ["cost_cap_models"], "automatic": true}
 {"date": "2026-11-19", "category": "updated_data", "title": "Cost cap event study updated", "detail": "12 rows, version 5d51f60d7441 (previously 0224ee031cee, 12 rows)", "datasets": ["cost_cap_event_study"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Constructor seasons updated", "detail": "169 rows, version e94cc086e8e9 (previously 3ee7229e8c88, 169 rows)", "datasets": ["constructor_season"], "automatic": true}
+{"date": "2026-11-19", "category": "new_data", "title": "Pit stops published", "detail": "12192 rows, version cff66c782dc8", "datasets": ["pit_stop"], "automatic": true}
