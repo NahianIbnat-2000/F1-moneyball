@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T17:12:14+00:00",
+  "generated_at_utc": "2026-11-19T17:35:27+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -849,8 +849,8 @@
           "share": 0.0
         }
       },
-      "version": "2015cdb5e881",
-      "last_updated": "2026-11-19T17:12:14+00:00",
+      "version": "91ff1e2d910c",
+      "last_updated": "2026-11-19T17:35:27+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -932,8 +932,8 @@
           "share": 0.0
         }
       },
-      "version": "7240d4cdbbf4",
-      "last_updated": "2026-11-19T17:12:14+00:00",
+      "version": "cfcb19cb05ee",
+      "last_updated": "2026-11-19T17:35:27+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1312,8 +1312,8 @@
           "share": 0.975
         }
       },
-      "version": "ce14dea3c390",
-      "last_updated": "2026-11-19T17:12:14+00:00",
+      "version": "1038e9bafc8e",
+      "last_updated": "2026-11-19T17:35:27+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1339,7 +1339,7 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 90,
+      "observation_count": 89,
       "variable_count": 19,
       "missingness": {
         "study": {
@@ -1363,64 +1363,64 @@
           "share": 0.0
         },
         "coef": {
-          "missing": 1,
-          "share": 0.0111
+          "missing": 0,
+          "share": 0.0
         },
         "se": {
-          "missing": 3,
-          "share": 0.0333
+          "missing": 2,
+          "share": 0.0225
         },
         "ci_low": {
-          "missing": 3,
-          "share": 0.0333
+          "missing": 2,
+          "share": 0.0225
         },
         "ci_high": {
-          "missing": 3,
-          "share": 0.0333
+          "missing": 2,
+          "share": 0.0225
         },
         "p_value": {
           "missing": 18,
-          "share": 0.2
+          "share": 0.2022
         },
         "p_wild": {
-          "missing": 77,
-          "share": 0.8556
+          "missing": 76,
+          "share": 0.8539
         },
         "pct_effect": {
-          "missing": 72,
-          "share": 0.8
+          "missing": 71,
+          "share": 0.7978
         },
         "r2": {
-          "missing": 26,
-          "share": 0.2889
+          "missing": 25,
+          "share": 0.2809
         },
         "n_obs": {
           "missing": 0,
           "share": 0.0
         },
         "n_teams": {
-          "missing": 26,
-          "share": 0.2889
+          "missing": 25,
+          "share": 0.2809
         },
         "baseline_coef": {
-          "missing": 37,
-          "share": 0.4111
+          "missing": 36,
+          "share": 0.4045
         },
         "dropped": {
-          "missing": 66,
-          "share": 0.7333
+          "missing": 65,
+          "share": 0.7303
         },
         "region": {
           "missing": 69,
-          "share": 0.7667
+          "share": 0.7753
         },
         "note": {
           "missing": 76,
-          "share": 0.8444
+          "share": 0.8539
         }
       },
-      "version": "e179eb76c6ba",
-      "last_updated": "2026-11-19T17:12:14+00:00",
+      "version": "5217c7b79250",
+      "last_updated": "2026-11-19T17:35:27+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

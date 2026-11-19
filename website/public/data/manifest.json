@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T17:12:14+00:00",
-  "pipeline_commit": "471ae41",
+  "generated_at_utc": "2026-11-19T17:35:28+00:00",
+  "pipeline_commit": "7a76d2e",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -1576,7 +1576,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "b8910c04f01c",
+      "version": "4792f4c3c90d",
       "sources": [
         {
           "id": "jolpica",
@@ -2082,7 +2082,7 @@
         "Valid only if the pre-entry fit is good (see gp_scm_inference).",
         "Other events after entry also enter the gap."
       ],
-      "version": "2015cdb5e881",
+      "version": "91ff1e2d910c",
       "sources": [
         {
           "id": "national_statistics",
@@ -2211,7 +2211,7 @@
         "With few comparison regions the smallest possible p-value is 1/(regions+1).",
         "Poor pre-entry fit invalidates the estimate."
       ],
-      "version": "7240d4cdbbf4",
+      "version": "cfcb19cb05ee",
       "sources": [
         {
           "id": "national_statistics",
@@ -2235,7 +2235,7 @@
         "metric",
         "model"
       ],
-      "rows": 90,
+      "rows": 89,
       "n_variables": 19,
       "columns": {
         "study": {
@@ -2376,7 +2376,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "The six-team models stay imprecise even with bootstrap p-values."
       ],
-      "version": "e179eb76c6ba",
+      "version": "5217c7b79250",
       "sources": [
         {
           "id": "jolpica",
