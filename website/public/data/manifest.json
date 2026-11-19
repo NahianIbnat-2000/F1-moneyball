@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T15:57:24+00:00",
-  "pipeline_commit": "32d55a3",
+  "generated_at_utc": "2026-11-19T16:16:04+00:00",
+  "pipeline_commit": "4cde0a4",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -1370,7 +1370,7 @@
         "With few teams, clustered standard errors are unreliable.",
         "Fixed-effects estimates rely on small within-team changes and are imprecise."
       ],
-      "version": "e43ab8bc1f19",
+      "version": "ce30cb29f372",
       "sources": [
         {
           "id": "companies_house",
@@ -1576,7 +1576,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "b5fd5cca317a",
+      "version": "6429a108a3e6",
       "sources": [
         {
           "id": "jolpica",
@@ -1673,7 +1673,7 @@
         "Few teams: clustered standard errors are unreliable.",
         "Pre-cap coefficients near zero support, but do not prove, parallel trends."
       ],
-      "version": "5d51f60d7441",
+      "version": "0224ee031cee",
       "sources": [
         {
           "id": "jolpica",
@@ -2003,7 +2003,7 @@
         "No comparison region: descriptive, not causal.",
         "A race month may coincide with other events or holidays."
       ],
-      "version": "49bc9cde2312",
+      "version": "fe3790ce0119",
       "sources": [
         {
           "id": "national_statistics",
@@ -2082,7 +2082,7 @@
         "Valid only if the pre-entry fit is good (see gp_scm_inference).",
         "Other events after entry also enter the gap."
       ],
-      "version": "ca739e8c1c34",
+      "version": "6092286fd83b",
       "sources": [
         {
           "id": "national_statistics",
@@ -2211,7 +2211,7 @@
         "With few comparison regions the smallest possible p-value is 1/(regions+1).",
         "Poor pre-entry fit invalidates the estimate."
       ],
-      "version": "6a9e34197817",
+      "version": "64f09f442d79",
       "sources": [
         {
           "id": "national_statistics",
@@ -2222,6 +2222,181 @@
       "files": {
         "json": "data/gp_scm_inference.json",
         "csv": "data/gp_scm_inference.csv"
+      }
+    },
+    "robustness_checks": {
+      "name": "robustness_checks",
+      "title": "Robustness checks",
+      "description": "Sensitivity checks for the three studies. Each row is one estimate next to the main result it tests.",
+      "key": [
+        "study",
+        "check_id",
+        "check",
+        "metric",
+        "model"
+      ],
+      "rows": 83,
+      "n_variables": 19,
+      "columns": {
+        "study": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Article slug the check belongs to"
+        },
+        "check_id": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Short check identifier"
+        },
+        "check": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "What the check changes"
+        },
+        "metric": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Resource measure, balance indicator or tourism series"
+        },
+        "model": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Model or specification"
+        },
+        "coef": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Coefficient of interest (for the synthetic control row: mean post-entry gap, percent)"
+        },
+        "se": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Standard error (clustered by team, Newey-West or HAC as in the main model)"
+        },
+        "ci_low": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI lower bound"
+        },
+        "ci_high": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI upper bound"
+        },
+        "p_value": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Conventional p-value"
+        },
+        "p_wild": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Wild cluster restricted bootstrap p-value, Webb weights, 9,999 draws (six-team models only)"
+        },
+        "pct_effect": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Coefficient as a percent change (event studies)"
+        },
+        "r2": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "R-squared"
+        },
+        "n_obs": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Observations (team-seasons, seasons, months or units)"
+        },
+        "n_teams": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Teams (clusters)"
+        },
+        "baseline_coef": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "The main estimate the check is compared with"
+        },
+        "dropped": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Team left out (leave-one-team-out rows)"
+        },
+        "region": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Region (Grand Prix rows)"
+        },
+        "note": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Notes"
+        }
+      },
+      "limitations": [
+        "Associations and descriptive comparisons, not causal effects.",
+        "The six-team models stay imprecise even with bootstrap p-values."
+      ],
+      "version": "8e3b44a25d9d",
+      "sources": [
+        {
+          "id": "jolpica",
+          "name": "Jolpica-F1 API (Ergast-compatible)",
+          "url": "https://github.com/jolpica/jolpica-f1"
+        },
+        {
+          "id": "companies_house",
+          "name": "UK Companies House",
+          "url": "https://find-and-update.company-information.service.gov.uk/"
+        },
+        {
+          "id": "national_statistics",
+          "name": "National statistics offices and official tourism authorities",
+          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+        }
+      ],
+      "files": {
+        "json": "data/robustness_checks.json",
+        "csv": "data/robustness_checks.csv"
       }
     }
   },

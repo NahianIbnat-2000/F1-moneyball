@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T15:57:24+00:00",
+  "generated_at_utc": "2026-11-19T16:16:04+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -794,8 +794,8 @@
           "share": 0.0
         }
       },
-      "version": "49bc9cde2312",
-      "last_updated": "2026-11-19T13:21:50+00:00",
+      "version": "fe3790ce0119",
+      "last_updated": "2026-11-19T16:16:04+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -849,8 +849,8 @@
           "share": 0.0
         }
       },
-      "version": "ca739e8c1c34",
-      "last_updated": "2026-11-19T13:21:50+00:00",
+      "version": "6092286fd83b",
+      "last_updated": "2026-11-19T16:16:04+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -932,8 +932,8 @@
           "share": 0.0
         }
       },
-      "version": "6a9e34197817",
-      "last_updated": "2026-11-19T13:21:50+00:00",
+      "version": "64f09f442d79",
+      "last_updated": "2026-11-19T16:16:04+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1188,8 +1188,8 @@
           "share": 0.0
         }
       },
-      "version": "a4ef1b5f7497",
-      "last_updated": "2026-11-19T13:21:50+00:00",
+      "version": "405df87a363e",
+      "last_updated": "2026-11-19T16:16:04+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1312,8 +1312,115 @@
           "share": 0.975
         }
       },
-      "version": "6b1276a8dddc",
-      "last_updated": "2026-11-19T13:21:50+00:00",
+      "version": "88ec5d8bfd90",
+      "last_updated": "2026-11-19T16:16:04+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "robustness_checks",
+      "dataset_name": "Robustness checks",
+      "modules": [
+        "moneyball",
+        "cost_cap",
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "jolpica",
+        "companies_house",
+        "national_statistics"
+      ],
+      "explanation": {
+        "would_contain": "Sensitivity checks for all three studies, one estimate per row, with wild cluster bootstrap p-values for the six-team models.",
+        "why_unavailable": "Needs the model outputs of the three studies.",
+        "needed_for_publication": "Financial figures, sporting data and Grand Prix inputs from the pipeline."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 83,
+      "variable_count": 19,
+      "missingness": {
+        "study": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "check_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "check": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "model": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 2,
+          "share": 0.0241
+        },
+        "ci_low": {
+          "missing": 2,
+          "share": 0.0241
+        },
+        "ci_high": {
+          "missing": 2,
+          "share": 0.0241
+        },
+        "p_value": {
+          "missing": 18,
+          "share": 0.2169
+        },
+        "p_wild": {
+          "missing": 70,
+          "share": 0.8434
+        },
+        "pct_effect": {
+          "missing": 65,
+          "share": 0.7831
+        },
+        "r2": {
+          "missing": 25,
+          "share": 0.3012
+        },
+        "n_obs": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 25,
+          "share": 0.3012
+        },
+        "baseline_coef": {
+          "missing": 36,
+          "share": 0.4337
+        },
+        "dropped": {
+          "missing": 65,
+          "share": 0.7831
+        },
+        "region": {
+          "missing": 63,
+          "share": 0.759
+        },
+        "note": {
+          "missing": 70,
+          "share": 0.8434
+        }
+      },
+      "version": "8e3b44a25d9d",
+      "last_updated": "2026-11-19T16:16:04+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1376,8 +1483,8 @@
           "share": 0.0
         }
       },
-      "version": "5d51f60d7441",
-      "last_updated": "2026-11-19T13:21:50+00:00",
+      "version": "0224ee031cee",
+      "last_updated": "2026-11-19T16:16:04+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
