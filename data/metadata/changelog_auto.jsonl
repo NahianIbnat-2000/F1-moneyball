@@ -32,3 +32,10 @@
 {"date": "2026-11-19", "category": "updated_data", "title": "Constructor seasons updated", "detail": "169 rows, version e94cc086e8e9 (previously 3ee7229e8c88, 169 rows)", "datasets": ["constructor_season"], "automatic": true}
 {"date": "2026-11-19", "category": "new_data", "title": "Pit stops published", "detail": "12192 rows, version cff66c782dc8", "datasets": ["pit_stop"], "automatic": true}
 {"date": "2026-11-19", "category": "updated_data", "title": "Regulation events updated", "detail": "8 rows, version 0c4c9c1f22b9 (previously 9aaebb92a4ac, 8 rows)", "datasets": ["regulation_event"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Race-month event study updated", "detail": "10 rows, version fe3790ce0119 (previously 49bc9cde2312, 10 rows)", "datasets": ["gp_event_study"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Synthetic control paths updated", "detail": "288 rows, version 6092286fd83b (previously ca739e8c1c34, 288 rows)", "datasets": ["gp_scm_path"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Synthetic control inference updated", "detail": "18 rows, version 64f09f442d79 (previously 6a9e34197817, 18 rows)", "datasets": ["gp_scm_inference"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Resources and performance models updated", "detail": "9 rows, version 405df87a363e (previously a4ef1b5f7497, 9 rows)", "datasets": ["model_results"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Cost cap models updated", "detail": "40 rows, version 88ec5d8bfd90 (previously 6b1276a8dddc, 40 rows)", "datasets": ["cost_cap_models"], "automatic": true}
+{"date": "2026-11-19", "category": "new_data", "title": "Robustness checks published", "detail": "83 rows, version 8e3b44a25d9d", "datasets": ["robustness_checks"], "automatic": true}
+{"date": "2026-11-19", "category": "updated_data", "title": "Cost cap event study updated", "detail": "12 rows, version 0224ee031cee (previously 5d51f60d7441, 12 rows)", "datasets": ["cost_cap_event_study"], "automatic": true}
