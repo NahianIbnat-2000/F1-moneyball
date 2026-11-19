@@ -11,6 +11,7 @@ const Methodology = lazy(() => import("./pages/Methodology"));
 const About = lazy(() => import("./pages/About"));
 const ArticlePage = lazy(() => import("./pages/Article"));
 const Changelog = lazy(() => import("./pages/Changelog"));
+const Faq = lazy(() => import("./pages/Faq"));
 import { PageHeader } from "./components/Ui";
 import { useManifest } from "./lib/data";
 
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="grand-prix-economy" element={<GrandPrix />} />
           <Route path="data" element={<DataExplorer />} />
           <Route path="methodology" element={<Methodology />} />
+          <Route path="faq" element={<Faq />} />
           <Route path="about" element={<About />} />
           <Route path="changelog" element={<Changelog />} />
           <Route path="*" element={<PageHeader eyebrow="404" title="Page not found"><Link className="underline mt-4 inline-block" to="/">Back to home</Link></PageHeader>} />

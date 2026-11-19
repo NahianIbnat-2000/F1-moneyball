@@ -15,6 +15,7 @@ export const PAGES: PageMeta[] = [
   { path: "/data", title: site("Data Explorer"), description: "Every F1 Moneyball dataset with its status, data dictionary, missing values, sources and CSV downloads.", type: "website", image: "og/default.png" },
   { path: "/methodology", title: site("Methodology"), description: "Sources, cleaning, definitions, financial-data classifications, limitations and how to reproduce F1 Moneyball.", type: "website", image: "og/default.png" },
   { path: "/changelog", title: site("Changelog"), description: "New data, corrected data, methodological changes, revised analysis, publications and website changes.", type: "website", image: "og/default.png" },
+  { path: "/faq", title: site("FAQ"), description: "Plain answers to common questions about F1 Moneyball, and what the main terms mean: turnover, points share, fixed effects, the wild bootstrap, the cost cap and more.", type: "website", image: "og/default.png" },
   { path: "/about", title: site("About"), description: BRAND.disclaimer, type: "website", image: "og/default.png" },
   ...ARTICLES.map((a): PageMeta => ({ path: `/research/${a.slug}`, title: site(a.title), description: a.dek, type: "article", image: `og/${a.slug}.png` })),
 ];

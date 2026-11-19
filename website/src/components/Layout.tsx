@@ -8,7 +8,7 @@ import { fmtDate } from "../lib/status";
 // Navigation as terminal function keys. "F1" opens the home page.
 const NAV = [
   ["/", "Home"], ["/research", "Research"], ["/moneyball", "F1 Moneyball"],
-  ["/data", "Data Explorer"], ["/methodology", "Methodology"], ["/about", "About"],
+  ["/data", "Data Explorer"], ["/methodology", "Methodology"], ["/faq", "FAQ"], ["/about", "About"],
 ] as const;
 
 /** Five start lights. Used as the loading indicator. */
@@ -144,6 +144,7 @@ export default function Layout() {
             <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs uppercase tracking-wider">
               <Link className="hover:text-accent-fg" to="/changelog">Changelog</Link>
               <Link className="hover:text-accent-fg" to="/methodology">Methodology</Link>
+              <Link className="hover:text-accent-fg" to="/faq">FAQ</Link>
               <Link className="hover:text-accent-fg" to="/data">Data and downloads</Link>
             </p>
           </div>
