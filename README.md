@@ -8,6 +8,35 @@ Featured research series: **The Economics of Competitive Advantage.**
 
 F1 Moneyball studies how financial resources, regulation, operational efficiency and commercial strategy shape competitive performance in Formula 1. It combines a reproducible Python data pipeline, econometrics, machine learning and an editorial research website.
 
+## Links
+
+| | |
+|---|---|
+| **Project overview** | https://nahianibnat-2000.github.io/F1-moneyball/hub/ |
+| **Website** | https://nahianibnat-2000.github.io/F1-moneyball/ |
+| **Working paper (PDF)** | [Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025](https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf) · LaTeX source in [`paper/`](paper/) |
+| **Research articles** | [Does Money Buy Speed?](https://nahianibnat-2000.github.io/F1-moneyball/research/does-money-buy-speed) · [The Cost Cap Paradox](https://nahianibnat-2000.github.io/F1-moneyball/research/cost-cap-paradox) · [The Grand Prix Economy](https://nahianibnat-2000.github.io/F1-moneyball/research/grand-prix-economy) |
+| **Interactive dashboards** | [F1 Moneyball](https://nahianibnat-2000.github.io/F1-moneyball/moneyball) · [Cost Cap](https://nahianibnat-2000.github.io/F1-moneyball/cost-cap) · [Grand Prix Economy](https://nahianibnat-2000.github.io/F1-moneyball/grand-prix-economy) |
+| **Data and downloads** | [Data Explorer](https://nahianibnat-2000.github.io/F1-moneyball/data): every dataset with sources and CSV downloads |
+| **Methods** | [Methodology](https://nahianibnat-2000.github.io/F1-moneyball/methodology) · [FAQ and definitions](https://nahianibnat-2000.github.io/F1-moneyball/faq) |
+| **Changes** | [Changelog](https://nahianibnat-2000.github.io/F1-moneyball/changelog) |
+| **Report an error** | [Open an issue](https://github.com/NahianIbnat-2000/F1-moneyball/issues) |
+| **Author** | Nahian Ibnat · [LinkedIn](https://www.linkedin.com/in/nahian-ibnat) |
+
+### Data sources
+
+| Data | Source |
+|---|---|
+| Team finances (audited accounts) | [Companies House](https://find-and-update.company-information.service.gov.uk/) filing histories, one link per figure in [`data/manual/financial_observations.csv`](data/manual/financial_observations.csv) |
+| Race results and standings | [Jolpica-F1 API](https://api.jolpi.ca/ergast/f1/) |
+| Cost cap and technical rules | FIA regulations, links in [`data/manual/regulation_events.csv`](data/manual/regulation_events.csv) |
+| Tourism, Austria | [Statistik Austria, overnight stays and arrivals by state](https://data.statistik.gv.at/web/meta.jsp?dataset=OGD_touextsai_Tour_UA_1) (open data, CC BY 4.0) |
+| Tourism, Singapore | [Singapore Tourism Board via data.gov.sg](https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view) (Singapore Open Data Licence) |
+
+### How to cite
+
+> Ibnat, N. (2026). *Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025* [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/
+
 ## Status (milestone log)
 
 | Milestone | Status |
@@ -79,6 +108,15 @@ Jolpica-F1 / FastF1 / manual CSV
 - Financial figures are stored one figure per row with source class (audited / official disclosure / secondary estimate / derived / missing), currency, accounting period, URL and page. Rows without provenance fail validation.
 - Every row in the financial CSV must pass validation, so unsourced figures fail the tests.
 - Validation errors stop the pipeline before anything is written to the website.
+
+## People
+
+| Role | Who |
+|---|---|
+| Author and lead researcher | **Nahian Ibnat**: research questions and design, data collection, interpretation of results, and final review of everything published. |
+| Collaborator | **Claude** (AI assistant by [Anthropic](https://www.anthropic.com)): helped build the data pipeline, econometric code, website and LaTeX working paper, and helped extract and check figures from the source filings. |
+
+Nahian Ibnat is responsible for all content, including any errors.
 
 ## Disclaimer
 
