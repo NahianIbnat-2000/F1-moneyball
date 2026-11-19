@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T12:03:08+00:00",
-  "pipeline_commit": "8a62101",
+  "generated_at_utc": "2026-11-19T13:21:50+00:00",
+  "pipeline_commit": "aa060dc",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -595,7 +595,7 @@
         "Cost-cap values are sourced to secondary reporting until checked against the FIA regulations (see verified_against_primary).",
         "Base cap levels only. Adjustments for extra races and inflation are not included."
       ],
-      "version": "bc7c9de02987",
+      "version": "9aaebb92a4ac",
       "sources": [
         {
           "id": "fia_regulations",
@@ -1218,7 +1218,7 @@
         "With few teams, clustered standard errors are unreliable.",
         "Fixed-effects estimates rely on small within-team changes and are imprecise."
       ],
-      "version": "ce30cb29f372",
+      "version": "e43ab8bc1f19",
       "sources": [
         {
           "id": "companies_house",
@@ -1424,7 +1424,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "6429a108a3e6",
+      "version": "b5fd5cca317a",
       "sources": [
         {
           "id": "jolpica",
@@ -1521,7 +1521,7 @@
         "Few teams: clustered standard errors are unreliable.",
         "Pre-cap coefficients near zero support, but do not prove, parallel trends."
       ],
-      "version": "0224ee031cee",
+      "version": "5d51f60d7441",
       "sources": [
         {
           "id": "jolpica",
@@ -1542,6 +1542,535 @@
         "season_min": 2014,
         "season_max": 2025
       }
+    },
+    "gp_tourism_monthly": {
+      "name": "gp_tourism_monthly",
+      "title": "Host-economy tourism series",
+      "description": "Official monthly tourism series for host economies and comparison regions, entered by hand with table references.",
+      "key": [
+        "region_id",
+        "month",
+        "series"
+      ],
+      "rows": 3888,
+      "n_variables": 13,
+      "columns": {
+        "region_id": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Region identifier"
+        },
+        "region_name": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Region name"
+        },
+        "country": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Country"
+        },
+        "is_host": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "True if the region hosts a Grand Prix"
+        },
+        "month": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Month (YYYY-MM)"
+        },
+        "series": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "arrivals | overnight_stays | hotel_occupancy"
+        },
+        "value": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Value as published"
+        },
+        "unit": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Unit as published"
+        },
+        "source_name": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Official source"
+        },
+        "source_url": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Source URL"
+        },
+        "table_id": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Table or series ID at the source"
+        },
+        "retrieval_date": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "Date downloaded"
+        },
+        "notes": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Definitions, breaks in series, why the region was chosen"
+        }
+      },
+      "limitations": [
+        "Definitions differ across countries (arrivals vs overnight stays). Compare within a series only.",
+        "Monthly data cannot isolate a single race weekend.",
+        "Comparison regions must be chosen before looking at results; the choice is recorded in notes."
+      ],
+      "version": "b5d0083b403f",
+      "sources": [
+        {
+          "id": "national_statistics",
+          "name": "National statistics offices and official tourism authorities",
+          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+        }
+      ],
+      "files": {
+        "json": "data/gp_tourism_monthly.json",
+        "csv": "data/gp_tourism_monthly.csv"
+      }
+    },
+    "gp_race_events": {
+      "name": "gp_race_events",
+      "title": "Grand Prix race dates",
+      "description": "Hosted races used to mark race months.",
+      "key": [
+        "region_id",
+        "year"
+      ],
+      "rows": 12,
+      "n_variables": 7,
+      "columns": {
+        "region_id": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Region identifier (matches gp_tourism_monthly)"
+        },
+        "race_name": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Race name"
+        },
+        "year": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Year"
+        },
+        "race_start_date": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "First day of the race weekend"
+        },
+        "race_end_date": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "date",
+          "description": "Race day"
+        },
+        "source_url": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Source"
+        },
+        "notes": {
+          "source": "Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Notes"
+        }
+      },
+      "limitations": [
+        "Race month is the month of the race start date."
+      ],
+      "version": "acf44bdf40cb",
+      "sources": [
+        {
+          "id": "jolpica",
+          "name": "Jolpica-F1 API (Ergast-compatible)",
+          "url": "https://github.com/jolpica/jolpica-f1"
+        }
+      ],
+      "files": {
+        "json": "data/gp_race_events.json",
+        "csv": "data/gp_race_events.csv"
+      }
+    },
+    "gp_event_study": {
+      "name": "gp_event_study",
+      "title": "Race-month event study",
+      "description": "Change in the monthly host series around race months, against the seasonal pattern and trend.",
+      "key": [
+        "region_id",
+        "series",
+        "k"
+      ],
+      "rows": 10,
+      "n_variables": 13,
+      "columns": {
+        "region_id": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Host region"
+        },
+        "region_name": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Host name"
+        },
+        "series": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Series"
+        },
+        "k": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Months relative to the race month (0 = race month)"
+        },
+        "estimated": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "False when the sample is too small"
+        },
+        "coef": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Coefficient (log points)"
+        },
+        "se": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "HAC standard error"
+        },
+        "ci_low": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI lower"
+        },
+        "ci_high": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI upper"
+        },
+        "pct_effect": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Approximate % difference: exp(coef) - 1",
+          "unit": "%"
+        },
+        "n_months": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Months used"
+        },
+        "n_races": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Races in the sample"
+        },
+        "note": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Caveats"
+        }
+      },
+      "limitations": [
+        "No comparison region: descriptive, not causal.",
+        "A race month may coincide with other events or holidays."
+      ],
+      "version": "49bc9cde2312",
+      "sources": [
+        {
+          "id": "national_statistics",
+          "name": "National statistics offices and official tourism authorities",
+          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+        }
+      ],
+      "files": {
+        "json": "data/gp_event_study.json",
+        "csv": "data/gp_event_study.csv"
+      }
+    },
+    "gp_scm_path": {
+      "name": "gp_scm_path",
+      "title": "Synthetic control paths",
+      "description": "Observed and synthetic log monthly series for each host around its first race in the data.",
+      "key": [
+        "region_id",
+        "series",
+        "month"
+      ],
+      "rows": 288,
+      "n_variables": 7,
+      "columns": {
+        "region_id": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Host region"
+        },
+        "series": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Series"
+        },
+        "month": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Month"
+        },
+        "observed": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Observed log value"
+        },
+        "synthetic": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Synthetic log value"
+        },
+        "gap": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Observed minus synthetic (log points)"
+        },
+        "period": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "pre-entry | post-entry"
+        }
+      },
+      "limitations": [
+        "Valid only if the pre-entry fit is good (see gp_scm_inference).",
+        "Other events after entry also enter the gap."
+      ],
+      "version": "ca739e8c1c34",
+      "sources": [
+        {
+          "id": "national_statistics",
+          "name": "National statistics offices and official tourism authorities",
+          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+        }
+      ],
+      "files": {
+        "json": "data/gp_scm_path.json",
+        "csv": "data/gp_scm_path.csv"
+      }
+    },
+    "gp_scm_inference": {
+      "name": "gp_scm_inference",
+      "title": "Synthetic control inference",
+      "description": "Fit and placebo-in-space inference for each host synthetic control.",
+      "key": [
+        "region_id",
+        "series",
+        "unit"
+      ],
+      "rows": 18,
+      "n_variables": 14,
+      "columns": {
+        "region_id": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Host region"
+        },
+        "series": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Series"
+        },
+        "unit": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Host or placebo region"
+        },
+        "is_host": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "True for the real host"
+        },
+        "estimated": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "False when not estimated"
+        },
+        "entry_month": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Month of first race in the data"
+        },
+        "rmspe_pre": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Root mean squared gap before entry (log points)"
+        },
+        "rmspe_post": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Root mean squared gap after entry"
+        },
+        "rmspe_ratio": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Post / pre RMSPE"
+        },
+        "mean_post_gap_pct": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Mean post-entry gap, approximately in %",
+          "unit": "%"
+        },
+        "p_value": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Placebo p-value: rank of the host's ratio among all units"
+        },
+        "weights": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Comparison-region weights (host only)"
+        },
+        "poor_pre_fit": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "bool",
+          "description": "True if pre-entry RMSPE above 0.10"
+        },
+        "note": {
+          "source": "National statistics offices and official tourism authorities",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "str",
+          "description": "Caveats"
+        }
+      },
+      "limitations": [
+        "With few comparison regions the smallest possible p-value is 1/(regions+1).",
+        "Poor pre-entry fit invalidates the estimate."
+      ],
+      "version": "6a9e34197817",
+      "sources": [
+        {
+          "id": "national_statistics",
+          "name": "National statistics offices and official tourism authorities",
+          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+        }
+      ],
+      "files": {
+        "json": "data/gp_scm_inference.json",
+        "csv": "data/gp_scm_inference.csv"
+      }
     }
   },
   "status_file": "data/dataset_status.json",
@@ -1560,7 +2089,7 @@
   },
   "quality": {
     "n_errors": 0,
-    "n_warnings": 4,
+    "n_warnings": 2,
     "issues": [
       {
         "dataset": "constructor_season",
@@ -1574,21 +2103,7 @@
         "check": "primary_verification",
         "severity": "warning",
         "message": "Events not yet checked against the primary FIA document",
-        "n_rows": 8
-      },
-      {
-        "dataset": "gp_tourism_monthly",
-        "check": "coverage",
-        "severity": "warning",
-        "message": "No monthly tourism series entered yet",
-        "n_rows": 0
-      },
-      {
-        "dataset": "gp_race_events",
-        "check": "coverage",
-        "severity": "warning",
-        "message": "No race dates entered yet",
-        "n_rows": 0
+        "n_rows": 4
       }
     ]
   }

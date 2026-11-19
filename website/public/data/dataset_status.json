@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T12:03:08+00:00",
+  "generated_at_utc": "2026-11-19T13:21:50+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -374,8 +374,8 @@
           "share": 0.0
         }
       },
-      "version": "bc7c9de02987",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "9aaebb92a4ac",
+      "last_updated": "2026-11-19T13:21:50+00:00",
       "validation_status": "passed_with_warnings",
       "validation_warnings": [
         "Events not yet checked against the primary FIA document"
@@ -541,17 +541,68 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
-      "validation_warnings": [
-        "No monthly tourism series entered yet"
-      ],
+      "observation_count": 3888,
+      "variable_count": 13,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "region_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "country": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_host": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "month": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "unit": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "table_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "retrieval_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "notes": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "b5d0083b403f",
+      "last_updated": "2026-11-19T13:21:50+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "gp_race_events",
@@ -569,17 +620,44 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
-      "validation_warnings": [
-        "No race dates entered yet"
-      ],
+      "observation_count": 12,
+      "variable_count": 7,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "year": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_start_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_end_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "notes": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "acf44bdf40cb",
+      "last_updated": "2026-11-19T13:21:50+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "gp_event_study",
@@ -597,15 +675,68 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "observation_count": 10,
+      "variable_count": 13,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "region_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "k": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_low": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_high": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "pct_effect": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_months": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_races": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "49bc9cde2312",
+      "last_updated": "2026-11-19T13:21:50+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "gp_scm_path",
@@ -623,15 +754,44 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "observation_count": 288,
+      "variable_count": 7,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "month": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "observed": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "synthetic": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "gap": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "period": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "ca739e8c1c34",
+      "last_updated": "2026-11-19T13:21:50+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "gp_scm_inference",
@@ -649,15 +809,72 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 0,
-      "variable_count": 0,
-      "missingness": {},
-      "version": null,
-      "last_updated": null,
-      "validation_status": "not_run",
+      "observation_count": 18,
+      "variable_count": 14,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "unit": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_host": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entry_month": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "rmspe_pre": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "rmspe_post": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "rmspe_ratio": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mean_post_gap_pct": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "p_value": {
+          "missing": 16,
+          "share": 0.8889
+        },
+        "weights": {
+          "missing": 16,
+          "share": 0.8889
+        },
+        "poor_pre_fit": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "6a9e34197817",
+      "last_updated": "2026-11-19T13:21:50+00:00",
+      "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
-      "status": "not_yet_collected"
+      "status": "published"
     },
     {
       "dataset_id": "efficiency",
@@ -908,8 +1125,8 @@
           "share": 0.0
         }
       },
-      "version": "405df87a363e",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "a4ef1b5f7497",
+      "last_updated": "2026-11-19T13:21:50+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1032,8 +1249,8 @@
           "share": 0.975
         }
       },
-      "version": "88ec5d8bfd90",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "6b1276a8dddc",
+      "last_updated": "2026-11-19T13:21:50+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1096,8 +1313,8 @@
           "share": 0.0
         }
       },
-      "version": "0224ee031cee",
-      "last_updated": "2026-11-19T12:03:08+00:00",
+      "version": "5d51f60d7441",
+      "last_updated": "2026-11-19T13:21:50+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

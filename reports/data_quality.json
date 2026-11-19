@@ -1,6 +1,6 @@
 {
   "n_errors": 0,
-  "n_warnings": 4,
+  "n_warnings": 2,
   "issues": [
     {
       "dataset": "constructor_season",
@@ -14,21 +14,7 @@
       "check": "primary_verification",
       "severity": "warning",
       "message": "Events not yet checked against the primary FIA document",
-      "n_rows": 8
-    },
-    {
-      "dataset": "gp_tourism_monthly",
-      "check": "coverage",
-      "severity": "warning",
-      "message": "No monthly tourism series entered yet",
-      "n_rows": 0
-    },
-    {
-      "dataset": "gp_race_events",
-      "check": "coverage",
-      "severity": "warning",
-      "message": "No race dates entered yet",
-      "n_rows": 0
+      "n_rows": 4
     }
   ]
 }
