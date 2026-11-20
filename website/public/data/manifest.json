@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-20T14:04:22+00:00",
-  "pipeline_commit": "e839b0c",
+  "generated_at_utc": "2026-11-20T15:42:26+00:00",
+  "pipeline_commit": "97e0608",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -1576,7 +1576,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "b8910c04f01c",
+      "version": "4792f4c3c90d",
       "sources": [
         {
           "id": "jolpica",
@@ -2082,7 +2082,7 @@
         "Valid only if the pre-entry fit is good (see gp_scm_inference).",
         "Other events after entry also enter the gap."
       ],
-      "version": "2015cdb5e881",
+      "version": "91ff1e2d910c",
       "sources": [
         {
           "id": "national_statistics",
@@ -2211,7 +2211,7 @@
         "With few comparison regions the smallest possible p-value is 1/(regions+1).",
         "Poor pre-entry fit invalidates the estimate."
       ],
-      "version": "7240d4cdbbf4",
+      "version": "cfcb19cb05ee",
       "sources": [
         {
           "id": "national_statistics",
@@ -2376,7 +2376,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "The six-team models stay imprecise even with bootstrap p-values."
       ],
-      "version": "c0a0f06ff81e",
+      "version": "be8ca97ddaa7",
       "sources": [
         {
           "id": "jolpica",
@@ -2416,7 +2416,7 @@
   },
   "quality": {
     "n_errors": 0,
-    "n_warnings": 4,
+    "n_warnings": 3,
     "issues": [
       {
         "dataset": "constructor_season",
@@ -2438,13 +2438,6 @@
         "severity": "warning",
         "message": "Teams whose accounts switch between company-only and group-consolidated: ['mclaren', 'mercedes', 'red_bull', 'williams'] (see robustness check scope_control)",
         "n_rows": 4
-      },
-      {
-        "dataset": "financial_observation",
-        "check": "yoy_change",
-        "severity": "warning",
-        "message": "Year-on-year changes above 50%, to check against the filings: ['banbury staff_costs 2011 (+114%)', 'banbury staff_costs 2012 (+53%)', 'banbury staff_costs 2015 (-58%)', 'banbury staff_costs 2016 (+111%)', 'banbury turnover 2013 (+115%)', 'banbury turnover 2014 (-57%)', 'banbury turnover 2015 (+52%)', 'enstone turnover 2016 (+53%)', 'leafield turnover 2012 (+117%)', 'mclaren staff_costs 2025 (+59%)', 'mclaren turnover 2019 (+50%)', 'mclaren turnover 2020 (+79%)', 'mclaren turnover 2022 (+55%)', 'red_bull staff_costs 2025 (+59%)', 'silverstone staff_costs 2025 (+92%)', 'silverstone turnover 2021 (+148%)', 'williams turnover 2020 (-55%)', 'williams turnover 2021 (+98%)']",
-        "n_rows": 18
       }
     ]
   }
