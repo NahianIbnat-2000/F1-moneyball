@@ -10,7 +10,7 @@ from dataclasses import asdict, dataclass
 
 import pandas as pd
 
-from f1moneyball.utils.config import seasons
+from f1moneyball.utils.config import MANUAL_DIR, seasons
 
 
 @dataclass
@@ -187,14 +187,37 @@ def financial_observations(df: pd.DataFrame, valid_team_ids: set[str]) -> list[I
 
 
 YOY_FLAG = 0.5  # year-on-year change in a money series above 50% is listed for review
+VERIFIED_CHANGES = MANUAL_DIR / "verified_large_changes.csv"
 
 
-def financial_comparability(df: pd.DataFrame) -> list[Issue]:
+def large_changes(df: pd.DataFrame) -> pd.DataFrame:
+    """Turnover or staff-cost rows that changed by more than YOY_FLAG from the previous season.
+
+    Returns team_id, metric, season_mapped, value, prev and change.
+    """
+    money = df[df["metric"].isin(["turnover", "staff_costs"]) & df["season_mapped"].notna()].copy()
+    money["v"] = pd.to_numeric(money["value"], errors="coerce")
+    money = money.sort_values(["team_id", "metric", "season_mapped"])
+    money["prev"] = money.groupby(["team_id", "metric"])["v"].shift()
+    money["prev_season"] = money.groupby(["team_id", "metric"])["season_mapped"].shift()
+    consecutive = money["season_mapped"] - money["prev_season"] == 1
+    money["change"] = (money["v"] / money["prev"] - 1).where(consecutive & (money["prev"] > 0))
+    big = money[money["change"].abs() > YOY_FLAG]
+    return big[["team_id", "metric", "season_mapped", "v", "prev", "change"]].rename(columns={"v": "value"})
+
+
+def _load_verified() -> pd.DataFrame | None:
+    return pd.read_csv(VERIFIED_CHANGES) if VERIFIED_CHANGES.exists() else None
+
+
+def financial_comparability(df: pd.DataFrame, verified: pd.DataFrame | None = None) -> list[Issue]:
     """Warnings, not errors: real features of the filings that the models must allow for.
 
     - accounting periods that are not about twelve months (amounts are not comparable with a normal year);
     - teams whose accounts switch between company-only and group-consolidated;
     - year-on-year changes above 50% in turnover or staff costs, listed so each can be checked against the filing.
+      A change recorded in ``verified`` (default: data/manual/verified_large_changes.csv) with the same value and
+      prior value is not listed again; if either figure in the data changes, the warning comes back.
     """
     ds, out = "financial_observation", []
     if df.empty:
@@ -215,16 +238,17 @@ def financial_comparability(df: pd.DataFrame) -> list[Issue]:
             out += _issue(ds, "accounting_scope_switch", "warning",
                           f"Teams whose accounts switch between company-only and group-consolidated: {sw} "
                           "(see robustness check scope_control)", len(sw))
-    money = d[d["metric"].isin(["turnover", "staff_costs"]) & d["season_mapped"].notna()].copy()
-    money["v"] = pd.to_numeric(money["value"], errors="coerce")
-    money = money.sort_values(["team_id", "metric", "season_mapped"])
-    money["prev"] = money.groupby(["team_id", "metric"])["v"].shift()
-    money["prev_season"] = money.groupby(["team_id", "metric"])["season_mapped"].shift()
-    consecutive = money["season_mapped"] - money["prev_season"] == 1
-    chg = (money["v"] / money["prev"] - 1).where(consecutive & (money["prev"] > 0))
-    big = money[chg.abs() > YOY_FLAG]
+    big = large_changes(d)
+    if verified is None:
+        verified = _load_verified()
+    if verified is not None and len(big):
+        ok = {(r.team_id, r.metric, int(r.season), round(float(r.value)), round(float(r.prior_value)))
+              for r in verified.itertuples()}
+        checked = big.apply(lambda r: (r.team_id, r.metric, int(r.season_mapped), round(r.value), round(r.prev)) in ok,
+                            axis=1)
+        big = big[~checked]
     if len(big):
-        lst = [f"{r.team_id} {r.metric} {int(r.season_mapped)} ({chg[i]:+.0%})" for i, r in big.iterrows()]
+        lst = [f"{r.team_id} {r.metric} {int(r.season_mapped)} ({r.change:+.0%})" for r in big.itertuples()]
         out += _issue(ds, "yoy_change", "warning",
                       f"Year-on-year changes above {YOY_FLAG:.0%}, to check against the filings: {lst}", len(big))
     return out

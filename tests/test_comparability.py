@@ -90,10 +90,23 @@ def test_validation_warns_on_period_scope_and_jumps():
          "financial_year_start": "2016-01-01", "financial_year_end": "2017-06-30",
          "accounting_basis": "UK GAAP; group consolidated"},
     ])
-    issues = {i.check: i for i in financial_comparability(fin)}
+    issues = {i.check: i for i in financial_comparability(fin, verified=pd.DataFrame())}
     assert set(issues) == {"period_length", "accounting_scope_switch", "yoy_change"}
     assert all(i.severity == "warning" for i in issues.values())
     assert "547 days" in issues["period_length"].message
+
+
+def test_verified_change_clears_warning_only_while_values_match():
+    fin = _fin([
+        {"team_id": "a", "season_mapped": 2015, "metric": "turnover", "value": 100.0,
+         "financial_year_start": "2015-01-01", "financial_year_end": "2015-12-31"},
+        {"team_id": "a", "season_mapped": 2016, "metric": "turnover", "value": 200.0,
+         "financial_year_start": "2016-01-01", "financial_year_end": "2016-12-31"},
+    ])
+    rec = pd.DataFrame([{"team_id": "a", "metric": "turnover", "season": 2016, "value": 200, "prior_value": 100}])
+    assert "yoy_change" not in {i.check for i in financial_comparability(fin, verified=rec)}
+    fin.loc[fin.season_mapped == 2016, "value"] = 210.0  # data changed after the check
+    assert "yoy_change" in {i.check for i in financial_comparability(fin, verified=rec)}
 
 
 def test_validation_quiet_on_clean_series():
