@@ -95,6 +95,7 @@
   .study p { margin: 0 0 8px; }
   .finding { font-size: .95rem; color: var(--fg); background: var(--tint); border-left: 3px solid var(--accent); padding: 10px 14px; margin-top: 8px; }
   .finding b { font-weight: 700; }
+  .study-note { font-size: .85rem; color: var(--muted); font-style: italic; margin-top: 8px; }
 
   .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 22px; }
   .fact { background: var(--paper); padding: 16px; }
@@ -168,9 +169,9 @@
         <span class="url">nahianibnat-2000.github.io/F1-moneyball</span>
       </a>
       <a class="card" href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">
-        <span class="fkey">F2 · PAPER</span>
+        <span class="fkey">F2 · PAPER · STUDY 01</span>
         <h3>Working paper</h3>
-        <p>The written-up version of <b>Study 01</b>: <em>Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025.</em> PDF.</p>
+        <p>Covers <b>Study 01 only</b>: <em>Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025.</em> PDF. Studies 02 and 03 are web articles.</p>
         <span class="go">Read the paper (PDF) →</span>
         <span class="url">LaTeX source in the repository</span>
       </a>
@@ -185,9 +186,9 @@
   </section>
 
   <section aria-labelledby="studies">
-    <div class="sec-label">The Economics of Competitive Advantage</div>
+    <div class="sec-label">Three sides of F1's economy: teams, rules, host regions</div>
     <h2 id="studies">Three studies</h2>
-    <p class="sec-intro">One project, three questions. All three studies use the same team, race and regulation data, built by the same pipeline. Each one is published as a research <b>article on the website</b>, with interactive charts. So far only Study 01 is also written up as a formal <b>working paper</b> (PDF).</p>
+    <p class="sec-intro">One project looks at Formula 1 from three sides: the <b>teams</b> (does money go with results?), the <b>rules</b> (did the cost cap change the balance between teams?) and the <b>regions that host races</b> (do races bring tourists?). The studies share the race and regulation data and one pipeline, but each answers its own question with its own data, and none depends on another's results. Each is a research <b>article on the website</b> with interactive charts. Only Study 01 is also written up as a <b>working paper</b> (PDF).</p>
     <div class="studies">
       <article class="study">
         <div class="num">01</div>
@@ -196,7 +197,7 @@
           <div class="study-status"><span class="badge">Web article</span><span class="badge paper">Working paper</span></div>
           <p class="q">Do richer teams score more points, and does a team do better after it spends more?</p>
           <p>Audited accounts from UK Companies House filings for 8 team lineages, linked to championship results from 2010 to 2025. Panel models with team and season fixed effects, and a wild cluster bootstrap because there are few teams.</p>
-          <p class="finding"><b>Finding:</b> comparing <b>different teams</b>, richer teams score more points: money share and points share move closely together (correlation 0.78). Comparing <b>each team with itself</b> in its other seasons, the link is much smaller: in the years after a team spent more on staff than it usually does, it did only slightly better, once changes that affected every team that season are taken out. With eight teams this is suggestive, not proof, and it shows things moving together, not that money caused the results.</p>
+          <p class="finding"><b>Finding:</b> comparing <b>different teams</b>, richer teams score more points: money share and points share move closely together (correlation 0.78). Comparing <b>each team with itself</b> in its other seasons, the link is much weaker. The clearest result is for staff spending: 10% more goes with finishing about 0.4 places higher in the next season's championship. The link with points share is less certain once changes in how the accounts are drawn up are taken into account, and no within-team result holds after correcting for running several tests at once. With eight teams this is suggestive, not proof, and it shows things moving together, not that money caused the results.</p>
           <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/does-money-buy-speed">Read the web article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/moneyball">Interactive charts →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf">Working paper (PDF) →</a></div>
         </div>
       </article>
@@ -204,10 +205,11 @@
         <div class="num">02</div>
         <div>
           <h3>The Cost Cap Paradox</h3>
-          <div class="study-status"><span class="badge">Web article</span></div>
+          <div class="study-status"><span class="badge">Web article only</span></div>
           <p class="q">Did the 2021 cost cap bring the teams closer together?</p>
           <p>Measures how evenly points are spread across teams, before and after the cap. To check whether the 2021 change is unusual, the same test is also run with <b>fake start dates</b>: pretending the cap began in other years when nothing changed (called <b>placebo years</b>). If those fake dates show changes just as large, the real one is not special. A second test compares teams the cap restricted more with teams it restricted less.</p>
           <p class="finding"><b>Finding:</b> so far, the change after 2021 cannot be told apart from changes in placebo years. The cap and the 2022 technical rules came one season apart, so their effects cannot be separated.</p>
+          <p class="study-note">No working paper yet. One may follow once more seasons under the cost cap are available; five seasons are too few to separate the cap from other changes.</p>
           <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/cost-cap-paradox">Read the web article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/cost-cap">Interactive charts →</a></div>
         </div>
       </article>
@@ -215,10 +217,11 @@
         <div class="num">03</div>
         <div>
           <h3>The Grand Prix Economy</h3>
-          <div class="study-status"><span class="badge">Web article</span></div>
+          <div class="study-status"><span class="badge">Web article only</span></div>
           <p class="q">Does hosting a race bring more tourists to the region?</p>
           <p>Monthly tourist arrivals for two hosts where the race <b>started or came back</b> during the years with data: Austria (Styria, back on the calendar in 2014; data from 2008) and Singapore (first race 2008; data from 2005). Each host is compared with <b>its own past</b>, and Styria also with the rest of Austria. The two hosts are not compared with each other. Long-running hosts such as Hungary (a race every year since 1986) have no "before" to compare with. The analysis stops in 2019 to avoid COVID.</p>
           <p class="finding"><b>Finding:</b> Styria's race month shows more arrivals than usual, but much less once compared with the rest of Austria, and the synthetic control does not separate it from chance. Singapore shows no clear race-month rise.</p>
+          <p class="study-note">No working paper yet. One may follow if data for more host regions become available; two hosts are too few for a full paper.</p>
           <div class="study-links"><a href="https://nahianibnat-2000.github.io/F1-moneyball/research/grand-prix-economy">Read the web article →</a><a href="https://nahianibnat-2000.github.io/F1-moneyball/grand-prix-economy">Interactive charts →</a></div>
         </div>
       </article>
