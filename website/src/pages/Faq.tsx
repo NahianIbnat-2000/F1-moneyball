@@ -154,6 +154,12 @@ const GROUPS: Group[] = [
       qa("who", "Who made this? Is it connected to F1, the FIA or a university?",
         <p>F1 Moneyball is a personal, independent research project by Nahian Ibnat, an economist with a background in economics, data science and finance. It is not connected to Formula 1, the FIA, any team or any university.</p>,
         "A personal, independent project by Nahian Ibnat, not connected to Formula 1, the FIA, any team or any university."),
+      qa("studied-before", "Has this been studied before? What is new here?",
+        <>
+          <p>Yes, all three questions have been studied before, and the articles discuss that work. The closest is Loník and Kotrba (2024, <em>Managerial and Decision Economics</em>), who find that F1 budgets are linked to better results over 2010 to 2020. Student theses have looked at the cost cap and found no clear change in competitive balance so far. Ramasamy and Yeung (2020) find that hosting a Grand Prix raises a country's tourist arrivals by about 6% on average.</p>
+          <p>What this project adds: money measures from audited company accounts that can each be traced to a filing; a split between comparing different teams and comparing each team with itself, which give very different answers; methods built for having only a few teams; data that runs into the cost-cap years; and a regional view of Grand Prix tourism instead of whole countries. Everything is public, so it can be checked and rerun.</p>
+        </>,
+        "Yes. Loník and Kotrba (2024) link F1 budgets to results for 2010 to 2020; theses study the cost cap; Ramasamy and Yeung (2020) study Grand Prix tourism by country. This project adds audited data, a between- versus within-team split, few-team inference, cost-cap years and a regional tourism view."),
       qa("peer-review", "Is the research peer reviewed?",
         <p>No. The <a href={PAPER}>paper</a> is a working paper: a finished study shared before peer review, which is the usual way economists share research for feedback. That is why the data and code are fully public, so anyone can check the work.</p>,
         "No. It is a working paper, a study shared before peer review. Data and code are public so anyone can check it."),

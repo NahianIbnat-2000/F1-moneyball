@@ -102,6 +102,12 @@
   .fact .k { font-family: var(--sans); font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 
   .plain { max-width: 720px; margin: 12px 0 0; }
+  .table-wrap { overflow-x: auto; margin-top: 18px; }
+  table.prior { width: 100%; border-collapse: collapse; font-size: .93rem; line-height: 1.55; min-width: 620px; }
+  table.prior th, table.prior td { text-align: left; vertical-align: top; padding: 12px 14px; border-top: 1px solid var(--line); }
+  table.prior thead th { font-family: var(--sans); font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-top: none; padding-top: 4px; }
+  table.prior tbody th { font-family: var(--serif); font-weight: 700; width: 22%; color: var(--fg); }
+  table.prior td:last-child { background: var(--tint); }
   ul.rules { margin: 14px 0 0; padding-left: 1.1em; }
   ul.rules li { margin-bottom: 6px; }
   ul.rules li::marker { color: var(--red); }
@@ -223,6 +229,34 @@
       <div class="fact" role="listitem"><div class="v">2010–25</div><div class="k">Seasons covered</div></div>
       <div class="fact" role="listitem"><div class="v">16</div><div class="k">Published datasets</div></div>
       <div class="fact" role="listitem"><div class="v">2</div><div class="k">Grand Prix hosts studied</div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="prior">
+    <div class="sec-label">Earlier research</div>
+    <h2 id="prior">What was already known, and what this adds</h2>
+    <p class="plain">None of these questions is new. Other researchers have studied each of them, and my articles and working paper discuss their work. This is the main earlier research, and what my project adds to it.</p>
+    <div class="table-wrap">
+    <table class="prior">
+      <thead><tr><th scope="col">Study</th><th scope="col">Earlier work</th><th scope="col">What this project adds</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row">01 · Does money buy speed?</th>
+          <td><a href="https://doi.org/10.1002/mde.3983">Loník and Kotrba (2024)</a>, in <i>Managerial and Decision Economics</i>, find that F1 budgets are linked to better standings, points and podiums over 2010 to 2020, before the cost cap.</td>
+          <td>Money figures from audited company accounts, each traced to its filing. A split between comparing different teams and comparing each team with itself, which give very different answers. Methods built for only eight teams. Data that runs into the cost-cap years, 2021 to 2025.</td>
+        </tr>
+        <tr>
+          <th scope="row">02 · Did the cost cap work?</th>
+          <td>Master's and senior theses (<a href="https://research.cbs.dk/en/studentProjects/the-impact-of-financial-regulations-on-competitive-balance-in-the/">Foghsgaard and Nymand, 2024</a>; <a href="https://digitalcommons.bard.edu/senproj_s2023/248">Jung, 2023</a>) find no clear change in competitive balance after 2021, and note that the 2022 rule change makes the cap hard to isolate.</td>
+          <td>Placebo years, to check whether the 2021 change is unusual at all, and a comparison of teams the cap restricted more with teams it restricted less, using their audited spending before the cap.</td>
+        </tr>
+        <tr>
+          <th scope="row">03 · Who else gains?</th>
+          <td><a href="https://doi.org/10.3727/108354220X16020580167829">Ramasamy and Yeung (2020)</a> find that hosting a Grand Prix raises a country's tourist arrivals by about 6% on average. <a href="https://doi.org/10.1177/13548166211029053">Ramasamy, Wu and Yeung (2022)</a> find the effect differs a lot from country to country.</td>
+          <td>A regional view instead of whole countries: the host region compared with other regions of the same country, for races that started or came back during the data, so there is a clear before and after.</td>
+        </tr>
+      </tbody>
+    </table>
     </div>
   </section>
 

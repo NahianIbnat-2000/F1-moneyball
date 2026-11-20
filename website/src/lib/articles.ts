@@ -63,6 +63,8 @@ export const ARTICLES: Article[] = [
       "Sports economics has long asked whether richer teams win more. Rottenberg (1956) and Neale (1964) set out why leagues need some balance, since a contest with a certain winner loses its value. Szymanski (2003) surveys how contest design, including spending rules, shapes effort and outcomes.",
       "In team sports, Hall, Szymanski and Zimbalist (2002) test the direction of causality between payroll and performance. For Major League Baseball they find no evidence that causality runs from payroll to performance over the full sample, while for English football they cannot reject it. Their approach, testing whether past spending predicts later results, guides this study.",
       "In Formula 1, Bell, Smith, Sabel and Jones (2016) show that team effects explain more of results than driver effects, and increasingly so over time. That makes the team, and the resources behind it, the right unit of analysis. Jenkins (2010) shows how major rule changes can reset which teams lead, which matters for any study spanning several regulatory eras.",
+      "The closest study is Loník and Kotrba (2024), who examine the 2010 to 2020 seasons, before the cost cap. Using cost-benefit analysis and regressions, they find that budget strategy is associated with better standings, more points, more podium finishes and higher race completion, and that spending on research and development is the most effective.",
+      "This study asks a related question but adds three things. Its money measures come from audited company accounts, each figure traced to its filing and page. It separates the link between teams from the link within a team over time, which turn out to be very different, and it uses inference built for a small number of teams. And it extends the data into the cost-cap years, 2021 to 2025.",
     ],
     hypotheses: [
       { id: "H1", statement: "Teams with larger financial resources score a larger share of championship points.", test: "Association between resource share and points share across team-seasons, by regulatory period." },
@@ -138,8 +140,9 @@ export const ARTICLES: Article[] = [
       { authors: "Neale, W. C.", year: 1964, title: "The peculiar economics of professional sports", venue: "Quarterly Journal of Economics, 78(1), 1–14" },
       { authors: "Hall, S., Szymanski, S., & Zimbalist, A. S.", year: 2002, title: "Testing causality between team performance and payroll: The cases of Major League Baseball and English soccer", venue: "Journal of Sports Economics, 3(2), 149–168", doi: "10.1177/152700250200300204" },
       { authors: "Szymanski, S.", year: 2003, title: "The economic design of sporting contests", venue: "Journal of Economic Literature, 41(4), 1137–1187" },
-      { authors: "Jenkins, M.", year: 2010, title: "Technological discontinuities and competitive advantage: A historical perspective on Formula 1 motor racing 1950–2006", venue: "Journal of Management Studies, 47(s1), 884–910" },
+      { authors: "Jenkins, M.", year: 2010, title: "Technological discontinuities and competitive advantage: A historical perspective on Formula 1 motor racing 1950–2006", venue: "Journal of Management Studies, 47(5), 884–910", doi: "10.1111/j.1467-6486.2010.00928.x" },
       { authors: "Bell, A., Smith, J., Sabel, C. E., & Jones, K.", year: 2016, title: "Formula for success: Multilevel modelling of Formula One driver and constructor performance, 1950–2014", venue: "Journal of Quantitative Analysis in Sports, 12(2), 99–112", doi: "10.1515/jqas-2015-0050" },
+      { authors: "Loník, I., & Kotrba, V.", year: 2024, title: "The key importance of spending on research and development in Formula One", venue: "Managerial and Decision Economics, 45(1), 70–79", doi: "10.1002/mde.3983" },
     ],
     interactive: { to: "/moneyball", label: "Open the F1 Moneyball laboratory" },
     paper: {
@@ -163,6 +166,8 @@ export const ARTICLES: Article[] = [
     literature: [
       "Judde, Booth and Brooks (2013) study competitive balance in Formula 1 from 1950 to 2010, including the earlier Resource Restriction Agreement on team spending. They find that regulation change had a significant positive effect on championship uncertainty, but not on race uncertainty or long-term dominance. Mastromarco and Runkel (2009) also study how rule changes affect balance in Formula 1.",
       "Budzinski and Feddersen (2020) separate three dimensions of balance in Formula 1: within a race, within a season and between seasons. This study follows that split. Owen, Ryan and Weatherston (2007) show that the HHI depends on the number of teams, and Utt and Fort (2002) set out pitfalls of the Gini coefficient. Both shape the choice of indicators here.",
+      "Earlier work on the cap itself comes from student theses. Foghsgaard and Nymand (2024) study competitive balance from 1998 to 2023 within races, within seasons and between seasons, and find no evidence that the cap increased it. They note that the 2022 technical rules, introduced one season later, make the cap's effect hard to isolate. Jung (2023) also finds no effect of the cap and calls the result preliminary.",
+      "This study adds a design that does not only compare before and after: placebo years test whether the 2021 change is unusual, and a dose-response test compares teams the cap restricted more with teams it restricted less, using their audited spending before the cap.",
     ],
     hypotheses: [
       { id: "H1", statement: "Concentration of championship points is lower after 2021 than before.", test: "Normalized HHI, Gini and top-3 share by season, compared across regulatory periods." },
@@ -216,6 +221,8 @@ export const ARTICLES: Article[] = [
       { authors: "Mastromarco, C., & Runkel, M.", year: 2009, title: "Rule changes and competitive balance in Formula One motor racing", venue: "Applied Economics, 41(23), 3003–3014" },
       { authors: "Judde, C., Booth, R., & Brooks, R.", year: 2013, title: "Second place is first of the losers: An analysis of competitive balance in Formula One", venue: "Journal of Sports Economics, 14(4), 411–439", doi: "10.1177/1527002513496009" },
       { authors: "Budzinski, O., & Feddersen, A.", year: 2020, title: "Measuring competitive balance in Formula One racing", venue: "In P. Rodríguez, S. Késenne & B. R. Humphreys (Eds.), Outcome Uncertainty in Sporting Events (pp. 5–26). Edward Elgar" },
+      { authors: "Foghsgaard, J. G., & Nymand, L. H.", year: 2024, title: "The impact of financial regulations on competitive balance: In the case of Formula One", venue: "Master's thesis, Copenhagen Business School", url: "https://research.cbs.dk/en/studentProjects/the-impact-of-financial-regulations-on-competitive-balance-in-the/" },
+      { authors: "Jung, D.", year: 2023, title: "What it takes to be the best: The competitive balance in Formula 1 racing", venue: "Senior project, Bard College", url: "https://digitalcommons.bard.edu/senproj_s2023/248" },
     ],
     interactive: { to: "/cost-cap", label: "Open the Cost Cap explorer" },
   },
@@ -235,6 +242,8 @@ export const ARTICLES: Article[] = [
     literature: [
       "Coates and Humphreys (2008) review the evidence on public subsidies for sports facilities and mega-events and find that economists broadly doubt that the benefits justify the subsidies. Baade and Matheson (2004) show for the football World Cup that promoters' forecasts tend to overstate the impact.",
       "Henderson, Foo, Lim and Yip (2010) study the Singapore Grand Prix as a tourism event. Abadie, Diamond and Hainmueller (2010) develop the synthetic control method, which builds a comparison region from similar places that did not host the event.",
+      "Ramasamy and Yeung (2020) study F1 hosts across countries and find that hosting a Grand Prix raises tourist arrivals by about 6% on average, with street races drawing more at the margin. Using monthly data from 1985 to 2018, Ramasamy, Wu and Yeung (2022) find that the effect differs by country: hosting F1 is most effective for Canada but has no significant impact in Australia and the United Kingdom.",
+      "This study works at a finer level. It looks at the host region rather than the whole country, compares it with other regions of the same country (Styria against the rest of Austria), and uses only hosts where the race started or came back during the data, so there is a clear before and after.",
     ],
     hypotheses: [
       { id: "H1", statement: "Visitor arrivals in the race month rise above what comparable regions would predict.", test: "Event study and synthetic control on monthly arrivals." },
@@ -288,6 +297,8 @@ export const ARTICLES: Article[] = [
       { authors: "Coates, D., & Humphreys, B. R.", year: 2008, title: "Do economists reach a conclusion on subsidies for sports franchises, stadiums, and mega-events?", venue: "Econ Journal Watch, 5(3), 294–315" },
       { authors: "Abadie, A., Diamond, A., & Hainmueller, J.", year: 2010, title: "Synthetic control methods for comparative case studies: Estimating the effect of California's tobacco control program", venue: "Journal of the American Statistical Association, 105(490), 493–505" },
       { authors: "Henderson, J. C., Foo, K., Lim, H., & Yip, S.", year: 2010, title: "Sports events and tourism: The Singapore Formula One Grand Prix", venue: "International Journal of Event and Festival Management, 1(1), 60–73", doi: "10.1108/17852951011029306" },
+      { authors: "Ramasamy, B., & Yeung, M. C. H.", year: 2020, title: "Does Formula-1 Grand Prix attract tourists?", venue: "Tourism Analysis, 25, 473–479", doi: "10.3727/108354220X16020580167829" },
+      { authors: "Ramasamy, B., Wu, H., & Yeung, M.", year: 2022, title: "Hosting annual international sporting events and tourism: Formula 1, golf or tennis?", venue: "Tourism Economics, 28(8), 2082–2098", doi: "10.1177/13548166211029053" },
     ],
     interactive: { to: "/grand-prix-economy", label: "Open the Grand Prix Economy page" },
   },
