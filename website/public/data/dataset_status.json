@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-19T22:51:00+00:00",
+  "generated_at_utc": "2026-11-20T14:04:21+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -503,8 +503,12 @@
       },
       "version": "c12aa42dc2bd",
       "last_updated": "2026-11-19T17:12:14+00:00",
-      "validation_status": "passed",
-      "validation_warnings": [],
+      "validation_status": "passed_with_warnings",
+      "validation_warnings": [
+        "Accounting periods not about 12 months (not annualised in the data; see robustness check annualised_periods): ['silverstone 2019-08-31 (395 days)', 'silverstone 2020-12-31 (122 days)', 'banbury 2017-06-30 (547 days)', 'leafield 2010-12-31 (457 days)']",
+        "Teams whose accounts switch between company-only and group-consolidated: ['mclaren', 'mercedes', 'red_bull', 'williams'] (see robustness check scope_control)",
+        "Year-on-year changes above 50%, to check against the filings: ['banbury staff_costs 2011 (+114%)', 'banbury staff_costs 2012 (+53%)', 'banbury staff_costs 2015 (-58%)', 'banbury staff_costs 2016 (+111%)', 'banbury turnover 2013 (+115%)', 'banbury turnover 2014 (-57%)', 'banbury turnover 2015 (+52%)', 'enstone turnover 2016 (+53%)', 'leafield turnover 2012 (+117%)', 'mclaren staff_costs 2025 (+59%)', 'mclaren turnover 2019 (+50%)', 'mclaren turnover 2020 (+79%)', 'mclaren turnover 2022 (+55%)', 'red_bull staff_costs 2025 (+59%)', 'silverstone staff_costs 2025 (+92%)', 'silverstone turnover 2021 (+148%)', 'williams turnover 2020 (-55%)', 'williams turnover 2021 (+98%)']"
+      ],
       "status_note": null,
       "status": "published"
     },
@@ -1339,7 +1343,7 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 89,
+      "observation_count": 104,
       "variable_count": 19,
       "missingness": {
         "study": {
@@ -1368,31 +1372,31 @@
         },
         "se": {
           "missing": 2,
-          "share": 0.0225
+          "share": 0.0192
         },
         "ci_low": {
-          "missing": 2,
-          "share": 0.0225
+          "missing": 8,
+          "share": 0.0769
         },
         "ci_high": {
-          "missing": 2,
-          "share": 0.0225
+          "missing": 8,
+          "share": 0.0769
         },
         "p_value": {
           "missing": 18,
-          "share": 0.2022
+          "share": 0.1731
         },
         "p_wild": {
           "missing": 64,
-          "share": 0.7191
+          "share": 0.6154
         },
         "pct_effect": {
-          "missing": 71,
-          "share": 0.7978
+          "missing": 86,
+          "share": 0.8269
         },
         "r2": {
-          "missing": 25,
-          "share": 0.2809
+          "missing": 31,
+          "share": 0.2981
         },
         "n_obs": {
           "missing": 0,
@@ -1400,27 +1404,27 @@
         },
         "n_teams": {
           "missing": 25,
-          "share": 0.2809
+          "share": 0.2404
         },
         "baseline_coef": {
           "missing": 36,
-          "share": 0.4045
+          "share": 0.3462
         },
         "dropped": {
-          "missing": 65,
-          "share": 0.7303
+          "missing": 80,
+          "share": 0.7692
         },
         "region": {
-          "missing": 69,
-          "share": 0.7753
+          "missing": 84,
+          "share": 0.8077
         },
         "note": {
           "missing": 76,
-          "share": 0.8539
+          "share": 0.7308
         }
       },
-      "version": "d4a1a5dcbc91",
-      "last_updated": "2026-11-19T22:51:00+00:00",
+      "version": "c0a0f06ff81e",
+      "last_updated": "2026-11-20T14:04:21+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
