@@ -70,21 +70,20 @@
 \thispagestyle{plain}
 
 \begin{abstract}
-\noindent Formula~1 teams are firms that compete for a fixed set of prizes, and since 2021 a cost cap limits most of their
-spending. This paper asks whether teams with more money score more points, and whether a team does better in the seasons
-after it spends more. I build a panel of audited accounts from the UK statutory filings of \NTeams{} team lineages
-(\NTeamSeasons{} team-seasons, \FirstSeason{} to \LastSeason) and link them to championship results. Between teams, money
-and success move together: the correlation between turnover share and points share is \CorrAll, and 10\% more turnover in
-the previous season goes with a points share about \PpTurnPooled{} percentage points higher. Within teams the evidence is
-weaker and depends on the measure. With team fixed effects alone the turnover coefficient falls from \CoefTurnPooled{} to
-\CoefTurnFe{} ($p = \PTurnFe$). Once season effects also remove changes common to all teams, the estimates are positive for
-all three measures and clearest for staff costs and championship position: 10\% more staff spending goes with a finish about
-\PosTenStaffcosts{} places higher the next season (wild cluster bootstrap $p = \PosPwildStaffcosts$). The matching
-points-share estimate is similar in size but less certain once changes in accounting scope are controlled for (bootstrap
-$p = \ScopePwildStaff$), and no within-team result survives a correction for multiple testing at the 5\% level (smallest
-Holm-adjusted $p = \HolmPosStaff$). The link does not change measurably under the cost cap. With \NTeams{} teams the
-within-team results are suggestive rather than conclusive, and all results describe associations, not a causal effect of
-spending.
+\noindent Formula~1 teams compete for a fixed set of prizes, and since 2021 a cost cap limits most of their spending. This
+paper asks whether teams with more money score more points, whether a team does better in the seasons after it spends
+more, and whether this link changed under the cost cap. I build a panel of audited accounts from the UK statutory filings of \NTeams{} team lineages (\NTeamSeasons{}
+team-seasons, \FirstSeason{} to \LastSeason), link them to championship results, and estimate pooled and fixed-effects
+models on lagged money, with inference built for a small number of teams. Between teams, money and success move together:
+the correlation between turnover share and points share is \CorrAll, and 10\% more turnover in the previous season goes with
+a points share about \PpTurnPooled{} percentage points higher. Within teams the evidence is weaker. The clearest result is
+for staff spending: 10\% more goes with a finish about \PosTenStaffcosts{} places higher in the next season's championship
+(wild cluster bootstrap $p = \PosPwildStaffcosts$). The matching points-share estimate is less certain once changes in
+accounting scope are controlled for (bootstrap $p = \ScopePwildStaff$), no within-team result survives a correction for
+multiple testing at the 5\% level (smallest Holm-adjusted $p = \HolmPosStaff$), and the link does not change measurably
+under the cost cap. All results are associations, not causal effects. They suggest that spending on people goes with
+modest gains for a team, while most of the gap between teams reflects differences that last for many years, so a spending
+limit alone may narrow that gap only slowly.
 
 \medskip\noindent\textbf{Keywords:} sports economics, competitive balance, Formula~1, team finances, panel data, cost cap.\\
 \textbf{JEL codes:} Z21, Z23, L83, C23.
@@ -93,25 +92,53 @@ spending.
 % ============================================================================ 1
 \section{Introduction}
 
-Formula~1 is a closed league of about ten firms. Each team decides how much capital to raise and how to spend it, and the
-championship is where that spending is tested. That makes it a clean setting for an old question in sports economics: do
-the biggest spenders win because they spend more, or because some organisations turn money into results better than others?
+Formula~1 is a closed league of about ten firms \citep{liberty2026}. Each team decides how much capital to raise and how to spend it, and every
+season the championship tests how well that spending works. The richest teams usually finish at the front (Figure~\ref{fig:scatter}), which raises an
+old question in sports economics: do the biggest spenders win because they spend more, or because some organisations turn
+money into results better than others?
 
-The answer matters for policy. Since 2021 the FIA Financial Regulations cap most team spending, at a base of USD 145 million
+The question matters for policy. Since 2021 the FIA Financial Regulations cap most team spending, at a base of USD 145 million
 in 2021, 140 million in 2022 and 135 million from 2023 \citep[Article 2.3]{fia2021}. If money mainly buys speed, a binding
 cap should compress the field over time. If organisation, engineering choices and execution matter more, the order of teams
-should depend on how well each one uses what it has.
+should depend on how well each one uses what it has. The central problem is that the two explanations look the same in a
+simple comparison of teams: rich teams also tend to be well run, and successful teams earn more prize money, because most of the
+prize fund is paid according to results in earlier Constructors' Championships \citep{liberty2018}.
 
-Relative to earlier work on F1 budgets and results, discussed in Section~2, this paper makes two contributions. First, it builds a traceable panel of audited financial figures for \NTeams{} team
-lineages from \FirstSeason{} to \LastSeason, entered from the original Companies House filings with page references and
-checked against the next year's comparative figures. Second, it separates the link between money and points across teams
-from the link within a team over time, and reports inference that allows for the small number of teams.
+Earlier work offers a starting point but leaves a gap. In other sports, \citet{hall2002} test whether past payroll predicts
+later results and find different answers for baseball and football. In Formula~1, \citet{bell2016} show that the team matters
+more than the driver, and \citet{lonik2024} find that budget strategy is associated with better standings in 2010 to 2020.
+Two things are still missing. To my knowledge, no study links audited financial figures, each traced to its source, to results for the same
+teams over time, and no study separates the link between teams from the link within a team over time. Studies of the cost
+cap so far \citep{foghsgaard2024, jung2023} look at competitive balance, not at how money relates to results. The reason
+for this study is to close that gap with data that anyone can check.
 
-The paper is the written version of a study published on the F1 Moneyball website \citep{f1moneyball}. The website shows the
-same results as interactive charts, lets readers download every dataset used here, and documents each source
+This paper asks three questions. First, do teams with more money score more points than other teams? Second, does a team
+do better in the seasons after it has more money than usual? Third, has this link changed under the cost cap? To answer
+them, I build a panel of audited accounts from the UK statutory filings of \NTeams{} team lineages from \FirstSeason{} to
+\LastSeason, entered from the original Companies House filings with page references, and link it to championship results.
+I estimate pooled, team fixed-effects and two-way fixed-effects models on money in the previous season, and use a wild
+cluster bootstrap because there are only \NTeams{} teams.
+
+The paper makes two contributions. First, it provides a traceable panel of audited financial figures for Formula~1 teams,
+published with its sources so that others can reuse and check it. Second, it separates the link between teams from the
+link within a team over time, with inference that suits a small number of teams, and extends the sample into the cost-cap
+years.
+
+The results answer the three questions in turn. Between teams, money and points go together closely (Section~5). Within teams, the
+link is weaker: the clearest result is that more staff spending goes with a better championship position the next season,
+while the points-share result is less certain and no within-team result survives a correction for multiple testing. The
+link does not change measurably under the cost cap (Section~6).
+
+The paper is organised as follows. Section~2 reviews the literature. Section~3 describes the data and Section~4 the
+empirical strategy. Section~5 presents the results and Section~6 the robustness checks. Section~7 discusses the findings
+and their limitations, and Section~8 concludes. The appendices list the data sources, explain how the financial data were
+built, and show where each result comes from.
+
+The paper is the written version of a study published on the F1 Moneyball website \citep{f1moneyball}, which shows the
+same results as interactive charts and lets readers download every dataset used here
 (\sitepage{research/does-money-buy-speed}{research article}; \sitepage{moneyball}{Moneyball dashboard};
-\sitepage{data}{data explorer}; \sitepage{methodology}{methodology}). The full code is public \citep{f1moneyballcode}, and
-Appendix~\ref{app:code} maps each table and figure to the script that produces it.
+\sitepage{provenance}{data provenance}; \sitepage{methodology}{methodology}). The full code is public
+\citep{f1moneyballcode}, and Appendix~\ref{app:code} maps each table and figure to the script that produces it.
 
 % ============================================================================ 2
 \section{Literature}
@@ -144,8 +171,8 @@ change measurably after 2021 is consistent with that work and faces the same lim
 % ============================================================================ 3
 \section{Data}
 
-\paragraph{Financial data.} Team accounts come from the statutory annual accounts filed at Companies House by the UK company
-that runs each team, taken from each company's public filing history. Eight lineages have such accounts: Red Bull
+\paragraph{Financial data.} Team accounts come from the statutory annual accounts filed at Companies House \citep{ch_register} by the UK
+company that runs each team, taken from each company's public filing history. Eight lineages have such accounts: Red Bull
 \citep{ch_redbull}, Mercedes \citep{ch_mercedes}, McLaren \citep{ch_mclaren}, Williams \citep{ch_williams}, Enstone,
 which raced as Renault, Lotus and Alpine \citep{ch_enstone}, Silverstone, which raced as Force India, Racing Point and Aston
 Martin \citep{ch_forceindia,ch_amr}, Banbury, which raced as Virgin, Marussia and Manor from 2010 to 2016 \citep{ch_manor},
@@ -153,12 +180,13 @@ and Leafield, which raced as Lotus Racing and Caterham from 2010 to 2012 \citep{
 gives the link to each filing history. The scanned filings were read with optical character recognition and every
 figure was checked against the prior-year column of the next filing or against the page image. Where a later filing
 restated a figure, the figure as first reported is used and the restatement is recorded. Three measures are used: turnover,
-staff costs and the average number of employees. Ferrari, Sauber, Racing Bulls and Haas do not file comparable UK accounts
-and are not covered. Every figure, with its filing, page and checks, can be browsed in the
+staff costs and the average number of employees. Ferrari and Racing Bulls (registered as Italian constructors), Sauber (Swiss) and
+Haas (American) \citep{jolpica} are not covered, because no UK company accounts covering the whole team were found for them on
+the Companies House register \citep{ch_register}. Every figure, with its filing, page and checks, can be browsed in the
 \sitepage{provenance}{provenance explorer}; Appendix~\ref{app:construction} sets out how the dataset was built.
 
 \paragraph{Sporting data.} Championship standings and race results come from the Jolpica-F1 API \citep{jolpica}, the
-maintained successor of the Ergast database. Team names change often, so each team is followed as a lineage (for example
+maintained successor of the Ergast database. Team names change often \citep{jolpica}, so each team is followed as a lineage (for example
 Force India, Racing Point and Aston Martin).
 
 \paragraph{Comparison groups.} Shares are computed within each season among the covered teams that report the same measure
@@ -183,9 +211,10 @@ Team lineage & Seasons & \multicolumn{1}{c}{Turnover} & \multicolumn{1}{c}{Staff
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
 \item \textit{Notes:} \NTeamSeasons{} team-seasons. Money in nominal GBP, not adjusted for inflation. Points share and
-efficiency ratio are computed among the covered teams in each season. Manor and Caterham accounts are partial: Manor bought
-in much of its engineering in 2010 and 2011, and Caterham's racing licence was held by a Malaysian company, so their figures
-understate the full team budget. \textit{Source:} datasets \texttt{financial\_observation} (version \VerFinancialObservation)
+efficiency ratio are computed among the covered teams in each season. Manor and Caterham accounts are partial: in 2010 Manor did no research and
+development itself but hired outside technical expertise, and bought the business of Wirth Technologies in 2011
+\citep{ch_manor}; Caterham's UK company provided design, testing and race-support services to its Malaysian parent company
+\citep{ch_caterham}. Their figures therefore understate the full team budget. \textit{Source:} datasets \texttt{financial\_observation} (version \VerFinancialObservation)
 and \texttt{efficiency} (version \VerEfficiency), \sitepage{data}{F1 Moneyball data explorer}.
 \end{tablenotes}
 \end{threeparttable}
@@ -199,13 +228,13 @@ The main model regresses points share on the log of a resource measure in the pr
   \text{PointsShare}_{it} = \beta \log(\text{Resource}_{i,t-1}) + \alpha_i + \gamma_t + \varepsilon_{it},
   \label{eq:main}
 \end{equation}
-where $i$ is a team lineage and $t$ a season. Resources enter with a one-season lag, because success raises prize money and
-sponsorship, so a same-season link would partly run from points to money. Lagging reduces this problem but does not remove
+where $i$ is a team lineage and $t$ a season. Resources enter with a one-season lag, because success raises prize money
+\citep{liberty2018}, so a same-season link would partly run from points to money. Lagging reduces this problem but does not remove
 it. Three versions are estimated for each measure: pooled (without $\alpha_i$ and $\gamma_t$), with team fixed effects
 $\alpha_i$, and with team and season fixed effects. The pooled model compares teams with each other; the fixed-effects models
 ask whether a team does better in the seasons after it had more money than usual. Season effects matter for a specific
-reason here. Points shares add up to one in every season, while money in nominal pounds rises for almost every team over
-time through inflation and growth in the sport's revenue. Without season effects, that common rise in spending has no
+reason here. Points shares add up to one in every season, while money in nominal pounds rises for most teams over time
+(Table~\ref{tab:desc}), partly through general inflation \citep{ons_cpi}. Without season effects, that common rise in spending has no
 matching rise in points to explain, which pulls the within-team estimate towards zero. The model with team and season
 effects is therefore the main within-team test. Because points share is in units of
 0 to 1, $\beta \times \log(1.1) \times 100$ is the change in percentage points that goes with 10\% more of a resource.
@@ -279,7 +308,7 @@ restricted bootstrap, Webb six-point weights, 9,999 draws, within-team models on
 \label{sec:rob}
 
 Table~\ref{tab:rob} collects the main checks, all with team and season fixed effects. Leaving out the seasons with large rule
-resets barely changes the estimates. The size of the within-team estimates moves a lot when one team is left out, but
+resets (2014, 2017 and 2022; \citealp{fia2014tech,fia2017tech,fia2022tech}) barely changes the estimates. The size of the within-team estimates moves a lot when one team is left out, but
 the sign never changes: the staff-cost coefficient ranges from \LooStaffcostsMin{} to \LooStaffcostsMax{}, and the turnover
 coefficient from \LooTurnoverMin{} to \LooTurnoverMax. With championship position as the outcome, where a lower number is
 better, all three measures go with a better position the next season: turnover \PosTurnover{} places per log point
@@ -287,20 +316,20 @@ better, all three measures go with a better position the next season: turnover \
 bootstrap $p = \PosPwildStaffcosts$) and headcount \PosHeadcount{} ($p = \PosPHeadcount$, bootstrap
 $p = \PosPwildHeadcount$). In economic terms, 10\% more staff spending goes with a finish about \PosTenStaffcosts{}
 places higher the next season, and 10\% more turnover with about \PosTenTurnover{} places. Here the two inference methods
-give similar $p$-values. The link does not change measurably under the cost cap. Adding reliability and race-day gains raises the share of variation explained from
+give similar $p$-values. The link does not change measurably under the cost cap (Table~\ref{tab:rob}). Adding reliability and race-day gains raises the share of variation explained from
 \RsqBase{} to \RsqOps{} and absorbs part of the staff-cost link, but both controls are measured in the same season as the
 outcome, so they may themselves be results of spending. Every estimate behind Table~\ref{tab:rob}, including each
 leave-one-out run, is listed on the \sitepage{research/does-money-buy-speed}{research article page}.
 
 \paragraph{Accounting comparability.} The accounts are not all drawn up the same way, and three checks test whether this
-matters. First, four teams switch between group and company accounts during the sample, so the scope of what is counted
+matters. First, four teams switch between group and company accounts during the sample (Table~\ref{tab:scope}), so the scope of what is counted
 changes. Adding an indicator for group accounts in the previous year (\ScopeN{} team-seasons) leaves the staff-cost
 coefficient almost unchanged (\ScopeStaff{} against \CoefStaffTwfe), but its bootstrap $p$-value rises from
 \PwildStaffTwfe{} to \ScopePwildStaff. With championship position as the outcome the staff-cost estimate keeps its size
 (\ScopePosStaff{} places per log point) and its bootstrap $p$-value stays at \ScopePosPwildStaff. Second, a few accounting
-periods are longer or shorter than a year; scaling turnover and staff costs to 365 days gives a staff-cost coefficient of
+periods are longer or shorter than a year (Table~\ref{tab:periods}); scaling turnover and staff costs to 365 days gives a staff-cost coefficient of
 \AnnStaff{} (bootstrap $p = \AnnPwildStaff$). Third, McLaren's staff costs for 2023 to 2025 include large share-based
-payments; removing them gives \SbpStaff{} (bootstrap $p = \SbpPwildStaff$). \RealTerms The points-share result is therefore most
+payments \citep{ch_mclaren}; removing them gives \SbpStaff{} (bootstrap $p = \SbpPwildStaff$). \RealTerms The points-share result is therefore most
 sensitive to accounting scope, and the position result is the steadier of the two.
 
 \paragraph{Multiple testing.} Six within-team tests are reported for the main specification (three measures, two
@@ -337,46 +366,64 @@ $^{c}$~Share-based payments removed where the filing amount is recorded (McLaren
 % ============================================================================ 7
 \section{Discussion and limitations}
 
-Between teams, money and points go together: the richest teams win most. Within teams, the picture depends on how the
-comparison is made. Comparing a team only with its own average shows no link. Comparing it with its own average and with
+Between teams, money and points go together: the richest teams win most (Figure~\ref{fig:scatter}). Within teams, the picture depends on how the
+comparison is made. Comparing a team only with its own average shows no link (Table~\ref{tab:models}). Comparing it with its own average and with
 the other teams in the same season, more money, and staff spending in particular, comes before better results in the next
-season, in both points share and championship position. The direction is the same in every leave-one-out sample, but the
+season, in both points share and championship position (Tables~\ref{tab:models} and~\ref{tab:rob}). The direction is the same in every leave-one-out sample, but the
 size is uncertain, the evidence rests on \NTeams{} teams, the points-share result weakens when accounting scope is
 controlled for, and no single within-team test survives a correction for multiple testing. The fairest reading is that extra spending, especially on
 people, goes with modest improvements within a team, while most of the gap between teams reflects differences that last for
-many years. This fits a picture in which money and success build up together, since winning teams earn more prize money and
-attract more sponsors.
+many years. This fits a picture in which money and success build up together, since most of the prize fund is paid
+according to earlier championship results \citep{liberty2018}.
 
 The main limitations are:
 \begin{itemize}[leftmargin=1.2em,itemsep=0.1em,topsep=0.2em]
   \item the small number of teams, which limits both precision and inference;
   \item accounts that belong to legal entities rather than teams, which may include other business or leave out costs held
-        elsewhere in a group;
+        elsewhere in a group, as for Manor and Caterham \citep{ch_manor,ch_caterham};
   \item accounting periods, standards and scope (group or company accounts) that differ across teams and years, which the
         checks in Section~\ref{sec:rob} address only in part;
   \item reverse causality, which a one-season lag only reduces;
   \item general inflation, which season effects absorb in the two-way model; the simpler models are checked in 2015 pounds
         in Section~\ref{sec:rob};
   \item the absence of Ferrari and the non-UK teams;
-  \item the cost cap and the 2022 technical rules arriving one season apart, so their effects cannot be separated with
-        season-level data.
+  \item the cost cap and the 2022 technical rules arriving one season apart \citep{fia2021,fia2022tech}, so their effects
+        cannot be separated with season-level data.
 \end{itemize}
 
 \section{Conclusion}
 
-This paper asked whether Formula 1 teams with more money do better, using the audited accounts of \NTeams{} team
-lineages from 2010 to 2025. Between teams, the answer is clearly yes: the teams that spend the most score the most points.
-Within a team, the link is weaker and less certain. The clearest result is for staff spending and championship position:
-10\% more spending on staff goes with a finish about \PosTenStaffcosts{} places higher the next season. The same link with
-points share is less certain once changes in how the accounts are drawn up are taken into account, and no within-team
-result passes a correction for multiple testing at the 5\% level. The link does not change measurably under the cost cap.
+This paper asked whether Formula~1 teams with more money do better, using the audited accounts of \NTeams{} team
+lineages from \FirstSeason{} to \LastSeason. The main findings answer its three questions. Between teams, money and success
+go together closely: the teams that spend the most score the most points (Section~5). Within a team, the link is weaker: the clearest
+result is that 10\% more spending on staff goes with a finish about \PosTenStaffcosts{} places higher the next season, while
+the same link with points share is less certain and no within-team result passes a correction for multiple testing at the
+5\% level (Sections~5 and~6). The link does not change measurably under the cost cap (Table~\ref{tab:rob}).
 
-These are associations, not causal effects. Winning brings prize money and sponsors, so money and success build up
-together, and a one-season lag only partly separates the two. The results are best read as evidence that extra spending,
-especially on people, goes with modest gains for a team, while most of the gap between teams reflects differences that
-last for many years. Adding Ferrari and the non-UK teams, more seasons under the cost cap, and a split of spending by
-purpose would make the within-team estimates more precise. All data and code are public, so each of these extensions can
-build directly on this work.
+These findings fit together. If money alone decided results, the within-team link would be as strong as the link between
+teams. Instead, most of the gap between teams reflects differences that last for many years, which may include
+organisation, facilities and experience, and extra spending goes with only modest gains for a given team. That staff spending shows the
+clearest link suggests that money matters most when it is spent on people.
+
+Three criticisms are reasonable. First, success may cause spending rather than the other way round, since most of the
+prize fund is paid according to earlier results \citep{liberty2018}; the one-season lag reduces this problem but does not remove it, so the results are associations, not
+causal effects. Second, the accounts belong to legal companies and are not all drawn up in the same way; the checks in
+Section~\ref{sec:rob} show that the position result holds when changes in accounting scope are controlled for, while
+the points-share result weakens. Third, eight teams is a small sample; the wild cluster bootstrap and the Holm correction take this into
+account, which is why the within-team results are described as suggestive. Section~7 sets out the remaining limitations.
+
+The findings agree with earlier work. They match \citet{lonik2024}, who find that budget strategy is associated with
+better standings, and \citet{bell2016}, who find that team effects explain much of the results. \citet{hall2002} test whether past payroll
+predicts later results and find mixed evidence across sports; here too, the link from past spending to later results within a
+team is weaker and less certain than the link between teams. And like
+\citet{foghsgaard2024} and \citet{jung2023}, they find no clear change under the cost cap so far, with the same difficulty
+of separating the cap from the 2022 technical rules.
+
+For empirical work, the main value of this study is a traceable dataset: every figure is linked to its filing and page, and
+all data and code are public. For policy, the results suggest that a cost cap may narrow the gap between teams only slowly,
+because much of that gap does not depend on current spending. Future research could add Ferrari and the non-UK teams, use
+more seasons under the cost cap, split spending by purpose, and look for changes in rules or prize money that shift a team's
+budget for reasons unrelated to its results, which would allow a closer test of cause and effect.
 
 % ============================================================================ data + code
 \section*{Data and code availability}
@@ -453,7 +500,7 @@ and season.
   \item \textit{Figures as first reported.} When a later filing restates a figure, the figure as first reported is used and
         the restatement is recorded in the notes.
   \item \textit{Missing years.} Where no full-year accounts exist (Force India in 2017 and 2018, during and after its
-        administration), the team-season is recorded as missing, not filled in.
+        administration; \citealp{ch_forceindia}), the team-season is recorded as missing, not filled in.
 \end{itemize}
 
 \paragraph{Accounting periods.} Table~\ref{tab:periods} lists the filings that do not cover about twelve months. They are used
