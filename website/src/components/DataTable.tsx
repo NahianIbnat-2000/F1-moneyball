@@ -33,7 +33,7 @@ export default function DataTable({ rows, columns, specs, pageSize = 25, onRowCl
   const view = sorted.slice(page * pageSize, page * pageSize + pageSize);
   return (
     <div>
-      <div className="overflow-x-auto border-t-2 border-fg">
+      <div className="overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label={caption ?? `Table: ${columns.slice(0, 4).join(", ")}${columns.length > 4 ? "…" : ""}`}>
         <table className="min-w-full text-sm">
           {caption && <caption className="sr-only">{caption}</caption>}
           <thead className="border-b border-fg/70">

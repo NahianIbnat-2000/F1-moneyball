@@ -26,7 +26,7 @@ export default function Methodology() {
       </Section>
 
       <Section title="Data sources">
-        <div className="overflow-x-auto border-t-2 border-fg">
+        <div className="overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label="Data sources">
           <table className="min-w-full text-sm">
             <thead className="border-b border-fg/70 text-left label text-head"><tr><th className="p-3">Source</th><th className="p-3">Used for</th><th className="p-3">Collection</th></tr></thead>
             <tbody>{SOURCES.map(([n, u, c, url]) => (
@@ -84,7 +84,7 @@ export default function Methodology() {
       </Section>
 
       <Section title="Reproduce it">
-        <pre className="bg-raise text-fg text-xs p-5 overflow-x-auto num border-l-4 border-accent">{`git clone <this repository> && cd f1-moneyball
+        <pre className="bg-raise text-fg text-xs p-5 overflow-x-auto num border-l-4 border-accent" tabIndex={0} role="region" aria-label="Commands to reproduce the project">{`git clone <this repository> && cd f1-moneyball
 pip install -e ".[dev]"
 python -m f1moneyball.pipeline all     # ingest, build, validate, publish
 pytest                                 # test suite

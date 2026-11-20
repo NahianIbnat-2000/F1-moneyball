@@ -64,7 +64,7 @@ function Profile({ entry, status }: { entry: DatasetEntry; status: DatasetStatus
 
 function Dictionary({ entry, status }: { entry: DatasetEntry; status: DatasetStatus }) {
   return (
-    <div className="overflow-x-auto border-t-2 border-fg">
+    <div className="overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label={`Data dictionary for ${entry.title}`}>
       <table className="min-w-full text-sm">
         <caption className="sr-only">Data dictionary for {entry.title}</caption>
         <thead className="border-b border-fg/70 text-left label text-head">

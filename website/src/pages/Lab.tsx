@@ -112,6 +112,7 @@ export default function Lab() {
         lede="Compare every published specification of Study 01 side by side: how the estimate changes between models, how uncertain it is, and whether it survives the robustness checks. Nothing here is re-estimated in your browser; every number comes from the published result files." />
 
       <Section>
+        <h2 className="sr-only">Estimates and robustness checks</h2>
         {!ready && <p className="font-mono text-sm text-muted">{models.status === "missing" || rob.status === "missing" ? "Results not published yet." : "Loading published results…"}</p>}
         {ready && (
           <div className="grid gap-12">
@@ -223,7 +224,7 @@ export default function Lab() {
 
 function EstTable({ ests, outcome }: { ests: Est[]; outcome: string }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Estimates for each model">
       <table className="w-full text-sm font-mono min-w-[760px]">
         <caption className="sr-only">Estimates for each model</caption>
         <thead><tr className="text-left text-muted">

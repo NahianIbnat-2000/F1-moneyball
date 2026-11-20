@@ -328,7 +328,7 @@ function Comparison({ cs, eff }: { cs: Row[]; eff: Row[] | null }) {
         </div>
       </fieldset>
       {picked.length > 0 && (
-        <div className="mt-5 overflow-x-auto border-t-2 border-fg">
+        <div className="mt-5 overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label="Efficiency over the compared seasons">
           <table className="min-w-full text-sm">
             <caption className="text-left text-xs text-muted py-2">{common.length ? `Compared over ${common.length} seasons: ${common[0]}–${common.at(-1)}.` : "The chosen teams never raced in the same season."}</caption>
             <thead><tr className="border-b border-fg/70"><th scope="col" className="label text-left py-2 pr-4">Measure</th>{picked.map((t) => <th key={t} scope="col" className="label text-left py-2 pr-4 text-fg">{teams.find(([i]) => i === t)?.[1]}</th>)}</tr></thead>
@@ -350,7 +350,7 @@ function ModelTable({ rows }: { rows: Row[] }) {
       <div className="label text-accent-fg">Table MB-11 · Model estimates, not causal effects</div>
       <h3 className="font-serif text-xl md:text-2xl font-semibold text-head">Points share and last season's resources</h3>
       <p className="mt-1 font-serif text-fg/80 max-w-3xl">points_share<sub>it</sub> = β log(resources<sub>i,t−1</sub>) [+ team effects] [+ season effects] + ε<sub>it</sub>. Standard errors clustered by team. The economic size is the change in points share, in percentage points, associated with 10% more resources the season before.</p>
-      <div className="mt-4 overflow-x-auto border-t-2 border-fg">
+      <div className="mt-4 overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label="Model estimates">
         <table className="min-w-full text-sm">
           <thead><tr className="border-b border-fg/70 text-left">{["Measure", "Specification", "N", "Teams", "β", "SE", "95% CI", "p", "R²", "+10% resources → points share (pp)", "Note"].map((h) => <th key={h} scope="col" className="label py-2 pr-3">{h}</th>)}</tr></thead>
           <tbody>{rows.map((r) => (

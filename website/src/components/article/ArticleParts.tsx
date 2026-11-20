@@ -156,10 +156,10 @@ export function LimitationsPanel({ items }: { items: string[] }) {
   );
 }
 
-export function DataAvailability({ datasets }: { datasets: string[] }) {
+export function DataAvailability({ datasets, label = "Status of the datasets this article uses" }: { datasets: string[]; label?: string }) {
   const statuses = useStatuses();
   return (
-    <div className="overflow-x-auto border-t-2 border-fg font-sans">
+    <div className="overflow-x-auto border-t-2 border-fg font-sans" tabIndex={0} role="region" aria-label={label}>
       <table className="min-w-full text-sm">
         <caption className="sr-only">Status of the datasets this article uses</caption>
         <thead className="border-b border-fg/70 text-left label text-head"><tr><th scope="col" className="p-3">Dataset</th><th scope="col" className="p-3">Status</th><th scope="col" className="p-3">Observations</th><th scope="col" className="p-3">Coverage</th><th scope="col" className="p-3">Version</th></tr></thead>
@@ -209,7 +209,7 @@ export function HowToCite({ a }: { a: Article }) {
     <section aria-labelledby="cite-h" className="mt-12 border-t-2 border-fg pt-4">
       <h2 id="cite-h" className="font-serif text-xl font-semibold text-head">How to cite</h2>
       <p className="mt-2 text-sm text-fg/90 max-w-3xl">{apa}</p>
-      <pre className="mt-3 text-xs bg-raise/60 p-3 overflow-x-auto"><code>{bib}</code></pre>
+      <pre className="mt-3 text-xs bg-raise/60 p-3 overflow-x-auto" tabIndex={0} role="region" aria-label="BibTeX citation"><code>{bib}</code></pre>
       <div className="mt-2 flex gap-5 text-sm" aria-live="polite">
         <button className="underline decoration-accent underline-offset-2" onClick={() => copy(apa, "apa")}>{copied === "apa" ? "Copied" : "Copy citation"}</button>
         <button className="underline decoration-accent underline-offset-2" onClick={() => copy(bib, "bib")}>{copied === "bib" ? "Copied" : "Copy BibTeX"}</button>

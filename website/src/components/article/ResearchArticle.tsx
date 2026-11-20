@@ -55,7 +55,7 @@ export default function ResearchArticle({ a }: { a: Article }) {
           ) : <><p>Planned checks. Each will be reported next to the main result it tests.</p><ul>{a.robustness.map((r) => <li key={r}>{r}</li>)}</ul></>)}
           {S("interpretation", a.interpretation.length ? <P items={a.interpretation} /> : <p>No interpretation is offered before results exist.</p>)}
           {S("limitations", <LimitationsPanel items={a.limitations} />)}
-          {S("availability", <><p>All published data can be inspected and downloaded in the <Link className="underline decoration-accent" to="/data">Data Explorer</Link>, with its data dictionary and sources.</p><DataAvailability datasets={a.datasets} /></>)}
+          {S("availability", <><p>All published data can be inspected and downloaded in the <Link className="underline decoration-accent" to="/data">Data Explorer</Link>, with its data dictionary and sources.</p><DataAvailability datasets={a.datasets} label="Datasets available to download" /></>)}
           {S("reproducibility", <ul>{a.reproducibility.map((r) => <li key={r}><code className="num text-xs bg-raise px-1 break-all">{r}</code></li>)}</ul>)}
           {S("references", <ReferencesList refs={a.references} />)}
           <HowToCite a={a} />

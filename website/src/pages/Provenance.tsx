@@ -126,7 +126,7 @@ export default function Provenance() {
                           const warn = !!r && !!str(r.comparability_warning);
                           const on = sel.team === tid && sel.season === String(s);
                           const dim = flaggedOnly && !warn;
-                          const label = `${name}, ${s}: ${has ? `${fmtValue(r!)}, ${isGroup(r!) ? "group" : "company"} accounts` : "no accounts available"}${warn ? ", comparability warning" : ""}`;
+                          const label = `${has ? (isGroup(r!) ? "G" : "C") : "–"}: ${name}, ${s}: ${has ? `${fmtValue(r!)}, ${isGroup(r!) ? "group" : "company"} accounts` : "no accounts available"}${warn ? ", comparability warning" : ""}`;
                           return (
                             <td key={s} className="px-0.5 py-0.5">
                               <button type="button" aria-label={label} aria-pressed={on} title={label}
@@ -228,7 +228,7 @@ function Detail({ rows, metricLabel }: { rows: Row[]; metricLabel: Record<string
           <div className="mt-5"><Callout title="Comparability warning" tone="caution">{warnings.map((w) => <p key={w} className="text-sm text-fg">{w}</p>)}</Callout></div>
         )}
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Figures recorded from this filing">
         <table className="w-full text-sm">
           <caption className="sr-only">Figures recorded from this filing</caption>
           <thead><tr className="border-b-2 border-fg text-left"><th className="label py-1.5 pr-3">Measure</th><th className="label py-1.5 pr-3 text-right">Value</th><th className="label py-1.5">How it was recorded</th></tr></thead>
