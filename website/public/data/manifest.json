@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-19T22:51:00+00:00",
-  "pipeline_commit": "79058f7",
+  "generated_at_utc": "2026-11-20T14:04:22+00:00",
+  "pipeline_commit": "e839b0c",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -2235,7 +2235,7 @@
         "metric",
         "model"
       ],
-      "rows": 89,
+      "rows": 104,
       "n_variables": 19,
       "columns": {
         "study": {
@@ -2376,7 +2376,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "The six-team models stay imprecise even with bootstrap p-values."
       ],
-      "version": "d4a1a5dcbc91",
+      "version": "c0a0f06ff81e",
       "sources": [
         {
           "id": "jolpica",
@@ -2410,13 +2410,13 @@
       "scipy": "1.18.1",
       "statsmodels": "0.15.0",
       "pyarrow": "26.0.1",
-      "duckdb": "2.0.0",
+      "duckdb": "2.0.1",
       "requests": "2.34.2"
     }
   },
   "quality": {
     "n_errors": 0,
-    "n_warnings": 1,
+    "n_warnings": 4,
     "issues": [
       {
         "dataset": "constructor_season",
@@ -2424,6 +2424,27 @@
         "severity": "warning",
         "message": "Standings points differ from summed race points in seasons [2020, 2021, 2022, 2023, 2024, 2025] (expected where sprint races or penalties apply)",
         "n_rows": 37
+      },
+      {
+        "dataset": "financial_observation",
+        "check": "period_length",
+        "severity": "warning",
+        "message": "Accounting periods not about 12 months (not annualised in the data; see robustness check annualised_periods): ['silverstone 2019-08-31 (395 days)', 'silverstone 2020-12-31 (122 days)', 'banbury 2017-06-30 (547 days)', 'leafield 2010-12-31 (457 days)']",
+        "n_rows": 4
+      },
+      {
+        "dataset": "financial_observation",
+        "check": "accounting_scope_switch",
+        "severity": "warning",
+        "message": "Teams whose accounts switch between company-only and group-consolidated: ['mclaren', 'mercedes', 'red_bull', 'williams'] (see robustness check scope_control)",
+        "n_rows": 4
+      },
+      {
+        "dataset": "financial_observation",
+        "check": "yoy_change",
+        "severity": "warning",
+        "message": "Year-on-year changes above 50%, to check against the filings: ['banbury staff_costs 2011 (+114%)', 'banbury staff_costs 2012 (+53%)', 'banbury staff_costs 2015 (-58%)', 'banbury staff_costs 2016 (+111%)', 'banbury turnover 2013 (+115%)', 'banbury turnover 2014 (-57%)', 'banbury turnover 2015 (+52%)', 'enstone turnover 2016 (+53%)', 'leafield turnover 2012 (+117%)', 'mclaren staff_costs 2025 (+59%)', 'mclaren turnover 2019 (+50%)', 'mclaren turnover 2020 (+79%)', 'mclaren turnover 2022 (+55%)', 'red_bull staff_costs 2025 (+59%)', 'silverstone staff_costs 2025 (+92%)', 'silverstone turnover 2021 (+148%)', 'williams turnover 2020 (-55%)', 'williams turnover 2021 (+98%)']",
+        "n_rows": 18
       }
     ]
   }

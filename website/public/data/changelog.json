@@ -10,6 +10,16 @@
   },
   "entries": [
     {
+      "date": "2026-11-20",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "104 rows, version c0a0f06ff81e (previously d4a1a5dcbc91, 89 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
+    },
+    {
       "date": "2026-11-19",
       "category": "new_data",
       "title": "Regulation events published",
