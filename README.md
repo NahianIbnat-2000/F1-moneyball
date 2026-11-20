@@ -33,6 +33,8 @@ F1 Moneyball studies how financial resources, regulation, operational efficiency
 | Tourism, Austria | [Statistik Austria, overnight stays and arrivals by state](https://data.statistik.gv.at/web/meta.jsp?dataset=OGD_touextsai_Tour_UA_1) (open data, CC BY 4.0) |
 | Tourism, Singapore | [Singapore Tourism Board via data.gov.sg](https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view) (Singapore Open Data Licence) |
 
+**Why the source documents are in this repository.** The folder [`data/source_documents`](data/source_documents) holds a copy of every document the figures were read from: 105 audited annual accounts filed by the teams' UK companies, 9 FIA regulation documents, and 6 files from the tourism sources. The company accounts are public records, free to view and download from Companies House. They are kept here so that anyone can check each figure against the exact page it came from (the page is recorded next to every figure), even if a filing later moves or the online register changes. The [provenance explorer](https://nahianibnat-2000.github.io/F1-moneyball/provenance/) links each figure to its saved copy. The documents are unchanged and remain the work of the companies and bodies that published them.
+
 ### How to cite
 
 For the working paper (Study 01, *Does Money Buy Speed?*):
@@ -50,13 +52,13 @@ For the cost cap or Grand Prix study, the data, or the project as a whole:
 | Implementation audit ([docs/IMPLEMENTATION_AUDIT.md](docs/IMPLEMENTATION_AUDIT.md)) | Done |
 | Phase 1: repository, design system, website shell, CI/CD | Done |
 | Phase 2: Jolpica-F1 ingestion, team lineage, validation, balance metrics, publishing | Code done and tested on fixtures. **First real data pull runs on the first `Data pipeline` workflow run.** |
-| Financial database (Companies House, manual entry) | Schema and validator done. **Table is empty**: no figures have been entered yet. |
+| Financial database (Companies House, manual entry) | Done: 8 team lineages, 2010 to 2025, each figure linked to its filing and page. Large year-on-year changes checked against the filings ([docs/VERIFICATION_REPORT.md](docs/VERIFICATION_REPORT.md)). |
 | Session 1 of the research-grade brief: dataset status system, article template, homepage, Data Explorer, provenance ([docs/SESSION1_AUDIT_AND_PLAN.md](docs/SESSION1_AUDIT_AND_PLAN.md)) | Done |
 | Session 4: racing theme; Cost Cap (ITS, placebos, dose-response event study) and Grand Prix Economy (event study, synthetic control) methods and pages ([docs/SESSION4_REPORT.md](docs/SESSION4_REPORT.md)) | Code done and tested; **needs data** |
 | Session 3: lazy loading (home JS 1,344 kB → 200 kB), path URLs with per-page metadata, citations, changelog, axe and Lighthouse checks ([docs/SESSION3_REPORT.md](docs/SESSION3_REPORT.md)) | Done |
 | Session 2: editorial theme, efficiency indicators, FE models, flagship laboratory and comparison tool ([docs/SESSION2_REPORT.md](docs/SESSION2_REPORT.md)) | Code done and tested; **results appear after the first pipeline run and financial entry** |
 
-**Published real data today:** the regulation event table (8 rows, cost-cap levels sourced to secondary reporting, flagged until checked against FIA documents). Nothing else on the site shows numbers until the pipeline has produced them.
+**Current state:** see [docs/PROJECT_AUDIT.md](docs/PROJECT_AUDIT.md) and [docs/VERIFICATION_REPORT.md](docs/VERIFICATION_REPORT.md) (November 2026). The session reports above are kept as history.
 
 ## Quick start
 
