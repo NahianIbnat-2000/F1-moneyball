@@ -7,7 +7,7 @@ import { fmtDate } from "../lib/status";
 
 // Navigation as terminal function keys. "F1" opens the home page.
 const NAV = [
-  ["/", "Home"], ["/research", "Research"], ["/moneyball", "F1 Moneyball"],
+  ["/", "Home"], ["/research", "Research"], ["/moneyball", "F1 Moneyball"], ["/lab", "Econometrics Lab"],
   ["/data", "Data Explorer"], ["/methodology", "Methodology"], ["/faq", "FAQ"], ["/about", "About"],
 ] as const;
 

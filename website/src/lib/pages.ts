@@ -9,6 +9,7 @@ const site = (title: string) => `${title} · ${BRAND.name}`;
 export const PAGES: PageMeta[] = [
   { path: "/", title: `${BRAND.name} · ${BRAND.tagline}`, description: `${BRAND.headline} ${BRAND.positioning}`, type: "website", image: "og/default.png" },
   { path: "/research", title: site("Research"), description: `${BRAND.series} Research designs, data and results on the economics of Formula 1.`, type: "website", image: "og/default.png" },
+  { path: "/lab", title: site("Econometrics Lab"), description: "Compare every published model of Does Money Buy Speed? side by side: estimates, confidence intervals, clustered, bootstrap and Holm-adjusted p-values, and robustness checks.", type: "website", image: "og/does-money-buy-speed.png" },
   { path: "/moneyball", title: site("F1 Moneyball laboratory"), description: "How efficiently do Formula 1 teams convert financial resources into sporting performance? Charts, efficiency measures and models.", type: "website", image: "og/does-money-buy-speed.png" },
   { path: "/cost-cap", title: site("The Cost Cap Paradox"), description: "Did the introduction of the Formula 1 cost cap change competitive balance? Research in progress.", type: "website", image: "og/cost-cap-paradox.png" },
   { path: "/grand-prix-economy", title: site("The Grand Prix Economy"), description: "Does hosting a Formula 1 Grand Prix generate net additional economic benefits for the host economy? Research in progress.", type: "website", image: "og/grand-prix-economy.png" },

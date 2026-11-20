@@ -30,7 +30,7 @@ function useHostSeries(rows: Row[]) {
   const [key, setKey] = useState(keys[0] ?? "");
   const [region, series] = key.split("|");
   const control = keys.length > 1 ? (
-    <label className="label grid gap-1">Host and series
+    <label className="label grid gap-1 min-w-0 max-w-full">Host and series
       <select className={sel} value={key} onChange={(e) => setKey(e.target.value)}>{keys.map((k) => { const [r, s] = k.split("|"); return <option key={k} value={k}>{`${pretty(r)} · ${seriesLabel(s)}`}</option>; })}</select>
     </label>
   ) : undefined;

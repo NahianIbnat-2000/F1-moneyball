@@ -227,6 +227,19 @@ def cmd_validate(args) -> dict:
     return summary
 
 
+def _load_cpi() -> pd.DataFrame | None:
+    """UK CPI annual index (ONS D7BT), if the author has added it. See docs/REAL_TERMS.md."""
+    p = config.MANUAL_DIR / "uk_cpi_annual.csv"
+    if not p.exists():
+        log.info("No data/manual/uk_cpi_annual.csv: real-terms checks skipped (see docs/REAL_TERMS.md)")
+        return None
+    cpi = pd.read_csv(p)
+    missing = {"year", "cpi_index", "source_url"} - set(cpi.columns)
+    if missing:
+        raise ValueError(f"uk_cpi_annual.csv is missing columns {sorted(missing)}")
+    return cpi
+
+
 def build_robustness() -> None:
     """Sensitivity checks for all three studies, from the processed outputs. Runs on every publish."""
     out = config.PROCESSED_DIR / "robustness_checks.parquet"
@@ -236,7 +249,8 @@ def build_robustness() -> None:
         log.info("No sporting data: robustness checks skipped")
         return
     r = run_robustness(t.get("efficiency"), t["constructor_season"], t["competitive_balance"],
-                       t["gp_tourism_monthly"], t["gp_race_events"], t.get("gp_scm_inference"))
+                       t["gp_tourism_monthly"], t["gp_race_events"], t.get("gp_scm_inference"),
+                       fin=t.get("financial_observation"), cpi=_load_cpi())
     if len(r):
         r.to_parquet(out, index=False)
         log.info("Robustness checks: %d estimates", len(r))

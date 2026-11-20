@@ -176,12 +176,57 @@ def financial_observations(df: pd.DataFrame, valid_team_ids: set[str]) -> list[I
     if out_range.any():
         out += _issue(ds, "plausible_range", "error", "Value outside documented plausible range",
                       out_range.sum())
+    out += financial_comparability(df[has_value])
     # Mixing bases inside one team-metric series is allowed but must be visible.
     mixed = df[has_value].groupby(["team_id", "metric"])["source_class"].nunique()
     if (mixed > 1).any():
         out += _issue(ds, "mixed_source_class", "warning",
                       f"Series mixing source classes: {[f'{a}/{b}' for a, b in mixed[mixed > 1].index]}",
                       int((mixed > 1).sum()))
+    return out
+
+
+YOY_FLAG = 0.5  # year-on-year change in a money series above 50% is listed for review
+
+
+def financial_comparability(df: pd.DataFrame) -> list[Issue]:
+    """Warnings, not errors: real features of the filings that the models must allow for.
+
+    - accounting periods that are not about twelve months (amounts are not comparable with a normal year);
+    - teams whose accounts switch between company-only and group-consolidated;
+    - year-on-year changes above 50% in turnover or staff costs, listed so each can be checked against the filing.
+    """
+    ds, out = "financial_observation", []
+    if df.empty:
+        return out
+    d = df.copy()
+    days = (pd.to_datetime(d["financial_year_end"], errors="coerce")
+            - pd.to_datetime(d["financial_year_start"], errors="coerce")).dt.days + 1
+    odd = d.loc[(days < 350) | (days > 380)].drop_duplicates(["team_id", "financial_year_end"])
+    if len(odd):
+        lst = [f"{r.team_id} {str(r.financial_year_end)[:10]} ({int(days[i])} days)" for i, r in odd.iterrows()]
+        out += _issue(ds, "period_length", "warning",
+                      f"Accounting periods not about 12 months (not annualised in the data; see robustness check "
+                      f"annualised_periods): {lst}", len(odd))
+    if "accounting_basis" in d:
+        basis = d.assign(group=d["accounting_basis"].fillna("").str.contains("group")).groupby("team_id")["group"].nunique()
+        sw = sorted(basis[basis > 1].index)
+        if sw:
+            out += _issue(ds, "accounting_scope_switch", "warning",
+                          f"Teams whose accounts switch between company-only and group-consolidated: {sw} "
+                          "(see robustness check scope_control)", len(sw))
+    money = d[d["metric"].isin(["turnover", "staff_costs"]) & d["season_mapped"].notna()].copy()
+    money["v"] = pd.to_numeric(money["value"], errors="coerce")
+    money = money.sort_values(["team_id", "metric", "season_mapped"])
+    money["prev"] = money.groupby(["team_id", "metric"])["v"].shift()
+    money["prev_season"] = money.groupby(["team_id", "metric"])["season_mapped"].shift()
+    consecutive = money["season_mapped"] - money["prev_season"] == 1
+    chg = (money["v"] / money["prev"] - 1).where(consecutive & (money["prev"] > 0))
+    big = money[chg.abs() > YOY_FLAG]
+    if len(big):
+        lst = [f"{r.team_id} {r.metric} {int(r.season_mapped)} ({chg[i]:+.0%})" for i, r in big.iterrows()]
+        out += _issue(ds, "yoy_change", "warning",
+                      f"Year-on-year changes above {YOY_FLAG:.0%}, to check against the filings: {lst}", len(big))
     return out
 
 

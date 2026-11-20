@@ -11,7 +11,7 @@ export default function PlotImpl({ data, layout, height = 380, ariaLabel }: { da
   // Toolbar hidden: its controls are not keyboard or crawler friendly. Downloads are buttons in ChartFrame.
   const config: Partial<Config> = { displaylogo: false, responsive: true, displayModeBar: false };
   return (
-    <div role="img" aria-label={ariaLabel}>
+    <div role="img" aria-label={ariaLabel} style={{ minWidth: 0, maxWidth: "100%", overflow: "hidden" }}>
       <PlotlyComponent
         data={data}
         layout={{

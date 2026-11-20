@@ -31,7 +31,7 @@ export default function ChartFrame({ meta, children, controls, table }: { meta: 
     Plotly.downloadImage(gd, { format, filename: `f1moneyball_${meta.id}`, width: 1200, height: 700 });
   };
   return (
-    <figure ref={ref} className="rule-top pt-3">
+    <figure ref={ref} className="rule-top pt-3 min-w-0 max-w-full">
       <div className="label text-accent-fg">Figure {meta.id}</div>
       <h3 className="font-serif text-xl md:text-2xl font-semibold text-head mt-0.5">{meta.title}</h3>
       <p className="mt-1 font-serif text-fg/80 max-w-3xl leading-relaxed">{meta.caption}</p>

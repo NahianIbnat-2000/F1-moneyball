@@ -4,7 +4,7 @@ Every row is one estimate: which study and check it belongs to, the coefficient 
 uncertainty, and a note. `baseline_coef` repeats the main result so a reader can see how much a
 check moves it.
 
-Few clusters. The resource models and the dose-response model have only six teams. Clustered
+Few clusters. The resource models have only eight teams and the dose-response model six. Clustered
 standard errors are too small with so few clusters (Cameron, Gelbach and Miller 2008), so the main
 estimates also get a wild cluster bootstrap p-value: restricted (null imposed), Webb six-point weights,
 which work better than Rademacher weights when there are fewer than about ten clusters (Webb 2023).
@@ -134,6 +134,168 @@ def moneyball_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> 
     return rows
 
 
+# ----------------------------------------------------------------------------- accounting comparability
+FLOW_METRICS = ("turnover", "staff_costs")  # amounts that scale with the length of the period; headcount is an average
+NORMAL_PERIOD_DAYS = (350, 380)
+
+
+def account_meta(fin: pd.DataFrame) -> pd.DataFrame:
+    """One row per team-season: length of the accounting period in days and whether the accounts are group-consolidated."""
+    f = fin[(fin["source_class"] != "missing") & fin["season_mapped"].notna()].copy()
+    f["season"] = f["season_mapped"].astype(int)
+    f["period_days"] = (pd.to_datetime(f["financial_year_end"]) - pd.to_datetime(f["financial_year_start"])).dt.days + 1
+    f["group_accounts"] = f["accounting_basis"].fillna("").str.contains("group").astype(int)
+    return f.drop_duplicates(["team_id", "season"])[["team_id", "season", "period_days", "group_accounts"]]
+
+
+def annualised(eff: pd.DataFrame, meta: pd.DataFrame) -> pd.DataFrame:
+    """Copy of `eff` with flow amounts scaled to 365 days where the accounting period was not about a year."""
+    e = eff.merge(meta[["team_id", "season", "period_days"]], on=["team_id", "season"], how="left")
+    lo, hi = NORMAL_PERIOD_DAYS
+    odd = e["metric"].isin(FLOW_METRICS) & e["period_days"].notna() & ((e["period_days"] < lo) | (e["period_days"] > hi))
+    e.loc[odd, "value"] = e.loc[odd, "value"] * 365 / e.loc[odd, "period_days"]
+    return e.drop(columns="period_days")
+
+
+SBP_RE = r"share-based payments of ([\d,]+) \(£000\)"
+
+
+def without_share_based_pay(eff: pd.DataFrame, fin: pd.DataFrame) -> tuple[pd.DataFrame, int]:
+    """Copy of `eff` with share-based payments removed from staff costs, where the filing's amount is recorded
+    in the notes column (the first amount quoted, which is the figure for that year). Share-based payments are a
+    non-cash charge that can swing a lot from year to year."""
+    f = fin[(fin["metric"] == "staff_costs") & fin["season_mapped"].notna()].copy()
+    f["sbp"] = f["notes"].fillna("").str.extract(SBP_RE, expand=False).str.replace(",", "").astype(float) * 1000
+    f = f.dropna(subset=["sbp"])
+    f["season"] = f["season_mapped"].astype(int)
+    e = eff.merge(f[["team_id", "season", "sbp"]].assign(metric="staff_costs"), on=["team_id", "season", "metric"], how="left")
+    hit = e["sbp"].notna()
+    e.loc[hit, "value"] = e.loc[hit, "value"] - e.loc[hit, "sbp"]
+    return e.drop(columns="sbp"), int(hit.sum())
+
+
+def comparability_checks(eff: pd.DataFrame, cs: pd.DataFrame, fin: pd.DataFrame, wild: bool = True) -> list[dict]:
+    """Do the main within-team results depend on how the accounts were drawn up?
+
+    scope_control: adds an indicator for group-consolidated accounts in the lagged year. Several teams switch
+    between company-only and group accounts, which can change reported amounts without any change in spending.
+    annualised_periods: flow amounts from periods that are not about twelve months are scaled to 365 days.
+    """
+    rows: list[dict] = []
+    meta = account_meta(fin)
+    lag = meta[["team_id", "season", "group_accounts"]].copy()
+    lag["season"] += 1
+    lag = lag.rename(columns={"group_accounts": "group_lag"})
+    eff_a = annualised(eff, meta)
+    pos = cs[["team_id", "season", "position"]]
+    x = "log_resource_lag"
+    for metric in METRICS:
+        g = eff[(eff["metric"] == metric) & (eff["value"] > 0)]
+        if g.empty:
+            continue
+        ccy = g["currency"].mode().iat[0]
+        base = {"study": "does-money-buy-speed", "metric": metric, "model": "twfe"}
+        panel = lagged_panel(eff, metric, ccy).merge(lag, on=["team_id", "season"], how="left").fillna({"group_lag": 0})
+        panel = panel.merge(pos, on=["team_id", "season"], how="left")
+        if panel["team_id"].nunique() < 4:
+            continue
+        for outcome, cid, label in (("points_share", "scope_control", "Control for group vs company accounts (lagged year)"),
+                                    ("position", "scope_control_position", "Position outcome, control for group vs company accounts")):
+            d = panel.dropna(subset=[outcome])
+            f0 = f"{outcome} ~ {x} + C(team_id) + C(season)"
+            f1 = f"{outcome} ~ {x} + group_lag + C(team_id) + C(season)"
+            b0 = _fit(f0, d, x)
+            r = _fit(f1, d, x)
+            if wild:
+                r["p_wild"] = wild_cluster_p(f1, d, x, "team_id")
+            r["note"] = (f"{int(d['group_lag'].sum())} team-seasons follow a year of group-consolidated accounts. "
+                         "Same sample and fixed effects as the main estimate.")
+            rows.append({**base, "check_id": cid, "check": label, **r, "baseline_coef": b0["coef"]})
+        if metric in FLOW_METRICS:
+            pa = lagged_panel(eff_a, metric, ccy)
+            f = f"points_share ~ {x} + C(team_id) + C(season)"
+            r = _fit(f, pa, x)
+            if wild:
+                r["p_wild"] = wild_cluster_p(f, pa, x, "team_id")
+            n_odd = int(((meta["period_days"] < NORMAL_PERIOD_DAYS[0]) | (meta["period_days"] > NORMAL_PERIOD_DAYS[1])).sum())
+            r["note"] = f"{n_odd} team-season accounts cover more or less than about a year; their amounts are scaled to 365 days."
+            rows.append({**base, "check_id": "annualised_periods", "check": "Accounting periods scaled to 12 months",
+                         **r, "baseline_coef": _fit(f, lagged_panel(eff, metric, ccy), x)["coef"]})
+    eff_s, n_sbp = without_share_based_pay(eff, fin)
+    if n_sbp:
+        f = f"points_share ~ {x} + C(team_id) + C(season)"
+        ps = lagged_panel(eff_s, "staff_costs", "GBP")
+        r = _fit(f, ps, x)
+        if wild:
+            r["p_wild"] = wild_cluster_p(f, ps, x, "team_id")
+        r["note"] = (f"Share-based payments removed from {n_sbp} team-season staff-cost figures where the filing amount is "
+                     "recorded (McLaren 2023 to 2025). Other teams' filings may include smaller amounts not recorded here.")
+        rows.append({"study": "does-money-buy-speed", "metric": "staff_costs", "model": "twfe",
+                     "check_id": "staff_costs_ex_share_based_pay", "check": "Staff costs without share-based payments",
+                     **r, "baseline_coef": _fit(f, lagged_panel(eff, "staff_costs", "GBP"), x)["coef"]})
+    return rows
+
+
+def real_terms_checks(eff: pd.DataFrame, cpi: pd.DataFrame, wild: bool = True) -> list[dict]:
+    """Money measures in constant prices, deflated by the UK CPI annual index (ONS series D7BT).
+
+    Only the pooled and team-FE models can change: with season fixed effects, a price index that is the same for
+    every team in a season is absorbed by the season effect, so the two-way estimate is identical by construction.
+    """
+    rows: list[dict] = []
+    if cpi is None or cpi.empty:
+        return rows
+    idx = cpi.set_index("year")["cpi_index"]
+    x = "log_resource_lag"
+    for metric in FLOW_METRICS:
+        e = eff.copy()
+        m = (e["metric"] == metric) & e["season"].isin(idx.index)
+        if not m.any():
+            continue
+        e.loc[m, "value"] = e.loc[m, "value"] / e.loc[m, "season"].map(idx) * 100
+        panel = lagged_panel(e, metric, "GBP")
+        for spec in ("pooled", "team_fe"):
+            f = f"points_share ~ {x}{SPECS[spec]}"
+            r = _fit(f, panel, x)
+            if wild and spec != "pooled":
+                r["p_wild"] = wild_cluster_p(f, panel, x, "team_id")
+            r["note"] = (f"Deflated by the UK CPI annual index (ONS D7BT, base year {int(idx.sub(100).abs().idxmin())} = 100). "
+                         "The two-way model is unchanged by construction, so it is not repeated.")
+            rows.append({"study": "does-money-buy-speed", "metric": metric, "model": spec, "check_id": "real_terms",
+                         "check": "Money in constant prices (UK CPI)", **r,
+                         "baseline_coef": _fit(f, lagged_panel(eff, metric, "GBP"), x)["coef"]})
+    return rows
+
+
+def holm(p: pd.Series) -> pd.Series:
+    """Holm step-down adjusted p-values (controls the family-wise error rate)."""
+    order = p.sort_values().index
+    m, run, out = len(p), 0.0, pd.Series(index=p.index, dtype=float)
+    for k, i in enumerate(order):
+        run = max(run, min(1.0, (m - k) * p[i]))
+        out[i] = run
+    return out
+
+
+def multiple_testing_rows(rows: list[dict]) -> list[dict]:
+    """Holm adjustment over the main within-team family: three measures x two outcomes, team and season effects,
+    using the wild bootstrap p-values. The family was fixed before looking at the adjusted values."""
+    fam = [r for r in rows if r.get("study") == "does-money-buy-speed" and r.get("model") == "twfe"
+           and r.get("check_id") in ("baseline", "position_outcome") and pd.notna(r.get("p_wild"))]
+    if len(fam) < 2:
+        return []
+    adj = holm(pd.Series([r["p_wild"] for r in fam]))
+    out = []
+    for r, a in zip(fam, adj, strict=True):
+        outcome = "points share" if r["check_id"] == "baseline" else "championship position"
+        out.append({"study": r["study"], "check_id": "holm_adjusted", "check": f"Holm-adjusted bootstrap p, {outcome}",
+                    "metric": r["metric"], "model": "twfe", "coef": r["coef"], "se": r.get("se"), "p_value": r.get("p_wild"),
+                    "p_wild": float(a), "n_obs": r.get("n_obs"), "n_teams": r.get("n_teams"), "baseline_coef": r["coef"],
+                    "note": f"Family of {len(fam)} tests (3 measures x 2 outcomes). p_value = unadjusted bootstrap p; "
+                            "p_wild = Holm-adjusted."})
+    return out
+
+
 # ----------------------------------------------------------------------------- Cost Cap Paradox
 def cost_cap_checks(balance: pd.DataFrame, cs: pd.DataFrame, eff: pd.DataFrame | None, wild: bool = True) -> list[dict]:
     rows: list[dict] = []
@@ -232,10 +394,15 @@ def grand_prix_checks(tourism: pd.DataFrame, events: pd.DataFrame, inference: pd
 
 def run_robustness(eff: pd.DataFrame | None, cs: pd.DataFrame, balance: pd.DataFrame,
                    tourism: pd.DataFrame, events: pd.DataFrame, inference: pd.DataFrame | None,
-                   wild: bool = True) -> pd.DataFrame:
+                   wild: bool = True, fin: pd.DataFrame | None = None, cpi: pd.DataFrame | None = None) -> pd.DataFrame:
     rows = cost_cap_checks(balance, cs, eff, wild)
     if eff is not None and len(eff):
-        rows = moneyball_checks(eff, cs, wild) + rows
+        mb = moneyball_checks(eff, cs, wild)
+        if fin is not None and len(fin):
+            mb += comparability_checks(eff, cs, fin, wild)
+        mb += real_terms_checks(eff, cpi, wild)
+        mb += multiple_testing_rows(mb)
+        rows = mb + rows
     rows += grand_prix_checks(tourism, events, inference)
     out = pd.DataFrame(rows)
     cols = ["study", "check_id", "check", "metric", "model", "coef", "se", "ci_low", "ci_high", "p_value", "p_wild",

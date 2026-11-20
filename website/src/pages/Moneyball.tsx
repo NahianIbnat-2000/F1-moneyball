@@ -16,11 +16,11 @@ const num = (v: Row[string]) => (typeof v === "number" ? v : null);
 const pct = (v: number | null, d = 1) => (v === null ? "n/a" : `${(v * 100).toFixed(d)}%`);
 const uniq = <T,>(xs: T[]) => [...new Set(xs)];
 const seasonsOf = (rows: Row[]) => uniq(rows.map((r) => r.season as number)).sort((a, b) => a - b);
-const fieldCls = "border-0 border-b border-fg/60 bg-transparent px-1 py-1 text-sm text-fg";
+const fieldCls = "max-w-full min-w-0 border-0 border-b border-fg/60 bg-transparent px-1 py-1 text-sm text-fg";
 
 function Select({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: [string, string][] }) {
   return (
-    <label className="label grid gap-1">{label}
+    <label className="label grid gap-1 min-w-0 max-w-full">{label}
       <select className={fieldCls} value={value} onChange={(e) => onChange(e.target.value)}>
         {options.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
       </select>

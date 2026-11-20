@@ -131,7 +131,7 @@ function ItsResults({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
         shows: spec === "A" ? "Spec A: level and slope change at 2021, Newey-West standard errors." : "Spec B: adds a 2022 technical-reset dummy, so the 2021 change rests on one season.",
         doesNotShow: "A causal effect of the cap. There is no untreated group, and the 2022 rules arrived one season later.",
         summary: view.length ? view.map((r) => `${label(String(r.indicator))}: ${fmt(r.level_change)} [${fmt(r.ci_low)}, ${fmt(r.ci_high)}]${typeof r.placebo_share_as_large === "number" ? `, ${(r.placebo_share_as_large * 100).toFixed(0)}% of placebos as large` : ""}`).join("; ") + "." : notEst.length ? String(notEst[0].note) : "No estimates." }}
-      controls={<label className="label grid gap-1">Specification
+      controls={<label className="label grid gap-1 min-w-0 max-w-full">Specification
         <select className="border-0 border-b border-fg/60 bg-transparent px-1 py-1 text-sm text-fg" value={spec} onChange={(e) => setSpec(e.target.value)}>
           <option value="A">A: level and slope change at 2021</option><option value="B">B: plus 2022 technical-reset term</option>
         </select></label>}
