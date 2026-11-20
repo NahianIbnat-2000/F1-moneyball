@@ -11,6 +11,7 @@ https://nahianibnat-2000.github.io/F1-moneyball/data
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import matplotlib
@@ -21,7 +22,6 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-import os
 DATA = Path(os.environ.get("F1M_DATA", ROOT / "website" / "public" / "data"))
 OUT = Path(__file__).resolve().parent / "generated"
 OUT.mkdir(exist_ok=True)
@@ -53,8 +53,10 @@ def num(x: float, d: int = 3) -> str:
 
 
 def pval(x: float) -> str:
-    """p-value with two decimals; very small values shown as <0.01."""
-    return "$<$0.01" if x < 0.005 else f"{x:.2f}"
+    """p-value with two decimals (three near 0.05); very small values shown as <0.01."""
+    if x < 0.005:
+        return "$<$0.01"
+    return f"{x:.3f}" if 0.045 <= x < 0.055 else f"{x:.2f}"  # avoid "0.05" hiding which side of 0.05
 
 
 def rk(check: str, metric: str, model: str = "twfe") -> pd.Series:
@@ -105,6 +107,20 @@ for met in ("turnover", "staff_costs", "headcount"):
     mac(f"Pos{k}", num(r.coef, 2)); mac(f"PosP{k}", pval(r.p_value))
     mac(f"PosPwild{k}", "n/a" if pd.isna(r.p_wild) else pval(r.p_wild))
     mac(f"PosTen{k}", num(abs(r.coef) * np.log(1.1), 2))  # places gained per 10% more of the resource
+# accounting comparability and multiple testing
+sc, scp = rk("scope_control", "staff_costs"), rk("scope_control_position", "staff_costs")
+mac("ScopeStaff", num(sc.coef)); mac("ScopePStaff", pval(sc.p_value)); mac("ScopePwildStaff", pval(sc.p_wild))
+mac("ScopePosStaff", num(scp.coef, 2)); mac("ScopePosPwildStaff", pval(scp.p_wild))
+mac("ScopeN", sc.note.split()[0])
+an, sb = rk("annualised_periods", "staff_costs"), rk("staff_costs_ex_share_based_pay", "staff_costs")
+mac("AnnStaff", num(an.coef)); mac("AnnPwildStaff", pval(an.p_wild))
+mac("SbpStaff", num(sb.coef)); mac("SbpPwildStaff", pval(sb.p_wild))
+holm = rob[rob.check_id == "holm_adjusted"]
+hpos = holm[(holm.metric == "staff_costs") & holm.check.str.contains("position")].iloc[0]
+mac("HolmPosStaff", pval(hpos.p_wild))
+rest = holm.drop(hpos.name)
+mac("HolmRestMin", pval(rest.p_wild.min())); mac("HolmRestMax", pval(rest.p_wild.max()))
+mac("HolmN", str(len(holm)))
 mac("NDroppedByLag", str(len(turn) - int(models.loc["turnover_pooled"].n_obs)))
 mac("RsqBase", num(rk("baseline", "turnover").r2, 2))
 mac("RsqOps", num(rk("h4_operations", "turnover").r2, 2))
@@ -126,6 +142,14 @@ CLAIMS = {
     "all three measures go with a better position (Section 6)": all(r.coef < 0 for r in pos.values()),
     "position: clustered and bootstrap p agree on the 0.10 level (Section 6)":
         all(pd.notna(r.p_wild) and (r.p_value < 0.10) == (r.p_wild < 0.10) for r in pos.values()),
+    "staff points share: not significant once accounting scope is controlled (abstract, Sections 5-6)":
+        sc.p_wild > 0.05,
+    "staff position: bootstrap p < 0.05 with and without the scope control (abstract, Section 6)":
+        rk("position_outcome", "staff_costs").p_wild < 0.05 and scp.p_wild < 0.05,
+    "scope control barely moves the staff points-share coefficient (abstract)":
+        abs(sc.coef - rk("baseline", "staff_costs").coef) < 0.05,
+    "no within-team result survives Holm at 5%; staff position is the smallest (abstract, Section 6)":
+        (holm.p_wild > 0.05).all() and hpos.p_wild == holm.p_wild.min(),
     "no measurable change under the cost cap (abstract, Section 6)":
         all(rk("h3_cap_interaction", m).p_value > 0.10 for m, _ in METRICS),
 }
@@ -174,6 +198,21 @@ for cid, lab in (("no_reset_seasons", "Without rule-reset seasons (2014, 2017, 2
         pv = pval(r.p_value) + (f" ({pval(r.p_wild)})" if pd.notna(r.p_wild) else "")
         base = "" if cid == "position_outcome" else num(rk("baseline", met).coef)
         lines.append(f"{lab if met == 'turnover' else ''} & {ml} & {num(r.coef)} & {pv} & {base} \\\\")
+    lines.append("\\addlinespace")
+for cid, lab in (("scope_control", "Control for group vs company accounts"),
+                 ("scope_control_position", "Same control, outcome: position$^{b}$")):
+    for met, ml in METRICS:
+        r = rk(cid, met)
+        base = num(rk("baseline" if cid == "scope_control" else "position_outcome", met).coef)
+        lines.append(f"{lab if met == 'turnover' else ''} & {ml} & {num(r.coef)} & "
+                     f"{pval(r.p_value)} ({pval(r.p_wild)}) & {base} \\\\")
+    lines.append("\\addlinespace")
+for cid, lab, mets in (("annualised_periods", "Accounting periods scaled to 12 months", ("turnover", "staff_costs")),
+                       ("staff_costs_ex_share_based_pay", "Staff costs without share-based pay$^{c}$", ("staff_costs",))):
+    for i, met in enumerate(mets):
+        r = rk(cid, met)
+        lines.append(f"{lab if i == 0 else ''} & {dict(METRICS)[met]} & {num(r.coef)} & {pval(r.p_value)} ({pval(r.p_wild)}) & "
+                     f"{num(rk('baseline', met).coef)} \\\\")
     lines.append("\\addlinespace")
 for met, ml in (("turnover", "Turnover"), ("staff_costs", "Staff costs")):
     s = loo[loo.metric == met].sort_values("coef")

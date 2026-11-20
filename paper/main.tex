@@ -17,6 +17,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{threeparttable}
 \usepackage{tabularx}
 \usepackage[font=small,labelfont=bf,labelsep=period]{caption}
@@ -76,11 +77,13 @@ and success move together: the correlation between turnover share and points sha
 the previous season goes with a points share about \PpTurnPooled{} percentage points higher. Within teams the evidence is
 weaker and depends on the measure. With team fixed effects alone the turnover coefficient falls from \CoefTurnPooled{} to
 \CoefTurnFe{} ($p = \PTurnFe$). Once season effects also remove changes common to all teams, the estimates are positive for
-all three measures and clearest for staff costs: 10\% more staff spending goes with a points share about \PpStaffTwfe{}
-percentage points higher the next season (wild cluster bootstrap $p = \PwildStaffTwfe$) and a better championship position
-(bootstrap $p = \PosPwildStaffcosts$). When one team is left out, the size of the staff-cost estimate for points share changes, but its sign does not.
-The link does not change measurably under the cost cap. With \NTeams{} teams and several tests, the within-team results are
-suggestive rather than conclusive, and all results describe associations, not a causal effect of spending.
+all three measures and clearest for staff costs and championship position: 10\% more staff spending goes with a finish about
+\PosTenStaffcosts{} places higher the next season (wild cluster bootstrap $p = \PosPwildStaffcosts$). The matching
+points-share estimate is similar in size but less certain once changes in accounting scope are controlled for (bootstrap
+$p = \ScopePwildStaff$), and no within-team result survives a correction for multiple testing at the 5\% level (smallest
+Holm-adjusted $p = \HolmPosStaff$). The link does not change measurably under the cost cap. With \NTeams{} teams the
+within-team results are suggestive rather than conclusive, and all results describe associations, not a causal effect of
+spending.
 
 \medskip\noindent\textbf{Keywords:} sports economics, competitive balance, Formula~1, team finances, panel data, cost cap.\\
 \textbf{JEL codes:} Z21, Z23, L83, C23.
@@ -238,8 +241,8 @@ differences between teams, not from a team doing better in the years when it had
 estimates up (\CoefTurnTwfe{} for turnover, $p = \PTurnTwfe$). The largest within-team estimate is for staff costs with team
 and season effects (\CoefStaffTwfe, about \PpStaffTwfe{} percentage points per 10\% more staff spending): its clustered
 $p$-value is \PStaffTwfe{} and its bootstrap $p$-value \PwildStaffTwfe. The two methods fall on different sides of 0.05,
-so this estimate alone is not strong evidence; Section~\ref{sec:rob} shows that the same pattern appears with championship
-position as the outcome.
+so this estimate alone is not strong evidence. It also becomes less certain when changes in accounting scope are
+controlled for (Section~\ref{sec:rob}), while the same pattern with championship position as the outcome holds up better.
 
 \begin{table}[htbp]
 \centering
@@ -283,12 +286,26 @@ better, all three measures go with a better position the next season: turnover \
 bootstrap $p = \PosPwildStaffcosts$) and headcount \PosHeadcount{} ($p = \PosPHeadcount$, bootstrap
 $p = \PosPwildHeadcount$). In economic terms, 10\% more staff spending goes with a finish about \PosTenStaffcosts{}
 places higher the next season, and 10\% more turnover with about \PosTenTurnover{} places. Here the two inference methods
-give similar $p$-values. Six within-team tests are reported for the main
-specification (three measures, two outcomes), so a single $p$-value near 0.01 should be read with that in mind. The link does not change
-measurably under the cost cap. Adding reliability and race-day gains raises the share of variation explained from
+give similar $p$-values. The link does not change measurably under the cost cap. Adding reliability and race-day gains raises the share of variation explained from
 \RsqBase{} to \RsqOps{} and absorbs part of the staff-cost link, but both controls are measured in the same season as the
 outcome, so they may themselves be results of spending. Every estimate behind Table~\ref{tab:rob}, including each
 leave-one-out run, is listed on the \sitepage{research/does-money-buy-speed}{research article page}.
+
+\paragraph{Accounting comparability.} The accounts are not all drawn up the same way, and three checks test whether this
+matters. First, four teams switch between group and company accounts during the sample, so the scope of what is counted
+changes. Adding an indicator for group accounts in the previous year (\ScopeN{} team-seasons) leaves the staff-cost
+coefficient almost unchanged (\ScopeStaff{} against \CoefStaffTwfe), but its bootstrap $p$-value rises from
+\PwildStaffTwfe{} to \ScopePwildStaff. With championship position as the outcome the staff-cost estimate keeps its size
+(\ScopePosStaff{} places per log point) and its bootstrap $p$-value stays at \ScopePosPwildStaff. Second, a few accounting
+periods are longer or shorter than a year; scaling turnover and staff costs to 365 days gives a staff-cost coefficient of
+\AnnStaff{} (bootstrap $p = \AnnPwildStaff$). Third, McLaren's staff costs for 2023 to 2025 include large share-based
+payments; removing them gives \SbpStaff{} (bootstrap $p = \SbpPwildStaff$). The points-share result is therefore most
+sensitive to accounting scope, and the position result is the steadier of the two.
+
+\paragraph{Multiple testing.} Six within-team tests are reported for the main specification (three measures, two
+outcomes). With six tests, one small $p$-value can turn up by chance. Adjusting the six bootstrap $p$-values with the Holm
+step-down method \citep{holm1979}, the smallest is \HolmPosStaff{} (staff costs and position) and the others lie between
+\HolmRestMin{} and \HolmRestMax. No within-team result is significant at the 5\% level after this correction.
 
 \begin{table}[htbp]
 \centering
@@ -296,18 +313,20 @@ leave-one-out run, is listed on the \sitepage{research/does-money-buy-speed}{res
 \caption{Robustness checks (team and season fixed effects)}
 \label{tab:rob}
 \small
-\begin{tabular}{@{}p{4.6cm}lccc@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.6cm}lccc@{}}
 \toprule
-Check & Measure & Coefficient & $p$-value (bootstrap) & Main result \\
+Check & Measure & Coefficient & $p$ (clustered, bootstrap) & Main result \\
 \midrule
 \inputrows generated/table3_robustness.tex 
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
 \item \textit{Notes:} ``Main result'' is the team and season fixed-effects coefficient from Table~\ref{tab:models}.
-Clustered $p$-values; wild bootstrap $p$-values in brackets where computed.
+Clustered $p$-values; wild bootstrap $p$-values in parentheses where computed. The two accounting-scope rows add an
+indicator for group-consolidated accounts in the previous year.
 $^{a}$~Coefficient on log resource $\times$ cost-cap period (2021 onward).
 $^{b}$~Places in the championship per log point of the resource; negative means a better position.
+$^{c}$~Share-based payments removed where the filing amount is recorded (McLaren 2023 to 2025).
 \textit{Source:} dataset \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
 \code{src/f1moneyball/econometrics/robustness.py}.
 \end{tablenotes}
@@ -321,7 +340,8 @@ Between teams, money and points go together: the richest teams win most. Within 
 comparison is made. Comparing a team only with its own average shows no link. Comparing it with its own average and with
 the other teams in the same season, more money, and staff spending in particular, comes before better results in the next
 season, in both points share and championship position. The direction is the same in every leave-one-out sample, but the
-size is uncertain and the evidence rests on \NTeams{} teams. The fairest reading is that extra spending, especially on
+size is uncertain, the evidence rests on \NTeams{} teams, the points-share result weakens when accounting scope is
+controlled for, and no single within-team test survives a correction for multiple testing. The fairest reading is that extra spending, especially on
 people, goes with modest improvements within a team, while most of the gap between teams reflects differences that last for
 many years. This fits a picture in which money and success build up together, since winning teams earn more prize money and
 attract more sponsors.
@@ -331,7 +351,8 @@ The main limitations are:
   \item the small number of teams, which limits both precision and inference;
   \item accounts that belong to legal entities rather than teams, which may include other business or leave out costs held
         elsewhere in a group;
-  \item accounting periods and standards that differ across teams and years;
+  \item accounting periods, standards and scope (group or company accounts) that differ across teams and years, which the
+        checks in Section~\ref{sec:rob} address only in part;
   \item reverse causality, which a one-season lag only reduces;
   \item money measured in nominal pounds, which season effects absorb in the fixed-effects models but the pooled model
         does not;
