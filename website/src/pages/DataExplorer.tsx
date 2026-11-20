@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import DataTable from "../components/DataTable";
 import DatasetStatusPanel, { StatusBadge } from "../components/DatasetStatusPanel";
 import FinancialClassification, { CLASSES } from "../components/FinancialClassification";
@@ -181,7 +181,9 @@ export default function DataExplorer() {
   return (
     <>
       <PageHeader eyebrow="Data Explorer" title="Every dataset, with its status and sources"
-        lede="Choose a dataset to see its profile, data dictionary and missing values, then filter and download the exact rows the research uses. Datasets that are not yet published explain why." />
+        lede="Choose a dataset to see its profile, data dictionary and missing values, then filter and download the exact rows the research uses. Datasets that are not yet published explain why.">
+        <p className="mt-4 text-sm text-fg">For the team finances, the <Link className="underline decoration-accent" to="/provenance">provenance explorer</Link> shows the filing and page behind each number.</p>
+      </PageHeader>
       <Section>
         {statuses === undefined ? <p className="text-sm text-muted">Loading…</p> : !statuses ? <p className="text-sm text-muted">The pipeline has not produced a status file yet.</p> : (
           <div className="grid grid-cols-1 lg:grid-cols-[16rem_minmax(0,1fr)] gap-8">

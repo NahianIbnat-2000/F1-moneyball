@@ -13,6 +13,7 @@ const ArticlePage = lazy(() => import("./pages/Article"));
 const Changelog = lazy(() => import("./pages/Changelog"));
 const Faq = lazy(() => import("./pages/Faq"));
 const Lab = lazy(() => import("./pages/Lab"));
+const Provenance = lazy(() => import("./pages/Provenance"));
 import { PageHeader } from "./components/Ui";
 import { useManifest } from "./lib/data";
 
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="cost-cap" element={<CostCap />} />
           <Route path="grand-prix-economy" element={<GrandPrix />} />
           <Route path="data" element={<DataExplorer />} />
+          <Route path="provenance" element={<Provenance />} />
           <Route path="methodology" element={<Methodology />} />
           <Route path="faq" element={<Faq />} />
           <Route path="about" element={<About />} />
