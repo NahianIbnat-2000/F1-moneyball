@@ -57,3 +57,8 @@
   category: website
   title: Econometrics Lab, Data Provenance Explorer, accessibility
   detail: Website changes only. New pages for comparing model estimates and for tracing each financial figure to its filing. Charts and menus fit phone screens, and every page passes automated WCAG 2.1 AA checks.
+- date: 2026-11-20
+  category: revised_analysis
+  title: Inflation-adjusted robustness check
+  detail: Turnover and staff costs deflated by the UK CPI (ONS series D7BT, 2015 = 100). The two-way model cannot change by construction. In the team-effects model the staff-cost coefficient moves from 0.034 to 0.058 (bootstrap p = 0.40), so no conclusion changes.
+  datasets: [robustness_checks]

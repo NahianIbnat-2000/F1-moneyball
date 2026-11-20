@@ -259,7 +259,8 @@ def real_terms_checks(eff: pd.DataFrame, cpi: pd.DataFrame, wild: bool = True) -
             r = _fit(f, panel, x)
             if wild and spec != "pooled":
                 r["p_wild"] = wild_cluster_p(f, panel, x, "team_id")
-            r["note"] = (f"Deflated by the UK CPI annual index (ONS D7BT, base year {int(idx.sub(100).abs().idxmin())} = 100). "
+            # D7BT is defined with 2015 = 100; the base is fixed by ONS, not read from the values (2014 also rounds to 100.0).
+            r["note"] = ("Deflated by the UK CPI annual index (ONS D7BT, 2015 = 100), so amounts are in 2015 pounds. "
                          "The two-way model is unchanged by construction, so it is not repeated.")
             rows.append({"study": "does-money-buy-speed", "metric": metric, "model": spec, "check_id": "real_terms",
                          "check": "Money in constant prices (UK CPI)", **r,

@@ -25,6 +25,7 @@ Each item is in one of four groups: **tested**, **done but not tested**, **propo
 | Accessibility (M6) | axe-core, WCAG 2.1 A/AA plus best practices, 15 pages at 1280 px and 390 px (`website/scripts/a11y.mjs`) | No violations, after fixing heading order, keyboard access to scrolling tables, and labels in the provenance grid |
 | Google Scholar tags (M3) | Built article page inspected | Title, author, dates and PDF link present; only on the page with a paper |
 | CITATION.cff (M3) | `cffconvert --validate` | Valid (schema 1.2.0) |
+| Real terms (H3) | ONS D7BT downloaded by the author (release of 18 November 2026); yearly values 2010–2025 checked against the mean of the monthly values in the same file (all within rounding); raw download kept in `data/source_documents/ons` | Team-effects staff-cost estimate 0.058 in 2015 pounds (0.034 nominal), bootstrap p 0.40; two-way model unchanged by construction. Appears in the published results after the next Data pipeline run |
 | Provenance links | Every "saved copy" link checked against the repository | 105 of 105 files exist |
 
 ## 2. Done but not tested
@@ -45,13 +46,11 @@ Each item is in one of four groups: **tested**, **done but not tested**, **propo
 | Switch CI to the lock file | Would make every run use the exact package versions. Small risk that results change in the last decimal; check before switching. |
 | Tagline (L2) | The brief suggests "The Economics of Speed"; the site uses "The Economics Behind the Speed". Not changed. |
 | Full redesign (L3) | Not done. The current design already matches the brief's direction. |
-| Real-terms check on the website | Once the CPI file exists (see below), the Lab and paper could show it. |
 
 ## 4. Blocked
 
 | Item | Blocker | What unblocks it |
 |---|---|---|
-| Real-terms (inflation-adjusted) money (H3) | ons.gov.uk cannot be reached from the build environment | Download ONS series D7BT into `data/manual/uk_cpi_annual.csv` as described in `docs/REAL_TERMS.md`, then run the Data pipeline. The code is in place and tested; it skips with a message until the file exists. The main two-way model is unaffected, because season fixed effects absorb common inflation. |
 | SSRN revision | Needs the author's SSRN login | Upload the current PDF from the website as a revision of paper 7730805. |
 
 ## 5. What changed in the conclusions

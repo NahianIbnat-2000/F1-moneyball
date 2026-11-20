@@ -122,6 +122,19 @@ mac("HolmPosStaff", pval(hpos.p_wild))
 rest = holm.drop(hpos.name)
 mac("HolmRestMin", pval(rest.p_wild.min())); mac("HolmRestMax", pval(rest.p_wild.max()))
 mac("HolmN", str(len(holm)))
+# Real terms: only reported once the pipeline has published the CPI-deflated rows (needs data/manual/uk_cpi_annual.csv).
+rt = rob[rob.check_id == "real_terms"]
+if len(rt):
+    rs = rt[(rt.metric == "staff_costs") & (rt.model == "team_fe")].iloc[0]
+    rb = rk("baseline", "staff_costs", "team_fe")
+    mac("RealTerms", "A further check measures money in 2015 pounds with the UK consumer prices index \\citep{ons_cpi}. "
+        "This cannot change the two-way model, because the season effects already absorb inflation that is common to all "
+        f"teams. In the team-effects model the staff-cost coefficient moves from {num(rb.coef)} to {num(rs.coef)} "
+        f"(bootstrap $p = {pval(rs.p_wild)}$), so the simpler models do not change in substance either. ")
+    CLAIMS_EXTRA = {"real terms: team-effects staff estimate stays insignificant (Section 6)": rs.p_wild > 0.1}
+else:
+    mac("RealTerms", "")
+    CLAIMS_EXTRA = {}
 mac("NDroppedByLag", str(len(turn) - int(models.loc["turnover_pooled"].n_obs)))
 mac("RsqBase", num(rk("baseline", "turnover").r2, 2))
 mac("RsqOps", num(rk("h4_operations", "turnover").r2, 2))
@@ -163,6 +176,7 @@ CLAIMS = {
         abs(sc.coef - rk("baseline", "staff_costs").coef) < 0.05,
     "no within-team result survives Holm at 5%; staff position is the smallest (abstract, Section 6)":
         (holm.p_wild > 0.05).all() and hpos.p_wild == holm.p_wild.min(),
+    **CLAIMS_EXTRA,
     "no measurable change under the cost cap (abstract, Section 6)":
         all(rk("h3_cap_interaction", m).p_value > 0.10 for m, _ in METRICS),
 }
