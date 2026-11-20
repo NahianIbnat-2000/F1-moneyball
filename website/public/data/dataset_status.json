@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-20T15:42:26+00:00",
+  "generated_at_utc": "2026-11-20T17:49:30+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -1342,7 +1342,7 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 104,
+      "observation_count": 108,
       "variable_count": 19,
       "missingness": {
         "study": {
@@ -1371,31 +1371,31 @@
         },
         "se": {
           "missing": 2,
-          "share": 0.0192
+          "share": 0.0185
         },
         "ci_low": {
           "missing": 8,
-          "share": 0.0769
+          "share": 0.0741
         },
         "ci_high": {
           "missing": 8,
-          "share": 0.0769
+          "share": 0.0741
         },
         "p_value": {
           "missing": 18,
-          "share": 0.1731
+          "share": 0.1667
         },
         "p_wild": {
-          "missing": 64,
-          "share": 0.6154
+          "missing": 66,
+          "share": 0.6111
         },
         "pct_effect": {
-          "missing": 86,
-          "share": 0.8269
+          "missing": 90,
+          "share": 0.8333
         },
         "r2": {
           "missing": 31,
-          "share": 0.2981
+          "share": 0.287
         },
         "n_obs": {
           "missing": 0,
@@ -1403,27 +1403,27 @@
         },
         "n_teams": {
           "missing": 25,
-          "share": 0.2404
+          "share": 0.2315
         },
         "baseline_coef": {
           "missing": 36,
-          "share": 0.3462
+          "share": 0.3333
         },
         "dropped": {
-          "missing": 80,
-          "share": 0.7692
+          "missing": 84,
+          "share": 0.7778
         },
         "region": {
-          "missing": 84,
-          "share": 0.8077
+          "missing": 88,
+          "share": 0.8148
         },
         "note": {
           "missing": 76,
-          "share": 0.7308
+          "share": 0.7037
         }
       },
-      "version": "be8ca97ddaa7",
-      "last_updated": "2026-11-20T15:42:26+00:00",
+      "version": "c2aad1de0bb0",
+      "last_updated": "2026-11-20T17:49:30+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

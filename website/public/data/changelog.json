@@ -11,6 +11,50 @@
   "entries": [
     {
       "date": "2026-11-20",
+      "category": "revised_analysis",
+      "title": "Accounting comparability checks and multiple-testing correction",
+      "detail": "New robustness checks for Does Money Buy Speed? Controlling for group versus company accounts leaves the staff-cost estimate for points share almost unchanged (0.184 against 0.186) but raises its bootstrap p-value from 0.04 to 0.11. The staff-cost estimate for championship position holds (bootstrap p = 0.02). Scaling non-12-month accounts to a year and removing McLaren's share-based payments give similar results to the main model. After a Holm correction for the six main within-team tests, no result is significant at 5% (smallest adjusted p = 0.08). The working paper's abstract and robustness section were revised to say this.",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-20",
+      "category": "methodology",
+      "title": "Large year-on-year changes checked against the filings",
+      "detail": "All 18 changes above 50% in turnover or staff costs, and the figures for the year before each, were checked against the stated page of the saved Companies House filings. All matched; no figure was changed. Validation now also warns about non-12-month accounting periods and switches between company and group accounts.",
+      "datasets": [
+        "financial_observation"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-20",
+      "category": "publication",
+      "title": "Working paper revised",
+      "detail": "New abstract, accounting-comparability and multiple-testing results, Holm (1979) reference, and an appendix on how the financial data were built. Google Scholar tags added to the article page and a preferred citation added to CITATION.cff.",
+      "automatic": false
+    },
+    {
+      "date": "2026-11-20",
+      "category": "website",
+      "title": "Econometrics Lab, Data Provenance Explorer, accessibility",
+      "detail": "Website changes only. New pages for comparing model estimates and for tracing each financial figure to its filing. Charts and menus fit phone screens, and every page passes automated WCAG 2.1 AA checks.",
+      "automatic": false
+    },
+    {
+      "date": "2026-11-20",
+      "category": "revised_analysis",
+      "title": "Inflation-adjusted robustness check",
+      "detail": "Turnover and staff costs deflated by the UK CPI (ONS series D7BT, 2015 = 100). The two-way model cannot change by construction. In the team-effects model the staff-cost coefficient moves from 0.034 to 0.058 (bootstrap p = 0.40), so no conclusion changes.",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-20",
       "category": "updated_data",
       "title": "Robustness checks updated",
       "detail": "104 rows, version c0a0f06ff81e (previously d4a1a5dcbc91, 89 rows)",
@@ -54,6 +98,16 @@
       "category": "updated_data",
       "title": "Robustness checks updated",
       "detail": "104 rows, version be8ca97ddaa7 (previously c0a0f06ff81e, 104 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-20",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "108 rows, version c2aad1de0bb0 (previously be8ca97ddaa7, 104 rows)",
       "datasets": [
         "robustness_checks"
       ],
