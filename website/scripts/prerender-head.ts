@@ -48,7 +48,27 @@ function head(p: (typeof PAGES)[number]) {
     `<meta name="twitter:description" content="${esc(p.description)}" />`,
     img && `<meta name="twitter:image" content="${img}" />`,
     ld && `<script type="application/ld+json">${JSON.stringify(ld)}</script>`,
+    ...scholar(article, url ? site : ""),
   ].filter(Boolean).join("\n    ");
+}
+
+/**
+ * Google Scholar tags (https://scholar.google.com/intl/en/scholar/inclusion.html#indexing), only for
+ * studies with a working-paper PDF. Scholar reads the title, author, date and PDF link from these.
+ */
+function scholar(a: (typeof ARTICLES)[number] | undefined, base: string): string[] {
+  if (!a?.paper || !a.publishedOn) return [];
+  const [given, ...rest] = a.author.split(" ");
+  const tags: [string, string][] = [
+    ["citation_title", a.paperTitle ?? a.title],
+    ["citation_author", `${rest.join(" ")}, ${given}`],
+    ["citation_publication_date", a.publishedOn.replace(/-/g, "/")],
+    ["citation_online_date", a.draftRevised.replace(/-/g, "/")],
+    ["citation_technical_report_institution", "F1 Moneyball (independent research)"],
+    ["citation_language", "en"],
+    ...(base ? [["citation_pdf_url", base + a.paper.pdf] as [string, string]] : []),
+  ];
+  return tags.map(([k, v]) => `<meta name="${k}" content="${esc(v)}" />`);
 }
 
 // Remove the template's own title/description/og tags, then insert the page's.

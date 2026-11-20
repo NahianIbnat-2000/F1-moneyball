@@ -38,6 +38,8 @@ export interface Article {
   interactive?: { to: string; label: string };
   // Working-paper version: a PDF in public/papers and its LaTeX source in the repository.
   paper?: { pdf: string; source: string };
+  // Full working-paper title if longer than the web title (used for Google Scholar tags).
+  paperTitle?: string;
 }
 
 const AUTHOR = "Nahian Ibnat";
@@ -48,10 +50,11 @@ export const ARTICLES: Article[] = [
     module: "F1 Moneyball",
     flagship: true,
     title: "Does Money Buy Speed?",
+    paperTitle: "Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025",
     dek: "How efficiently do Formula 1 teams convert financial resources into sporting performance?",
     stage: "Published",
     author: AUTHOR,
-    draftRevised: "2026-11-19",
+    draftRevised: "2026-11-20",
     publishedOn: "2026-11-19",
     question:
       "Does spending more money make a Formula 1 team faster, or does competitive success depend on how efficiently a team converts financial resources into on-track performance?",
