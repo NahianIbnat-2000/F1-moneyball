@@ -1,6 +1,6 @@
 {
   "n_errors": 0,
-  "n_warnings": 4,
+  "n_warnings": 3,
   "issues": [
     {
       "dataset": "constructor_season",
@@ -22,13 +22,6 @@
       "severity": "warning",
       "message": "Teams whose accounts switch between company-only and group-consolidated: ['mclaren', 'mercedes', 'red_bull', 'williams'] (see robustness check scope_control)",
       "n_rows": 4
-    },
-    {
-      "dataset": "financial_observation",
-      "check": "yoy_change",
-      "severity": "warning",
-      "message": "Year-on-year changes above 50%, to check against the filings: ['banbury staff_costs 2011 (+114%)', 'banbury staff_costs 2012 (+53%)', 'banbury staff_costs 2015 (-58%)', 'banbury staff_costs 2016 (+111%)', 'banbury turnover 2013 (+115%)', 'banbury turnover 2014 (-57%)', 'banbury turnover 2015 (+52%)', 'enstone turnover 2016 (+53%)', 'leafield turnover 2012 (+117%)', 'mclaren staff_costs 2025 (+59%)', 'mclaren turnover 2019 (+50%)', 'mclaren turnover 2020 (+79%)', 'mclaren turnover 2022 (+55%)', 'red_bull staff_costs 2025 (+59%)', 'silverstone staff_costs 2025 (+92%)', 'silverstone turnover 2021 (+148%)', 'williams turnover 2020 (-55%)', 'williams turnover 2021 (+98%)']",
-      "n_rows": 18
     }
   ]
 }
