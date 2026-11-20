@@ -20,6 +20,7 @@
 \usepackage{array}
 \usepackage{threeparttable}
 \usepackage{tabularx}
+\usepackage{placeins} % \FloatBarrier keeps appendix tables in their own section
 \usepackage[font=small,labelfont=bf,labelsep=period]{caption}
 \usepackage[style=apa,backend=biber,natbib=true]{biblatex} % APA 7th edition
 \addbibresource{references.bib}
@@ -154,7 +155,7 @@ figure was checked against the prior-year column of the next filing or against t
 restated a figure, the figure as first reported is used and the restatement is recorded. Three measures are used: turnover,
 staff costs and the average number of employees. Ferrari, Sauber, Racing Bulls and Haas do not file comparable UK accounts
 and are not covered. Every figure, with its filing, page and checks, can be browsed in the
-\sitepage{data}{data explorer} (dataset \texttt{financial\_observation}).
+\sitepage{provenance}{provenance explorer}; Appendix~\ref{app:construction} sets out how the dataset was built.
 
 \paragraph{Sporting data.} Championship standings and race results come from the Jolpica-F1 API \citep{jolpica}, the
 maintained successor of the Ergast database. Team names change often, so each team is followed as a lineage (for example
@@ -408,6 +409,82 @@ Cost cap levels & \citet{fia2021} & \url{https://www.fia.com/sites/default/files
 \end{tabularx}
 \end{table}
 
+\FloatBarrier
+\section{How the financial data were built}
+\label{app:construction}
+
+\noindent The financial dataset holds \NFinFigures{} figures from \NFilings{} audited filings. Each figure is stored with its
+company, registration number, accounting period, the page of the filing it was read from, any change made to it, and a link
+to the filing. A copy of every filing is kept in the repository (folder \code{data/source_documents}), so each figure can be
+checked even if the online register changes. The \sitepage{provenance}{provenance explorer} shows all of this for every team
+and season.
+
+\paragraph{Rules.}
+\begin{itemize}[leftmargin=1.2em,itemsep=0.1em,topsep=0.2em]
+  \item \textit{Team lineage.} A team is followed through changes of name and owner when the same UK company, or its
+        direct successor, keeps running it (Appendix~\ref{app:sources} lists the companies).
+  \item \textit{Season.} Each accounting period is mapped to the season it mostly covers. For a calendar year end this is the
+        same year. Periods that cover only a few months between two full years are kept in the data but not mapped to a season.
+  \item \textit{Units.} Money is recorded in full pounds; amounts reported in thousands are multiplied by 1,000. Headcount is
+        the average monthly number of employees as reported. All amounts are nominal.
+  \item \textit{Figures as first reported.} When a later filing restates a figure, the figure as first reported is used and
+        the restatement is recorded in the notes.
+  \item \textit{Missing years.} Where no full-year accounts exist (Force India in 2017 and 2018, during and after its
+        administration), the team-season is recorded as missing, not filled in.
+\end{itemize}
+
+\paragraph{Accounting periods.} Table~\ref{tab:periods} lists the filings that do not cover about twelve months. They are used
+as reported in the main models; the check in Section~\ref{sec:rob} scales them to 365 days.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Accounting periods that do not cover about twelve months}
+\label{tab:periods}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}Xlrl@{}}
+\toprule
+Team lineage & Company & Period & Days & Season \\
+\midrule
+\inputrows generated/tableC1_periods.tex 
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Source:} dataset \texttt{financial\_observation} (version \VerFinancialObservation).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\paragraph{Accounting scope.} Some companies file group accounts, which include their subsidiaries, and others file
+accounts for the company alone. Four teams switch between the two during the sample (Table~\ref{tab:scope}), so a change in
+their figures can partly reflect what the accounts include. Section~\ref{sec:rob} controls for this.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Seasons with company and group accounts}
+\label{tab:scope}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xll@{}}
+\toprule
+Team lineage & Company accounts & Group accounts \\
+\midrule
+\inputrows generated/tableC2_scope.tex 
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Source:} dataset \texttt{financial\_observation}, turnover rows (version \VerFinancialObservation).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\paragraph{Checks.} Automated checks run every time the data are rebuilt: plausible ranges, one figure per team, season and
+measure, accounting periods, changes in accounting scope, and year-on-year changes above 50\%. Each of the
+\NVerifiedChanges{} large year-on-year changes in turnover or staff costs was checked against the saved filings by reading
+the stated page for both years; all matched. The record of this check is \code{data/manual/verified_large_changes.csv}, and
+the script that repeats it is \code{scripts/verify_large_changes.py}.
+
+\FloatBarrier
 \section{Where each result comes from}
 \label{app:code}
 
@@ -420,6 +497,9 @@ python -m f1moneyball.pipeline all     # download, build, estimate, publish
 python paper/make_assets.py            # numbers, tables, figures
 cd paper && latexmk -pdf main.tex      # this paper
 \end{verbatim}
+\noindent The published results were produced by the repository's GitHub Actions workflows with Python 3.12. For exact
+package versions, install from \code{requirements-lock.txt} instead. The wild cluster bootstrap uses \BootDraws{} draws
+with a fixed random seed (\BootSeed), so it gives the same $p$-values on every run.
 
 \begin{table}[htbp]
 \centering
@@ -434,6 +514,7 @@ Shares, efficiency ratio & \code{src/f1moneyball/econometrics/efficiency.py} \\
 Table~\ref{tab:models}, Figure~\ref{fig:coef} & \code{src/f1moneyball/econometrics/models.py} \\
 Table~\ref{tab:rob}, bootstrap & \code{src/f1moneyball/econometrics/robustness.py} \\
 Pipeline steps & \code{src/f1moneyball/pipeline.py} \\
+Data checks & \code{src/f1moneyball/validation/checks.py}; \code{scripts/verify_large_changes.py} \\
 All numbers, tables, figures here & \code{paper/make_assets.py} \\
 This document & \code{paper/main.tex}, \code{paper/references.bib} \\
 \bottomrule

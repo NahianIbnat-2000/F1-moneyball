@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 
 import matplotlib
@@ -127,6 +128,18 @@ mac("RsqOps", num(rk("h4_operations", "turnover").r2, 2))
 for k in ("financial_observation", "efficiency", "model_results", "robustness_checks", "constructor_season"):
     mac("Ver" + k.replace("_", " ").title().replace(" ", ""), status[k]["version"])
 
+# data construction (Appendix C) and reproduction (Appendix B)
+fin = pd.read_csv(DATA / "financial_observation.csv")
+fin = fin[fin["value"].notna()]
+verified = pd.read_csv(ROOT / "data" / "manual" / "verified_large_changes.csv")
+mac("NVerifiedChanges", str(len(verified)))
+mac("NFinFigures", f"{len(fin):,}")
+mac("NFilings", str(fin.drop_duplicates(["team_id", "financial_year_end"]).shape[0]))
+rsrc = (ROOT / "src" / "f1moneyball" / "econometrics" / "robustness.py").read_text()
+draws = int(re.search(r"B_DRAWS = (\d+)", rsrc).group(1))
+mac("BootDraws", f"{draws:,}")
+mac("BootSeed", re.search(r"seed: int = (\d+)", rsrc).group(1))
+
 # ---------------------------------------------------------------------------- claim checks
 # main.tex makes a few statements in words that depend on the numbers. If new data make one of them
 # false, stop here so the text is revised instead of silently going out of date.
@@ -220,6 +233,45 @@ for met, ml in (("turnover", "Turnover"), ("staff_costs", "Staff costs")):
     lines.append(f"{'Leave one team out (range)' if met == 'turnover' else ''} & {ml} & {num(a.coef)} to {num(b.coef)} & "
                  f"without {TINY[a.dropped]} / {TINY[b.dropped]} & {num(rk('baseline', met).coef)} \\\\")
 (OUT / "table3_robustness.tex").write_text("\n".join(lines) + "\n")
+
+# ---------------------------------------------------------------------------- Table C1: unusual periods
+def tex_amp(x: str) -> str:
+    return x.replace("&", r"\&")
+
+
+per = fin.drop_duplicates(["team_id", "financial_year_end"]).copy()
+per["days"] = (pd.to_datetime(per.financial_year_end) - pd.to_datetime(per.financial_year_start)).dt.days + 1
+per = per[(per.days < 350) | (per.days > 380)].sort_values(["team_id", "financial_year_end"])
+lines = []
+for r in per.itertuples():
+    season = "not used (stub)" if pd.isna(r.season_mapped) else str(int(r.season_mapped))
+    lines.append(f"{SHORT[r.team_id]} & {tex_amp(r.entity_name)} & {r.financial_year_start} to {r.financial_year_end} & "
+                 f"{r.days} & {season} \\\\")
+(OUT / "tableC1_periods.tex").write_text("\n".join(lines) + "\n")
+
+# ---------------------------------------------------------------------------- Table C2: accounting scope
+sc_rows = fin[fin.metric == "turnover"].dropna(subset=["season_mapped"]).copy()
+sc_rows["group"] = sc_rows.accounting_basis.fillna("").str.contains("group")
+
+
+def spans(years: list[int]) -> str:
+    """2014, 2015, 2016, 2019 -> 2014--2016, 2019"""
+    out, start = [], None
+    for i, y in enumerate(years):
+        start = y if start is None else start
+        if i == len(years) - 1 or years[i + 1] != y + 1:
+            out.append(str(y) if y == start else f"{start}--{y}")
+            start = None
+    return ", ".join(out)
+
+
+lines = []
+for tid in g.index:
+    t = sc_rows[sc_rows.team_id == tid]
+    grp = sorted(int(y) for y in t[t.group].season_mapped)
+    comp = sorted(int(y) for y in t[~t.group].season_mapped)
+    lines.append(f"{SHORT[tid]} & {spans(comp) or '--'} & {spans(grp) or '--'} \\\\")
+(OUT / "tableC2_scope.tex").write_text("\n".join(lines) + "\n")
 
 # ---------------------------------------------------------------------------- figures
 plt.rcParams.update({"font.family": "STIXGeneral", "mathtext.fontset": "stix",  # Times-style, ships with matplotlib
