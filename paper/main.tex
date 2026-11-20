@@ -355,12 +355,28 @@ The main limitations are:
   \item accounting periods, standards and scope (group or company accounts) that differ across teams and years, which the
         checks in Section~\ref{sec:rob} address only in part;
   \item reverse causality, which a one-season lag only reduces;
-  \item money measured in nominal pounds, which season effects absorb in the fixed-effects models but the pooled model
-        does not;
+  \item general inflation, which season effects absorb in the two-way model; the simpler models are checked in 2015 pounds
+        in Section~\ref{sec:rob};
   \item the absence of Ferrari and the non-UK teams;
   \item the cost cap and the 2022 technical rules arriving one season apart, so their effects cannot be separated with
         season-level data.
 \end{itemize}
+
+\section{Conclusion}
+
+This paper asked whether Formula 1 teams with more money do better, using the audited accounts of \NTeams{} team
+lineages from 2010 to 2025. Between teams, the answer is clearly yes: the teams that spend the most score the most points.
+Within a team, the link is weaker and less certain. The clearest result is for staff spending and championship position:
+10\% more spending on staff goes with a finish about \PosTenStaffcosts{} places higher the next season. The same link with
+points share is less certain once changes in how the accounts are drawn up are taken into account, and no within-team
+result passes a correction for multiple testing at the 5\% level. The link does not change measurably under the cost cap.
+
+These are associations, not causal effects. Winning brings prize money and sponsors, so money and success build up
+together, and a one-season lag only partly separates the two. The results are best read as evidence that extra spending,
+especially on people, goes with modest gains for a team, while most of the gap between teams reflects differences that
+last for many years. Adding Ferrari and the non-UK teams, more seasons under the cost cap, and a split of spending by
+purpose would make the within-team estimates more precise. All data and code are public, so each of these extensions can
+build directly on this work.
 
 % ============================================================================ data + code
 \section*{Data and code availability}
@@ -374,10 +390,17 @@ download link, and the GitHub repository \url{\repo} holds the pipeline, the eco
 \texttt{constructor\_season} \VerConstructorSeason. The website shows the current version of each dataset on its
 \sitepage{data}{data page}, so a reader can check whether the data have changed since this paper was written.
 
+\clearpage
 \printbibliography
 
 % ============================================================================ appendix
+\clearpage
 \appendix
+\begin{center}
+  {\Large\bfseries Appendix}
+\end{center}
+\addcontentsline{toc}{section}{Appendix}
+\vspace{0.5em}
 \section{Data sources}
 \label{app:sources}
 
