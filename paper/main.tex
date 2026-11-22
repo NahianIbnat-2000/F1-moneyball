@@ -107,7 +107,7 @@ The richest teams usually finish at the front (\hyperref[fig:scatter]{Figure~\re
 question in sports economics: do the biggest spenders win because they spend more, or because the organisations that are
 good at winning are also good at raising money?
 
-\paragraph{Why this study is needed.} The question matters for three groups. The first is the regulator. Since 2021 the
+The question matters for three groups. The first is the regulator. Since 2021 the
 F\'ed\'eration Internationale de l'Automobile (FIA), which governs the sport, has limited how much each team may spend in a
 season. This limit, the \textit{cost cap}, applies to most spending on cars and staff, but some items are left out, for
 example marketing, driver pay and the pay of the team's three highest-paid staff \citep[Articles 2.3 and 3.1]{fia2021}. The
@@ -119,7 +119,7 @@ closer together. If results depend more on how well a team is organised, a limit
 team owners and investors, who need to know what extra spending can be expected to bring. The third group is researchers,
 for whom Formula~1 is a clear case of firms competing for a fixed prize, with spending that is reported in audited accounts.
 
-\paragraph{The central problem.} The difficulty is that a simple comparison of teams cannot separate the two explanations.
+The difficulty is that a simple comparison of teams cannot separate the two explanations.
 An \textit{association} means that two things tend to move together; a \textit{causal effect} means that changing one thing
 would change the other \citep{angrist2009}. Rich teams also tend to be well run, so part of any association
 between money and results may come from good management rather than from money. In addition, the link may run backwards.
@@ -128,14 +128,14 @@ success brings money as well as the other way round. When the outcome affects th
 speak of \textit{reverse causality} \citep[Chapter~16]{wooldridge2020}. This paper therefore studies associations and is careful
 not to read them as causal effects.
 
-\paragraph{What is already known.} Earlier research offers a starting point. In other sports, \citet{hall2002} test whether
+Earlier research offers a starting point. In other sports, \citet{hall2002} test whether
 a team's past payroll predicts its later results and find different answers for baseball and English football. In
 Formula~1, \citet{bell2016} show that the team matters more than the driver for results, and \citet{lonik2024} find that
 budget strategy is associated with better standings in the seasons from 2010 to 2020. Studies of the cost cap so far
 \citep{foghsgaard2024, jung2023} ask whether the cap changed competitive balance and find no clear effect.
 \hyperref[sec:lit]{Section~\ref*{sec:lit}} reviews this work in more detail.
 
-\paragraph{What this paper adds.} Two things are missing from that work. To my knowledge, no study links audited financial
+Two things are missing from that work. To my knowledge, no study links audited financial
 figures, each traced to its source, to results for the same Formula~1 teams over time, and no study separates two
 different comparisons: the comparison between teams, and the comparison of each team with itself over time. The difference
 matters. Comparing Mercedes with Williams in the same year asks whether richer teams do better than poorer teams. Comparing
@@ -144,7 +144,7 @@ has more money than it normally does. The first comparison mixes money with ever
 from Williams; the second removes those lasting differences and comes closer to the question of what extra money is
 associated with. This paper makes both comparisons with the same data.
 
-\paragraph{Research questions and approach.} The paper asks three questions. First, do teams with more money score more
+The paper asks three questions. First, do teams with more money score more
 points than other teams? Second, does a team do better in the seasons after it has more money than usual? Third, has this
 link changed since the cost cap was introduced? To answer them, I build a dataset of audited accounts for \NTeams{} team
 lineages from \FirstSeason{} to \LastSeason, taken from the companies' public filings in the United Kingdom, and link it to
@@ -152,12 +152,12 @@ championship results. The main tool is a regression, a statistical method that e
 average, when another changes \citep[Chapter~2]{wooldridge2020}. Because there are only \NTeams{} teams, the paper uses
 methods for measuring uncertainty that are designed for a small number of groups.
 
-\paragraph{Contributions.} The paper makes two contributions. First, it provides a dataset of audited financial figures for
+The paper makes two contributions. First, it provides a dataset of audited financial figures for
 Formula~1 teams in which every number is linked to the filing and page it came from, published so that others can reuse
 and check it. Second, it separates the link between teams from the link within a team over time, uses methods suited to a
 small number of teams, and extends the period studied into the cost-cap years.
 
-\paragraph{Preview of the results.} Between teams, money and points go together closely (\hyperref[sec:results]{Section~\ref*{sec:results}}).
+Between teams, money and points go together closely (\hyperref[sec:results]{Section~\ref*{sec:results}}).
 Within a team the link is much weaker. The clearest result concerns spending on staff: in the season after a team spends
 10\% more on staff than it usually does, it finishes on average about \PosTenStaffcosts{} places higher in the championship.
 For a team with the median staff budget in the data, GBP~\MedStaffM{} million, 10\% is about GBP~\TenPctStaffM{} million.
@@ -166,7 +166,7 @@ result for a team's share of points is less certain, no within-team result passe
 made, and the link does not change measurably after the cost cap (\hyperref[sec:rob]{Section~\ref*{sec:rob}}). All of these
 are associations, not causal effects.
 
-\paragraph{Organisation.} \hyperref[sec:lit]{Section~\ref*{sec:lit}} reviews the literature.
+\hyperref[sec:lit]{Section~\ref*{sec:lit}} reviews the literature.
 \hyperref[sec:data]{Section~\ref*{sec:data}} describes the data and \hyperref[sec:strategy]{Section~\ref*{sec:strategy}}
 the method. \hyperref[sec:results]{Section~\ref*{sec:results}} presents the results and \hyperref[sec:rob]{Section~\ref*{sec:rob}}
 tests how robust they are. \hyperref[sec:discussion]{Section~\ref*{sec:discussion}} discusses what the results mean and
@@ -184,26 +184,26 @@ produces it.
 \section{Literature}
 \label{sec:lit}
 
-\paragraph{Why leagues care about balance.} \citet{rottenberg1956} and \citet{neale1964} explain why sports leagues need
+\citet{rottenberg1956} and \citet{neale1964} explain why sports leagues need
 some balance between teams. A contest whose winner is certain in advance loses its interest for spectators, so even the
 strongest team gains from having strong rivals. \citet{szymanski2003} reviews how the design of a contest, including rules
 on spending, shapes how much effort teams make and how outcomes are spread. This line of work is the reason regulators care
 whether money decides results: if it does, limiting spending is one way to protect balance.
 
-\paragraph{Money and results in other sports.} \citet{hall2002} ask whether higher payroll leads to better performance or
+\citet{hall2002} ask whether higher payroll leads to better performance or
 better performance leads to higher payroll. Their method is to test whether a team's spending in earlier years helps to
 predict its later results. For Major League Baseball they find no evidence that payroll drives performance over their full
 sample, while for English football they cannot rule it out. Their idea of testing whether past spending predicts later
 results guides the design of this paper, which links each season's results to the previous season's money.
 
-\paragraph{What drives results in Formula~1.} \citet{bell2016} use a statistical model that separates the contribution of
+\citet{bell2016} use a statistical model that separates the contribution of
 the driver from that of the team. They find that the team explains more of the results than the driver, and increasingly so
 over time, which makes the team the right unit to study. \citet{jenkins2010} shows that major changes in the technical rules
 can reset which teams lead, because a new set of rules can reward a different design. \citet{judde2013} study competitive
 balance in Formula~1 from 1950 to 2010, including the period of the Resource Restriction Agreement, an earlier agreement
 among teams to limit their resources.
 
-\paragraph{Money and results in Formula~1.} The closest study is \citet{lonik2024}, who examine the seasons from 2010 to
+The closest study is \citet{lonik2024}, who examine the seasons from 2010 to
 2020, before the cost cap. Using cost-benefit analysis and regressions, they find that budget strategy is associated with
 better standings, more points, more podium finishes and a higher share of races finished, and that spending on research and
 development is the most effective. This paper asks a related question but differs in three ways. Its money figures come
@@ -211,7 +211,7 @@ from audited statutory accounts, each traced to its filing and page, rather than
 the link between teams from the link within a team over time, which turn out to be very different. And it extends the
 period into the cost-cap years, 2021 to 2025, using methods designed for a small number of teams.
 
-\paragraph{The cost cap.} The evidence on the cost cap so far comes from student theses. \citet{foghsgaard2024} study
+The evidence on the cost cap so far comes from student theses. \citet{foghsgaard2024} study
 competitive balance from 1998 to 2023 and find no evidence that the cap increased it. They note that the 2022 technical
 rules, introduced one season after the cap, make the cap's effect hard to isolate. \citet{jung2023} also finds no effect and
 describes the result as preliminary. This paper does not measure competitive balance directly. Its question is narrower:
@@ -222,7 +222,7 @@ measurably, is consistent with that earlier work and faces the same difficulty o
 \section{Data}
 \label{sec:data}
 
-\paragraph{Financial data.} Every company registered in the United Kingdom must prepare yearly financial statements, known
+Every company registered in the United Kingdom must prepare yearly financial statements, known
 as statutory accounts, and file them at Companies House, the UK register of companies, where anyone can read them
 \citep{companiesact2006,ch_register}. Eight Formula~1 team lineages are run by UK companies whose accounts cover the team:
 Red Bull \citep{ch_redbull}, Mercedes \citep{ch_mercedes}, McLaren \citep{ch_mclaren}, Williams \citep{ch_williams},
@@ -251,11 +251,11 @@ recorded. In total the dataset holds \NFinFigures{} figures from \NFilings{} fil
 and checks, can be browsed in the \sitepage{provenance}{provenance explorer}, and
 \hyperref[app:construction]{Appendix~\ref*{app:construction}} explains how the dataset was built.
 
-\paragraph{Sporting data.} Results come from the Jolpica-F1 database \citep{jolpica}, which continues the widely used Ergast
+Results come from the Jolpica-F1 database \citep{jolpica}, which continues the widely used Ergast
 database. The outcome of interest is the Constructors' Championship, the season-long ranking of teams by the points their
 cars score in races. Team names change often \citep{jolpica}, so each team is followed as a lineage, as described above.
 
-\paragraph{Shares instead of raw numbers.} The points awarded per race have changed over time, and money rises over time
+The points awarded per race have changed over time, and money rises over time
 with inflation, so raw points and raw pounds are not comparable from one season to the next. The paper therefore works
 with shares. A team's \textit{points share} is its points divided by the combined points of all covered teams in that
 season. Its \textit{resource share} is, in the same way, its turnover (or staff costs, or headcount) divided by the total of
@@ -264,12 +264,12 @@ the covered teams. Shares are computed only in seasons where at least four cover
 points equals its share of the money; a ratio above 1 means it scored more than its money alone would suggest, and a ratio
 below 1 means it scored less.
 
-\paragraph{Sample.} The data cover \NTeamSeasons{} team-seasons, where a team-season is one team in one season. The
+The data cover \NTeamSeasons{} team-seasons, where a team-season is one team in one season. The
 regression models use \NObs{} of them. The difference arises because the models link each season's results to the
 previous season's money, so each team's first season, and the first season after a gap in its accounts, has no previous
 value to use (\NDroppedByLag{} team-seasons in all).
 
-\paragraph{What \hyperref[tab:desc]{Table~\ref*{tab:desc}} shows and why it matters.} \hyperref[tab:desc]{Table~\ref*{tab:desc}}
+\hyperref[tab:desc]{Table~\ref*{tab:desc}}
 summarises each team over its seasons in the data: the average turnover, staff costs and headcount, the average points
 share and the average efficiency ratio. It shows three things that shape the rest of the paper. First, the teams differ
 greatly in size, and these differences last: Mercedes and Red Bull had average turnover of about GBP~\TurnAvgMercedes{}
@@ -309,7 +309,7 @@ and \texttt{efficiency} (version \VerEfficiency), \sitepage{data}{F1 Moneyball d
 \section{Empirical strategy}
 \label{sec:strategy}
 
-\paragraph{The main model.} The main model is a linear regression of a team's points share on the logarithm of one of its
+The main model is a linear regression of a team's points share on the logarithm of one of its
 resources in the previous season:
 \begin{equation}
   \text{PointsShare}_{it} = \beta \log(\text{Resource}_{i,t-1}) + \alpha_i + \gamma_t + \varepsilon_{it},
@@ -324,12 +324,12 @@ Because points share is measured from 0 to 1, $\beta \times \log(1.1) \times 100
 points share that goes with 10\% more of the resource. The term $\varepsilon_{it}$ collects everything else that affects
 results and is not in the model.
 
-\paragraph{Why money from the previous season.} Resources enter with a one-season lag: this season's points are linked to
+Resources enter with a one-season lag: this season's points are linked to
 last season's money. As explained in the introduction, success brings prize money \citep{liberty2018}, so money and points
 measured in the same season would partly reflect points causing money. Using last season's money reduces this problem but
 does not remove it, because a team that is improving may attract both more money and more points over several seasons.
 
-\paragraph{Three versions of the model.} The data form a \textit{panel}, meaning the same teams are observed in many
+The data form a \textit{panel}, meaning the same teams are observed in many
 seasons \citep[Chapter~10]{wooldridge2010}. A panel allows three versions of equation~(\ref{eq:main}), and each answers a different question.
 
 The first version, the \textit{pooled} model, leaves out $\alpha_i$ and $\gamma_t$. It treats every team-season as a
@@ -353,7 +353,7 @@ they cannot rise for all teams at once. Money in pounds, by contrast, rises for 
 this common rise in spending has no matching rise in points, which pulls the estimated link towards zero. Season effects
 remove the common rise and leave each team's spending relative to the other teams in that season.
 
-\paragraph{Measuring uncertainty.} Every estimate comes with a measure of how uncertain it is. A \textit{95\% confidence
+Every estimate comes with a measure of how uncertain it is. A \textit{95\% confidence
 interval} is a range built so that, if the study were repeated many times, 95\% of such ranges would contain the true value
 \citep[Chapter~4]{wooldridge2020}. A \textit{p-value} is the probability of finding a link at least as strong as the one
 observed if in fact there were no link at all; a small p-value means the observed link would be unusual if there were no
@@ -375,7 +375,7 @@ association into a causal effect; all results describe how money and results mov
 \section{Results}
 \label{sec:results}
 
-\paragraph{Between teams.} \hyperref[fig:scatter]{Figure~\ref*{fig:scatter}} shows the basic pattern in the data. Each
+\hyperref[fig:scatter]{Figure~\ref*{fig:scatter}} shows the basic pattern in the data. Each
 point is one team in one season. The horizontal position is the team's share of turnover and the vertical position its
 share of points. The dashed line marks equal shares, so a point above the line is a team-season that scored more than its
 share of the money, and a point below it scored less. The points rise clearly from left to right: teams with a larger share
@@ -397,7 +397,7 @@ dataset \texttt{efficiency}; interactive version on the \sitepage{moneyball}{Mon
 \label{fig:scatter}
 \end{figure}
 
-\paragraph{How to read \hyperref[tab:models]{Table~\ref*{tab:models}}.} \hyperref[tab:models]{Table~\ref*{tab:models}}
+\hyperref[tab:models]{Table~\ref*{tab:models}}
 reports the three versions of the model for each of the three resources. Each row gives the coefficient $\beta$, its 95\%
 confidence interval, two p-values (clustered, and from the wild bootstrap for the within-team models), the number of
 team-seasons used ($N$) and the number of teams. \hyperref[fig:coef]{Figure~\ref*{fig:coef}} shows the same coefficients
@@ -405,21 +405,21 @@ and confidence intervals as a chart. The figure matters because it makes the key
 estimates are precise and clearly above zero, while the within-team intervals are wide and all of them cross zero, which
 means the data cannot rule out that there is no within-team link at all.
 
-\paragraph{Pooled model: richer teams score more.} In the pooled model, the turnover coefficient is \CoefTurnPooled{}
+In the pooled model, the turnover coefficient is \CoefTurnPooled{}
 (95\% confidence interval \CiLowTurnPooled{} to \CiHighTurnPooled). In economic terms, a team with 10\% more turnover than
 another team in the previous season has, on average, a points share about \PpTurnPooled{} percentage points higher. For a
 team with the median turnover in the data, GBP~\MedTurnM{} million, 10\% is about GBP~\TenPctTurnM{} million.
 The confidence interval lies well above zero, so the link between teams is clear. Staff costs (\CoefStaffPooled) and
 headcount (\CoefHeadPooled) give similar results.
 
-\paragraph{Team fixed effects: most of the link is between teams.} When each team is compared only with its own average,
+When each team is compared only with its own average,
 the turnover coefficient falls to \CoefTurnFe{} (clustered $p = \PTurnFe$, bootstrap $p = \PwildTurnFe$), much smaller than
 the pooled value and no longer distinguishable from zero. This is the most important pattern in the table. It
 means that most of the pooled link comes from lasting differences between teams, not from a team doing better in the
 seasons when it had more money than usual. The richest teams are also the teams that win year after year, but a given
 team's results move only a little with its own changes in money.
 
-\paragraph{Two-way fixed effects: a modest within-team link.} Adding season effects raises the estimates, as the
+Adding season effects raises the estimates, as the
 explanation in \hyperref[sec:strategy]{Section~\ref*{sec:strategy}} leads one to expect. For turnover the coefficient is
 \CoefTurnTwfe{} (clustered $p = \PTurnTwfe$). The largest within-team estimate is for staff costs, \CoefStaffTwfe. In
 economic terms, a team that spends 10\% more on staff than usual, relative to the other teams that season, has a points
@@ -468,17 +468,17 @@ conclusion. \hyperref[tab:rob]{Table~\ref*{tab:rob}} collects the main checks. A
 column repeats the main result from \hyperref[tab:models]{Table~\ref*{tab:models}} so that each check can be compared with
 it.
 
-\paragraph{Rule changes.} Large changes in the technical rules can reshuffle the order of teams for reasons unrelated to
+Large changes in the technical rules can reshuffle the order of teams for reasons unrelated to
 money \citep{jenkins2010}. Leaving out the three seasons with the largest rule changes (2014, 2017 and 2022;
 \citealp{fia2014tech,fia2017tech,fia2022tech}) barely changes the estimates: the staff-cost coefficient is
 \NoResetStaff{} instead of \CoefStaffTwfe.
 
-\paragraph{One team at a time.} With only \NTeams{} teams, a single team could drive the results. Re-estimating the model
+With only \NTeams{} teams, a single team could drive the results. Re-estimating the model
 \NTeams{} times, each time leaving out one team, shows that the size of the within-team estimates moves a lot but the
 direction never changes: the staff-cost coefficient ranges from \LooStaffcostsMin{} to \LooStaffcostsMax, and the turnover
 coefficient from \LooTurnoverMin{} to \LooTurnoverMax.
 
-\paragraph{Championship position as the outcome.} Points share depends on the scoring rules, so the model is also estimated
+Points share depends on the scoring rules, so the model is also estimated
 with the team's position in the Constructors' Championship as the outcome, where a lower number is better. All three
 resources go with a better position the next season: turnover \PosTurnover{} places per unit of the logarithm (clustered
 $p = \PosPTurnover$, bootstrap $p = \PosPwildTurnover$), staff costs \PosStaffcosts{} ($p = \PosPStaffcosts$, bootstrap
@@ -490,21 +490,21 @@ spending than usual, and with about \OnePlaceTurn\% more turnover. Here the two 
 similar p-values. This is the clearest within-team result in the paper, but it is still an association: a team that is
 improving may hire more staff and finish higher for the same underlying reason.
 
-\paragraph{The cost cap.} To test whether the link changed after the cap, the model adds an \textit{interaction}: a term
+To test whether the link changed after the cap, the model adds an \textit{interaction}: a term
 that lets the coefficient on money take a different value from 2021 onward \citep[Chapter~7]{wooldridge2020}. For staff
 costs the change is \CapStaff{} (clustered $p = \CapPStaff$, bootstrap $p = \CapPwildStaff$), and for turnover \CapTurn{}
 (bootstrap $p = \CapPwildTurn$). Neither is distinguishable from zero, so the link does not change measurably under the
 cost cap. With only five cap seasons, and the 2022 rules arriving one season after the cap, this test can detect only a
 large change.
 
-\paragraph{Race-day performance.} Adding the share of races a team finishes and the average number of places it gains from
+Adding the share of races a team finishes and the average number of places it gains from
 its starting position raises the share of the variation in points explained by the model, the \textit{R-squared}
 \citep[Chapter~3]{wooldridge2020}, from \RsqBase{} to \RsqOps, and reduces the staff-cost coefficient to \OpsStaff. Part of the link between staff spending and points therefore
 shows up in reliability and race-day performance. These two
 measures come from the same season as the outcome, however, and may themselves be results of spending, so this check is
 read as a description of where the link shows up rather than as a separate test.
 
-\paragraph{Accounting comparability.} The accounts are not all drawn up in the same way, and three checks test whether
+The accounts are not all drawn up in the same way, and three checks test whether
 this matters. First, some teams file \textit{group accounts}, which combine the parent company with the companies it
 controls (its subsidiaries) into one set of figures \citep[s.~404]{companiesact2006}, while others file accounts for one
 company alone. Four teams switch between the two during the period (\hyperref[tab:scope]{Table~\ref*{tab:scope}}), so a
@@ -520,7 +520,7 @@ coefficient of \AnnStaff{} (bootstrap $p = \AnnPwildStaff$). Third, McLaren's st
 that the points-share result is most sensitive to the type of accounts, while the position result is the steadier of the
 two.
 
-\paragraph{Multiple testing.} The main model is estimated for three resources and two outcomes, which makes six
+The main model is estimated for three resources and two outcomes, which makes six
 within-team tests. The more tests are made, the more likely it is that one of them gives a small p-value by chance alone.
 The Holm method adjusts the p-values for this by requiring the smallest p-value to pass a stricter threshold, the next
 smallest a slightly less strict one, and so on \citep{holm1979}. After this adjustment, the smallest p-value is
@@ -528,7 +528,7 @@ smallest a slightly less strict one, and so on \citep{holm1979}. After this adju
 within-team result is statistically significant at the 5\% level after the correction. The staff-cost result for position
 comes closest, which is why the paper describes it as suggestive rather than established.
 
-\paragraph{Why \hyperref[tab:rob]{Table~\ref*{tab:rob}} matters.} Read as a whole, the table shows which parts of the
+Read as a whole, the table shows which parts of the
 result can be relied on. The direction of the within-team link, more money going with better results, survives every
 check. Its size is uncertain, the points-share result depends on how the accounts are drawn up, and the position result for
 staff spending is the most stable. Every estimate behind the table, including each run that leaves out one team, is listed
@@ -564,7 +564,7 @@ $^{c}$~Share-based payments removed where the filing amount is recorded (McLaren
 \section{Discussion and limitations}
 \label{sec:discussion}
 
-\paragraph{What the results mean.} Between teams, money and points go together: the richest teams win most
+Between teams, money and points go together: the richest teams win most
 (\hyperref[fig:scatter]{Figure~\ref*{fig:scatter}}). Within teams, the picture depends on how the comparison is made.
 Comparing a team only with its own average shows no clear link (\hyperref[tab:models]{Table~\ref*{tab:models}}). Comparing
 it with its own average and with the other teams in the same season, more money, and staff spending in particular, comes
@@ -576,7 +576,7 @@ reading is that extra spending, especially on people, goes with modest improveme
 between teams reflects differences that last for many years. This fits a picture in which money and success build up
 together over time, since most of the prize fund is paid according to earlier championship results \citep{liberty2018}.
 
-\paragraph{Limitations.} Several limitations should be kept in mind. The most important is the small number of teams.
+Several limitations should be kept in mind. The most important is the small number of teams.
 Eight teams give little information for the within-team comparison, which limits how precise the estimates can be, and the
 methods used to measure uncertainty can only partly make up for this \citep{cameron2015}.
 
@@ -712,7 +712,7 @@ to the filing. A copy of every filing is kept in the repository (folder \code{da
 checked even if the online register changes. The \sitepage{provenance}{provenance explorer} shows all of this for every team
 and season.
 
-\paragraph{Rules.} Five rules were used to build the data. First, a team is followed through changes of name and owner
+Five rules were used to build the data. First, a team is followed through changes of name and owner
 when the same UK company, or its direct successor, keeps running it (\hyperref[app:sources]{Appendix~\ref*{app:sources}}
 lists the companies). Second, each accounting period is mapped to the season it mostly covers; for a year ending in
 December this is the same calendar year, and periods that cover only a few months between two full years are kept in the
@@ -723,7 +723,7 @@ reported is used and the restatement is recorded in the notes. Fifth, where no f
 in 2017 and 2018, during and after its administration \citep{ch_forceindia}, the team-season is recorded as missing rather
 than filled in.
 
-\paragraph{Accounting periods.} \hyperref[tab:periods]{Table~\ref*{tab:periods}} lists the filings that do not cover about twelve months. They are used
+\hyperref[tab:periods]{Table~\ref*{tab:periods}} lists the filings that do not cover about twelve months. They are used
 as reported in the main models; the check in \hyperref[sec:rob]{Section~\ref*{sec:rob}} scales them to 365 days.
 
 \begin{table}[htbp]
@@ -745,7 +745,7 @@ Team lineage & Company & Period & Days & Season \\
 \end{threeparttable}
 \end{table}
 
-\paragraph{Accounting scope.} Some companies file group accounts, which include their subsidiaries, and others file
+Some companies file group accounts, which include their subsidiaries, and others file
 accounts for the company alone. Four teams switch between the two during the sample (\hyperref[tab:scope]{Table~\ref*{tab:scope}}), so a change in
 their figures can partly reflect what the accounts include. \hyperref[sec:rob]{Section~\ref*{sec:rob}} controls for this.
 
@@ -768,7 +768,7 @@ Team lineage & Company accounts & Group accounts \\
 \end{threeparttable}
 \end{table}
 
-\paragraph{Checks.} Automated checks run every time the data are rebuilt: plausible ranges, one figure per team, season and
+Automated checks run every time the data are rebuilt: plausible ranges, one figure per team, season and
 measure, accounting periods, changes in accounting scope, and year-on-year changes above 50\%. Each of the
 \NVerifiedChanges{} large year-on-year changes in turnover or staff costs was checked against the saved filings by reading
 the stated page for both years; all matched. The record of this check is \code{data/manual/verified_large_changes.csv}, and
