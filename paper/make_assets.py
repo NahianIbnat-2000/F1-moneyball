@@ -81,8 +81,12 @@ mac("LastSeason", str(turn.season.max()))
 mac("CorrAll", num(turn.resource_share.corr(turn.points_share), 2))
 mac("CorrMin", num(corr_season.min(), 2)); mac("CorrMinYear", str(corr_season.idxmin()))
 mac("CorrMax", num(corr_season.max(), 2)); mac("CorrMaxYear", str(corr_season.idxmax()))
-for tid, cs in (("mercedes", "Mercedes"), ("red_bull", "RedBull"), ("williams", "Williams"), ("banbury", "Manor"), ("leafield", "Caterham")):
+TEAMKEY = (("mercedes", "Mercedes"), ("red_bull", "RedBull"), ("mclaren", "McLaren"), ("enstone", "Enstone"),
+           ("williams", "Williams"), ("silverstone", "Silverstone"), ("banbury", "Manor"), ("leafield", "Caterham"))
+avg_turn = eff[(eff.metric == "turnover") & eff.value.notna()].groupby("team_id").value.mean()
+for tid, cs in TEAMKEY:
     mac(f"Eff{cs}", num(eff_team[tid], 2))
+    mac(f"TurnAvg{cs}", f"{avg_turn[tid] / 1e6:.0f}")                  # average turnover, GBP m (as in Table 1)
 
 for met, _ in METRICS:
     for sp, _ in SPECS:
@@ -141,6 +145,26 @@ mac("RsqOps", num(rk("h4_operations", "turnover").r2, 2))
 for k in ("financial_observation", "efficiency", "model_results", "robustness_checks", "constructor_season"):
     mac("Ver" + k.replace("_", " ").title().replace(" ", ""), status[k]["version"])
 
+# Cost-cap and rule-reset rows of Table 3, used in the text
+cap = rk("h3_cap_interaction", "staff_costs")
+mac("CapStaff", num(cap.coef)); mac("CapPStaff", pval(cap.p_value)); mac("CapPwildStaff", pval(cap.p_wild))
+cap_t = rk("h3_cap_interaction", "turnover")
+mac("CapTurn", num(cap_t.coef)); mac("CapPwildTurn", pval(cap_t.p_wild))
+mac("NoResetStaff", num(rk("no_reset_seasons", "staff_costs").coef))
+ops = rk("h4_operations", "staff_costs")
+mac("OpsStaff", num(ops.coef))
+
+# Plain-language scale for the main coefficients (Sections 5 and 6)
+staff = eff[(eff.metric == "staff_costs") & eff.value.notna()]
+mac("MedStaffM", f"{staff.value.median() / 1e6:.0f}")                  # median team staff costs, GBP m
+mac("TenPctStaffM", f"{staff.value.median() / 1e7:.1f}")               # 10% of the median, GBP m
+turn = eff[(eff.metric == "turnover") & eff.value.notna()]
+mac("MedTurnM", f"{turn.value.median() / 1e6:.0f}")
+mac("TenPctTurnM", f"{turn.value.median() / 1e7:.0f}")
+for met, key in (("staff_costs", "Staff"), ("turnover", "Turn")):
+    c = abs(rk("position_outcome", met).coef)
+    mac(f"OnePlace{key}", f"{(np.exp(1 / c) - 1) * 100:.0f}")          # % more resource that goes with one place higher
+
 # data construction (Appendix C) and reproduction (Appendix B)
 fin = pd.read_csv(DATA / "financial_observation.csv")
 fin = fin[fin["value"].notna()]
@@ -176,6 +200,10 @@ CLAIMS = {
         abs(sc.coef - rk("baseline", "staff_costs").coef) < 0.05,
     "no within-team result survives Holm at 5%; staff position is the smallest (abstract, Section 6)":
         (holm.p_wild > 0.05).all() and hpos.p_wild == holm.p_wild.min(),
+    "every within-team 95% interval in Table 2 includes zero (Section 5)":
+        all((models.loc[f"{m}_{sp}"].ci_low < 0 < models.loc[f"{m}_{sp}"].ci_high) for m, _ in METRICS for sp in ("team_fe", "twfe")),
+    "team-FE turnover estimate much smaller than pooled (Section 5)":
+        models.loc["turnover_team_fe"].coef < 0.5 * models.loc["turnover_pooled"].coef,
     **CLAIMS_EXTRA,
     "no measurable change under the cost cap (abstract, Section 6)":
         all(rk("h3_cap_interaction", m).p_value > 0.10 for m, _ in METRICS),
