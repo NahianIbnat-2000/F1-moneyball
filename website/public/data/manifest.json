@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-23T11:19:23+00:00",
-  "pipeline_commit": "264696a",
+  "generated_at_utc": "2026-11-23T12:08:48+00:00",
+  "pipeline_commit": "86cbb56",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
