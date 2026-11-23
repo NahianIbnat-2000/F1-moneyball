@@ -818,9 +818,10 @@ Cost cap levels & \citet{fia2021} & \url{https://www.fia.com/sites/default/files
 company, registration number, accounting period, the page of the filing it was read from, any change made to it, and a link
 to the filing. Every source document is listed in \code{data/metadata/source_documents.csv} with its official link and
 SHA-256 hash, a fingerprint that changes if a single byte of the file changes, so anyone can download a document and confirm
-it is the one used. Copies of the filings are kept in the repository (folder \code{data/source_documents}) until a
-document-level link for each one has been confirmed by its hash. The FIA regulations are linked, not copied, because the
-FIA's terms require its consent to reproduce them. The \sitepage{provenance}{provenance explorer} shows all of this for every team
+it is the one used. The filings and the FIA regulations are linked, not copied: copyright in a filing belongs to the
+company that filed it, and the FIA's terms require its consent to reproduce its documents. Of the \NDocCH{} filings,
+\NDocVerified{} have been confirmed this way: the official file has the same hash as the copy the figures were read from.
+\DocUnverified The \sitepage{provenance}{provenance explorer} shows all of this for every team
 and season.
 
 Five rules were used to build the data. First, a team is followed through changes of name and owner

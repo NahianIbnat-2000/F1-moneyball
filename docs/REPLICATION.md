@@ -37,8 +37,11 @@ python scripts/repro_manifest.py               # reproducibility_manifest.json
 ## Source documents
 
 `data/metadata/source_documents.csv` lists every document a figure was read from, with its official link and SHA-256
-hash. `python scripts/source_documents.py check` confirms that the copies kept in the repository match the manifest
-(this runs in the tests). The manual workflow **Source documents** downloads each official link and compares hashes.
+hash, its verification status and the observations read from it. Filings are not stored in the repository: download
+one from its `document_url` and compare its SHA-256 with the manifest. `python scripts/source_documents.py check`
+confirms that the manifest is complete and that the open-data inputs kept in the repository match their hashes (this runs
+in the tests). The workflow **Source documents** downloads every official link and compares hashes. The pipeline and the
+models do not read the PDFs; `scripts/verify_large_changes.py` downloads the filings it needs and checks their hashes.
 
 ## Determinism
 

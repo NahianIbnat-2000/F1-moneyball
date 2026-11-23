@@ -44,7 +44,7 @@ companies_house:
     licence: No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.
     licence_url: https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright
     attribution: "Source: audited accounts filed at Companies House, cited by company number, period and page."
-    restrictions: Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.
+    restrictions: Figures (facts) are reported with citations. Filings are not redistributed; each is linked at Companies House with its SHA-256 hash (data/metadata/source_documents.csv). Copyright in each filing stays with the filing company.
     status: verified
     evidence: https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright
     checked: 2026-11-23

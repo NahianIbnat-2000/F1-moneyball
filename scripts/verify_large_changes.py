@@ -1,8 +1,9 @@
-"""Check every large year-on-year change in turnover or staff costs against the saved filings.
+"""Check every large year-on-year change in turnover or staff costs against the filings.
 
-For each change the validation flags (above 50%), this reads the stated page of the saved Companies House
-PDF for both years with OCR and looks for the recorded figure (in GBP thousands). If both figures are found,
-the change is written to data/manual/verified_large_changes.csv, and validation stops warning about it.
+For each change the validation flags (above 50%), this reads the stated page of the Companies House filing
+(downloaded from its official link and checked by hash) for both years with OCR and looks for the recorded figure
+(in GBP thousands). If both figures are found, the change is written to data/manual/verified_large_changes.csv,
+and validation stops warning about it.
 A record only clears the warning while both values in the data still equal the values that were checked.
 
 Needs poppler (pdftoppm) and tesseract on the PATH.  Run from the repository root:
@@ -28,6 +29,29 @@ FIN = ROOT / "data" / "manual" / "financial_observations.csv"
 OUT = ROOT / "data" / "manual" / "verified_large_changes.csv"
 
 
+MANIFEST = ROOT / "data" / "metadata" / "source_documents.csv"
+
+
+def filing(path: str, tmp: Path) -> Path:
+    """The filing named in a figure's notes: the repository copy if present, otherwise downloaded from its official
+    Companies House link (data/metadata/source_documents.csv) and checked against the recorded SHA-256 hash."""
+    local = ROOT / path
+    if local.exists():
+        return local
+    import hashlib
+    import urllib.request
+    m = pd.read_csv(MANIFEST, dtype=str).fillna("").set_index("path")
+    if path not in m.index or not m.loc[path, "document_url"]:
+        raise FileNotFoundError(f"{path}: no repository copy and no official link in the manifest")
+    target = tmp / (hashlib.sha1(path.encode()).hexdigest() + ".pdf")
+    if not target.exists():
+        req = urllib.request.Request(m.loc[path, "document_url"], headers={"User-Agent": "f1-moneyball replication"})
+        target.write_bytes(urllib.request.urlopen(req, timeout=60).read())
+    if hashlib.sha256(target.read_bytes()).hexdigest() != m.loc[path, "sha256"]:
+        raise ValueError(f"{path}: downloaded file does not match the recorded SHA-256 hash")
+    return target
+
+
 def found_on_page(row: pd.Series, tmp: Path) -> bool:
     """True if the figure, in £000, appears in the OCR text of the stated PDF page."""
     pdf = re.search(r"Local copy: (\S+?\.pdf)", str(row["notes"]))
@@ -36,7 +60,7 @@ def found_on_page(row: pd.Series, tmp: Path) -> bool:
         return False
     stem = tmp / f"p{abs(hash((pdf.group(1), page.group())))}"
     subprocess.run(["pdftoppm", "-f", page.group(), "-l", page.group(), "-r", "300", "-gray", "-png",
-                    str(ROOT / pdf.group(1)), str(stem)], check=True, capture_output=True)
+                    str(filing(pdf.group(1), tmp)), str(stem)], check=True, capture_output=True)
     img = next(tmp.glob(stem.name + "*.png"))
     text = subprocess.run(["tesseract", str(img), "-", "--psm", "6"], capture_output=True, text=True).stdout
     k = int(round(float(row["value"]) / 1000))
