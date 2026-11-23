@@ -1,0 +1,1497 @@
+{
+  "generated_at_utc": "2026-11-20T17:49:30+00:00",
+  "statuses": [
+    "published",
+    "not_yet_collected",
+    "under_validation",
+    "insufficient_coverage",
+    "unavailable_at_source",
+    "not_comparable"
+  ],
+  "datasets": [
+    {
+      "dataset_id": "constructor_season",
+      "dataset_name": "Constructor seasons",
+      "modules": [
+        "moneyball",
+        "cost_cap"
+      ],
+      "source_ids": [
+        "jolpica"
+      ],
+      "explanation": {
+        "would_contain": "One row per team lineage and season (2010 onwards) with final points, position, wins, podiums, reliability, grid-to-finish gains and qualifying gap to pole.",
+        "why_unavailable": "The first automated pull from the Jolpica-F1 API has not run yet. The pull runs in GitHub Actions, not in the browser.",
+        "needed_for_publication": "One successful run of the Data pipeline workflow with all validation checks passing."
+      },
+      "coverage_start": 2010,
+      "coverage_end": 2025,
+      "observation_count": 169,
+      "variable_count": 24,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "constructor_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "constructor_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "position": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "wins": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "races_entered": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "car_starts": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "podiums": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "classified_finishes": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mechanical_dnfs": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mean_grid_to_finish": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "median_quali_gap_pct": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "poles": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_share": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_per_race": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "completion_rate": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mechanical_dnf_rate": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "regulatory_period": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "median_pit_gap_s": {
+          "missing": 12,
+          "share": 0.071
+        },
+        "pit_races": {
+          "missing": 12,
+          "share": 0.071
+        },
+        "service_pit_stops": {
+          "missing": 12,
+          "share": 0.071
+        }
+      },
+      "version": "47fdeadf3f5c",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed_with_warnings",
+      "validation_warnings": [
+        "Standings points differ from summed race points in seasons [2020, 2021, 2022, 2023, 2024, 2025] (expected where sprint races or penalties apply)"
+      ],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "race_result",
+      "dataset_name": "Race results",
+      "modules": [
+        "moneyball"
+      ],
+      "source_ids": [
+        "jolpica"
+      ],
+      "explanation": {
+        "would_contain": "One row per car per Grand Prix with grid, finish, points, laps and retirement cause, classified as finished, mechanical, incident or unspecified.",
+        "why_unavailable": "The first automated pull from the Jolpica-F1 API has not run yet.",
+        "needed_for_publication": "One successful run of the Data pipeline workflow."
+      },
+      "coverage_start": 2010,
+      "coverage_end": 2025,
+      "observation_count": 6911,
+      "variable_count": 19,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "round": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "circuit_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "driver_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "driver_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "constructor_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "grid": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "position": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "position_text": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "laps": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "status": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "status_class": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "classified": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_mechanical_dnf": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "grid_to_finish": {
+          "missing": 1212,
+          "share": 0.1754
+        }
+      },
+      "version": "379239585b88",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "competitive_balance",
+      "dataset_name": "Competitive balance by season",
+      "modules": [
+        "cost_cap"
+      ],
+      "source_ids": [
+        "jolpica"
+      ],
+      "explanation": {
+        "would_contain": "One row per season with HHI, normalized HHI, Gini, coefficient of variation, top-3 points share and rank persistence.",
+        "why_unavailable": "Computed from constructor_season, which has not been collected yet.",
+        "needed_for_publication": "constructor_season published."
+      },
+      "coverage_start": 2010,
+      "coverage_end": 2025,
+      "observation_count": 16,
+      "variable_count": 13,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "hhi": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "hhi_normalized": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "gini": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "cv": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "sd_points": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "top3_share": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "winner_share_of_wins": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "leader_points_share": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "regulatory_period": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "rank_persistence": {
+          "missing": 1,
+          "share": 0.0625
+        },
+        "mean_abs_rank_change": {
+          "missing": 1,
+          "share": 0.0625
+        }
+      },
+      "version": "8bbb3744d479",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "regulation_event",
+      "dataset_name": "Regulation events",
+      "modules": [
+        "cost_cap",
+        "moneyball"
+      ],
+      "source_ids": [
+        "fia_regulations"
+      ],
+      "explanation": {
+        "would_contain": "Financial, technical, sporting and power-unit rule changes with effective dates and sources.",
+        "why_unavailable": "Entered by hand from FIA documents and reporting of FIA decisions.",
+        "needed_for_publication": "Each event entered with a source URL."
+      },
+      "coverage_start": 2014,
+      "coverage_end": 2026,
+      "observation_count": 8,
+      "variable_count": 12,
+      "missingness": {
+        "event_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "effective_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "category": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "title": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "description": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 4,
+          "share": 0.5
+        },
+        "unit": {
+          "missing": 4,
+          "share": 0.5
+        },
+        "source_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_type": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "verified_against_primary": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "e87772e09b05",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "financial_observation",
+      "dataset_name": "Financial observations",
+      "modules": [
+        "moneyball"
+      ],
+      "source_ids": [
+        "companies_house"
+      ],
+      "explanation": {
+        "would_contain": "One row per reported or estimated financial figure (revenue, operating costs, staff costs, profit) with the legal entity, accounting period, currency, document, page and source classification.",
+        "why_unavailable": "No API provides F1 team finances. Figures must be read from statutory accounts (mainly UK Companies House filings) and entered by hand with page references. Ferrari and some other teams do not file comparable accounts.",
+        "needed_for_publication": "Audited figures for at least 4 teams in the same seasons, entered and validated."
+      },
+      "coverage_start": 2010,
+      "coverage_end": 2025,
+      "observation_count": 527,
+      "variable_count": 22,
+      "missingness": {
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "season_mapped": {
+          "missing": 5,
+          "share": 0.0095
+        },
+        "entity_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entity_registration": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 2,
+          "share": 0.0038
+        },
+        "currency": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "financial_year_start": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "financial_year_end": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "accounting_basis": {
+          "missing": 2,
+          "share": 0.0038
+        },
+        "source_class": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "document_title": {
+          "missing": 2,
+          "share": 0.0038
+        },
+        "document_page": {
+          "missing": 2,
+          "share": 0.0038
+        },
+        "publication_date": {
+          "missing": 527,
+          "share": 1.0
+        },
+        "retrieval_date": {
+          "missing": 527,
+          "share": 1.0
+        },
+        "confidence": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entered_by": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "notes": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "transformation": {
+          "missing": 2,
+          "share": 0.0038
+        },
+        "comparability_warning": {
+          "missing": 432,
+          "share": 0.8197
+        }
+      },
+      "version": "c12aa42dc2bd",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed_with_warnings",
+      "validation_warnings": [
+        "Accounting periods not about 12 months (not annualised in the data; see robustness check annualised_periods): ['silverstone 2019-08-31 (395 days)', 'silverstone 2020-12-31 (122 days)', 'banbury 2017-06-30 (547 days)', 'leafield 2010-12-31 (457 days)']",
+        "Teams whose accounts switch between company-only and group-consolidated: ['mclaren', 'mercedes', 'red_bull', 'williams'] (see robustness check scope_control)"
+      ],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "pit_stop",
+      "dataset_name": "Pit stops",
+      "modules": [
+        "moneyball"
+      ],
+      "source_ids": [
+        "jolpica",
+        "openf1"
+      ],
+      "explanation": {
+        "would_contain": "One row per pit stop (2011 onwards) with lap, duration and team, for the operational efficiency analysis.",
+        "why_unavailable": "The pit stop download is written but has not run yet. It runs in the Data pipeline workflow (one request per race, 2011 onwards).",
+        "needed_for_publication": "One successful Data pipeline run. Stops over 60 seconds are flagged as red-flag or repair stops and left out of team comparisons."
+      },
+      "coverage_start": 2011,
+      "coverage_end": 2025,
+      "observation_count": 12192,
+      "variable_count": 13,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "round": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "circuit_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "driver_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "stop": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "lap": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "duration_s": {
+          "missing": 14,
+          "share": 0.0011
+        },
+        "constructor_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_long_stop": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_median_s": {
+          "missing": 22,
+          "share": 0.0018
+        },
+        "gap_to_best_team_s": {
+          "missing": 22,
+          "share": 0.0018
+        }
+      },
+      "version": "c9a3327e23ed",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "gp_tourism_monthly",
+      "dataset_name": "Host-economy tourism series",
+      "modules": [
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "national_statistics"
+      ],
+      "explanation": {
+        "would_contain": "Monthly visitor arrivals, overnight stays or hotel occupancy for host economies (Singapore and Austria first) and comparison regions, one row per region, month and series, with the official table it came from.",
+        "why_unavailable": "Monthly series come from national statistics offices in different formats and must be downloaded and entered with their table references (data/manual/gp_tourism_monthly.csv). None entered yet.",
+        "needed_for_publication": "Official monthly series for at least one host economy and three comparison regions, covering at least two years before the race entered the calendar."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 4140,
+      "variable_count": 13,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "region_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "country": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_host": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "month": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "unit": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "table_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "retrieval_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "notes": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "eb1f7485c55c",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "gp_race_events",
+      "dataset_name": "Grand Prix race dates",
+      "modules": [
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "jolpica"
+      ],
+      "explanation": {
+        "would_contain": "One row per hosted race with region and race dates, used to mark race months.",
+        "why_unavailable": "Entered by hand together with the tourism series (data/manual/gp_race_events.csv). None entered yet.",
+        "needed_for_publication": "Race dates for each host region in the tourism dataset."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 28,
+      "variable_count": 7,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "year": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_start_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "race_end_date": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_url": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "notes": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "2283be868777",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "gp_event_study",
+      "dataset_name": "Race-month event study",
+      "modules": [
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "national_statistics"
+      ],
+      "explanation": {
+        "would_contain": "For each host economy, the change in the monthly series in the two months before, the race month and the two months after, against the usual seasonal pattern, with confidence intervals.",
+        "why_unavailable": "Needs gp_tourism_monthly and gp_race_events.",
+        "needed_for_publication": "At least 36 months of a host series and one race date."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 15,
+      "variable_count": 13,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "region_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "k": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_low": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_high": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "pct_effect": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_months": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_races": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "90fe59f0044d",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "gp_scm_path",
+      "dataset_name": "Synthetic control paths",
+      "modules": [
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "national_statistics"
+      ],
+      "explanation": {
+        "would_contain": "Observed and synthetic monthly series for each host around its first race, and the gap between them.",
+        "why_unavailable": "Needs a host series, three comparison regions and two years of data before the first race.",
+        "needed_for_publication": "At least 24 pre-entry months and 3 comparison regions."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 288,
+      "variable_count": 7,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "month": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "observed": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "synthetic": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "gap": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "period": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "91ff1e2d910c",
+      "last_updated": "2026-11-20T15:42:26+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "gp_scm_inference",
+      "dataset_name": "Synthetic control inference",
+      "modules": [
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "national_statistics"
+      ],
+      "explanation": {
+        "would_contain": "Pre- and post-entry fit for the host and every placebo region, the post/pre RMSPE ratio, donor weights and the placebo p-value.",
+        "why_unavailable": "Needs the synthetic control to be estimated.",
+        "needed_for_publication": "As for gp_scm_path."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 19,
+      "variable_count": 14,
+      "missingness": {
+        "region_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "series": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "unit": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_host": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entry_month": {
+          "missing": 1,
+          "share": 0.0526
+        },
+        "rmspe_pre": {
+          "missing": 1,
+          "share": 0.0526
+        },
+        "rmspe_post": {
+          "missing": 1,
+          "share": 0.0526
+        },
+        "rmspe_ratio": {
+          "missing": 1,
+          "share": 0.0526
+        },
+        "mean_post_gap_pct": {
+          "missing": 1,
+          "share": 0.0526
+        },
+        "p_value": {
+          "missing": 17,
+          "share": 0.8947
+        },
+        "weights": {
+          "missing": 17,
+          "share": 0.8947
+        },
+        "poor_pre_fit": {
+          "missing": 1,
+          "share": 0.0526
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "cfcb19cb05ee",
+      "last_updated": "2026-11-20T15:42:26+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "efficiency",
+      "dataset_name": "Financial efficiency indicators",
+      "modules": [
+        "moneyball"
+      ],
+      "source_ids": [
+        "companies_house",
+        "jolpica"
+      ],
+      "explanation": {
+        "would_contain": "One row per team, season and financial measure with resource share, points share within the comparison group, the efficiency ratio, points per million and the rank gap. Rows that cannot be compared are kept with the reason.",
+        "why_unavailable": "Computed by the pipeline from financial_observation and constructor_season. Neither is published yet.",
+        "needed_for_publication": "At least 4 teams reporting the same measure in the same currency for the same season."
+      },
+      "coverage_start": 2010,
+      "coverage_end": 2025,
+      "observation_count": 312,
+      "variable_count": 30,
+      "missingness": {
+        "team_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "value": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "currency": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_class": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "confidence": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "entity_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "financial_year_end": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "exclusion_reason": {
+          "missing": 312,
+          "share": 1.0
+        },
+        "points": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_share": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "position": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "wins": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "podiums": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "completion_rate": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mechanical_dnf_rate": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "mean_grid_to_finish": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "median_quali_gap_pct": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "team_name": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_reported": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "group_n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "resource_share": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_share_in_group": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "efficiency_ratio": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_per_million": {
+          "missing": 104,
+          "share": 0.3333
+        },
+        "resource_rank": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "points_rank": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "rank_gap": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "included": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "f490c85abf3f",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "model_results",
+      "dataset_name": "Resources and performance models",
+      "modules": [
+        "moneyball"
+      ],
+      "source_ids": [
+        "companies_house",
+        "jolpica"
+      ],
+      "explanation": {
+        "would_contain": "Pooled OLS, team fixed-effects and two-way fixed-effects estimates of points share on last season's log resources, with clustered standard errors, confidence intervals, sample sizes and notes.",
+        "why_unavailable": "Needs a financial panel with lagged figures. No financial figures are entered yet.",
+        "needed_for_publication": "At least 20 team-seasons with a previous-season figure, from at least 4 teams and 3 seasons, for one measure."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 9,
+      "variable_count": 20,
+      "missingness": {
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "currency": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "outcome": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "regressor": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_obs": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_seasons": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "model_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "specification": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "formula": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_low": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_high": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "p_value": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "r2": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "effect_10pct_pp": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se_type": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "fb95fa8081ba",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "cost_cap_models",
+      "dataset_name": "Cost cap models",
+      "modules": [
+        "cost_cap"
+      ],
+      "source_ids": [
+        "jolpica",
+        "companies_house"
+      ],
+      "explanation": {
+        "would_contain": "Interrupted time series estimates of the change in each balance indicator after 2021 (with and without a 2022 technical-reset term), placebo break years, and a dose-response comparison by pre-cap spending.",
+        "why_unavailable": "Needs competitive_balance (sporting data not yet collected). The dose-response model also needs pre-cap financial figures for at least 4 teams.",
+        "needed_for_publication": "Sporting data for 2010-2025 from the first pipeline run."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 40,
+      "variable_count": 24,
+      "missingness": {
+        "kind": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "indicator": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "break_year": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "specification": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "formula": {
+          "missing": 1,
+          "share": 0.025
+        },
+        "estimated": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_seasons": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_pre": {
+          "missing": 1,
+          "share": 0.025
+        },
+        "n_post": {
+          "missing": 1,
+          "share": 0.025
+        },
+        "level_change": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_low": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_high": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "p_value": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "slope_change": {
+          "missing": 1,
+          "share": 0.025
+        },
+        "r2": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se_type": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "note": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "tech_level_change": {
+          "missing": 35,
+          "share": 0.875
+        },
+        "placebo_share_as_large": {
+          "missing": 35,
+          "share": 0.875
+        },
+        "n_placebos": {
+          "missing": 35,
+          "share": 0.875
+        },
+        "exposure_measure": {
+          "missing": 39,
+          "share": 0.975
+        },
+        "n_obs": {
+          "missing": 39,
+          "share": 0.975
+        },
+        "n_teams": {
+          "missing": 39,
+          "share": 0.975
+        }
+      },
+      "version": "1038e9bafc8e",
+      "last_updated": "2026-11-20T15:42:26+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "robustness_checks",
+      "dataset_name": "Robustness checks",
+      "modules": [
+        "moneyball",
+        "cost_cap",
+        "grand_prix_economy"
+      ],
+      "source_ids": [
+        "jolpica",
+        "companies_house",
+        "national_statistics"
+      ],
+      "explanation": {
+        "would_contain": "Sensitivity checks for all three studies, one estimate per row, with wild cluster bootstrap p-values for the six-team models.",
+        "why_unavailable": "Needs the model outputs of the three studies.",
+        "needed_for_publication": "Financial figures, sporting data and Grand Prix inputs from the pipeline."
+      },
+      "coverage_start": null,
+      "coverage_end": null,
+      "observation_count": 108,
+      "variable_count": 19,
+      "missingness": {
+        "study": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "check_id": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "check": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "metric": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "model": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 2,
+          "share": 0.0185
+        },
+        "ci_low": {
+          "missing": 8,
+          "share": 0.0741
+        },
+        "ci_high": {
+          "missing": 8,
+          "share": 0.0741
+        },
+        "p_value": {
+          "missing": 18,
+          "share": 0.1667
+        },
+        "p_wild": {
+          "missing": 66,
+          "share": 0.6111
+        },
+        "pct_effect": {
+          "missing": 90,
+          "share": 0.8333
+        },
+        "r2": {
+          "missing": 31,
+          "share": 0.287
+        },
+        "n_obs": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 25,
+          "share": 0.2315
+        },
+        "baseline_coef": {
+          "missing": 36,
+          "share": 0.3333
+        },
+        "dropped": {
+          "missing": 84,
+          "share": 0.7778
+        },
+        "region": {
+          "missing": 88,
+          "share": 0.8148
+        },
+        "note": {
+          "missing": 76,
+          "share": 0.7037
+        }
+      },
+      "version": "c2aad1de0bb0",
+      "last_updated": "2026-11-20T17:49:30+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    },
+    {
+      "dataset_id": "cost_cap_event_study",
+      "dataset_name": "Cost cap event study",
+      "modules": [
+        "cost_cap"
+      ],
+      "source_ids": [
+        "jolpica",
+        "companies_house"
+      ],
+      "explanation": {
+        "would_contain": "Season-by-season difference in points share between teams with higher and lower pre-cap spending, relative to 2020, used to check pre-trends.",
+        "why_unavailable": "Needs constructor_season and pre-cap (2018-2020) financial figures for at least 4 teams in one measure and currency.",
+        "needed_for_publication": "Sporting data plus audited 2018-2020 figures for at least 4 teams."
+      },
+      "coverage_start": 2014,
+      "coverage_end": 2025,
+      "observation_count": 12,
+      "variable_count": 9,
+      "missingness": {
+        "season": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "coef": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "se": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_low": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "ci_high": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "is_reference": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "period": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "n_teams": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "exposure_measure": {
+          "missing": 0,
+          "share": 0.0
+        }
+      },
+      "version": "77a11924a0dc",
+      "last_updated": "2026-11-19T17:12:14+00:00",
+      "validation_status": "passed",
+      "validation_warnings": [],
+      "status_note": null,
+      "status": "published"
+    }
+  ]
+}

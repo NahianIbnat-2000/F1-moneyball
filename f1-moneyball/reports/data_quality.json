@@ -1,0 +1,27 @@
+{
+  "n_errors": 0,
+  "n_warnings": 3,
+  "issues": [
+    {
+      "dataset": "constructor_season",
+      "check": "points_reconcile",
+      "severity": "warning",
+      "message": "Standings points differ from summed race points in seasons [2020, 2021, 2022, 2023, 2024, 2025] (expected where sprint races or penalties apply)",
+      "n_rows": 37
+    },
+    {
+      "dataset": "financial_observation",
+      "check": "period_length",
+      "severity": "warning",
+      "message": "Accounting periods not about 12 months (not annualised in the data; see robustness check annualised_periods): ['silverstone 2019-08-31 (395 days)', 'silverstone 2020-12-31 (122 days)', 'banbury 2017-06-30 (547 days)', 'leafield 2010-12-31 (457 days)']",
+      "n_rows": 4
+    },
+    {
+      "dataset": "financial_observation",
+      "check": "accounting_scope_switch",
+      "severity": "warning",
+      "message": "Teams whose accounts switch between company-only and group-consolidated: ['mclaren', 'mercedes', 'red_bull', 'williams'] (see robustness check scope_control)",
+      "n_rows": 4
+    }
+  ]
+}

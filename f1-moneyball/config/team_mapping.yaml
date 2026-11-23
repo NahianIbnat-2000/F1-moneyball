@@ -1,0 +1,20 @@
+# Maps Jolpica constructorId -> stable team lineage (team_id).
+# A lineage follows the same factory and core organisation through name changes.
+# This is a modelling choice. Alternatives (e.g. treating a rebrand as a new team)
+# are tested as robustness checks. Any constructorId missing here fails validation,
+# so new or renamed teams are caught, not silently dropped.
+lineages:
+  red_bull:   {display_name: "Red Bull Racing", base: "Milton Keynes", constructor_ids: [red_bull]}
+  mercedes:   {display_name: "Mercedes", base: "Brackley", constructor_ids: [mercedes]}
+  ferrari:    {display_name: "Ferrari", base: "Maranello", constructor_ids: [ferrari]}
+  mclaren:    {display_name: "McLaren", base: "Woking", constructor_ids: [mclaren]}
+  williams:   {display_name: "Williams", base: "Grove", constructor_ids: [williams]}
+  enstone:    {display_name: "Renault / Lotus / Alpine", base: "Enstone", constructor_ids: [renault, lotus_f1, alpine]}
+  silverstone: {display_name: "Force India / Racing Point / Aston Martin", base: "Silverstone", constructor_ids: [force_india, racing_point, aston_martin]}
+  faenza:     {display_name: "Toro Rosso / AlphaTauri / RB", base: "Faenza", constructor_ids: [toro_rosso, alphatauri, rb]}
+  hinwil:     {display_name: "Sauber / Alfa Romeo / Audi", base: "Hinwil", constructor_ids: [sauber, alfa, audi]}
+  haas:       {display_name: "Haas", base: "Kannapolis", constructor_ids: [haas]}
+  banbury:    {display_name: "Virgin / Marussia / Manor", base: "Banbury", constructor_ids: [virgin, marussia, manor]}
+  leafield:   {display_name: "Lotus Racing / Caterham", base: "Leafield", constructor_ids: [lotus_racing, caterham]}
+  hrt:        {display_name: "HRT", base: "Madrid", constructor_ids: [hrt]}
+  cadillac:   {display_name: "Cadillac", base: "Fishers / Silverstone", constructor_ids: [cadillac]}

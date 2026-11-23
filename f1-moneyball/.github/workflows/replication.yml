@@ -1,0 +1,55 @@
+name: Replication
+# Clean-environment replication. Starts from a fresh checkout, installs the documented dependencies, rebuilds
+# every published dataset from the committed inputs, compares them with the published reference, regenerates the
+# paper and the website, and writes a reproducibility manifest. Nothing is committed or deployed.
+#
+# Inputs it uses: data/manual (hand-entered, sourced figures), data/processed (sporting tables built from the
+# Jolpica-F1 API; the raw API pull itself is git-ignored and needs network access, see docs/REPLICATION.md).
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+    paths: ["src/**", "data/manual/**", "data/processed/**", "config/**", "paper/**", "scripts/**", "tests/**"]
+permissions:
+  contents: read
+jobs:
+  replicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Install documented dependencies
+        run: pip install -e ".[dev]"
+      - name: Tests
+        run: pytest -q
+      - name: Validate inputs and rebuild every published dataset
+        run: python -m f1moneyball.pipeline publish
+      - name: Compare with the published reference (fails if any published number moved)
+        run: python scripts/compare_published.py --reference HEAD
+      - name: Paper numbers, tables and figures
+        run: |
+          pip install matplotlib
+          python paper/make_assets.py
+      - name: Compile the paper
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: paper
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm, cache-dependency-path: website/package-lock.json}
+      - name: Build the website
+        working-directory: website
+        run: npm ci && npm run build
+      - name: Reproducibility manifest
+        run: python scripts/repro_manifest.py --out reproducibility_manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: replication-${{ github.sha }}
+          path: |
+            reproducibility_manifest.json
+            paper/main.pdf
+            website/public/data/*.csv

@@ -1,0 +1,130 @@
+# F1 Moneyball
+
+**The Economics Behind the Speed**
+*An Independent Formula 1 Economics & Finance Research Platform.*
+Featured research series: **The Economics of Competitive Advantage.**
+
+> Does Money Buy Speed?
+
+F1 Moneyball studies how financial resources, regulation, operational efficiency and commercial strategy shape competitive performance in Formula 1. It combines a reproducible Python data pipeline, econometrics, machine learning and an editorial research website.
+
+## Links
+
+| | |
+|---|---|
+| **Project overview** | https://nahianibnat-2000.github.io/F1-moneyball/hub/ |
+| **Website** | https://nahianibnat-2000.github.io/F1-moneyball/ |
+| **Working paper (PDF)** | [Does Money Buy Speed? Financial Resources and Sporting Performance in Formula 1, 2010 to 2025](https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf) · LaTeX source in [`paper/`](paper/) |
+| **Research articles** | [Does Money Buy Speed?](https://nahianibnat-2000.github.io/F1-moneyball/research/does-money-buy-speed) · [The Cost Cap Paradox](https://nahianibnat-2000.github.io/F1-moneyball/research/cost-cap-paradox) · [The Grand Prix Economy](https://nahianibnat-2000.github.io/F1-moneyball/research/grand-prix-economy) |
+| **Interactive dashboards** | [F1 Moneyball](https://nahianibnat-2000.github.io/F1-moneyball/moneyball) · [Cost Cap](https://nahianibnat-2000.github.io/F1-moneyball/cost-cap) · [Grand Prix Economy](https://nahianibnat-2000.github.io/F1-moneyball/grand-prix-economy) |
+| **Data and downloads** | [Data Explorer](https://nahianibnat-2000.github.io/F1-moneyball/data): every dataset with sources and CSV downloads |
+| **Methods** | [Methodology](https://nahianibnat-2000.github.io/F1-moneyball/methodology) · [FAQ and definitions](https://nahianibnat-2000.github.io/F1-moneyball/faq) |
+| **Changes** | [Changelog](https://nahianibnat-2000.github.io/F1-moneyball/changelog) |
+| **Report an error** | [Open an issue](https://github.com/NahianIbnat-2000/F1-moneyball/issues) |
+| **Author** | Nahian Ibnat · [LinkedIn](https://www.linkedin.com/in/nahian-ibnat) |
+
+### Data sources
+
+| Data | Source |
+|---|---|
+| Team finances (audited accounts) | [Companies House](https://find-and-update.company-information.service.gov.uk/) filing histories, one link per figure in [`data/manual/financial_observations.csv`](data/manual/financial_observations.csv) |
+| Race results and standings | [Jolpica-F1 API](https://api.jolpi.ca/ergast/f1/) |
+| Cost cap and technical rules | FIA regulations, links in [`data/manual/regulation_events.csv`](data/manual/regulation_events.csv) |
+| Tourism, Austria | [Statistik Austria, overnight stays and arrivals by state](https://data.statistik.gv.at/web/meta.jsp?dataset=OGD_touextsai_Tour_UA_1) (open data, CC BY 4.0) |
+| Tourism, Singapore | [Singapore Tourism Board via data.gov.sg](https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view) (Singapore Open Data Licence) |
+
+**Why the source documents are in this repository.** The folder [`data/source_documents`](data/source_documents) holds a copy of every document the figures were read from: 105 audited annual accounts filed by the teams' UK companies, 9 FIA regulation documents, and 6 files from the tourism sources. The company accounts are public records, free to view and download from Companies House. They are kept here so that anyone can check each figure against the exact page it came from (the page is recorded next to every figure), even if a filing later moves or the online register changes. The [provenance explorer](https://nahianibnat-2000.github.io/F1-moneyball/provenance/) links each figure to its saved copy. The documents are unchanged and remain the work of the companies and bodies that published them.
+
+### How to cite
+
+For the working paper (Study 01, *Does Money Buy Speed?*):
+
+> Ibnat, N. (2026). *Does money buy speed? Financial resources and sporting performance in Formula 1, 2010 to 2025* [Working paper]. F1 Moneyball. https://nahianibnat-2000.github.io/F1-moneyball/papers/Ibnat_Does_Money_Buy_Speed_working_paper.pdf
+
+For the cost cap or Grand Prix study, the data, or the project as a whole:
+
+> Ibnat, N. (2026). *F1 Moneyball: An independent Formula 1 economics and finance research platform* [Website]. https://nahianibnat-2000.github.io/F1-moneyball/
+
+## Status (milestone log)
+
+| Milestone | Status |
+|---|---|
+| Implementation audit ([docs/IMPLEMENTATION_AUDIT.md](docs/IMPLEMENTATION_AUDIT.md)) | Done |
+| Phase 1: repository, design system, website shell, CI/CD | Done |
+| Phase 2: Jolpica-F1 ingestion, team lineage, validation, balance metrics, publishing | Code done and tested on fixtures. **First real data pull runs on the first `Data pipeline` workflow run.** |
+| Financial database (Companies House, manual entry) | Done: 8 team lineages, 2010 to 2025, each figure linked to its filing and page. Large year-on-year changes checked against the filings ([docs/VERIFICATION_REPORT.md](docs/VERIFICATION_REPORT.md)). |
+| Session 1 of the research-grade brief: dataset status system, article template, homepage, Data Explorer, provenance ([docs/SESSION1_AUDIT_AND_PLAN.md](docs/SESSION1_AUDIT_AND_PLAN.md)) | Done |
+| Session 4: racing theme; Cost Cap (ITS, placebos, dose-response event study) and Grand Prix Economy (event study, synthetic control) methods and pages ([docs/SESSION4_REPORT.md](docs/SESSION4_REPORT.md)) | Code done and tested; **needs data** |
+| Session 3: lazy loading (home JS 1,344 kB → 200 kB), path URLs with per-page metadata, citations, changelog, axe and Lighthouse checks ([docs/SESSION3_REPORT.md](docs/SESSION3_REPORT.md)) | Done |
+| Session 2: editorial theme, efficiency indicators, FE models, flagship laboratory and comparison tool ([docs/SESSION2_REPORT.md](docs/SESSION2_REPORT.md)) | Code done and tested; **results appear after the first pipeline run and financial entry** |
+
+**Current state:** see [docs/PROJECT_AUDIT.md](docs/PROJECT_AUDIT.md) and [docs/VERIFICATION_REPORT.md](docs/VERIFICATION_REPORT.md) (November 2026). The session reports above are kept as history.
+
+## Quick start
+
+```bash
+pip install -e ".[dev]"
+pytest                                       # 55 tests
+python -m f1moneyball.pipeline all           # ingest 2010-2025, build, validate, publish
+cd website && npm ci && npm run dev          # http://localhost:5173
+# website/scripts/og_images.py regenerates social preview images; ANALYZE=1 npm run build writes a bundle report
+```
+
+Pipeline commands: `ingest`, `build`, `validate`, `publish`, `all` (`--start`, `--end`, `--force`).
+A full first ingest makes about 200 requests to Jolpica-F1 at about 3 per second; finished seasons are cached and never re-downloaded.
+
+## Deploying to GitHub Pages
+
+1. Create an empty repository named `f1-moneyball` on GitHub and push this folder:
+   ```bash
+   git add -A && git commit -m "Phase 1: foundation"
+   git remote add origin https://github.com/<you>/f1-moneyball.git
+   git push -u origin main
+   ```
+2. In **Settings → Pages**, set **Source** to **GitHub Actions**.
+3. In **Settings → Actions → General**, allow **Read and write permissions** (the pipeline commits published data).
+4. Run **Actions → Data pipeline → Run workflow**. When it succeeds, `Deploy website` publishes the site.
+
+Repository description to use on GitHub: *F1 Moneyball: An Independent Formula 1 Economics & Finance Research Platform.*
+
+## Architecture
+
+```
+Jolpica-F1 / FastF1 / manual CSV
+   → data/raw (untouched, retrieval log with SHA-256)
+   → standardize (team lineage, types) → data/interim (Parquet)
+   → validate (errors block publishing) → reports/data_quality.md
+   → features (efficiency, HHI, Gini, rank persistence) → data/processed
+   → publish (JSON + CSV + manifest + data dictionaries) → website/public/data
+   → React site (reads manifest.json first) → GitHub Pages
+```
+
+| Path | Purpose |
+|---|---|
+| `config/` | Sources, study window and regulatory periods, team lineage mapping |
+| `src/f1moneyball/` | ingestion, standardization, validation, feature_engineering, publishing, pipeline CLI |
+| `data/manual/` | Hand-entered financial observations and regulation events (validated) |
+| `config/datasets.yaml` | Registry of every dataset the site expects; the pipeline turns it into `dataset_status.json`, the only source of dataset status for the website |
+| `data/metadata/dictionaries.yaml` | Data dictionary for every published dataset (publishing fails if a column is undocumented) |
+| `website/` | Vite + React + TypeScript + Tailwind + Plotly |
+| `.github/workflows/` | `validation.yml` (PRs), `data_pipeline.yml` (weekly + manual), `deploy.yml` |
+
+## Research integrity rules built into the code
+
+- The website can only show datasets listed in `manifest.json`; missing data shows a "not yet published" state, never placeholder values.
+- `is_synthetic_demo` in the manifest forces a red banner on every page if demo data is ever used.
+- Financial figures are stored one figure per row with source class (audited / official disclosure / secondary estimate / derived / missing), currency, accounting period, URL and page. Rows without provenance fail validation.
+- Every row in the financial CSV must pass validation, so unsourced figures fail the tests.
+- Validation errors stop the pipeline before anything is written to the website.
+
+## People
+
+| Role | Who |
+|---|---|
+| Author and lead researcher | **Nahian Ibnat**: research questions and design, data collection, interpretation of results, documentation and final review of everything published. |
+| Collaborator | **Claude** (AI assistant by [Anthropic](https://www.anthropic.com)): helped build the data pipeline, econometric code, website and helped extract and check figures from the source filings. |
+
+
+## Disclaimer
+
+F1 Moneyball is an independent research project. It is not affiliated with Formula 1, FIA, Liberty Media or any Formula 1 constructor. Financial estimates and analytical interpretations are identified separately from officially reported figures. Formula 1 and related marks are trademarks of their owners. Sporting data from Jolpica-F1 is used under its terms of use.
