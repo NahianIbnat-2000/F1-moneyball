@@ -4,6 +4,8 @@ name: Source documents
 # It never deletes, commits or deploys anything.
 on:
   workflow_dispatch:
+  pull_request:
+    paths: ["data/metadata/source_documents.csv", "scripts/source_documents.py", ".github/workflows/source-documents.yml"]
 permissions:
   contents: read
 jobs:
