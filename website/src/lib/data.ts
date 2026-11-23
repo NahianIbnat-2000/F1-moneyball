@@ -4,10 +4,14 @@ export interface ColumnSpec {
   type: string; description: string; unit?: string;
   source?: string; transformation?: string; missing_treatment?: string;
 }
+export interface SourceRights {
+  licence: string; licence_url: string | null; attribution: string | null; restrictions: string | null;
+  status: "verified" | "partly verified" | "not verified"; evidence: string | null; checked: string | null;
+}
 export interface DatasetEntry {
   name: string; title: string; description: string; key: string[]; rows: number;
   columns: Record<string, ColumnSpec>;
-  sources: { id: string; name: string; url: string }[];
+  sources: { id: string; name: string; url: string; rights?: SourceRights }[];
   files: { json: string; csv: string };
   coverage?: { season_min: number; season_max: number };
   n_variables?: number; limitations?: string[]; version?: string;

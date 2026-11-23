@@ -24,6 +24,8 @@ import pandas as pd
 import statsmodels.formula.api as smf
 
 CAP_YEAR, TECH_YEAR, LAST_SEASON = 2021, 2022, 2025
+RULE_RESETS_PRE_CAP = (2014, 2017)  # major technical rule changes inside the placebo window
+MDE_MULTIPLIER = 2.8  # (1.96 + 0.84): smallest level change detectable with 80% power at the 5% level
 INDICATORS = ["hhi_normalized", "gini", "top3_share", "leader_points_share", "rank_persistence"]
 MIN_PRE, MIN_POST = 6, 3
 EXPOSURE_YEARS = (2018, 2020)
@@ -52,7 +54,8 @@ def _its_row(d: pd.DataFrame, y: str, break_year: int, spec: str, kind: str) -> 
            "estimated": True, "n_seasons": int(len(d)), "n_pre": int((d["post"] == 0).sum()),
            "n_post": int(d["post"].sum()), "level_change": float(fit.params["post"]), "se": float(fit.bse["post"]),
            "ci_low": lo, "ci_high": hi, "p_value": float(fit.pvalues["post"]),
-           "slope_change": float(fit.params["post_trend"]), "r2": float(fit.rsquared), "se_type": "Newey-West, 1 lag"}
+           "slope_change": float(fit.params["post_trend"]), "r2": float(fit.rsquared), "se_type": "Newey-West, 1 lag",
+           "mde_80": MDE_MULTIPLIER * float(fit.bse["post"])}
     if spec == "B":
         row["tech_level_change"] = float(fit.params["post_tech"])
     return row
@@ -79,7 +82,9 @@ def its_models(balance: pd.DataFrame) -> pd.DataFrame:
         pre = d[d["season"] < CAP_YEAR]
         for fake in range(int(pre["season"].min()) + 3, CAP_YEAR - 2):
             r = _its_row(pre, y, fake, "A", "placebo")
-            r["note"] = "Placebo: no policy change at this break year."
+            r["note"] = ("Placebo break year inside the pre-cap period. Major technical rule change in this season, "
+                         "so not a clean placebo." if fake in RULE_RESETS_PRE_CAP
+                         else "Placebo break year: no financial regulation change in this season.")
             rows.append(r)
     out = pd.DataFrame(rows)
     # Share of placebo level changes at least as large (in absolute value) as the actual one.

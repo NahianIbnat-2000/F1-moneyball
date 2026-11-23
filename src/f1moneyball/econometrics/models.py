@@ -8,6 +8,11 @@ Specification (per financial metric, one currency at a time):
   remove, that problem. Results are ASSOCIATIONS, not causal effects.
 * Standard errors are clustered by team. With few teams (clusters) they are unreliable;
   the number of clusters is reported with every model and flagged below 10.
+* Inference reported for every model: the clustered standard error; p-value and 95% interval from the t
+  distribution with G - 1 degrees of freedom (G = number of teams; `p_t`, `ci_t_low`, `ci_t_high`); and, for the
+  two fixed-effects models, the restricted wild cluster bootstrap p-value (`p_wild`) with the bootstrap interval
+  obtained by inverting the same test (`ci_boot_low`, `ci_boot_high`). `p_value`, `ci_low` and `ci_high` use the
+  normal distribution and are kept for comparison with earlier versions.
 * `effect_10pct_pp`: change in points share, in percentage points, associated with 10% more
   resources the previous season = b * ln(1.1) * 100.
 """
@@ -16,6 +21,9 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
+from scipy import stats
+
+from f1moneyball.econometrics.inference import WildCluster
 
 MIN_OBS, MIN_TEAMS, MIN_SEASONS = 20, 4, 3
 
@@ -42,7 +50,7 @@ def lagged_panel(eff: pd.DataFrame, metric: str, currency: str) -> pd.DataFrame:
     return out.dropna(subset=["points_share", "log_resource_lag"])
 
 
-def run_models(eff: pd.DataFrame) -> pd.DataFrame:
+def run_models(eff: pd.DataFrame, wild: bool = True) -> pd.DataFrame:
     rows = []
     usable = eff[eff["value"] > 0]
     for metric, g in usable.groupby("metric"):
@@ -73,5 +81,22 @@ def run_models(eff: pd.DataFrame) -> pd.DataFrame:
                          "ci_low": float(lo), "ci_high": float(hi),
                          "p_value": float(fit.pvalues["log_resource_lag"]), "r2": float(fit.rsquared),
                          "effect_10pct_pp": float(b * np.log(1.1) * 100), "se_type": "clustered by team",
+                         **small_sample(float(b), float(se), n_teams),
+                         **(bootstrap(formula, panel) if wild and mid != "pooled" else {}),
                          "note": note})
     return pd.DataFrame(rows)
+
+
+def small_sample(b: float, se: float, G: int) -> dict:
+    """p-value and 95% interval with t(G - 1) critical values (Cameron and Miller 2015)."""
+    if not se > 0 or G < 2:
+        return {"p_t": np.nan, "ci_t_low": np.nan, "ci_t_high": np.nan}
+    c = stats.t.ppf(0.975, G - 1)
+    return {"p_t": float(2 * stats.t.sf(abs(b / se), G - 1)), "ci_t_low": b - c * se, "ci_t_high": b + c * se}
+
+
+def bootstrap(formula: str, panel: pd.DataFrame) -> dict:
+    """Restricted wild cluster bootstrap p-value at zero and the 95% interval from inverting the same test."""
+    w = WildCluster(formula, panel, "log_resource_lag", "team_id")
+    lo, hi = w.ci()
+    return {"p_wild": w.p_value(0.0), "ci_boot_low": lo, "ci_boot_high": hi}

@@ -1,4 +1,12 @@
-"""Financial panel and descriptive efficiency indicators.
+"""Financial panel and descriptive indicators of points relative to resources.
+
+The main indicator is the points-to-resource-share ratio (called the points-to-turnover-share ratio when the
+resource is turnover):
+
+    ratio_it = (points_it / sum of points of the teams in the group) / (resource_it / sum of resources in the group)
+
+A value of 1 means the team took the same share of the group's points as of its resources; 2 means twice the
+share of points. It describes outcomes only.
 
 Rules that protect comparability:
   * One financial measure (`metric`) at a time. Different measures are never combined.
@@ -57,7 +65,7 @@ def financial_panel(fin: pd.DataFrame, cs: pd.DataFrame) -> pd.DataFrame:
 
 def efficiency_table(panel: pd.DataFrame, min_teams: int = 4) -> pd.DataFrame:
     df = panel.copy()
-    for c in ["group_n_teams", "resource_share", "points_share_in_group", "efficiency_ratio",
+    for c in ["group_n_teams", "resource_share", "points_share_in_group", "points_to_resource_share_ratio",
               "points_per_million", "resource_rank", "points_rank", "rank_gap"]:
         df[c] = np.nan
     usable = df["exclusion_reason"].isna()
@@ -80,7 +88,7 @@ def efficiency_table(panel: pd.DataFrame, min_teams: int = 4) -> pd.DataFrame:
         pts_share = g["points"] / pts_total if pts_total > 0 else np.nan
         df.loc[idx, "resource_share"] = res_share
         df.loc[idx, "points_share_in_group"] = pts_share
-        df.loc[idx, "efficiency_ratio"] = pts_share / res_share
+        df.loc[idx, "points_to_resource_share_ratio"] = pts_share / res_share
         if ccy != PERSONS:
             df.loc[idx, "points_per_million"] = g["points"] / (g["value"] / 1e6)
         df.loc[idx, "resource_rank"] = g["value"].rank(ascending=False, method="min")

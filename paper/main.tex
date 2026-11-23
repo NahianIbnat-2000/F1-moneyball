@@ -257,12 +257,25 @@ cars score in races. Team names change often \citep{jolpica}, so each team is fo
 
 The points awarded per race have changed over time, and money rises over time
 with inflation, so raw points and raw pounds are not comparable from one season to the next. The paper therefore works
-with shares. A team's \textit{points share} is its points divided by the combined points of all covered teams in that
-season. Its \textit{resource share} is, in the same way, its turnover (or staff costs, or headcount) divided by the total of
+with shares. A team's \textit{points share} is its points divided by the combined points of a group of teams in that
+season, and two groups are used. In the regression models, the group is all constructors, including Ferrari and the other
+teams not covered by the financial data, so a team's share is its part of all the points scored that season. In
+\hyperref[tab:desc]{Table~\ref*{tab:desc}}, \hyperref[fig:scatter]{Figure~\ref*{fig:scatter}} and the
+points-to-turnover-share ratio, which compare the covered teams with each other, the group is the covered teams only. A team's \textit{resource share} is its turnover (or staff costs, or headcount) divided by the total of
 the covered teams. Shares are computed only in seasons where at least four covered teams report the same measure. The
-\textit{efficiency ratio} divides a team's points share by its turnover share. A ratio of 1 means a team's share of the
-points equals its share of the money; a ratio above 1 means it scored more than its money alone would suggest, and a ratio
-below 1 means it scored less.
+\textit{points-to-turnover-share ratio} divides a team's points share by its turnover share, both among the covered
+teams in the same season:
+\begin{equation}
+  R_{it} = \frac{\text{points}_{it} / \sum_{j} \text{points}_{jt}}{\text{turnover}_{it} / \sum_{j} \text{turnover}_{jt}},
+  \label{eq:ratio}
+\end{equation}
+where the sums run over the covered teams $j$ in season $t$. A ratio of 1 means a team's share of the points equals its
+share of the turnover. A ratio of 1.4 means its share of the points was 40\% larger than its share of the turnover, and a
+ratio of 0.7 means it was 30\% smaller. The same ratio can be computed with staff costs or headcount in place of
+turnover; the general name is the points-to-resource-share ratio. The ratio describes outcomes. It is not a measure of
+efficiency in the economic sense, which would compare output with the least input needed to produce it \citep{farrell1957}, and it says
+nothing about why a team scored more or less than its share of money. It is also unstable for teams with very few points,
+where one result can move it a lot. Earlier versions of this project called it the efficiency ratio.
 
 The data cover \NTeamSeasons{} team-seasons, where a team-season is one team in one season. The
 regression models use \NObs{} of them. The difference arises because the models link each season's results to the
@@ -271,11 +284,11 @@ value to use (\NDroppedByLag{} team-seasons in all).
 
 \hyperref[tab:desc]{Table~\ref*{tab:desc}}
 summarises each team over its seasons in the data: the average turnover, staff costs and headcount, the average points
-share and the average efficiency ratio. It shows three things that shape the rest of the paper. First, the teams differ
+share and the average points-to-turnover-share ratio. It shows three things that shape the rest of the paper. First, the teams differ
 greatly in size, and these differences last: Mercedes and Red Bull had average turnover of about GBP~\TurnAvgMercedes{}
 million and GBP~\TurnAvgRedBull{} million, while Williams had about GBP~\TurnAvgWilliams{} million. Differences that last
 for many years are exactly what the within-team comparison is designed to remove. Second, money is not the whole story:
-Silverstone, with average turnover of about GBP~\TurnAvgSilverstone{} million, had an efficiency ratio of
+Silverstone, with average turnover of about GBP~\TurnAvgSilverstone{} million, had a points-to-turnover-share ratio of
 \EffSilverstone, scoring slightly more than its share of the money, while McLaren, with about GBP~\TurnAvgMcLaren{}
 million, had a ratio of \EffMcLaren. Third, the two smallest teams, Manor and Caterham, scored almost no points, and their
 accounts are incomplete, as the table notes explain, so their figures understate their full budgets.
@@ -286,17 +299,18 @@ accounts are incomplete, as the table notes explain, so their figures understate
 \caption{Covered teams, averages over their seasons}
 \label{tab:desc}
 \small
-\begin{tabular}{@{}p{4.2cm}lrrrrr@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{4.2cm}lrrrrr@{}}
 \toprule
-Team lineage & Seasons & \multicolumn{1}{c}{Turnover} & \multicolumn{1}{c}{Staff costs} & \multicolumn{1}{c}{Staff} & \multicolumn{1}{c}{Points} & \multicolumn{1}{c}{Efficiency} \\
- & (count) & \multicolumn{1}{c}{(GBP m)} & \multicolumn{1}{c}{(GBP m)} & \multicolumn{1}{c}{(people)} & \multicolumn{1}{c}{share (\%)} & \multicolumn{1}{c}{ratio} \\
+Team lineage & Seasons & \multicolumn{1}{c}{Turnover} & \multicolumn{1}{c}{Staff costs} & \multicolumn{1}{c}{Staff} & \multicolumn{1}{c}{Points} & \multicolumn{1}{c}{Points-to-} \\
+ & (count) & \multicolumn{1}{c}{(GBP m)} & \multicolumn{1}{c}{(GBP m)} & \multicolumn{1}{c}{(people)} & \multicolumn{1}{c}{share (\%)} & \multicolumn{1}{c}{turnover-} \\
+ & & & & & & \multicolumn{1}{c}{share ratio} \\
 \midrule
 \inputrows generated/table1_descriptives.tex 
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
-\item \textit{Notes:} \NTeamSeasons{} team-seasons. Money in nominal GBP, not adjusted for inflation. Points share and
-efficiency ratio are computed among the covered teams in each season. Manor and Caterham accounts are partial: in 2010 Manor did no research and
+\item \textit{Notes:} \NTeamSeasons{} team-seasons. Money in nominal GBP, not adjusted for inflation. Points share and the
+points-to-turnover-share ratio (equation~\ref{eq:ratio}) are computed among the covered teams in each season. Manor and Caterham accounts are partial: in 2010 Manor did no research and
 development itself but hired outside technical expertise, and bought the business of Wirth Technologies in 2011
 \citep{ch_manor}; Caterham's UK company provided design, testing and race-support services to its Malaysian parent company
 \citep{ch_caterham}. Their figures therefore understate the full team budget. \textit{Source:} datasets \texttt{financial\_observation} (version \VerFinancialObservation)
@@ -363,13 +377,21 @@ below 0.05 is called statistically significant.
 Uncertainty is measured with standard errors \textit{clustered} by team. Clustering allows for the fact that a team's
 results in different seasons are related to each other, so that sixteen seasons of the same team carry less independent
 information than sixteen different teams \citep{cameron2015}. Clustered standard errors work well when there are many
-groups, but with only \NTeams{} teams they can understate the uncertainty \citep{cameron2008}. The within-team estimates
-therefore also get a p-value from a \textit{wild cluster bootstrap}. A bootstrap estimates uncertainty by building many
+groups, but with only \NTeams{} teams they can understate the uncertainty \citep{cameron2008}. Two steps take this into
+account. First, every clustered p-value and confidence interval in this paper uses the $t$ distribution with $G-1$
+degrees of freedom, where $G$ is the number of teams, instead of the normal distribution; this is the usual small-sample
+adjustment \citep{cameron2015}. With eight teams there are seven degrees of freedom, so the interval is about 20\% wider
+than with the normal distribution. Second, the within-team estimates also get a p-value from a \textit{wild cluster
+bootstrap}. A bootstrap estimates uncertainty by building many
 artificial versions of the data from the data itself and re-estimating the model on each one; the wild cluster version
 does this by changing the sign and size of each team's errors together, which keeps the link between a team's seasons
 \citep{cameron2008}. This paper uses the restricted version with Webb's six-point weights and \BootDraws{} draws, which
-behaves better than the usual weights when there are very few groups \citep{webb2023}. None of these methods turns an
-association into a causal effect; all results describe how money and results move together.
+behaves better than the usual weights when there are very few groups \citep{webb2023}. The bootstrap also gives a 95\%
+interval of its own: it contains every value of $\beta$ that the same bootstrap test would not reject at the 5\% level,
+which is called inverting the test \citep{roodman2019}. The bootstrap p-value and the bootstrap interval therefore always
+agree: the interval excludes zero exactly when the bootstrap p-value is below 0.05. The bootstrap interval need not be
+symmetric around the estimate. None of these methods turns an association into a causal effect; all results describe how
+money and results move together.
 
 % ============================================================================ 5
 \section{Results}
@@ -383,9 +405,9 @@ of the money usually have a larger share of the points. The correlation, a numbe
 closely two quantities move together in a straight line \citep[Appendix~B]{wooldridge2020}, is \CorrAll{} over all
 \NTeamSeasons{} team-seasons. In single seasons it ranges from \CorrMin{} (\CorrMinYear) to \CorrMax{} (\CorrMaxYear). The
 figure matters because it shows how strong the link between teams is before any model is applied. It also shows that teams
-with similar money can end up far apart, which is what the efficiency ratio measures: over the whole period, Mercedes
-(efficiency ratio \EffMercedes) and Red Bull (\EffRedBull) turned their money into points far more effectively than
-Williams (\EffWilliams), Manor (\EffManor) or Caterham (\EffCaterham). The same chart, with filters by team and season, is
+with similar money can end up far apart, which is what the points-to-turnover-share ratio describes: over the whole
+period, Mercedes (ratio \EffMercedes) and Red Bull (\EffRedBull) took a much larger share of the points than of the
+turnover, while Williams (\EffWilliams), Manor (\EffManor) and Caterham (\EffCaterham) took a much smaller one. The same chart, with filters by team and season, is
 on the \sitepage{moneyball}{Moneyball dashboard}.
 
 \begin{figure}[htbp]
@@ -398,12 +420,14 @@ dataset \texttt{efficiency}; interactive version on the \sitepage{moneyball}{Mon
 \end{figure}
 
 \hyperref[tab:models]{Table~\ref*{tab:models}}
-reports the three versions of the model for each of the three resources. Each row gives the coefficient $\beta$, its 95\%
-confidence interval, two p-values (clustered, and from the wild bootstrap for the within-team models), the number of
-team-seasons used ($N$) and the number of teams. \hyperref[fig:coef]{Figure~\ref*{fig:coef}} shows the same coefficients
-and confidence intervals as a chart. The figure matters because it makes the key pattern visible at a glance: the pooled
-estimates are precise and clearly above zero, while the within-team intervals are wide and all of them cross zero, which
-means the data cannot rule out that there is no within-team link at all.
+reports the three versions of the model for each of the three resources. Each row gives the coefficient $\beta$, its
+clustered standard error, the clustered 95\% interval and p-value (both with seven degrees of freedom), and, for the two
+within-team models, the bootstrap 95\% interval and bootstrap p-value. Every model uses all \NObs{} team-seasons and
+\NTeams{} teams. \hyperref[fig:coef]{Figure~\ref*{fig:coef}} shows the same coefficients as a chart, with the bootstrap
+interval for the within-team models and the clustered interval for the pooled model. The figure matters because it makes
+the key pattern visible at a glance: the pooled estimates are precise and clearly above zero, while the within-team
+intervals are wide. All within-team clustered intervals include zero, and so do all but one of the bootstrap intervals,
+which means that for most of these estimates the data cannot rule out that there is no within-team link at all.
 
 In the pooled model, the turnover coefficient is \CoefTurnPooled{}
 (95\% confidence interval \CiLowTurnPooled{} to \CiHighTurnPooled). In economic terms, a team with 10\% more turnover than
@@ -423,9 +447,10 @@ Adding season effects raises the estimates, as the
 explanation in \hyperref[sec:strategy]{Section~\ref*{sec:strategy}} leads one to expect. For turnover the coefficient is
 \CoefTurnTwfe{} (clustered $p = \PTurnTwfe$). The largest within-team estimate is for staff costs, \CoefStaffTwfe. In
 economic terms, a team that spends 10\% more on staff than usual, relative to the other teams that season, has a points
-share about \PpStaffTwfe{} percentage points higher in the next season. Its clustered p-value is \PStaffTwfe{} and its
-bootstrap p-value \PwildStaffTwfe. The two methods fall on different sides of the 0.05 convention and the confidence
-interval (\CiLowStaffTwfe{} to \CiHighStaffTwfe) includes zero, so this estimate alone is not strong evidence. As
+share about \PpStaffTwfe{} percentage points higher in the next season. Its clustered p-value is \PStaffTwfe{}, with an interval from \CiLowStaffTwfe{} to \CiHighStaffTwfe{} that includes zero.
+Its bootstrap p-value is \PwildStaffTwfe{}, with a bootstrap interval from \CiBootLowStaffTwfe{} to \CiBootHighStaffTwfe{}
+that only just excludes zero. The two methods fall on different sides of the 0.05 convention, and the lower end of the
+bootstrap interval is very close to zero, so this estimate alone is not strong evidence. As
 \hyperref[sec:rob]{Section~\ref*{sec:rob}} shows, it also becomes less certain when changes in the way accounts are drawn up
 are taken into account, while the same pattern with championship position as the outcome holds up better.
 
@@ -435,16 +460,21 @@ are taken into account, while the same pattern with championship position as the
 \caption{Points share on log resources in the previous season}
 \label{tab:models}
 \small
-\begin{tabular}{@{}llrcrrrr@{}}
+\begin{tabular}{@{}llrrcccc@{}}
 \toprule
-Measure & Model & Coef. & 95\% CI & $p$ (clustered) & $p$ (bootstrap) & $N$ & Teams \\
+ & & & & \multicolumn{2}{c}{Clustered, $t(G-1)$} & \multicolumn{2}{c}{Wild cluster bootstrap} \\
+\cmidrule(lr){5-6}\cmidrule(lr){7-8}
+Measure & Model & Coef. & SE & 95\% CI & $p$ & 95\% CI & $p$ \\
 \midrule
 \inputrows generated/table2_models.tex 
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
-\item \textit{Notes:} OLS estimates of \hyperref[eq:main]{equation~(\ref*{eq:main})}. Standard errors clustered by team. Bootstrap: wild cluster
-restricted bootstrap, Webb six-point weights, 9,999 draws, within-team models only. \textit{Source:} datasets
+\item \textit{Notes:} OLS estimates of \hyperref[eq:main]{equation~(\ref*{eq:main})}. Outcome: points share of all
+constructors. $N = \NObs$ team-seasons and $G = \NTeams$ teams in every model. Standard errors clustered by team;
+clustered intervals and p-values use the $t$ distribution with $G-1$ degrees of freedom. Bootstrap: restricted wild
+cluster bootstrap, Webb six-point weights, \BootDraws{} draws, within-team models only; the interval inverts the bootstrap
+test \citep{roodman2019}. \textit{Source:} datasets
 \texttt{model\_results} (version \VerModelResults) and \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
 \code{src/f1moneyball/econometrics/models.py}.
 \end{tablenotes}
@@ -454,7 +484,8 @@ restricted bootstrap, Webb six-point weights, 9,999 draws, within-team models on
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{generated/fig2_coefficients.pdf}
-\caption{Coefficients and 95\% confidence intervals from \hyperref[tab:models]{Table~\ref*{tab:models}}. The dashed line marks zero.}
+\caption{Coefficients and 95\% intervals from \hyperref[tab:models]{Table~\ref*{tab:models}}: the bootstrap interval for
+the team and two-way models, the clustered $t(G-1)$ interval for the pooled model. The dashed line marks zero.}
 \label{fig:coef}
 \end{figure}
 
@@ -485,7 +516,9 @@ $p = \PosPTurnover$, bootstrap $p = \PosPwildTurnover$), staff costs \PosStaffco
 $p = \PosPwildStaffcosts$) and headcount \PosHeadcount{} ($p = \PosPHeadcount$, bootstrap $p = \PosPwildHeadcount$). In
 economic terms, a team that spends 10\% more on staff than usual finishes, on average, about \PosTenStaffcosts{} places
 higher in the next season's championship. For a team with the median staff budget of about GBP~\MedStaffM{} million, 10\%
-is about GBP~\TenPctStaffM{} million. Put the other way round, one place higher goes with about \OnePlaceStaff\% more staff
+is about GBP~\TenPctStaffM{} million. The bootstrap interval for the staff-cost coefficient runs from
+\PosCiBootLowStaffcosts{} to \PosCiBootHighStaffcosts{} places per unit of the logarithm, so the data are consistent with
+a small link as well as a large one. Put the other way round, one place higher goes with about \OnePlaceStaff\% more staff
 spending than usual, and with about \OnePlaceTurn\% more turnover. Here the two methods for measuring uncertainty give
 similar p-values. This is the clearest within-team result in the paper, but it is still an association: a team that is
 improving may hire more staff and finish higher for the same underlying reason.
@@ -520,6 +553,48 @@ coefficient of \AnnStaff{} (bootstrap $p = \AnnPwildStaff$). Third, McLaren's st
 that the points-share result is most sensitive to the type of accounts, while the position result is the steadier of the
 two.
 
+\hyperref[tab:samples]{Table~\ref*{tab:samples}} goes further in three directions. Its uncertainty measures are the same
+as in \hyperref[tab:models]{Table~\ref*{tab:models}}. The first direction is the comparability of the accounts. Each
+financial figure was classified from facts recorded in the filings (dataset \texttt{financial\_comparability};
+code in \code{src/f1moneyball/econometrics/comparability.py}).
+A figure is of \textit{high} comparability when the accounts cover the whole team for about a year and are drawn up on the
+same basis as the year before; \textit{moderate} when the financial year does not end in December or the filing records
+discontinued activities; and \textit{limited} when the accounts cover only part of the team, the period is much longer or
+shorter than a year, the basis changed from the year before, or staff costs include share-based payments. Of the
+\CompTotal{} turnover figures, \CompHigh{} are of high comparability, \CompModerate{} moderate, \CompLimited{} limited and
+\CompInsufficient{} lack the information needed. Keeping only team-seasons whose previous-season figure is of high
+comparability leaves \HighPtsNStaff{} team-seasons and \HighPtsGStaff{} teams, because all of Caterham's figures are of
+limited comparability. In this sample the staff-cost coefficient for points share is \HighPtsStaff{} (bootstrap interval
+\HighPtsCiLowStaff{} to \HighPtsCiHighStaff, bootstrap $p = \HighPtsPwildStaff$), close to the main estimate but less
+certain, and for position it is \HighPosStaff{} places (bootstrap interval \HighPosCiLowStaff{} to \HighPosCiHighStaff,
+bootstrap $p = \HighPosPwildStaff$). Adding moderate-comparability figures changes almost nothing. A different approach
+keeps every team-season but gives each team a separate constant before and after a change between group and company
+accounts, so that the switch itself cannot create a link. The staff-cost coefficient is then \SegPtsStaff{} for points
+share (bootstrap $p = \SegPtsPwildStaff$) and \SegPosStaff{} places for position (bootstrap $p = \SegPosPwildStaff$). In
+both approaches the points-share estimate keeps its size but loses statistical significance, while the position estimate
+keeps both.
+
+The second direction is the way the outcome is measured. With the points share of the covered teams only, instead of all
+constructors, the staff-cost coefficient is \CoveredStaff{} (bootstrap $p = \CoveredPwildStaff$; clustered
+$p = \CoveredPStaff$). With a normalised position, which runs from 0 for the champion to 1 for the last team and so
+allows for the different number of teams in each season, it is \NormPosStaff{} (bootstrap $p = \NormPosPwildStaff$;
+clustered $p = \NormPosPStaff$). The direction is the same as in the main results, and again the two methods for measuring
+uncertainty do not always agree.
+
+The third direction is timing. With the resource lagged two seasons instead of one, the staff-cost coefficient for points
+share falls to \LagTwoStaff{} (bootstrap $p = \LagTwoPwildStaff$), and no two-season estimate is statistically
+significant. The link, if there is one, is mainly with the following season. The \textit{reverse direction} asks whether
+last season's points share goes with this season's money, using the same two-way model with the two variables swapped.
+For turnover the coefficient is \RevTurn: a points share one percentage point higher goes with turnover about
+\RevPerPpTurn\% higher in the following season. Its clustered p-value is \RevPTurn, but its bootstrap p-value is
+\RevPwildTurn{} and the bootstrap interval (\RevCiLowTurn{} to \RevCiHighTurn) includes zero, so the two methods disagree.
+This pattern fits the way prize money is paid, by earlier championship results \citep{liberty2018}. For staff costs the
+reverse coefficient is \RevStaff{} (bootstrap $p = \RevPwildStaff$) and for headcount \RevHead{} (bootstrap
+$p = \RevPwildHead$), neither statistically significant. Money therefore seems to follow results at least as much as
+results follow money for turnover, but less so for spending on people. These timing checks describe which comes first in
+the data; they do not show cause and effect, because a team that is improving for other reasons may raise both its
+results and its spending.
+
 The main model is estimated for three resources and two outcomes, which makes six
 within-team tests. The more tests are made, the more likely it is that one of them gives a small p-value by chance alone.
 The Holm method adjusts the p-values for this by requiring the smallest p-value to pass a stricter threshold, the next
@@ -528,10 +603,10 @@ smallest a slightly less strict one, and so on \citep{holm1979}. After this adju
 within-team result is statistically significant at the 5\% level after the correction. The staff-cost result for position
 comes closest, which is why the paper describes it as suggestive rather than established.
 
-Read as a whole, the table shows which parts of the
-result can be relied on. The direction of the within-team link, more money going with better results, survives every
+Read as a whole, \hyperref[tab:rob]{Tables~\ref*{tab:rob}} and~\hyperref[tab:samples]{\ref*{tab:samples}} show which
+parts of the result can be relied on. The direction of the within-team link, more money going with better results, survives every
 check. Its size is uncertain, the points-share result depends on how the accounts are drawn up, and the position result for
-staff spending is the most stable. Every estimate behind the table, including each run that leaves out one team, is listed
+staff spending is the most stable. Every estimate behind the tables, including each run that leaves out one team, is listed
 on the \sitepage{research/does-money-buy-speed}{research article page}.
 
 \begin{table}[htbp]
@@ -549,11 +624,40 @@ Check & Measure & Coefficient & $p$ (clustered, bootstrap) & Main result \\
 \end{tabular}
 \begin{tablenotes}[flushleft]\footnotesize
 \item \textit{Notes:} ``Main result'' is the team and season fixed-effects coefficient from \hyperref[tab:models]{Table~\ref*{tab:models}}.
-Clustered $p$-values; wild bootstrap $p$-values in parentheses where computed. The two accounting-scope rows add an
+Clustered $p$-values with $t(G-1)$; wild bootstrap $p$-values in parentheses where computed. The two accounting-scope rows add an
 indicator for group-consolidated accounts in the previous year.
 $^{a}$~Coefficient on log resource $\times$ cost-cap period (2021 onward).
 $^{b}$~Places in the championship per log point of the resource; negative means a better position.
 $^{c}$~Share-based payments removed where the filing amount is recorded (McLaren 2023 to 2025).
+\textit{Source:} dataset \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
+\code{src/f1moneyball/econometrics/robustness.py}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Comparable accounts, other outcomes and timing (team and season fixed effects)}
+\label{tab:samples}
+\footnotesize
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.9cm}lrcccrr@{}}
+\toprule
+Check & Measure & Coef. & Bootstrap 95\% CI & $p$ ($t(G-1)$) & $p$ (bootstrap) & $N$ & Teams \\
+\midrule
+\inputrows generated/table4_samples_timing.tex 
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Notes:} Each row is a two-way fixed-effects model, equation~(\ref{eq:main}) unless stated. Comparability
+refers to the previous season's figure, the one used in the model. Team $\times$ accounting-basis effects give each team a
+separate constant before and after a switch between group and company accounts. Standard errors clustered by team; the
+$t(G-1)$ p-value uses the number of teams in that sample. Bootstrap as in \hyperref[tab:models]{Table~\ref*{tab:models}}.
+$^{a}$~Places in the championship per log point of the resource; negative means a better position.
+$^{b}$~(Position $-$ 1) / (number of constructors $-$ 1): 0 for the champion, 1 for the last team.
+$^{c}$~Dependent variable: log resource this season; regressor: points share of all constructors last season. The
+coefficient is the change in log resource for a points share 100 percentage points higher, so divide by 100 for one
+percentage point.
 \textit{Source:} dataset \texttt{robustness\_checks} (version \VerRobustnessChecks); code in
 \code{src/f1moneyball/econometrics/robustness.py}.
 \end{tablenotes}
@@ -585,11 +689,14 @@ business that has nothing to do with racing, or leave out costs that are held el
 are Manor, which in 2010 bought in its engineering from outside \citep{ch_manor}, and Caterham, whose UK company provided
 services to a Malaysian parent company \citep{ch_caterham}. Related to this, accounting periods, accounting standards and
 the type of accounts (group or company) differ across teams and years. The checks in
-\hyperref[sec:rob]{Section~\ref*{sec:rob}} address these differences only in part.
+\hyperref[sec:rob]{Section~\ref*{sec:rob}} address these differences only in part: restricting the sample to comparable
+accounts removes a whole team (Caterham) and leaves seven teams, which makes the estimates even less precise.
 
 A third limitation is reverse causality. Because success brings prize money, a team's results may drive its spending as
-well as the other way round. Linking results to the previous season's money reduces this problem but cannot remove it, so
-none of the results can be read as the effect of spending more.
+well as the other way round. The reverse-direction check in \hyperref[tab:samples]{Table~\ref*{tab:samples}} supports
+this concern for turnover, which follows last season's points share at least as closely as points follow turnover, though
+the bootstrap does not confirm it at the 5\% level. Linking results to the previous season's money reduces this problem
+but cannot remove it, so none of the results can be read as the effect of spending more.
 
 A fourth limitation concerns inflation and coverage. Money is measured in pounds of each year. The two-way model removes
 general inflation through the season effects, and the simpler models are checked in 2015 pounds in
@@ -620,8 +727,9 @@ organisation, facilities and experience, and extra spending goes with only modes
 spending shows the clearest link suggests that money matters most when it is spent on people.
 
 Three criticisms are reasonable. First, success may cause spending rather than the other way round, since most of the prize
-fund is paid according to earlier results \citep{liberty2018}. The one-season lag reduces this problem but does not remove
-it, so the results are associations, not causal effects. Second, the accounts belong to legal companies and are not all
+fund is paid according to earlier results \citep{liberty2018}. The reverse-direction check points the same way for
+turnover, less so for staff costs. The one-season lag reduces this problem but does not remove it, so the results are
+associations, not causal effects. Second, the accounts belong to legal companies and are not all
 drawn up in the same way. The checks in \hyperref[sec:rob]{Section~\ref*{sec:rob}} show that the position result holds when
 changes in the type of accounts are controlled for, while the points-share result weakens. Third, eight teams is a small
 sample. The wild cluster bootstrap and the Holm correction take this into account, which is why the within-team results are
@@ -708,8 +816,11 @@ Cost cap levels & \citet{fia2021} & \url{https://www.fia.com/sites/default/files
 
 \noindent The financial dataset holds \NFinFigures{} figures from \NFilings{} audited filings. Each figure is stored with its
 company, registration number, accounting period, the page of the filing it was read from, any change made to it, and a link
-to the filing. A copy of every filing is kept in the repository (folder \code{data/source_documents}), so each figure can be
-checked even if the online register changes. The \sitepage{provenance}{provenance explorer} shows all of this for every team
+to the filing. Every source document is listed in \code{data/metadata/source_documents.csv} with its official link and
+SHA-256 hash, a fingerprint that changes if a single byte of the file changes, so anyone can download a document and confirm
+it is the one used. Copies of the filings are kept in the repository (folder \code{data/source_documents}) until a
+document-level link for each one has been confirmed by its hash. The FIA regulations are linked, not copied, because the
+FIA's terms require its consent to reproduce them. The \sitepage{provenance}{provenance explorer} shows all of this for every team
 and season.
 
 Five rules were used to build the data. First, a team is followed through changes of name and owner
@@ -800,9 +911,10 @@ Paper element & Code (links open the file on GitHub) \\
 \midrule
 Financial figures & \code{data/manual/financial_observations.csv}; entry rules in \code{docs/MANUAL_FINANCIAL_ENTRY.md} \\
 Race results, standings & \code{src/f1moneyball/ingestion/jolpica.py} \\
-Shares, efficiency ratio & \code{src/f1moneyball/econometrics/efficiency.py} \\
+Shares, points-to-resource-share ratio & \code{src/f1moneyball/econometrics/efficiency.py} \\
 \hyperref[tab:models]{Table~\ref*{tab:models}}, \hyperref[fig:coef]{Figure~\ref*{fig:coef}} & \code{src/f1moneyball/econometrics/models.py} \\
-\hyperref[tab:rob]{Table~\ref*{tab:rob}}, bootstrap & \code{src/f1moneyball/econometrics/robustness.py} \\
+\hyperref[tab:rob]{Tables~\ref*{tab:rob}} and~\hyperref[tab:samples]{\ref*{tab:samples}}, bootstrap & \code{src/f1moneyball/econometrics/robustness.py}, \code{inference.py} \\
+Comparability classes & \code{src/f1moneyball/econometrics/comparability.py} \\
 Pipeline steps & \code{src/f1moneyball/pipeline.py} \\
 Data checks & \code{src/f1moneyball/validation/checks.py}; \code{scripts/verify_large_changes.py} \\
 All numbers, tables, figures here & \code{paper/make_assets.py} \\

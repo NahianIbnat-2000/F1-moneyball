@@ -15,6 +15,7 @@ import sys
 
 import pandas as pd
 
+from f1moneyball.econometrics import comparability
 from f1moneyball.econometrics.cost_cap import run_cost_cap
 from f1moneyball.econometrics.efficiency import efficiency_table, financial_panel
 from f1moneyball.econometrics.gp_economy import event_study as gp_event_study
@@ -115,6 +116,27 @@ def build_analysis(cs: pd.DataFrame) -> pd.DataFrame | None:
     return eff
 
 
+def refresh_analysis() -> None:
+    """Rebuild every table that depends on the financial data from the current constructor seasons.
+
+    Processed files in the repository can be older than the manual financial data. Rebuilding here means
+    `publish` from a clean checkout gives the same results as the full pipeline, without the raw API data.
+    """
+    cs_path = config.PROCESSED_DIR / "constructor_season.parquet"
+    if not cs_path.exists():
+        log.info("No constructor seasons: analysis not refreshed")
+        return
+    cs = pd.read_parquet(cs_path)
+    balance = balance_table(cs)
+    balance.to_parquet(config.PROCESSED_DIR / "competitive_balance.parquet", index=False)
+    eff = build_analysis(cs)
+    cc_models, cc_es = run_cost_cap(balance, cs, eff)
+    cc_models.to_parquet(config.PROCESSED_DIR / "cost_cap_models.parquet", index=False)
+    (config.PROCESSED_DIR / "cost_cap_event_study.parquet").unlink(missing_ok=True)
+    if len(cc_es):
+        cc_es.to_parquet(config.PROCESSED_DIR / "cost_cap_event_study.parquet", index=False)
+
+
 def load_gp() -> tuple[pd.DataFrame, pd.DataFrame]:
     t = pd.read_csv(config.MANUAL_DIR / "gp_tourism_monthly.csv", dtype={"month": str})
     e = pd.read_csv(config.MANUAL_DIR / "gp_race_events.csv")
@@ -163,7 +185,7 @@ def _load_processed() -> dict[str, pd.DataFrame]:
     out = {}
     for name in ("constructor_season", "competitive_balance", "race_result", "pit_stop", "efficiency", "model_results",
                  "cost_cap_models", "cost_cap_event_study", "gp_event_study", "gp_scm_path", "gp_scm_inference",
-                 "robustness_checks"):
+                 "robustness_checks", "financial_comparability"):
         p = config.PROCESSED_DIR / f"{name}.parquet"
         if p.exists():
             out[name] = pd.read_parquet(p)
@@ -254,10 +276,15 @@ def build_robustness() -> None:
     if len(r):
         r.to_parquet(out, index=False)
         log.info("Robustness checks: %d estimates", len(r))
+    fin = t.get("financial_observation")
+    if fin is not None and len(fin):
+        comparability.classify(fin).astype({"category": str}).to_parquet(
+            config.PROCESSED_DIR / "financial_comparability.parquet", index=False)
 
 
 def cmd_publish(args) -> None:
     summary = cmd_validate(args)  # exits before writing anything if there are errors
+    refresh_analysis()
     build_gp()
     build_robustness()
     t = _load_processed()
@@ -265,7 +292,7 @@ def cmd_publish(args) -> None:
     for name in ("constructor_season", "race_result", "pit_stop", "competitive_balance", "regulation_event",
                  "financial_observation", "efficiency", "model_results", "cost_cap_models", "cost_cap_event_study",
                  "gp_tourism_monthly", "gp_race_events", "gp_event_study", "gp_scm_path", "gp_scm_inference",
-                 "robustness_checks"):
+                 "robustness_checks", "financial_comparability"):
         if name in t and len(t[name]):
             entries.append(publish_dataset(name, t[name]))
             published[name] = t[name]

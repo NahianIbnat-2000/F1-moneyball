@@ -5,7 +5,7 @@ import { useManifest } from "../lib/data";
 const SOURCES = [
   ["Jolpica-F1 API", "Race results, qualifying, standings, pit stops", "Automated, cached, 4 req/s and 500 req/h limits respected", "https://github.com/jolpica/jolpica-f1"],
   ["FastF1", "Lap timing, tyre stints, weather (2018+)", "Automated, Phase 2b", "https://docs.fastf1.dev/"],
-  ["OpenF1", "Pit-lane times (2023+)", "Robustness source only", "https://openf1.org/"],
+  ["OpenF1", "Pit-lane times (2023+)", "Not used in the published results", "https://openf1.org/"],
   ["UK Companies House", "Audited accounts of UK team entities", "Manual entry with page references, validated in CI", "https://find-and-update.company-information.service.gov.uk/"],
   ["FIA regulations", "Cost cap levels, rule changes", "Manual, each event sourced", "https://www.fia.com/regulation/category/110"],
 ] as const;
@@ -41,8 +41,8 @@ export default function Methodology() {
           <div>
             <h3>Team lineage</h3>
             <p>A team keeps its identity through name changes if the factory and core organisation stay the same (e.g. Force India, Racing Point and Aston Martin at Silverstone). Treating rebrands as new teams is tested as a robustness check.</p>
-            <h3>Financial efficiency</h3>
-            <p>Points share divided by resource share in the same season, computed only among teams with comparable figures that year. It is a descriptive ratio, not a measure of production efficiency or a causal estimate.</p>
+            <h3>Points-to-resource-share ratio</h3>
+            <p>Points share divided by resource share in the same season, computed only among teams with comparable figures that year. With turnover as the resource it is the points-to-turnover-share ratio. A value of 1 means equal shares of points and resources. It is a descriptive ratio, not a measure of production efficiency or a causal estimate.</p>
           </div>
           <div>
             <h3>Competitive balance</h3>

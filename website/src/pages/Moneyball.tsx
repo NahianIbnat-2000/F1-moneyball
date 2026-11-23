@@ -168,16 +168,16 @@ function Trajectories({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
 function EfficiencyBars({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) {
   const inc = rows.filter((r) => r.included);
   const c = useFinancialControls(inc);
-  const [measureRaw, setMeasure] = useState<"efficiency_ratio" | "points_per_million" | "rank_gap">("efficiency_ratio");
+  const [measureRaw, setMeasure] = useState<"points_to_resource_share_ratio" | "points_per_million" | "rank_gap">("points_to_resource_share_ratio");
   // Points per million only exists for money measures.
-  const measure = measureRaw === "points_per_million" && !isMoney(c.ccy) ? "efficiency_ratio" : measureRaw;
+  const measure = measureRaw === "points_per_million" && !isMoney(c.ccy) ? "points_to_resource_share_ratio" : measureRaw;
   const seasons = seasonsOf(inc.filter((r) => r.metric === c.metric && r.currency === c.ccy));
   const season = c.season === "all" ? String(seasons.at(-1) ?? "") : c.season;
   const v = inc.filter((r) => r.metric === c.metric && r.currency === c.ccy && String(r.season) === season)
     .sort((a, b) => (b[measure] as number) - (a[measure] as number));
   const excluded = rows.filter((r) => !r.included && r.metric === c.metric && String(r.season) === season);
   const labels: Record<typeof measure, [string, string]> = {
-    efficiency_ratio: ["Financial efficiency ratio", "Points share in group / resource share. 1 = points in line with resources"],
+    points_to_resource_share_ratio: [`Points-to-${mLabel(c.metric).toLowerCase()}-share ratio`, "Points share in group / resource share. 1 = same share of points as of resources"],
     points_per_million: [`Points per million ${c.ccy}`, "Points divided by the financial figure in millions"],
     rank_gap: ["Rank gap", "Resource rank minus points rank. Positive = finished higher than resources rank"],
   };
@@ -185,7 +185,7 @@ function EfficiencyBars({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) 
   const best = v[0];
   return (
     <ChartFrame
-      meta={{ id: measure === "efficiency_ratio" ? "MB-6" : measure === "points_per_million" ? "MB-7" : "MB-8", dataset: entry, methodology: "financial efficiency",
+      meta={{ id: measure === "points_to_resource_share_ratio" ? "MB-6" : measure === "points_per_million" ? "MB-7" : "MB-8", dataset: entry, methodology: "points-to-resource-share ratio",
         title: `${labels[measure][0]}, ${mLabel(c.metric)}, ${season}`,
         caption: "Three separate descriptive measures, shown one at a time rather than combined into a single score. Shares are computed only among teams in the same comparison group.",
         source: "efficiency dataset, computed by src/f1moneyball/econometrics/efficiency.py.",
@@ -193,15 +193,15 @@ function EfficiencyBars({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) 
         doesNotShow: "Technical or production efficiency, and nothing causal. Teams outside the group are not ranked.",
         estimateWarning: est ? "Hatched bars use estimated figures." : undefined,
         summary: best ? `Highest ${labels[measure][0].toLowerCase()} in this group: ${best.team_name} (${(best[measure] as number).toFixed(2)}). ${excluded.length ? `${excluded.length} team rows for this season are excluded; see the data table.` : ""}` : "No comparison group for this selection." }}
-      controls={<>{c.controls}<Select label="Measure" value={measure} onChange={(v2) => setMeasure(v2 as typeof measure)} options={isMoney(c.ccy) ? [["efficiency_ratio", "Efficiency ratio"], ["points_per_million", "Points per million"], ["rank_gap", "Rank gap"]] : [["efficiency_ratio", "Efficiency ratio"], ["rank_gap", "Rank gap"]]} /></>}
-      table={<DataTable rows={[...v, ...excluded]} columns={["team_name", "value", "resource_share", "points_share_in_group", "efficiency_ratio", "points_per_million", "rank_gap", "source_class", "exclusion_reason"]} specs={entry?.columns} />}>
+      controls={<>{c.controls}<Select label="Measure" value={measure} onChange={(v2) => setMeasure(v2 as typeof measure)} options={isMoney(c.ccy) ? [["points_to_resource_share_ratio", "Points-to-resource-share ratio"], ["points_per_million", "Points per million"], ["rank_gap", "Rank gap"]] : [["points_to_resource_share_ratio", "Points-to-resource-share ratio"], ["rank_gap", "Rank gap"]]} /></>}
+      table={<DataTable rows={[...v, ...excluded]} columns={["team_name", "value", "resource_share", "points_share_in_group", "points_to_resource_share_ratio", "points_per_million", "rank_gap", "source_class", "exclusion_reason"]} specs={entry?.columns} />}>
       {v.length ? (
         <Plot ariaLabel={`Bar chart of ${labels[measure][0]} by team`} height={Math.max(260, v.length * 38 + 80)}
           data={[{ type: "bar", orientation: "h", y: v.map((r) => String(r.team_name)), x: v.map((r) => r[measure] as number),
             marker: { color: v.map((r) => teamHex(String(r.team_id))), pattern: { ...BAR_PATTERN_ESTIMATE, shape: v.map((r) => (r.is_reported ? "" : "/")) } },
             hovertemplate: "%{y}: %{x:.2f}<extra></extra>" }]}
           layout={{ margin: { l: 170, r: 24, t: 10, b: 50 }, yaxis: { autorange: "reversed" }, xaxis: { title: { text: labels[measure][0] } },
-            shapes: measure === "efficiency_ratio" ? [{ type: "line", x0: 1, x1: 1, yref: "paper", y0: 0, y1: 1, line: { color: GOLD, width: 1.5, dash: "dot" } }] : [] }} />
+            shapes: measure === "points_to_resource_share_ratio" ? [{ type: "line", x0: 1, x1: 1, yref: "paper", y0: 0, y1: 1, line: { color: GOLD, width: 1.5, dash: "dot" } }] : [] }} />
       ) : <p className="text-sm text-muted py-6">No comparison group meets the coverage rule for this selection.</p>}
     </ChartFrame>
   );
@@ -214,15 +214,15 @@ function EfficiencyTrajectories({ rows, entry }: { rows: Row[]; entry?: DatasetE
   const teams = uniq(v.map((r) => String(r.team_id)));
   return (
     <ChartFrame
-      meta={{ id: "MB-9", dataset: entry, methodology: "financial efficiency", title: `Efficiency ratio over time, ${mLabel(c.metric)}`,
-        caption: "Does a team stay efficient, or does the ratio fall as it grows? Gaps mean the team was outside a comparison group that season.",
-        source: "efficiency dataset.", shows: "Efficiency ratio per team and season, included rows only.", doesNotShow: "Seasons where the group was too small; those are left as gaps, not filled." }}
+      meta={{ id: "MB-9", dataset: entry, methodology: "points-to-resource-share ratio", title: `Points-to-${mLabel(c.metric).toLowerCase()}-share ratio over time`,
+        caption: "Does a team keep a high ratio, or does it fall as the team grows? Gaps mean the team was outside a comparison group that season.",
+        source: "efficiency dataset.", shows: "Points-to-resource-share ratio per team and season, included rows only.", doesNotShow: "Seasons where the group was too small; those are left as gaps, not filled." }}
       controls={c.controls}>
-      <Plot ariaLabel="Line chart of efficiency ratio by season" height={380}
+      <Plot ariaLabel="Line chart of the points-to-resource-share ratio by season" height={380}
         data={teams.map((t): Data => { const rs = v.filter((r) => r.team_id === t).sort((a, b) => (a.season as number) - (b.season as number));
-          return { type: "scatter", mode: "lines+markers", name: String(rs[0].team_name), x: rs.map((r) => r.season as number), y: rs.map((r) => r.efficiency_ratio as number),
+          return { type: "scatter", mode: "lines+markers", name: String(rs[0].team_name), x: rs.map((r) => r.season as number), y: rs.map((r) => r.points_to_resource_share_ratio as number),
             line: { color: teamHex(t), width: 2 }, marker: { size: 7 }, connectgaps: false }; })}
-        layout={{ showlegend: true, legend: { orientation: "h", y: -0.2 }, xaxis: { title: { text: "Season" }, dtick: 1 }, yaxis: { title: { text: "Efficiency ratio" } },
+        layout={{ showlegend: true, legend: { orientation: "h", y: -0.2 }, xaxis: { title: { text: "Season" }, dtick: 1 }, yaxis: { title: { text: "Points share / resource share" } },
           shapes: [{ type: "line", xref: "paper", x0: 0, x1: 1, y0: 1, y1: 1, line: { color: GOLD, width: 1.5, dash: "dot" } }] }} />
     </ChartFrame>
   );
@@ -296,9 +296,9 @@ function Comparison({ cs, eff }: { cs: Row[]; eff: Row[] | null }) {
   const avg = (t: string, k: string) => { const xs = cs.filter((r) => r.team_id === t && common.includes(r.season as number)).map((r) => num(r[k])).filter((x): x is number => x !== null); return xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null; };
   const fin = (t: string): ReactNode => {
     if (!eff) return "Financial data not yet published";
-    const inc = eff.filter((r) => r.team_id === t && r.included && common.includes(r.season as number));
-    if (inc.length) { const m = inc.map((r) => r.efficiency_ratio as number).sort((a, b) => a - b); return `${m[Math.floor(m.length / 2)].toFixed(2)} (median of ${inc.length})`; }
-    const ex = eff.find((r) => r.team_id === t && !r.included);
+    const inc = eff.filter((r) => r.team_id === t && r.metric === "turnover" && r.included && common.includes(r.season as number));
+    if (inc.length) { const m = inc.map((r) => r.points_to_resource_share_ratio as number).sort((a, b) => a - b); return `${m[Math.floor(m.length / 2)].toFixed(2)} (median of ${inc.length})`; }
+    const ex = eff.find((r) => r.team_id === t && r.metric === "turnover" && !r.included);
     return <span className="text-muted">{ex ? `Not comparable: ${ex.exclusion_reason}` : "No figures entered for this team"}</span>;
   };
   const rowsDef: [string, (t: string) => ReactNode][] = [
@@ -309,7 +309,7 @@ function Comparison({ cs, eff }: { cs: Row[]; eff: Row[] | null }) {
     ["Places gained, grid to finish", (t) => avg(t, "mean_grid_to_finish")?.toFixed(2) ?? "n/a"],
     ["Completion rate", (t) => pct(avg(t, "completion_rate"))],
     ["Mechanical retirement rate", (t) => pct(avg(t, "mechanical_dnf_rate"))],
-    ["Financial efficiency ratio", fin],
+    ["Points-to-turnover-share ratio (median)", fin],
   ];
   return (
     <div className="rule-top pt-3">
@@ -328,7 +328,7 @@ function Comparison({ cs, eff }: { cs: Row[]; eff: Row[] | null }) {
         </div>
       </fieldset>
       {picked.length > 0 && (
-        <div className="mt-5 overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label="Efficiency over the compared seasons">
+        <div className="mt-5 overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label="Team comparison over the compared seasons">
           <table className="min-w-full text-sm">
             <caption className="text-left text-xs text-muted py-2">{common.length ? `Compared over ${common.length} seasons: ${common[0]}–${common.at(-1)}.` : "The chosen teams never raced in the same season."}</caption>
             <thead><tr className="border-b border-fg/70"><th scope="col" className="label text-left py-2 pr-4">Measure</th>{picked.map((t) => <th key={t} scope="col" className="label text-left py-2 pr-4 text-fg">{teams.find(([i]) => i === t)?.[1]}</th>)}</tr></thead>
@@ -349,17 +349,19 @@ function ModelTable({ rows }: { rows: Row[] }) {
     <div className="rule-top pt-3">
       <div className="label text-accent-fg">Table MB-11 · Model estimates, not causal effects</div>
       <h3 className="font-serif text-xl md:text-2xl font-semibold text-head">Points share and last season's resources</h3>
-      <p className="mt-1 font-serif text-fg/80 max-w-3xl">points_share<sub>it</sub> = β log(resources<sub>i,t−1</sub>) [+ team effects] [+ season effects] + ε<sub>it</sub>. Standard errors clustered by team. The economic size is the change in points share, in percentage points, associated with 10% more resources the season before.</p>
+      <p className="mt-1 font-serif text-fg/80 max-w-3xl">points_share<sub>it</sub> = β log(resources<sub>i,t−1</sub>) [+ team effects] [+ season effects] + ε<sub>it</sub>. Standard errors clustered by team. Clustered intervals and p-values use the t distribution with G − 1 degrees of freedom (G = teams). For the two fixed-effects models the table also gives the wild cluster bootstrap interval and p-value, which are more reliable with only eight teams. The economic size is the change in points share, in percentage points, associated with 10% more resources the season before.</p>
       <div className="mt-4 overflow-x-auto border-t-2 border-fg" tabIndex={0} role="region" aria-label="Model estimates">
         <table className="min-w-full text-sm">
-          <thead><tr className="border-b border-fg/70 text-left">{["Measure", "Specification", "N", "Teams", "β", "SE", "95% CI", "p", "R²", "+10% resources → points share (pp)", "Note"].map((h) => <th key={h} scope="col" className="label py-2 pr-3">{h}</th>)}</tr></thead>
+          <thead><tr className="border-b border-fg/70 text-left">{["Measure", "Specification", "N", "Teams", "β", "SE", "95% CI (clustered)", "p (clustered)", "95% CI (bootstrap)", "p (bootstrap)", "R²", "+10% resources → points share (pp)", "Note"].map((h) => <th key={h} scope="col" className="label py-2 pr-3">{h}</th>)}</tr></thead>
           <tbody>{rows.map((r) => (
             <tr key={String(r.model_id)} className="border-b border-line align-top">
               <td className="py-2 pr-3">{mLabel(String(r.metric))} ({String(r.currency)})</td><td className="py-2 pr-3">{String(r.specification)}</td>
               <td className="num py-2 pr-3">{String(r.n_obs)}</td><td className="num py-2 pr-3">{String(r.n_teams)}</td>
               <td className="num py-2 pr-3">{f(r.coef)}</td><td className="num py-2 pr-3">{f(r.se)}</td>
-              <td className="num py-2 pr-3 whitespace-nowrap">{r.estimated ? `[${f(r.ci_low)}, ${f(r.ci_high)}]` : "n/a"}</td>
-              <td className="num py-2 pr-3">{f(r.p_value)}</td><td className="num py-2 pr-3">{f(r.r2, 2)}</td><td className="num py-2 pr-3">{f(r.effect_10pct_pp, 2)}</td>
+              <td className="num py-2 pr-3 whitespace-nowrap">{r.estimated ? `[${f(r.ci_t_low)}, ${f(r.ci_t_high)}]` : "n/a"}</td>
+              <td className="num py-2 pr-3">{f(r.p_t)}</td>
+              <td className="num py-2 pr-3 whitespace-nowrap">{typeof r.ci_boot_low === "number" ? `[${f(r.ci_boot_low)}, ${f(r.ci_boot_high)}]` : "n/a"}</td>
+              <td className="num py-2 pr-3">{f(r.p_wild)}</td><td className="num py-2 pr-3">{f(r.r2, 2)}</td><td className="num py-2 pr-3">{f(r.effect_10pct_pp, 2)}</td>
               <td className="py-2 text-xs text-muted min-w-56">{String(r.note)}</td>
             </tr>
           ))}</tbody>
@@ -421,9 +423,9 @@ export default function Moneyball() {
         </div>
       </Section>
 
-      <Section eyebrow="C" title="Financial efficiency">
+      <Section eyebrow="C" title="Points relative to resources">
         <div className="grid gap-10">
-          <Callout title="What the efficiency ratio is, and is not" tone="caution">
+          <Callout title="What the points-to-resource-share ratio is, and is not" tone="caution">
             The ratio compares a team's share of points with its share of resources, among teams that report the same measure in the same currency in the same season (at least four teams). Above 1 means more points than resources would suggest. It is a descriptive comparison, not an estimate of technical efficiency, and it is shown next to two other measures rather than merged into one score.
           </Callout>
           <div><div className="label mb-2">How financial figures are classified</div><FinancialClassification /></div>

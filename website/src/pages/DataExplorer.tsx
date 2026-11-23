@@ -18,6 +18,48 @@ function toCsv(rows: Row[], cols: string[]) {
 
 const field = "border-0 border-b border-fg/60 bg-transparent px-1 py-1.5 text-sm text-fg focus:border-accent";
 
+const STATUS_LABEL: Record<string, string> = {
+  verified: "Verified against the publisher's terms", "partly verified": "Partly verified", "not verified": "Not verified",
+};
+
+/** Licence, attribution and restrictions for every source of a dataset. Unknown terms are shown as unknown. */
+function Rights({ entry }: { entry: DatasetEntry }) {
+  const nc = entry.sources.some((s) => /NC/.test(s.rights?.licence ?? ""));
+  return (
+    <div className="lg:col-span-2">
+      <div className="eyebrow">Licence and use</div>
+      {nc && <p className="mt-2 text-sm text-fg max-w-3xl">This dataset contains data derived from a non-commercial,
+        share-alike source, so the download may be used for non-commercial purposes only and must be shared under
+        the same licence (CC BY-NC-SA 4.0).</p>}
+      <div className="mt-2 overflow-x-auto">
+        <table className="w-full text-sm border-t-2 border-fg">
+          <thead><tr className="text-left text-xs text-muted">
+            <th scope="col" className="p-2">Source</th><th scope="col" className="p-2">Licence</th>
+            <th scope="col" className="p-2">Required attribution</th><th scope="col" className="p-2">Restrictions</th>
+            <th scope="col" className="p-2">Checked</th></tr></thead>
+          <tbody>{entry.sources.map((s) => {
+            const r = s.rights;
+            const unknown = !r || r.licence === "Unknown";
+            return (
+              <tr key={s.id} className="border-b border-line align-top">
+                <td className="p-2 min-w-32">{s.name}</td>
+                <td className="p-2 min-w-32">{unknown ? <strong>Unknown</strong>
+                  : r.licence_url ? <a className="underline decoration-accent" href={r.licence_url} target="_blank" rel="noreferrer">{r.licence}</a> : r.licence}</td>
+                <td className="p-2 min-w-48 text-xs">{r?.attribution ?? <strong>Unknown</strong>}</td>
+                <td className="p-2 min-w-48 text-xs">{r?.restrictions ?? <strong>Unknown</strong>}</td>
+                <td className="p-2 min-w-32 text-xs">{r && r.status !== "not verified"
+                  ? <>{STATUS_LABEL[r.status]}{r.checked ? `, ${r.checked}` : ""}{r.evidence && <> (<a className="underline decoration-accent" href={r.evidence} target="_blank" rel="noreferrer">terms</a>)</>}</>
+                  : <strong>Not verified</strong>}</td>
+              </tr>);
+          })}</tbody>
+        </table>
+      </div>
+      <p className="mt-2 text-xs text-muted max-w-3xl">The project's own code is MIT-licensed. This table is a reading of each
+        publisher's terms, not legal advice. Details: docs/SOURCE_RIGHTS.md in the repository.</p>
+    </div>
+  );
+}
+
 function Profile({ entry, status }: { entry: DatasetEntry; status: DatasetStatus }) {
   const items: [string, string][] = [
     ["Coverage", status.coverage_start ? `${status.coverage_start}–${status.coverage_end}` : "No season field"],
@@ -46,6 +88,7 @@ function Profile({ entry, status }: { entry: DatasetEntry; status: DatasetStatus
           <a className="underline decoration-accent" href={datasetUrl(entry, "json")}>JSON</a>
         </div>
       </div>
+      <Rights entry={entry} />
       {(entry.limitations?.length || status.validation_warnings.length) ? (
         <div className="lg:col-span-2 grid md:grid-cols-2 gap-4">
           {!!entry.limitations?.length && (
