@@ -76,6 +76,17 @@
     },
     {
       "date": "2026-11-23",
+      "category": "corrected_data",
+      "title": "All 105 Companies House filings verified by hash (version 3.1)",
+      "detail": "A second run of the Source documents workflow confirmed that the 14 filings found by hand (Williams 2010-2019, Force India 2012, Caterham 2010-2012) are byte-for-byte identical to the copies used. Every filing is now verified, so the sensitivity check without unverified figures no longer applies and is no longer produced; its result (estimates almost unchanged) is recorded in docs/SOURCE_RIGHTS.md. No figure or estimate changed.",
+      "datasets": [
+        "financial_observation",
+        "robustness_checks"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-23",
       "category": "updated_data",
       "title": "Points relative to resources updated",
       "detail": "312 rows, version 5501643018dd (previously f490c85abf3f, 312 rows)",
@@ -189,6 +200,56 @@
       "category": "updated_data",
       "title": "Robustness checks updated",
       "detail": "144 rows, version 9589bf739967 (previously ae30a2b31b52, 144 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Financial observations updated",
+      "detail": "527 rows, version 410ab8413dda (previously b862f0e91202, 527 rows)",
+      "datasets": [
+        "financial_observation"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Synthetic control paths updated",
+      "detail": "288 rows, version 91ff1e2d910c (previously 2015cdb5e881, 288 rows)",
+      "datasets": [
+        "gp_scm_path"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Synthetic control inference updated",
+      "detail": "19 rows, version cfcb19cb05ee (previously 7240d4cdbbf4, 19 rows)",
+      "datasets": [
+        "gp_scm_inference"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Cost cap models updated",
+      "detail": "40 rows, version 0f7fdc4beec0 (previously d4fbd9afd088, 40 rows)",
+      "datasets": [
+        "cost_cap_models"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "138 rows, version 7f329fe905fc (previously 9589bf739967, 144 rows)",
       "datasets": [
         "robustness_checks"
       ],

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-23T15:35:00+00:00",
+  "generated_at_utc": "2026-11-23T16:57:35+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -509,8 +509,8 @@
           "share": 0.0038
         }
       },
-      "version": "b862f0e91202",
-      "last_updated": "2026-11-23T15:20:10+00:00",
+      "version": "410ab8413dda",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed_with_warnings",
       "validation_warnings": [
         "Accounting periods not about 12 months (not annualised in the data; see robustness check annualised_periods): ['silverstone 2019-08-31 (395 days)', 'silverstone 2020-12-31 (122 days)', 'banbury 2017-06-30 (547 days)', 'leafield 2010-12-31 (457 days)']",
@@ -861,8 +861,8 @@
           "share": 0.0
         }
       },
-      "version": "2015cdb5e881",
-      "last_updated": "2026-11-23T15:35:00+00:00",
+      "version": "91ff1e2d910c",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -945,8 +945,8 @@
           "share": 0.0
         }
       },
-      "version": "7240d4cdbbf4",
-      "last_updated": "2026-11-23T15:35:00+00:00",
+      "version": "cfcb19cb05ee",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1353,8 +1353,8 @@
           "share": 0.975
         }
       },
-      "version": "d4fbd9afd088",
-      "last_updated": "2026-11-23T15:35:00+00:00",
+      "version": "0f7fdc4beec0",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1444,7 +1444,7 @@
       },
       "coverage_start": null,
       "coverage_end": null,
-      "observation_count": 144,
+      "observation_count": 138,
       "variable_count": 24,
       "missingness": {
         "study": {
@@ -1473,51 +1473,51 @@
         },
         "se": {
           "missing": 2,
-          "share": 0.0139
+          "share": 0.0145
         },
         "ci_low": {
           "missing": 8,
-          "share": 0.0556
+          "share": 0.058
         },
         "ci_high": {
           "missing": 8,
-          "share": 0.0556
+          "share": 0.058
         },
         "ci_t_low": {
           "missing": 31,
-          "share": 0.2153
+          "share": 0.2246
         },
         "ci_t_high": {
           "missing": 31,
-          "share": 0.2153
+          "share": 0.2246
         },
         "ci_boot_low": {
           "missing": 96,
-          "share": 0.6667
+          "share": 0.6957
         },
         "ci_boot_high": {
           "missing": 96,
-          "share": 0.6667
+          "share": 0.6957
         },
         "p_value": {
           "missing": 18,
-          "share": 0.125
+          "share": 0.1304
         },
         "p_t": {
           "missing": 31,
-          "share": 0.2153
+          "share": 0.2246
         },
         "p_wild": {
           "missing": 66,
-          "share": 0.4583
+          "share": 0.4783
         },
         "pct_effect": {
-          "missing": 126,
-          "share": 0.875
+          "missing": 120,
+          "share": 0.8696
         },
         "r2": {
           "missing": 31,
-          "share": 0.2153
+          "share": 0.2246
         },
         "n_obs": {
           "missing": 0,
@@ -1525,27 +1525,27 @@
         },
         "n_teams": {
           "missing": 25,
-          "share": 0.1736
+          "share": 0.1812
         },
         "baseline_coef": {
           "missing": 42,
-          "share": 0.2917
+          "share": 0.3043
         },
         "dropped": {
-          "missing": 120,
-          "share": 0.8333
+          "missing": 114,
+          "share": 0.8261
         },
         "region": {
-          "missing": 124,
-          "share": 0.8611
+          "missing": 118,
+          "share": 0.8551
         },
         "note": {
           "missing": 85,
-          "share": 0.5903
+          "share": 0.6159
         }
       },
-      "version": "9589bf739967",
-      "last_updated": "2026-11-23T15:35:00+00:00",
+      "version": "7f329fe905fc",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-23T15:35:00+00:00",
-  "pipeline_commit": "3641489",
+  "generated_at_utc": "2026-11-23T16:57:35+00:00",
+  "pipeline_commit": "dc7f39f",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -996,7 +996,7 @@
         "Accounting periods and currencies differ. Values are never converted or combined in this table.",
         "Coverage is limited to entities that file comparable accounts, mainly in the UK."
       ],
-      "version": "b862f0e91202",
+      "version": "410ab8413dda",
       "sources": [
         {
           "id": "companies_house",
@@ -1730,7 +1730,7 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "a15ad3382b03",
+      "version": "98735db60490",
       "sources": [
         {
           "id": "jolpica",
@@ -2327,7 +2327,7 @@
         "Valid only if the pre-entry fit is good (see gp_scm_inference).",
         "Other events after entry also enter the gap."
       ],
-      "version": "2015cdb5e881",
+      "version": "91ff1e2d910c",
       "sources": [
         {
           "id": "statistik_austria",
@@ -2465,7 +2465,7 @@
         "With few comparison regions the smallest possible p-value is 1/(regions+1).",
         "Poor pre-entry fit invalidates the estimate."
       ],
-      "version": "7240d4cdbbf4",
+      "version": "cfcb19cb05ee",
       "sources": [
         {
           "id": "statistik_austria",
@@ -2512,7 +2512,7 @@
         "metric",
         "model"
       ],
-      "rows": 144,
+      "rows": 138,
       "n_variables": 24,
       "columns": {
         "study": {
@@ -2688,7 +2688,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "Models with six to eight teams stay imprecise even with bootstrap p-values and intervals."
       ],
-      "version": "8f32a5f31ba8",
+      "version": "6000960e967c",
       "sources": [
         {
           "id": "jolpica",
