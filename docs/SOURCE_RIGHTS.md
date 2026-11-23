@@ -69,3 +69,11 @@ uncertainty grows, as in the other restricted samples. No conclusion changes.
 Not done: no git history was rewritten and no original file was deleted permanently. The copies remain in earlier
 commits and in the private archive. Next step: run the **Source documents** workflow again; where a candidate link's
 hash matches, its status becomes `verified` and the sensitivity rows for it disappear automatically.
+
+### Update, same day: all 14 confirmed
+
+A second run of the **Source documents** workflow compared the 14 hand-found links: all 14 official files are
+byte-for-byte identical to the copies used. All 105 filings are now `verified`. The sensitivity rows above were computed
+while they were unconfirmed and are kept here as a record; the pipeline no longer produces them because no figure comes
+from an unverified filing. The private archive copies are no longer needed for verification and are kept at the
+author's discretion.

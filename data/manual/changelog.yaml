@@ -92,3 +92,8 @@
   title: Companies House filings linked instead of copied (version 3.1)
   detail: Approved by Nahian Ibnat. The Source documents workflow confirmed by SHA-256 that 91 of the 105 filings downloaded from Companies House are identical to the copies the figures were read from; those copies were removed from the repository and replaced by official links and hashes in data/metadata/source_documents.csv. For the other 14 (Williams 2010-2019, Force India 2012, Caterham 2010-2012) candidate links were found by hand but not yet compared; their copies were moved to the author's private archive and removed from public distribution. Their 70 figures are kept and flagged in the new column source_document_status. Leaving them out (new robustness rows exclude_unverified_sources) leaves the staff-cost estimates almost unchanged (0.202 and -4.50 places, against 0.186 and -4.47) with wider uncertainty. No conclusion changes. Git history was not rewritten.
   datasets: [financial_observation, robustness_checks]
+- date: 2026-11-23
+  category: corrected_data
+  title: All 105 Companies House filings verified by hash (version 3.1)
+  detail: A second run of the Source documents workflow confirmed that the 14 filings found by hand (Williams 2010-2019, Force India 2012, Caterham 2010-2012) are byte-for-byte identical to the copies used. Every filing is now verified, so the sensitivity check without unverified figures no longer applies and is no longer produced; its result (estimates almost unchanged) is recorded in docs/SOURCE_RIGHTS.md. No figure or estimate changed.
+  datasets: [financial_observation, robustness_checks]

@@ -46,3 +46,11 @@ def test_financial_observations_carry_document_status():
     has_doc = fo["notes"].fillna("").str.contains("Local copy:")
     assert (fo.loc[has_doc, "source_document_status"] != "not_recorded").all()
     assert len(fo) == len(pd.read_csv(ROOT / "data/manual/financial_observations.csv"))  # no rows lost or duplicated
+
+
+def test_rows_without_a_filing_are_not_treated_as_unverified():
+    sys.path.insert(0, str(ROOT / "src"))
+    from f1moneyball.publishing.sources import unverified_figures, with_source_status
+    fo = with_source_status(pd.read_csv(ROOT / "data/manual/financial_observations.csv"))
+    pending = fo[fo["source_document_status"] == "candidate_unverified"]
+    assert len(unverified_figures(fo)) == pending.dropna(subset=["season_mapped"]).shape[0]

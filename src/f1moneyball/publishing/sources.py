@@ -30,8 +30,12 @@ def with_source_status(fin: pd.DataFrame) -> pd.DataFrame:
 
 
 def unverified_figures(fin: pd.DataFrame) -> set[tuple[str, int, str]]:
-    """(team_id, season, metric) of figures whose filing is not yet verified by hash."""
+    """(team_id, season, metric) of figures read from a filing that is not yet verified by hash.
+
+    Rows with no filing at all (not_recorded: seasons without accounts, which carry no value) are not figures read
+    from an unverified document, so they are not counted.
+    """
     f = fin if "source_document_status" in fin else with_source_status(fin)
-    f = f[(f["source_document_status"] != "verified") & f["season_mapped"].notna()]
+    f = f[(f["source_document_status"] == "candidate_unverified") & f["season_mapped"].notna()]
     return {(t, int(s), m) for t, s, m in zip(f["team_id"], f["season_mapped"], f["metric"], strict=True)}
 
