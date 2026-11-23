@@ -40,7 +40,7 @@ def test_shares_and_ratio():
     assert eff["resource_share"].sum() == pytest.approx(1)
     assert eff["points_share_in_group"].sum() == pytest.approx(1)
     row = eff.iloc[0]
-    assert row["efficiency_ratio"] == pytest.approx(row["points_share_in_group"] / row["resource_share"])
+    assert row["points_to_resource_share_ratio"] == pytest.approx(row["points_share_in_group"] / row["resource_share"])
     assert row["points_per_million"] == pytest.approx(row["points"] / (row["value"] / 1e6))
 
 

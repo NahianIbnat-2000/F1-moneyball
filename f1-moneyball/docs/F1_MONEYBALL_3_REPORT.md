@@ -64,7 +64,7 @@ Companion documents: `F1_MONEYBALL_3_AUDIT.md` (Phase A), `INFERENCE_VERIFICATIO
 - Still inconsistent until approval 5.1: the article and the Lab show normal-based intervals (staff costs and points
   share: −0.043 to 0.416) while the bootstrap interval is 0.002 to 0.493. Same for "efficiency ratio" naming (5.2).
 
-## 5. Changes that need approval (not made)
+## 5. Changes that needed approval (approved 23 November 2026; implemented in version 3.1, see section 8)
 
 1. Report bootstrap intervals with bootstrap p-values in the paper (Table 2), the Lab and the article; label clustered
    inference as t(G−1). This changes published intervals and clustered p-values, not the coefficients or bootstrap p-values.
@@ -97,3 +97,36 @@ A versioned release (suggested tag `v1.1-working-paper`) should contain: the PDF
 datasets in `website/public/data` with their licences, the code, `requirements-lock.txt` and `pyproject.toml`, the
 appendices (inside the paper), `CITATION.cff`, and `data/manual/changelog.yaml` as version history. Creating the GitHub
 release and the Zenodo deposit needs the author's accounts.
+
+## 8. Version 3.1: approved changes (branch `moneyball-3.1-approved`, not deployed)
+
+Verified before implementation:
+- t(G−1) p-values recomputed independently from coefficient and standard error (maximum difference 2e-16).
+- Bootstrap intervals: the bootstrap p-value at each endpoint is 0.050; a different seed moves the staff-cost interval
+  from [0.0017, 0.4925] to [0.0020, 0.4938]. Model table and robustness table bootstraps are identical.
+- Licences checked on the publishers' pages (Jolpica TERMS.md, Statistik Austria open data, data.gov.sg Open Data
+  Licence, ONS terms, FIA website terms PDF, Companies House public-task copyright page).
+- Each of the nine FIA links opened and showed the same title, issue and date as the local copy.
+
+| Item | Status |
+|---|---|
+| 1. t(G−1) clustered inference and bootstrap intervals in paper, Lab, article, Moneyball page | Done. Coefficients and bootstrap p-values unchanged. |
+| 2. Rename to points-to-resource-share ratio (points-to-turnover-share for turnover) | Done, with equation and definition in the paper; column renamed, file name kept. Bug fixed: Lab comparison mixed three measures. |
+| 3. Restricted-sample, alternative-outcome, timing and reverse-direction results in the paper | Done: new Table 4 with N, teams, bootstrap intervals, both p-values; text in Section 6, limitations in Sections 7 and 8. |
+| 4. Source documents | FIA: removed from current files, links and hashes recorded. Companies House: kept until the **Source documents** workflow confirms each link by hash. |
+| 5. Licences in the Data Explorer | Done for every dataset; unknown or unverified terms are labelled. |
+
+Results that changed in wording (not in value): the clustered p-value for staff costs and points share is 0.16 (was
+0.11 with the normal distribution); the staff-cost bootstrap interval just excludes zero, so the statement "every
+within-team interval includes zero" now applies to clustered intervals only. New result: turnover follows last
+season's points (clustered p = 0.01, bootstrap p = 0.07).
+
+Tests: 125 passed against the rebuilt data (115 passed and 10 skipped against the data currently on main, because the
+new columns appear only after the pipeline runs). Paper compiles with no undefined references or overfull lines; 368
+generated numbers, all claim checks pass.
+
+Not done here, and why: the rebuilt datasets are not committed, because the build environment cannot recreate three
+raw-only pit-stop columns; the **Data pipeline** workflow must be run on the branch. Byte-level hash checks of the
+official links need the **Source documents** workflow. The other two studies were outside the
+approved scope and keep their existing inference. The cost-cap dose-response model and its event study use standard
+errors clustered by team with few teams, so the same t(G−1) and bootstrap treatment is recommended there next.

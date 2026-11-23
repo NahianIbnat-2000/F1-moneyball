@@ -56,7 +56,7 @@ financial_observation:
 pit_stop:
   name: Pit stops
   modules: [moneyball]
-  source_ids: [jolpica, openf1]
+  source_ids: [jolpica]
   status_if_absent: not_yet_collected
   would_contain: One row per pit stop (2011 onwards) with lap, duration and team, for the operational efficiency analysis.
   why_unavailable: The pit stop download is written but has not run yet. It runs in the Data pipeline workflow (one request per race, 2011 onwards).
@@ -65,7 +65,7 @@ pit_stop:
 gp_tourism_monthly:
   name: Host-economy tourism series
   modules: [grand_prix_economy]
-  source_ids: [national_statistics]
+  source_ids: [statistik_austria, singapore_stb]
   status_if_absent: not_yet_collected
   would_contain: Monthly visitor arrivals, overnight stays or hotel occupancy for host economies (Singapore and Austria first) and comparison regions, one row per region, month and series, with the official table it came from.
   why_unavailable: Monthly series come from national statistics offices in different formats and must be downloaded and entered with their table references (data/manual/gp_tourism_monthly.csv). None entered yet.
@@ -83,7 +83,7 @@ gp_race_events:
 gp_event_study:
   name: Race-month event study
   modules: [grand_prix_economy]
-  source_ids: [national_statistics]
+  source_ids: [statistik_austria, singapore_stb]
   status_if_absent: not_yet_collected
   would_contain: For each host economy, the change in the monthly series in the two months before, the race month and the two months after, against the usual seasonal pattern, with confidence intervals.
   why_unavailable: Needs gp_tourism_monthly and gp_race_events.
@@ -92,7 +92,7 @@ gp_event_study:
 gp_scm_path:
   name: Synthetic control paths
   modules: [grand_prix_economy]
-  source_ids: [national_statistics]
+  source_ids: [statistik_austria]
   status_if_absent: not_yet_collected
   would_contain: Observed and synthetic monthly series for each host around its first race, and the gap between them.
   why_unavailable: Needs a host series, three comparison regions and two years of data before the first race.
@@ -101,18 +101,18 @@ gp_scm_path:
 gp_scm_inference:
   name: Synthetic control inference
   modules: [grand_prix_economy]
-  source_ids: [national_statistics]
+  source_ids: [statistik_austria, singapore_stb]
   status_if_absent: not_yet_collected
   would_contain: Pre- and post-entry fit for the host and every placebo region, the post/pre RMSPE ratio, donor weights and the placebo p-value.
   why_unavailable: Needs the synthetic control to be estimated.
   needed_for_publication: As for gp_scm_path.
 
 efficiency:
-  name: Financial efficiency indicators
+  name: Points relative to resources
   modules: [moneyball]
   source_ids: [companies_house, jolpica]
   status_if_absent: not_yet_collected
-  would_contain: One row per team, season and financial measure with resource share, points share within the comparison group, the efficiency ratio, points per million and the rank gap. Rows that cannot be compared are kept with the reason.
+  would_contain: One row per team, season and financial measure with resource share, points share within the comparison group, the points-to-resource-share ratio, points per million and the rank gap. Rows that cannot be compared are kept with the reason.
   why_unavailable: Computed by the pipeline from financial_observation and constructor_season. Neither is published yet.
   needed_for_publication: At least 4 teams reporting the same measure in the same currency for the same season.
 
@@ -146,9 +146,9 @@ financial_comparability:
 robustness_checks:
   name: Robustness checks
   modules: [moneyball, cost_cap, grand_prix_economy]
-  source_ids: [jolpica, companies_house, national_statistics]
+  source_ids: [jolpica, companies_house, statistik_austria, ons]
   status_if_absent: not_yet_collected
-  would_contain: Sensitivity checks for all three studies, one estimate per row, with wild cluster bootstrap p-values for the six-team models.
+  would_contain: Sensitivity checks for all three studies, one estimate per row, with wild cluster bootstrap p-values (and, for Study 01, bootstrap intervals) for the models with few teams.
   why_unavailable: Needs the model outputs of the three studies.
   needed_for_publication: Financial figures, sporting data and Grand Prix inputs from the pipeline.
 

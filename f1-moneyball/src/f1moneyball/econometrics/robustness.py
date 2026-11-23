@@ -79,9 +79,18 @@ def _fit(formula: str, data: pd.DataFrame, var: str) -> dict:
     # Small-sample alternative to the normal-based clustered p-value: t distribution with G - 1 degrees of
     # freedom (Cameron and Miller 2015). Reported alongside, not instead of, the published p_value.
     p_t = float(2 * stats.t.sf(abs(b / se), G - 1)) if se > 0 and G > 1 else float("nan")
+    c = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float("nan")
     return {"coef": b, "se": se, "ci_low": float(lo), "ci_high": float(hi),
+            "ci_t_low": b - c * se, "ci_t_high": b + c * se,
             "p_value": float(fit.pvalues[var]), "p_t": p_t, "r2": float(fit.rsquared), "n_obs": int(len(data)),
             "n_teams": G}
+
+
+def _boot(formula: str, data: pd.DataFrame, var: str) -> dict:
+    """Wild cluster bootstrap p-value at zero and the 95% interval from inverting the same test."""
+    w = WildCluster(formula, data, var, "team_id")
+    lo, hi = w.ci()
+    return {"p_wild": w.p_value(0.0), "ci_boot_low": lo, "ci_boot_high": hi}
 
 
 # ----------------------------------------------------------------------------- F1 Moneyball
@@ -104,7 +113,7 @@ def moneyball_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> 
             row = {**base, "check_id": "baseline", "check": "Baseline", "model": spec, **b, "baseline_coef": b["coef"]}
             if wild and spec != "pooled":
                 row["p_wild"] = wild_cluster_p(f, panel, x, "team_id")
-            if wild and spec == "twfe":
+            if wild and spec != "pooled":
                 row["ci_boot_low"], row["ci_boot_high"] = WildCluster(f, panel, x, "team_id").ci()
             rows.append(row)
             sub = panel[~panel["season"].isin(RESET_SEASONS)]
@@ -114,7 +123,7 @@ def moneyball_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> 
             pos = _fit(f"position ~ {x}{fe}", pos_panel, x)
             if wild and spec != "pooled":  # same few-cluster correction as the main models
                 pos["p_wild"] = wild_cluster_p(f"position ~ {x}{fe}", pos_panel, x, "team_id")
-            if wild and spec == "twfe":
+            if wild and spec != "pooled":
                 pos["ci_boot_low"], pos["ci_boot_high"] = WildCluster(f"position ~ {x}{fe}", pos_panel, x, "team_id").ci()
             rows.append({**base, "check_id": "position_outcome",
                          "check": "Outcome: championship position (negative = better)", "model": spec,
@@ -287,7 +296,7 @@ def comparability_sample_checks(eff: pd.DataFrame, cs: pd.DataFrame, fin: pd.Dat
                 f = f"{outcome} ~ {x}{fe}"
                 r = _fit(f, d, x)
                 if wild:
-                    r["p_wild"] = wild_cluster_p(f, d, x, "team_id")
+                    r.update(_boot(f, d, x))
                 r["note"] = f"{len(d)} of {n_all} team-seasons, {G} of {panel['team_id'].nunique()} teams."
                 rows.append({**row, **r})
     return rows
@@ -328,7 +337,7 @@ def alternative_outcome_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool =
             f = f"{out} ~ {x}{fe}"
             r = _fit(f, d, x)
             if wild:
-                r["p_wild"] = wild_cluster_p(f, d, x, "team_id")
+                r.update(_boot(f, d, x))
             rows.append({"study": "does-money-buy-speed", "metric": metric, "check_id": cid, "check": lab,
                          "model": "twfe", **r, "baseline_coef": b0})
         # resource lagged two seasons
@@ -339,7 +348,7 @@ def alternative_outcome_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool =
             f = f"points_share ~ log_resource_lag2{fe}"
             r = _fit(f, d, "log_resource_lag2")
             if wild:
-                r["p_wild"] = wild_cluster_p(f, d, "log_resource_lag2", "team_id")
+                r.update(_boot(f, d, "log_resource_lag2"))
             rows.append({"study": "does-money-buy-speed", "metric": metric, "check_id": "lag_two_seasons",
                          "check": "Resource lagged two seasons", "model": "twfe", **r, "baseline_coef": base})
         # reverse direction: does last season's points share go with this season's resource?
@@ -350,7 +359,7 @@ def alternative_outcome_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool =
             f = f"log_resource ~ points_share_lag{fe}"
             r = _fit(f, rev, "points_share_lag")
             if wild:
-                r["p_wild"] = wild_cluster_p(f, rev, "points_share_lag", "team_id")
+                r.update(_boot(f, rev, "points_share_lag"))
             r["note"] = ("Coefficient: change in log resource for a points share one unit (100 percentage points) "
                          "higher last season; multiply by 0.01 for one percentage point.")
             rows.append({"study": "does-money-buy-speed", "metric": metric, "check_id": "reverse_direction",
@@ -532,7 +541,7 @@ def run_robustness(eff: pd.DataFrame | None, cs: pd.DataFrame, balance: pd.DataF
     rows += grand_prix_checks(tourism, events, inference)
     out = pd.DataFrame(rows)
     cols = ["study", "check_id", "check", "metric", "model", "coef", "se", "ci_low", "ci_high",
-            "ci_boot_low", "ci_boot_high", "p_value", "p_t", "p_wild",
+            "ci_t_low", "ci_t_high", "ci_boot_low", "ci_boot_high", "p_value", "p_t", "p_wild",
             "pct_effect", "r2", "n_obs", "n_teams", "baseline_coef", "dropped", "region", "note"]
     for c in cols:
         if c not in out:

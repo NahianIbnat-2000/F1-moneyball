@@ -455,7 +455,7 @@ race_result:
       description: Grid minus finishing position for classified cars
       missing_treatment: Blank for non-classified cars
 efficiency:
-  title: Financial efficiency indicators
+  title: Points relative to resources
   description: Descriptive comparison of each team's share of points with its share of resources, within groups
     of teams reporting the same measure, in the same currency, for the same season.
   key:
@@ -468,6 +468,7 @@ efficiency:
   - jolpica
   limitations:
   - Descriptive ratio, not a measure of technical or production efficiency, and not causal.
+  - The ratio is unstable for teams with very few points, where one result moves it a lot.
   - Shares cover only the teams in the comparison group, not the whole grid.
   - 'No currency conversion: teams reporting in different currencies are never in the same group.'
   - Legal-entity accounts may not capture the full cost of running a team.
@@ -555,10 +556,10 @@ efficiency:
       unit: share
       description: Team points / points of teams in the group
       missing_treatment: Blank when the row is excluded
-    efficiency_ratio:
+    points_to_resource_share_ratio:
       type: float
       unit: ratio
-      description: 'points_share_in_group / resource_share. Above 1: more points share than resource share'
+      description: 'Points-to-resource-share ratio (points-to-turnover-share ratio when metric is turnover) = points_share_in_group / resource_share. 1 = same share of points as of resources; above 1 = larger share of points. Called efficiency_ratio before version 3.1'
       missing_treatment: Blank when the row is excluded
     points_per_million:
       type: float
@@ -632,13 +633,31 @@ model_results:
       description: Standard error
     ci_low:
       type: float
-      description: 95% CI lower bound
+      description: 95% CI lower bound, normal critical values (kept for comparison with earlier versions)
     ci_high:
       type: float
-      description: 95% CI upper bound
+      description: 95% CI upper bound, normal critical values (kept for comparison with earlier versions)
     p_value:
       type: float
-      description: p-value
+      description: Clustered p-value, normal reference distribution (kept for comparison with earlier versions)
+    p_t:
+      type: float
+      description: Clustered p-value with the t distribution and G - 1 degrees of freedom (G = number of teams)
+    ci_t_low:
+      type: float
+      description: 95% CI lower bound, coef - t(0.975, G - 1) x se
+    ci_t_high:
+      type: float
+      description: 95% CI upper bound, coef + t(0.975, G - 1) x se
+    p_wild:
+      type: float
+      description: Restricted wild cluster bootstrap p-value (Webb weights, 9,999 draws, seed 20261119); fixed-effects models only
+    ci_boot_low:
+      type: float
+      description: Lower bound of the 95% interval from inverting the wild cluster bootstrap test; fixed-effects models only
+    ci_boot_high:
+      type: float
+      description: Upper bound of the 95% interval from inverting the wild cluster bootstrap test; fixed-effects models only
     r2:
       type: float
       description: R-squared
@@ -664,10 +683,11 @@ robustness_checks:
   sources:
   - jolpica
   - companies_house
-  - national_statistics
+  - statistik_austria
+  - ons
   limitations:
   - Associations and descriptive comparisons, not causal effects.
-  - The six-team models stay imprecise even with bootstrap p-values.
+  - Models with six to eight teams stay imprecise even with bootstrap p-values and intervals.
   columns:
     study:
       type: str
@@ -701,10 +721,16 @@ robustness_checks:
       description: 'Conventional p-value (clustered by team, normal reference distribution)'
     ci_boot_low:
       type: float
-      description: 'Lower bound of the 95% interval from inverting the wild cluster bootstrap test (main two-way models)'
+      description: 'Lower bound of the 95% interval from inverting the wild cluster bootstrap test (main fixed-effects models)'
     ci_boot_high:
       type: float
-      description: 'Upper bound of the 95% interval from inverting the wild cluster bootstrap test (main two-way models)'
+      description: 'Upper bound of the 95% interval from inverting the wild cluster bootstrap test (main fixed-effects models)'
+    ci_t_low:
+      type: float
+      description: 95% CI lower bound with t(G - 1) critical values
+    ci_t_high:
+      type: float
+      description: 95% CI upper bound with t(G - 1) critical values
     p_t:
       type: float
       description: 'Clustered p-value with the t distribution and G - 1 degrees of freedom (G = number of teams); a small-sample alternative to p_value'
@@ -877,7 +903,8 @@ gp_tourism_monthly:
   - month
   - series
   sources:
-  - national_statistics
+  - statistik_austria
+  - singapore_stb
   limitations:
   - Definitions differ across countries (arrivals vs overnight stays). Compare within a series only.
   - Monthly data cannot isolate a single race weekend.
@@ -962,7 +989,8 @@ gp_event_study:
   - series
   - k
   sources:
-  - national_statistics
+  - statistik_austria
+  - singapore_stb
   limitations:
   - 'No comparison region: descriptive, not causal.'
   - A race month may coincide with other events or holidays.
@@ -1015,7 +1043,7 @@ gp_scm_path:
   - series
   - month
   sources:
-  - national_statistics
+  - statistik_austria
   limitations:
   - Valid only if the pre-entry fit is good (see gp_scm_inference).
   - Other events after entry also enter the gap.
@@ -1049,7 +1077,8 @@ gp_scm_inference:
   - series
   - unit
   sources:
-  - national_statistics
+  - statistik_austria
+  - singapore_stb
   limitations:
   - With few comparison regions the smallest possible p-value is 1/(regions+1).
   - Poor pre-entry fit invalidates the estimate.

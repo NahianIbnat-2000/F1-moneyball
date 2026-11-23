@@ -228,7 +228,10 @@ export function RobustnessTable({ study }: { study: string }) {
     <details className="mt-4 font-sans">
       <summary className="cursor-pointer label !text-accent-fg">Show all {v.length} estimates (robustness_checks dataset)</summary>
       <div className="mt-3">
-        <DataTable rows={v} columns={["check", "metric", "model", "coef", "ci_low", "ci_high", "p_value", "p_wild", "baseline_coef"]} specs={entry?.columns} pageSize={15} />
+        <DataTable rows={v} specs={entry?.columns} pageSize={15}
+          columns={study === "does-money-buy-speed"
+            ? ["check", "metric", "model", "coef", "ci_t_low", "ci_t_high", "p_t", "ci_boot_low", "ci_boot_high", "p_wild", "n_obs", "n_teams", "baseline_coef"]
+            : ["check", "metric", "model", "coef", "ci_low", "ci_high", "p_value", "p_wild", "baseline_coef"]} />
       </div>
     </details>
   );

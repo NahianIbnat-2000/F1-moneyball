@@ -26,8 +26,13 @@ const SPECS: { id: string; label: string; constant: string; reading: string }[] 
     reading: "The main within-team test: compared with its own average and with the other teams that season, does more money come before better results?" },
 ];
 // Robustness checks shown for the two-way model, in reading order. Labels come from the data; this only orders them.
+// Only checks measured in the same units as the main estimate are plotted; the reverse direction and the normalised
+// position have other units and are shown in the timing note instead.
 const CHECK_ORDER = ["baseline", "no_reset_seasons", "annualised_periods", "scope_control", "staff_costs_ex_share_based_pay",
-  "h4_operations", "position_outcome", "scope_control_position"];
+  "sample_high_points_share", "sample_high_moderate_points_share", "segment_fe_points_share", "outcome_covered_share",
+  "lag_two_seasons", "h4_operations"];
+const POSITION_CHECKS = ["position_outcome", "scope_control_position", "sample_high_position", "sample_high_moderate_position",
+  "segment_fe_position"];
 
 const SHORT: Record<string, string> = { pooled: "Pooled", team_fe: "Team FE", twfe: "Team + season FE" };
 const narrowScreen = () => typeof window !== "undefined" && window.innerWidth < 640;
@@ -41,7 +46,13 @@ function wrap(s: string, w: number) {
 }
 const n = (v: Row[string]) => (v === null || v === undefined || v === "" ? NaN : Number(v));
 const f3 = (v: number) => (Number.isFinite(v) ? v.toFixed(3).replace("-", "−") : "n/a");
-const fp = (v: number) => (!Number.isFinite(v) ? "n/a" : v < 0.005 ? "<0.01" : v.toFixed(2));
+const fp = (v: number) => (!Number.isFinite(v) ? "n/a" : v < 0.005 ? "<0.01" : v >= 0.045 && v < 0.055 ? v.toFixed(3) : v.toFixed(2));
+/** Intervals for one published row: clustered with t(G - 1), and the bootstrap interval where it was computed. */
+function intervals(r: Row) {
+  const tLo = n(r.ci_t_low), tHi = n(r.ci_t_high), bLo = n(r.ci_boot_low), bHi = n(r.ci_boot_high);
+  const boot = Number.isFinite(bLo) && Number.isFinite(bHi);
+  return { tLo, tHi, bLo, bHi, lo: boot ? bLo : tLo, hi: boot ? bHi : tHi };
+}
 
 function Select({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: [string, string][] }) {
   return (
@@ -54,7 +65,8 @@ function Select({ label, value, onChange, options }: { label: string; value: str
   );
 }
 
-interface Est { spec: string; label: string; coef: number; se: number; lo: number; hi: number; p: number; pWild: number; pHolm: number; nObs: number; nTeams: number; nSeasons: number; r2: number; per10: number }
+/** lo/hi: the interval drawn (bootstrap where computed, otherwise clustered with t(G - 1)). */
+interface Est { spec: string; label: string; coef: number; se: number; lo: number; hi: number; tLo: number; tHi: number; bLo: number; bHi: number; p: number; pWild: number; pHolm: number; nObs: number; nTeams: number; nSeasons: number; r2: number; per10: number }
 
 export default function Lab() {
   const models = useDataset("model_results");
@@ -77,13 +89,13 @@ export default function Lab() {
         const m = models.rows.find((r) => r.metric === measure && r.model_id === `${measure}_${s.id}`);
         const b = mb.find((r) => r.check_id === "baseline" && r.model === s.id);
         if (!m) return null;
-        return { spec: s.id, label: s.label, coef: n(m.coef), se: n(m.se), lo: n(m.ci_low), hi: n(m.ci_high), p: n(m.p_value),
+        return { spec: s.id, label: s.label, coef: n(m.coef), se: n(m.se), ...intervals(m), p: n(m.p_t),
           pWild: b ? n(b.p_wild) : NaN, pHolm: holmFor(s.id), nObs: n(m.n_obs), nTeams: n(m.n_teams), nSeasons: n(m.n_seasons),
           r2: n(m.r2), per10: n(m.effect_10pct_pp) };
       }
       const r = mb.find((x) => x.check_id === "position_outcome" && x.model === s.id);
       if (!r) return null;
-      return { spec: s.id, label: s.label, coef: n(r.coef), se: n(r.se), lo: n(r.ci_low), hi: n(r.ci_high), p: n(r.p_value),
+      return { spec: s.id, label: s.label, coef: n(r.coef), se: n(r.se), ...intervals(r), p: n(r.p_t),
         pWild: n(r.p_wild), pHolm: holmFor(s.id), nObs: n(r.n_obs), nTeams: n(r.n_teams), nSeasons: NaN, r2: n(r.r2),
         per10: n(r.coef) * Math.log(1.1) };
     }).filter((e): e is Est => e !== null);
@@ -92,13 +104,18 @@ export default function Lab() {
   const checks = useMemo((): { rows: Row[]; loo: Row[] } => {
     if (!ready) return { rows: [], loo: [] };
     const mb = rob.rows.filter((r) => r.study === "does-money-buy-speed" && r.metric === measure && r.model === "twfe");
-    const wanted = outcome === "points_share"
-      ? CHECK_ORDER.filter((c) => !c.includes("position"))
-      : ["position_outcome", "scope_control_position"];
-    const rows = wanted.map((c) => mb.find((r) => r.check_id === c)).filter((r): r is Row => Boolean(r));
+    const wanted = outcome === "points_share" ? CHECK_ORDER : POSITION_CHECKS;
+    const rows = wanted.map((c) => mb.find((r) => r.check_id === c)).filter((r): r is Row => Boolean(r))
+      .map((r) => { const iv = intervals(r); return { ...r, plot_low: iv.lo, plot_high: iv.hi }; });
     const loo = mb.filter((r) => r.check_id === "leave_one_team_out");
     return { rows, loo };
   }, [ready, rob.rows, measure, outcome]);
+
+  const timing = useMemo(() => {
+    if (!ready) return null;
+    const mb = rob.rows.filter((r) => r.study === "does-money-buy-speed" && r.metric === measure && r.model === "twfe");
+    return { rev: mb.find((r) => r.check_id === "reverse_direction"), norm: mb.find((r) => r.check_id === "outcome_norm_position") };
+  }, [ready, rob.rows, measure]);
 
   const mLabel = MEASURES.find(([v]) => v === measure)?.[1] ?? measure;
   const yLabel = outcome === "points_share" ? "points share (0 to 1)" : "places in the championship";
@@ -120,11 +137,11 @@ export default function Lab() {
               meta={{
                 id: "LAB-1", dataset: models.entry, methodology: "models",
                 title: `${mLabel} last season and ${outcome === "points_share" ? "points share" : "championship position"}: three models`,
-                caption: "Each row is one model. The dot is the estimate and the line its 95% confidence interval (clustered by team). A line that crosses the dashed zero line means the data are also consistent with no link.",
+                caption: "Each row is one model. The dot is the estimate. The line is the 95% wild cluster bootstrap interval for the two fixed-effects models and the 95% clustered interval with t(G − 1) for the pooled model. A line that crosses the dashed zero line means the data are also consistent with no link.",
                 source: outcome === "points_share" ? "model_results dataset; bootstrap and Holm p-values from robustness_checks." : "robustness_checks dataset (position_outcome rows).",
                 shows: "Association between last season's money and this season's result, under three ways of comparing teams.",
                 doesNotShow: "A causal effect. Success raises income too, and a one-season lag only reduces that problem.",
-                summary: ests.map((e) => `${e.label}: ${f3(e.coef)} (95% CI ${f3(e.lo)} to ${f3(e.hi)}).`).join(" "),
+                summary: ests.map((e) => `${e.label}: ${f3(e.coef)} (95% interval ${f3(e.lo)} to ${f3(e.hi)}).`).join(" "),
               }}
               controls={<>
                 <Select label="Money measure" value={measure} onChange={setMeasure} options={MEASURES} />
@@ -156,6 +173,8 @@ export default function Lab() {
                   if (!e) return null;
                   const crosses = e.lo <= 0 && e.hi >= 0;
                   const width = e.hi - e.lo;
+                  const boot = Number.isFinite(e.bLo);
+                  const tCrosses = e.tLo <= 0 && e.tHi >= 0;
                   return (
                     <article key={s.id} className="border border-line bg-surface p-4">
                       <h3 className="font-display uppercase text-lg text-head">{s.label}</h3>
@@ -163,9 +182,10 @@ export default function Lab() {
                         <div><dt className="label">The question</dt><dd>{s.reading}</dd></div>
                         <div><dt className="label">Held constant</dt><dd>{s.constant}</dd></div>
                         <div><dt className="label">Uncertainty</dt><dd>
-                          The 95% interval runs from {f3(e.lo)} to {f3(e.hi)}{crosses ? ", which includes zero: the data are consistent with no link as well as a positive one." : ", which does not include zero."}
+                          The 95% {boot ? "bootstrap" : "clustered"} interval runs from {f3(e.lo)} to {f3(e.hi)}{crosses ? ", which includes zero: the data are consistent with no link as well as a link in either direction." : ", which does not include zero."}
                           {" "}It is {width > Math.abs(e.coef) * 2 ? "wide relative to the estimate itself" : "narrow relative to the estimate"}.
-                          {Number.isFinite(e.pWild) && Number.isFinite(e.p) && (e.p < 0.05) !== (e.pWild < 0.05) && " The clustered and bootstrap p-values fall on different sides of 0.05, so treat this one with care."}
+                          {boot && crosses !== tCrosses && ` The clustered interval (${f3(e.tLo)} to ${f3(e.tHi)}) ${tCrosses ? "includes" : "excludes"} zero, so the two methods disagree; treat this one with care.`}
+                          {boot && crosses === tCrosses && Number.isFinite(e.p) && (e.p < 0.05) !== (e.pWild < 0.05) && " The clustered and bootstrap p-values fall on different sides of 0.05, so treat this one with care."}
                         </dd></div>
                         <div><dt className="label">Cannot establish</dt><dd>That money causes results. {s.id === "pooled" ? "Rich teams may also be well run for reasons unrelated to money." : "Changes in a team's money may follow from earlier success, or coincide with other changes inside the team."}</dd></div>
                       </dl>
@@ -179,19 +199,19 @@ export default function Lab() {
               meta={{
                 id: "LAB-2", dataset: rob.entry, methodology: "robustness",
                 title: `Does the two-way estimate survive? ${mLabel}, ${outcome === "points_share" ? "points share" : "position"}`,
-                caption: "The same team-and-season model under different samples, measures and controls. If the dots stay near the first one and on the same side of zero, the result does not depend on that choice.",
+                caption: "The same team-and-season model under different samples, measures and controls. If the dots stay near the first one and on the same side of zero, the result does not depend on that choice. Lines are bootstrap intervals where computed, otherwise clustered intervals with t(G − 1).",
                 source: "robustness_checks dataset.",
                 shows: "How much each check moves the main estimate, with its 95% interval.",
-                doesNotShow: "Checks that were not run. Real-terms checks appear only once the CPI file is added (docs/REAL_TERMS.md).",
+                doesNotShow: "Checks in other units (reverse direction, normalised position; see the note below) and the real-terms check, which cannot change this model because season effects absorb inflation common to all teams.",
                 summary: checks.rows.map((r) => `${r.check}: ${f3(n(r.coef))}.`).join(" ") + (checks.loo.length ? ` Leaving out one team at a time gives estimates from ${f3(Math.min(...checks.loo.map((r) => n(r.coef))))} to ${f3(Math.max(...checks.loo.map((r) => n(r.coef))))}.` : ""),
               }}
-              table={<DataTable rows={checks.rows} columns={["check", "coef", "ci_low", "ci_high", "p_value", "p_wild", "n_obs", "note"]} specs={rob.entry?.columns} />}>
+              table={<DataTable rows={checks.rows} columns={["check", "coef", "ci_t_low", "ci_t_high", "p_t", "ci_boot_low", "ci_boot_high", "p_wild", "n_obs", "n_teams", "note"]} specs={rob.entry?.columns} />}>
               <Plot ariaLabel="Robustness of the two-way estimate" height={Math.max(220, (narrow ? 64 : 46) * (checks.rows.length + (checks.loo.length ? 1 : 0)) + 60)}
                 data={[
                   {
                     type: "scatter", mode: "markers", orientation: "h",
                     x: checks.rows.map((r) => n(r.coef)), y: checks.rows.map((r) => wrap(String(r.check), narrow ? 16 : 44)),
-                    error_x: { type: "data", symmetric: false, array: checks.rows.map((r) => n(r.ci_high) - n(r.coef)), arrayminus: checks.rows.map((r) => n(r.coef) - n(r.ci_low)), color: SERIES, thickness: 2, width: 0 },
+                    error_x: { type: "data", symmetric: false, array: checks.rows.map((r) => n(r.plot_high) - n(r.coef)), arrayminus: checks.rows.map((r) => n(r.coef) - n(r.plot_low)), color: SERIES, thickness: 2, width: 0 },
                     marker: { size: 10, color: SERIES }, name: "Estimate", hovertemplate: "<b>%{y}</b><br>coef %{x:.3f}<extra></extra>",
                   },
                   ...(checks.loo.length && outcome === "points_share" ? [{
@@ -210,6 +230,18 @@ export default function Lab() {
                 }} />
             </ChartFrame>
 
+            {timing?.rev && (
+              <Callout title="Which comes first: money or results?">
+                Swapping the two variables, this season's {mLabel.toLowerCase()} on last season's points share (same team-and-season model), gives
+                a coefficient of {f3(n(timing.rev.coef))} in log points per unit of points share, so a points share one percentage point higher goes
+                with {mLabel.toLowerCase()} about {(n(timing.rev.coef)).toFixed(1)}% higher the next season. Clustered p = {fp(n(timing.rev.p_t))} with t(G − 1); bootstrap p = {fp(n(timing.rev.p_wild))}
+                {" "}(interval {f3(n(timing.rev.ci_boot_low))} to {f3(n(timing.rev.ci_boot_high))}).
+                {" "}{(n(timing.rev.p_t) < 0.05) !== (n(timing.rev.p_wild) < 0.05) ? "The two methods disagree at the 5% level. " : ""}
+                Prize money is paid by earlier results, so money following results is expected. This describes timing; it does not show cause and effect.
+                {timing.norm && <> With a normalised position (0 = champion, 1 = last) as the outcome, the main model gives {f3(n(timing.norm.coef))} (bootstrap p = {fp(n(timing.norm.p_wild))}).</>}
+              </Callout>
+            )}
+
             <Callout title="Testing several things at once">
               Six within-team tests are reported for the main model (three money measures, two outcomes). With that many, one small p-value can turn up by chance. The <b>Holm</b> column adjusts the bootstrap p-values for this. A result that only clears 0.05 before adjustment should be read as suggestive.
             </Callout>
@@ -225,25 +257,26 @@ export default function Lab() {
 function EstTable({ ests, outcome }: { ests: Est[]; outcome: string }) {
   return (
     <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Estimates for each model">
-      <table className="w-full text-sm font-mono min-w-[760px]">
+      <table className="w-full text-sm font-mono min-w-[980px]">
         <caption className="sr-only">Estimates for each model</caption>
         <thead><tr className="text-left text-muted">
-          {["Model", "Coef.", "SE", "95% CI", outcome === "points_share" ? "Per 10% (pp)" : "Places per 10%", "p (clustered)", "p (bootstrap)", "p (Holm)", "N", "Teams", "R²"].map((h) => <th key={h} scope="col" className="py-2 pr-3 font-normal">{h}</th>)}
+          {["Model", "Coef.", "SE", "95% CI (clustered)", "p (clustered)", "95% CI (bootstrap)", "p (bootstrap)", "p (Holm)", outcome === "points_share" ? "Per 10% (pp)" : "Places per 10%", "N", "Teams", "R²"].map((h) => <th key={h} scope="col" className="py-2 pr-3 font-normal">{h}</th>)}
         </tr></thead>
         <tbody>
           {ests.map((e) => (
             <tr key={e.spec} className="border-t border-line">
               <th scope="row" className="py-2 pr-3 text-left font-normal text-head">{e.label}</th>
               <td className="pr-3">{f3(e.coef)}</td><td className="pr-3">{f3(e.se)}</td>
-              <td className="pr-3">[{f3(e.lo)}, {f3(e.hi)}]</td>
+              <td className="pr-3 whitespace-nowrap">[{f3(e.tLo)}, {f3(e.tHi)}]</td><td className="pr-3">{fp(e.p)}</td>
+              <td className="pr-3 whitespace-nowrap">{Number.isFinite(e.bLo) ? `[${f3(e.bLo)}, ${f3(e.bHi)}]` : "n/a"}</td><td className="pr-3">{fp(e.pWild)}</td>
+              <td className="pr-3">{fp(e.pHolm)}</td>
               <td className="pr-3">{Number.isFinite(e.per10) ? e.per10.toFixed(2).replace("-", "−") : "n/a"}</td>
-              <td className="pr-3">{fp(e.p)}</td><td className="pr-3">{fp(e.pWild)}</td><td className="pr-3">{fp(e.pHolm)}</td>
               <td className="pr-3">{e.nObs}</td><td className="pr-3">{e.nTeams}</td><td>{Number.isFinite(e.r2) ? e.r2.toFixed(2) : "n/a"}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <p className="mt-2 text-xs text-muted">Standard errors clustered by team. Bootstrap: restricted wild cluster bootstrap, Webb six-point weights, 9,999 draws, seed 20261119; not computed for the pooled model. Holm: adjusted across the six within-team tests of the two-way model; shown for that model only.</p>
+      <p className="mt-2 text-xs text-muted">Standard errors clustered by team; clustered intervals and p-values use the t distribution with G − 1 degrees of freedom (G = number of teams), not the normal distribution. Bootstrap: restricted wild cluster bootstrap, Webb six-point weights, 9,999 draws, seed 20261119; its interval contains every value the same test does not reject at 5% (Roodman et al. 2019); not computed for the pooled model. Holm: adjusted across the six within-team tests of the two-way model; shown for that model only.</p>
     </div>
   );
 }
@@ -258,7 +291,7 @@ function Reproduce({ models, rob }: { models?: import("../lib/data").DatasetEntr
           {rob && <a className="underline decoration-accent" href={datasetUrl(rob, "csv")}>robustness_checks.csv</a>} (version <span className="font-mono">{rob?.version}</span>)
         </dd></div>
         <div><dt className="label">Code</dt><dd>
-          <a className="underline decoration-accent" href={`${REPO}src/f1moneyball/econometrics/models.py`}>models.py</a> (main models) ·{" "}
+          <a className="underline decoration-accent" href={`${REPO}src/f1moneyball/econometrics/models.py`}>models.py</a> (main models, t(G − 1) and bootstrap intervals) ·{" "}
           <a className="underline decoration-accent" href={`${REPO}src/f1moneyball/econometrics/robustness.py`}>robustness.py</a> (bootstrap, checks, Holm)
         </dd></div>
         <div><dt className="label">Command</dt><dd><code className="font-mono">python -m f1moneyball.pipeline all</code><br /><span className="text-muted">Exact library versions: requirements-lock.txt</span></dd></div>

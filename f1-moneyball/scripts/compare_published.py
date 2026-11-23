@@ -24,6 +24,10 @@ DATA = ROOT / "website" / "public" / "data"
 VOLATILE = {"retrieved_at", "built_at", "generated_at_utc", "published_at", "retrieval_date"}
 # Columns built only from the raw Jolpica-F1 API pull (git-ignored), not from the committed processed data.
 # A clean checkout without network access cannot rebuild them; no model uses them.
+# Free-text columns: not used to match rows, and a wording change is reported but does not fail the check.
+FREE_TEXT = {"note", "notes", "description", "definition", "label", "title"}
+# Columns renamed on purpose, old name -> new name (version 3.1).
+RENAMED = {"efficiency.csv": {"efficiency_ratio": "points_to_resource_share_ratio"}}
 RAW_ONLY = {"constructor_season.csv": {"median_pit_gap_s", "pit_races", "service_pit_stops"}}
 
 
@@ -32,7 +36,8 @@ def reference(ref: str, rel: str) -> pd.DataFrame | None:
     return pd.read_csv(io.BytesIO(r.stdout)) if r.returncode == 0 else None
 
 
-def compare(old: pd.DataFrame, new: pd.DataFrame, tol: float, skip: set[str] = frozenset()) -> list[str]:
+def compare(old: pd.DataFrame, new: pd.DataFrame, tol: float, skip: set[str] = frozenset(),
+            text_changes: list[str] | None = None) -> list[str]:
     problems = []
     old = old.drop(columns=[c for c in skip if c in old.columns and c not in new.columns])
     missing_cols = [c for c in old.columns if c not in new.columns and c not in VOLATILE]
@@ -40,7 +45,7 @@ def compare(old: pd.DataFrame, new: pd.DataFrame, tol: float, skip: set[str] = f
         problems.append(f"columns missing: {missing_cols}")
     cols = [c for c in old.columns if c in new.columns and c not in VOLATILE]
     key = [c for c in cols if (pd.api.types.is_string_dtype(old[c]) or old[c].dtype == object)
-           and not pd.api.types.is_bool_dtype(old[c]) and not old[c].isna().all()]
+           and not pd.api.types.is_bool_dtype(old[c]) and not old[c].isna().all() and c not in FREE_TEXT]
     o, n = old[cols].copy(), new[cols].copy()
     for d in (o, n):
         d["_k"] = d[key].astype("object").fillna("").astype(str).agg("|".join, axis=1) if key else d.index.astype(str)
@@ -64,7 +69,11 @@ def compare(old: pd.DataFrame, new: pd.DataFrame, tol: float, skip: set[str] = f
         else:
             bad = (a.astype(str) != b.astype(str)) & ~(a.isna() & b.isna())
         if bad.any():
-            problems.append(f"{c}: {int(bad.sum())} values differ")
+            msg = f"{c}: {int(bad.sum())} values differ"
+            if c in FREE_TEXT and text_changes is not None:
+                text_changes.append(msg)
+            else:
+                problems.append(msg)
     return problems
 
 
@@ -81,8 +90,15 @@ def main() -> int:
             print(f"NEW   {path.name} ({len(pd.read_csv(path))} rows, not in {args.reference})")
             continue
         new = pd.read_csv(path)
+        ren = RENAMED.get(path.name, {})
+        if ren:
+            old = old.rename(columns=ren)
+            print(f"NOTE  {path.name}: renamed columns {ren}")
         skip = RAW_ONLY.get(path.name, set())
-        problems = compare(old, new, args.tol, skip)
+        text: list[str] = []
+        problems = compare(old, new, args.tol, skip, text)
+        if text:
+            print(f"TEXT  {path.name}: wording changed, values unaffected: " + "; ".join(text))
         if skip & (set(old.columns) - set(new.columns)):
             print(f"NOTE  {path.name}: raw-only columns not rebuilt: {sorted(skip)}")
         extra = len(new) - len(old)

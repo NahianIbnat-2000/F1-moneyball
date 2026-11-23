@@ -34,6 +34,12 @@ cd website && npm ci && npm run build && cd .. # the website
 python scripts/repro_manifest.py               # reproducibility_manifest.json
 ```
 
+## Source documents
+
+`data/metadata/source_documents.csv` lists every document a figure was read from, with its official link and SHA-256
+hash. `python scripts/source_documents.py check` confirms that the copies kept in the repository match the manifest
+(this runs in the tests). The manual workflow **Source documents** downloads each official link and compares hashes.
+
 ## Determinism
 
 The wild cluster bootstrap uses a fixed seed (20261119) and 9,999 draws, so every p-value and bootstrap interval is
