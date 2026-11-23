@@ -80,3 +80,5 @@
 {"date": "2026-11-23", "category": "new_data", "title": "Financial comparability published", "detail": "314 rows, version ac602dae9b04", "datasets": ["financial_comparability"], "automatic": true}
 {"date": "2026-11-23", "category": "updated_data", "title": "Robustness checks updated", "detail": "138 rows, version 49fe8dd3ea1c (previously c2aad1de0bb0, 108 rows)", "datasets": ["robustness_checks"], "automatic": true}
 {"date": "2026-11-23", "category": "updated_data", "title": "Robustness checks updated", "detail": "138 rows, version 7f329fe905fc (previously 49fe8dd3ea1c, 138 rows)", "datasets": ["robustness_checks"], "automatic": true}
+{"date": "2026-11-23", "category": "updated_data", "title": "Financial observations updated", "detail": "527 rows, version b862f0e91202 (previously c12aa42dc2bd, 527 rows)", "datasets": ["financial_observation"], "automatic": true}
+{"date": "2026-11-23", "category": "updated_data", "title": "Robustness checks updated", "detail": "144 rows, version ae30a2b31b52 (previously 7f329fe905fc, 138 rows)", "datasets": ["robustness_checks"], "automatic": true}
