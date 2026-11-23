@@ -74,12 +74,27 @@ def publish_dataset(name: str, df: pd.DataFrame, out_dir: Path | None = None) ->
         "limitations": spec.get("limitations", []),
         "version": content_version(df),
         "sources": [{"id": s, "name": srcs[s]["name"],
-                     "url": srcs[s].get("docs") or srcs[s].get("base_url")} for s in spec["sources"]],
+                     "url": srcs[s].get("docs") or srcs[s].get("base_url"),
+                     "rights": source_rights(srcs[s])} for s in spec["sources"]],
         "files": {"json": f"data/{name}.json", "csv": f"data/{name}.csv"},
     }
     if "season" in df.columns and len(df):
         entry["coverage"] = {"season_min": int(df["season"].min()), "season_max": int(df["season"].max())}
     return entry
+
+
+RIGHTS_FIELDS = ("licence", "licence_url", "attribution", "restrictions", "status", "evidence", "checked")
+
+
+def source_rights(src: dict) -> dict:
+    """Licence record for one source. Missing information is reported as unknown, never guessed."""
+    r = src.get("rights") or {}
+    out = {k: (None if r.get(k) is None else str(r.get(k))) for k in RIGHTS_FIELDS}
+    if not out["licence"]:
+        out["licence"] = "Unknown"
+    if out["status"] not in ("verified", "partly verified", "not verified"):
+        out["status"] = "not verified"
+    return out
 
 
 def environment() -> dict:

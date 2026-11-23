@@ -17,9 +17,12 @@ import numpy as np
 import pandas as pd
 import patsy
 import statsmodels.formula.api as smf
+from scipy import stats
 
+from f1moneyball.econometrics import comparability as comp
 from f1moneyball.econometrics import cost_cap as cc
 from f1moneyball.econometrics import gp_economy as gp
+from f1moneyball.econometrics.inference import WildCluster, at_least_as_extreme
 from f1moneyball.econometrics.models import lagged_panel
 
 RESET_SEASONS = (2014, 2017, 2022)  # big technical rule changes
@@ -65,16 +68,29 @@ def wild_cluster_p(formula: str, data: pd.DataFrame, var: str, cluster: str, dra
     for d in range(draws):
         w = rng.choice(WEBB, size=len(G))[idx]
         t_star[d] = _cluster_t(Xv, fitted + resid * w, groups, j)[1]
-    return float((np.abs(t_star) >= abs(t_obs)).mean())
+    return float(at_least_as_extreme(t_star, t_obs).mean())
 
 
 def _fit(formula: str, data: pd.DataFrame, var: str) -> dict:
     groups = data["team_id"].astype("category").cat.codes
     fit = smf.ols(formula, data=data).fit(cov_type="cluster", cov_kwds={"groups": groups})
     lo, hi = fit.conf_int().loc[var]
-    return {"coef": float(fit.params[var]), "se": float(fit.bse[var]), "ci_low": float(lo), "ci_high": float(hi),
-            "p_value": float(fit.pvalues[var]), "r2": float(fit.rsquared), "n_obs": int(len(data)),
-            "n_teams": int(data["team_id"].nunique())}
+    b, se, G = float(fit.params[var]), float(fit.bse[var]), int(data["team_id"].nunique())
+    # Small-sample alternative to the normal-based clustered p-value: t distribution with G - 1 degrees of
+    # freedom (Cameron and Miller 2015). Reported alongside, not instead of, the published p_value.
+    p_t = float(2 * stats.t.sf(abs(b / se), G - 1)) if se > 0 and G > 1 else float("nan")
+    c = float(stats.t.ppf(0.975, G - 1)) if G > 1 else float("nan")
+    return {"coef": b, "se": se, "ci_low": float(lo), "ci_high": float(hi),
+            "ci_t_low": b - c * se, "ci_t_high": b + c * se,
+            "p_value": float(fit.pvalues[var]), "p_t": p_t, "r2": float(fit.rsquared), "n_obs": int(len(data)),
+            "n_teams": G}
+
+
+def _boot(formula: str, data: pd.DataFrame, var: str) -> dict:
+    """Wild cluster bootstrap p-value at zero and the 95% interval from inverting the same test."""
+    w = WildCluster(formula, data, var, "team_id")
+    lo, hi = w.ci()
+    return {"p_wild": w.p_value(0.0), "ci_boot_low": lo, "ci_boot_high": hi}
 
 
 # ----------------------------------------------------------------------------- F1 Moneyball
@@ -97,6 +113,8 @@ def moneyball_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> 
             row = {**base, "check_id": "baseline", "check": "Baseline", "model": spec, **b, "baseline_coef": b["coef"]}
             if wild and spec != "pooled":
                 row["p_wild"] = wild_cluster_p(f, panel, x, "team_id")
+            if wild and spec != "pooled":
+                row["ci_boot_low"], row["ci_boot_high"] = WildCluster(f, panel, x, "team_id").ci()
             rows.append(row)
             sub = panel[~panel["season"].isin(RESET_SEASONS)]
             rows.append({**base, "check_id": "no_reset_seasons", "check": "Without rule-reset seasons (2014, 2017, 2022)",
@@ -105,6 +123,8 @@ def moneyball_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> 
             pos = _fit(f"position ~ {x}{fe}", pos_panel, x)
             if wild and spec != "pooled":  # same few-cluster correction as the main models
                 pos["p_wild"] = wild_cluster_p(f"position ~ {x}{fe}", pos_panel, x, "team_id")
+            if wild and spec != "pooled":
+                pos["ci_boot_low"], pos["ci_boot_high"] = WildCluster(f"position ~ {x}{fe}", pos_panel, x, "team_id").ci()
             rows.append({**base, "check_id": "position_outcome",
                          "check": "Outcome: championship position (negative = better)", "model": spec,
                          **pos, "baseline_coef": None})
@@ -233,6 +253,118 @@ def comparability_checks(eff: pd.DataFrame, cs: pd.DataFrame, fin: pd.DataFrame,
         rows.append({"study": "does-money-buy-speed", "metric": "staff_costs", "model": "twfe",
                      "check_id": "staff_costs_ex_share_based_pay", "check": "Staff costs without share-based payments",
                      **r, "baseline_coef": _fit(f, lagged_panel(eff, "staff_costs", "GBP"), x)["coef"]})
+    return rows
+
+
+def comparability_sample_checks(eff: pd.DataFrame, cs: pd.DataFrame, fin: pd.DataFrame, wild: bool = True) -> list[dict]:
+    """Two-way models on samples restricted by financial comparability of the lagged resource (see comparability.py).
+
+    Samples: High only; High and Moderate; and the full sample with team-by-accounting-basis fixed effects,
+    which gives each team a separate level before and after a switch between group and company accounts.
+    """
+    cls = comp.classify(fin)[["team_id", "season", "metric", "category"]]
+    seg = comp.boundary_segments(fin)
+    pos = cs[["team_id", "season", "position"]]
+    x, rows = "log_resource_lag", []
+    samples = (("sample_high", "Sample: lagged resource of high comparability", {"High"}),
+               ("sample_high_moderate", "Sample: lagged resource of high or moderate comparability", {"High", "Moderate"}))
+    for metric in METRICS:
+        g = eff[(eff["metric"] == metric) & (eff["value"] > 0)]
+        if g.empty:
+            continue
+        panel = lagged_panel(eff, metric, g["currency"].mode().iat[0]).merge(pos, on=["team_id", "season"], how="left")
+        lag_cls = cls[cls["metric"] == metric].assign(season=lambda d: d["season"] + 1)[["team_id", "season", "category"]]
+        panel = panel.merge(lag_cls, on=["team_id", "season"], how="left")
+        panel = panel.merge(seg.assign(season=lambda d: d["season"] + 1), on=["team_id", "season"], how="left")
+        panel["segment"] = panel["segment"].fillna(panel["team_id"])
+        base_ps = _fit(f"points_share ~ {x} + C(team_id) + C(season)", panel, x)["coef"]
+        base_pos = _fit(f"position ~ {x} + C(team_id) + C(season)", panel.dropna(subset=["position"]), x)["coef"]
+        variants = [(cid, lab, panel[panel["category"].isin(keep)], " + C(team_id) + C(season)")
+                    for cid, lab, keep in samples]
+        variants.append(("segment_fe", "Team-by-accounting-basis fixed effects (full sample)", panel,
+                         " + C(segment) + C(season)"))
+        for cid, lab, sub, fe in variants:
+            for outcome, base in (("points_share", base_ps), ("position", base_pos)):
+                d = sub.dropna(subset=[outcome])
+                G, n_all = d["team_id"].nunique(), len(panel.dropna(subset=[outcome]))
+                row = {"study": "does-money-buy-speed", "metric": metric, "check_id": f"{cid}_{outcome}",
+                       "check": f"{lab}; outcome: {outcome.replace('_', ' ')}", "model": "twfe", "baseline_coef": base}
+                if G < 4 or len(d) < 20:
+                    rows.append({**row, "n_obs": len(d), "n_teams": G,
+                                 "note": f"Not estimated: {len(d)} team-seasons from {G} teams is too few."})
+                    continue
+                f = f"{outcome} ~ {x}{fe}"
+                r = _fit(f, d, x)
+                if wild:
+                    r.update(_boot(f, d, x))
+                r["note"] = f"{len(d)} of {n_all} team-seasons, {G} of {panel['team_id'].nunique()} teams."
+                rows.append({**row, **r})
+    return rows
+
+
+def alternative_outcome_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> list[dict]:
+    """Two-way models with other outcomes, the reverse direction and a two-season lag.
+
+    * points share among the covered teams only (the main outcome uses all constructors' points);
+    * normalised position: (position - 1) / (number of constructors - 1), 0 = champion, 1 = last;
+    * reverse direction: this season's log resource on last season's points share;
+    * resource lagged two seasons.
+    All are associations. They describe timing, they do not identify cause.
+    """
+    rows, x = [], "log_resource_lag"
+    n_con = cs.groupby("season")["team_id"].nunique().rename("n_constructors").reset_index()
+    sport = cs[["team_id", "season", "position", "points_share"]].merge(n_con, on="season")
+    sport["norm_position"] = (sport["position"] - 1) / (sport["n_constructors"] - 1)
+    fe = " + C(team_id) + C(season)"
+    for metric in METRICS:
+        g = eff[(eff["metric"] == metric) & (eff["value"] > 0)]
+        if g.empty:
+            continue
+        ccy = g["currency"].mode().iat[0]
+        panel = lagged_panel(eff, metric, ccy).merge(sport[["team_id", "season", "norm_position"]], on=["team_id", "season"])
+        if "points_share_in_group" in eff.columns:
+            cov = eff[(eff["metric"] == metric) & (eff["currency"] == ccy)][["team_id", "season", "points_share_in_group"]]
+            panel = panel.merge(cov.drop_duplicates(["team_id", "season"]), on=["team_id", "season"], how="left")
+        else:
+            panel["points_share_in_group"] = np.nan
+        base = _fit(f"points_share ~ {x}{fe}", panel, x)["coef"]
+        specs = [("outcome_covered_share", "Outcome: points share among covered teams only", "points_share_in_group", base),
+                 ("outcome_norm_position", "Outcome: normalised position (0 = champion, 1 = last)", "norm_position", None)]
+        for cid, lab, out, b0 in specs:
+            d = panel.dropna(subset=[out])
+            if d["team_id"].nunique() < 4:
+                continue
+            f = f"{out} ~ {x}{fe}"
+            r = _fit(f, d, x)
+            if wild:
+                r.update(_boot(f, d, x))
+            rows.append({"study": "does-money-buy-speed", "metric": metric, "check_id": cid, "check": lab,
+                         "model": "twfe", **r, "baseline_coef": b0})
+        # resource lagged two seasons
+        lv = g[g["currency"] == ccy][["team_id", "season", "value"]].drop_duplicates(["team_id", "season"])
+        lag2 = lv.assign(season=lv["season"] + 2, log_resource_lag2=np.log(lv["value"]))[["team_id", "season", "log_resource_lag2"]]
+        d = panel.merge(lag2, on=["team_id", "season"]).dropna(subset=["log_resource_lag2"])
+        if d["team_id"].nunique() >= 4:
+            f = f"points_share ~ log_resource_lag2{fe}"
+            r = _fit(f, d, "log_resource_lag2")
+            if wild:
+                r.update(_boot(f, d, "log_resource_lag2"))
+            rows.append({"study": "does-money-buy-speed", "metric": metric, "check_id": "lag_two_seasons",
+                         "check": "Resource lagged two seasons", "model": "twfe", **r, "baseline_coef": base})
+        # reverse direction: does last season's points share go with this season's resource?
+        rev = lv.assign(log_resource=np.log(lv["value"])).merge(
+            sport[["team_id", "season", "points_share"]].assign(season=lambda s: s["season"] + 1)
+            .rename(columns={"points_share": "points_share_lag"}), on=["team_id", "season"])
+        if rev["team_id"].nunique() >= 4:
+            f = f"log_resource ~ points_share_lag{fe}"
+            r = _fit(f, rev, "points_share_lag")
+            if wild:
+                r.update(_boot(f, rev, "points_share_lag"))
+            r["note"] = ("Coefficient: change in log resource for a points share one unit (100 percentage points) "
+                         "higher last season; multiply by 0.01 for one percentage point.")
+            rows.append({"study": "does-money-buy-speed", "metric": metric, "check_id": "reverse_direction",
+                         "check": "Reverse direction: log resource on last season's points share", "model": "twfe",
+                         **r, "baseline_coef": None})
     return rows
 
 
@@ -401,12 +533,15 @@ def run_robustness(eff: pd.DataFrame | None, cs: pd.DataFrame, balance: pd.DataF
         mb = moneyball_checks(eff, cs, wild)
         if fin is not None and len(fin):
             mb += comparability_checks(eff, cs, fin, wild)
+            mb += comparability_sample_checks(eff, cs, fin, wild)
+        mb += alternative_outcome_checks(eff, cs, wild)
         mb += real_terms_checks(eff, cpi, wild)
         mb += multiple_testing_rows(mb)
         rows = mb + rows
     rows += grand_prix_checks(tourism, events, inference)
     out = pd.DataFrame(rows)
-    cols = ["study", "check_id", "check", "metric", "model", "coef", "se", "ci_low", "ci_high", "p_value", "p_wild",
+    cols = ["study", "check_id", "check", "metric", "model", "coef", "se", "ci_low", "ci_high",
+            "ci_t_low", "ci_t_high", "ci_boot_low", "ci_boot_high", "p_value", "p_t", "p_wild",
             "pct_effect", "r2", "n_obs", "n_teams", "baseline_coef", "dropped", "region", "note"]
     for c in cols:
         if c not in out:

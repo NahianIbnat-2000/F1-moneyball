@@ -1,0 +1,29 @@
+name: Source documents
+# Manual check of the official links in data/metadata/source_documents.csv.
+# Downloads each document, compares its SHA-256 hash with the manifest, and uploads the result.
+# It never deletes, commits or deploys anything.
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ["data/metadata/source_documents.csv", "scripts/source_documents.py", ".github/workflows/source-documents.yml"]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Local copies match the manifest
+        run: python scripts/source_documents.py check
+      - name: Resolve Companies House document links and compare hashes
+        run: python scripts/source_documents.py resolve-ch
+      - name: Compare FIA links with the recorded hashes
+        run: |
+          cp data/metadata/source_documents_checked.csv data/metadata/source_documents.csv
+          python scripts/source_documents.py check-remote
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-documents-checked
+          path: data/metadata/source_documents_checked.csv

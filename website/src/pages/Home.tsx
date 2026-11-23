@@ -9,7 +9,7 @@ import { Section } from "../components/Ui";
 const DIMENSIONS = [
   { n: "S1", title: "Financial resources", q: "How much do teams spend, and which financial resources can actually be observed?" },
   { n: "S2", title: "Sporting performance", q: "How do teams perform across qualifying, races, championships and seasons?" },
-  { n: "S3", title: "Financial efficiency", q: "How effectively do teams convert observable resources into sporting outcomes?" },
+  { n: "S3", title: "Points relative to resources", q: "How do teams\u2019 shares of points compare with their shares of resources?" },
 ];
 
 function StatusFigures() {

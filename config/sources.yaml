@@ -9,6 +9,14 @@ jolpica:
   # We stay well below the burst limit.
   # Jolpica rate-limits bursts in practice below the documented 4/s; 1 s spacing avoids most 429s.
   min_seconds_between_requests: 1.0
+  rights:
+    licence: CC BY-NC-SA 4.0
+    licence_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+    attribution: "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0."
+    restrictions: Non-commercial use only. Adapted data must be shared under the same licence.
+    status: verified
+    evidence: https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md
+    checked: 2026-11-23
   page_size: 100
   coverage_note: Results since 1950, pit stops since 2011.
 fastf1:
@@ -32,10 +40,26 @@ companies_house:
   base_url: https://find-and-update.company-information.service.gov.uk/
   auth: free API key for the filing-history API (store as GitHub secret COMPANIES_HOUSE_API_KEY)
   coverage_note: Statutory audited accounts of UK-registered team entities. Figures entered manually.
+  rights:
+    licence: No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.
+    licence_url: https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright
+    attribution: "Source: audited accounts filed at Companies House, cited by company number, period and page."
+    restrictions: Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.
+    status: verified
+    evidence: https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright
+    checked: 2026-11-23
 fia_regulations:
   name: FIA Formula 1 regulations
   base_url: https://www.fia.com/regulation/category/110
   auth: none
+  rights:
+    licence: No open licence. Copyright FIA.
+    licence_url: https://www.fia.com/sites/default/files/basicpage/file/Terms%20and%20Conditions%20FIA%20Website.pdf
+    attribution: "Source: FIA Formula 1 regulations, cited by document, issue and article."
+    restrictions: Extracts may be quoted with the source. Other use needs the FIA's prior written consent. Regulation PDFs are linked, not redistributed.
+    status: verified
+    evidence: https://www.fia.com/sites/default/files/basicpage/file/Terms%20and%20Conditions%20FIA%20Website.pdf
+    checked: 2026-11-23
 liberty_media:
   name: Liberty Media investor information
   base_url: https://www.libertymedia.com/investors/financial-information
@@ -45,6 +69,39 @@ world_bank:
 un_tourism:
   name: UN Tourism statistics
   base_url: https://www.unwto.org/tourism-statistics
-national_statistics:
-  name: National statistics offices and official tourism authorities
-  docs: Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID.
+statistik_austria:
+  name: Statistik Austria open government data
+  docs: https://data.statistik.gv.at/web/
+  coverage_note: Monthly arrivals and overnight stays by Austrian state. Each row of data/manual/gp_tourism_monthly.csv records its table ID.
+  rights:
+    licence: CC BY 4.0
+    licence_url: https://creativecommons.org/licenses/by/4.0/
+    attribution: "Data: Statistik Austria, data.statistik.gv.at, licensed under CC BY 4.0."
+    restrictions: None beyond attribution and noting changes.
+    status: verified
+    evidence: https://data.statistik.gv.at/web/
+    checked: 2026-11-23
+singapore_stb:
+  name: Singapore Tourism Board via data.gov.sg
+  docs: https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view
+  coverage_note: Monthly international visitor arrivals.
+  rights:
+    licence: Singapore Open Data Licence
+    licence_url: https://data.gov.sg/open-data-licence
+    attribution: "Contains information from Total Visitor International Arrivals and International Visitor Arrivals by Place of Residence (Singapore Tourism Board), accessed on 2026-11-19 from data.gov.sg, made available under the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence)."
+    restrictions: Do not suggest official status or endorsement by the agency. Provided as is.
+    status: verified
+    evidence: https://data.gov.sg/open-data-licence
+    checked: 2026-11-23
+ons:
+  name: Office for National Statistics (UK CPI, series D7BT)
+  docs: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23
+  coverage_note: Annual CPI index used only for the constant-price robustness check.
+  rights:
+    licence: Open Government Licence v3.0
+    licence_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+    attribution: "Adapted from data from the Office for National Statistics licensed under the Open Government Licence v.3.0."
+    restrictions: None beyond attribution.
+    status: verified
+    evidence: https://www.ons.gov.uk/help/terms-conditions
+    checked: 2026-11-23

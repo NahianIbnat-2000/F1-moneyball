@@ -73,7 +73,7 @@ def mac(name: str, value: str) -> None:
 
 
 corr_season = turn.groupby("season").apply(lambda d: d.resource_share.corr(d.points_share))
-eff_team = turn.groupby("team_id").efficiency_ratio.mean()
+eff_team = turn.groupby("team_id").points_to_resource_share_ratio.mean()
 mac("NTeamSeasons", str(len(turn)))
 mac("NTeams", str(turn.team_id.nunique()))
 mac("FirstSeason", str(turn.season.min()))
@@ -93,8 +93,10 @@ for met, _ in METRICS:
         r = models.loc[f"{met}_{sp}"]
         key = {"turnover": "Turn", "staff_costs": "Staff", "headcount": "Head"}[met] + \
             {"pooled": "Pooled", "team_fe": "Fe", "twfe": "Twfe"}[sp]  # e.g. \CoefTurnFe
-        mac(f"Coef{key}", num(r.coef)); mac(f"P{key}", pval(r.p_value))
-        mac(f"CiLow{key}", num(r.ci_low)); mac(f"CiHigh{key}", num(r.ci_high))
+        mac(f"Coef{key}", num(r.coef)); mac(f"P{key}", pval(r.p_t))         # clustered, t(G - 1)
+        mac(f"CiLow{key}", num(r.ci_t_low)); mac(f"CiHigh{key}", num(r.ci_t_high))
+        if pd.notna(r.ci_boot_low):
+            mac(f"CiBootLow{key}", num(r.ci_boot_low)); mac(f"CiBootHigh{key}", num(r.ci_boot_high))
         mac(f"Pp{key}", num(r.effect_10pct_pp, 1))
         b = rk("baseline", met, sp)
         if pd.notna(b.p_wild):
@@ -109,12 +111,13 @@ for met in ("turnover", "staff_costs"):
 for met in ("turnover", "staff_costs", "headcount"):
     r = rk("position_outcome", met)
     k = met.replace("_", "").title()
-    mac(f"Pos{k}", num(r.coef, 2)); mac(f"PosP{k}", pval(r.p_value))
+    mac(f"Pos{k}", num(r.coef, 2)); mac(f"PosP{k}", pval(r.p_t))
+    mac(f"PosCiBootLow{k}", num(r.ci_boot_low, 2)); mac(f"PosCiBootHigh{k}", num(r.ci_boot_high, 2))
     mac(f"PosPwild{k}", "n/a" if pd.isna(r.p_wild) else pval(r.p_wild))
     mac(f"PosTen{k}", num(abs(r.coef) * np.log(1.1), 2))  # places gained per 10% more of the resource
 # accounting comparability and multiple testing
 sc, scp = rk("scope_control", "staff_costs"), rk("scope_control_position", "staff_costs")
-mac("ScopeStaff", num(sc.coef)); mac("ScopePStaff", pval(sc.p_value)); mac("ScopePwildStaff", pval(sc.p_wild))
+mac("ScopeStaff", num(sc.coef)); mac("ScopePStaff", pval(sc.p_t)); mac("ScopePwildStaff", pval(sc.p_wild))
 mac("ScopePosStaff", num(scp.coef, 2)); mac("ScopePosPwildStaff", pval(scp.p_wild))
 mac("ScopeN", sc.note.split()[0])
 an, sb = rk("annualised_periods", "staff_costs"), rk("staff_costs_ex_share_based_pay", "staff_costs")
@@ -147,12 +150,31 @@ for k in ("financial_observation", "efficiency", "model_results", "robustness_ch
 
 # Cost-cap and rule-reset rows of Table 3, used in the text
 cap = rk("h3_cap_interaction", "staff_costs")
-mac("CapStaff", num(cap.coef)); mac("CapPStaff", pval(cap.p_value)); mac("CapPwildStaff", pval(cap.p_wild))
+mac("CapStaff", num(cap.coef)); mac("CapPStaff", pval(cap.p_t)); mac("CapPwildStaff", pval(cap.p_wild))
 cap_t = rk("h3_cap_interaction", "turnover")
 mac("CapTurn", num(cap_t.coef)); mac("CapPwildTurn", pval(cap_t.p_wild))
 mac("NoResetStaff", num(rk("no_reset_seasons", "staff_costs").coef))
 ops = rk("h4_operations", "staff_costs")
 mac("OpsStaff", num(ops.coef))
+
+# Comparable samples, other outcomes and timing (Section 6, Table 4)
+for cid, key in (("sample_high_points_share", "HighPts"), ("sample_high_position", "HighPos"),
+                 ("sample_high_moderate_points_share", "HighModPts"), ("sample_high_moderate_position", "HighModPos"),
+                 ("segment_fe_points_share", "SegPts"), ("segment_fe_position", "SegPos"),
+                 ("outcome_covered_share", "Covered"), ("outcome_norm_position", "NormPos"),
+                 ("lag_two_seasons", "LagTwo"), ("reverse_direction", "Rev")):
+    for met, mk in (("turnover", "Turn"), ("staff_costs", "Staff"), ("headcount", "Head")):
+        r = rk(cid, met)
+        d = 2 if cid.endswith("position") and not cid.startswith("outcome") else 3
+        mac(f"{key}{mk}", num(r.coef, d)); mac(f"{key}P{mk}", pval(r.p_t)); mac(f"{key}Pwild{mk}", pval(r.p_wild))
+        mac(f"{key}CiLow{mk}", num(r.ci_boot_low, d)); mac(f"{key}CiHigh{mk}", num(r.ci_boot_high, d))
+        mac(f"{key}N{mk}", str(int(r.n_obs))); mac(f"{key}G{mk}", str(int(r.n_teams)))
+fc = pd.read_csv(DATA / "financial_comparability.csv")
+fct = fc[fc.metric == "turnover"].category.value_counts()
+for cat, key in (("High", "High"), ("Moderate", "Moderate"), ("Limited", "Limited"), ("Insufficient information", "Insufficient")):
+    mac(f"Comp{key}", str(int(fct.get(cat, 0))))
+mac("CompTotal", str(int(fct.sum())))
+mac("RevPerPpTurn", f"{rk('reverse_direction', 'turnover').coef:.1f}")   # % change in turnover per point of points share
 
 # Plain-language scale for the main coefficients (Sections 5 and 6)
 staff = eff[(eff.metric == "staff_costs") & eff.value.notna()]
@@ -184,14 +206,42 @@ pos = {m: rk("position_outcome", m) for m in ("turnover", "staff_costs", "headco
 CLAIMS = {
     "leave-one-out estimates never change sign (Section 6, abstract)":
         all((loo[loo.metric == m].coef > 0).all() for m in ("turnover", "staff_costs")),
-    "team-FE-only turnover link is not significant (abstract, Section 7)": models.loc["turnover_team_fe"].p_value > 0.10,
+    "team-FE-only turnover link is not significant (abstract, Section 7)": models.loc["turnover_team_fe"].p_t > 0.10,
     "TWFE estimates are positive for all three measures (abstract)":
         all(models.loc[f"{m}_twfe"].coef > 0 for m, _ in METRICS),
-    "staff-cost points-share link: bootstrap p < 0.05, clustered p > 0.05 (Section 5)":
-        rk("baseline", "staff_costs").p_wild < 0.05 < models.loc["staff_costs_twfe"].p_value,
+    "staff-cost points-share link: bootstrap p < 0.05, t(G-1) p > 0.05 (Section 5)":
+        models.loc["staff_costs_twfe"].p_wild < 0.05 < models.loc["staff_costs_twfe"].p_t,
+    "staff-cost points-share bootstrap interval only just excludes zero (Section 5)":
+        0 < models.loc["staff_costs_twfe"].ci_boot_low < 0.01,
+    "bootstrap intervals agree with bootstrap p at 5% for every within-team model (Section 5)":
+        all((models.loc[f"{m}_{sp}"].p_wild < 0.05) == (models.loc[f"{m}_{sp}"].ci_boot_low > 0 or models.loc[f"{m}_{sp}"].ci_boot_high < 0)
+            for m, _ in METRICS for sp in ("team_fe", "twfe")),
+    "exactly one within-team bootstrap interval in Table 2 excludes zero (Section 5)":
+        sum(models.loc[f"{m}_{sp}"].ci_boot_low > 0 or models.loc[f"{m}_{sp}"].ci_boot_high < 0
+            for m, _ in METRICS for sp in ("team_fe", "twfe")) == 1,
+    "every within-team t(G-1) interval in Table 2 includes zero (Section 5)":
+        all(models.loc[f"{m}_{sp}"].ci_t_low < 0 < models.loc[f"{m}_{sp}"].ci_t_high for m, _ in METRICS for sp in ("team_fe", "twfe")),
+    "restricted samples keep sign for staff costs, both outcomes (Section 6)":
+        all(rk(c, "staff_costs").coef * sgn > 0 for c, sgn in (("sample_high_points_share", 1), ("sample_high_position", -1),
+                                                              ("segment_fe_points_share", 1), ("segment_fe_position", -1))),
+    "staff position: bootstrap p < 0.05 in high-comparability sample and with basis effects (Section 6)":
+        rk("sample_high_position", "staff_costs").p_wild < 0.05 and rk("segment_fe_position", "staff_costs").p_wild < 0.05,
+    "staff points share: bootstrap p > 0.05 in high-comparability sample and with basis effects (Section 6)":
+        rk("sample_high_points_share", "staff_costs").p_wild > 0.05 and rk("segment_fe_points_share", "staff_costs").p_wild > 0.05,
+    "reverse direction: turnover follows last season's points; t and bootstrap disagree at 5% (Section 6)":
+        (lambda r: r.coef > 0 and r.p_t < 0.05 < r.p_wild)(rk("reverse_direction", "turnover")),
+    "reverse direction: staff costs and headcount not significant (Section 6)":
+        all(rk("reverse_direction", m).p_wild > 0.1 and rk("reverse_direction", m).p_t > 0.05 for m in ("staff_costs", "headcount")),
+    "direction of the within-team link survives every check in Tables 3 and 4 (Section 6)":
+        all(rk(c, m).coef > 0 for m, _ in METRICS for c in ("no_reset_seasons", "scope_control", "sample_high_points_share",
+            "sample_high_moderate_points_share", "segment_fe_points_share", "outcome_covered_share", "lag_two_seasons"))
+        and all(rk(c, m).coef < 0 for m, _ in METRICS for c in ("position_outcome", "scope_control_position",
+            "sample_high_position", "sample_high_moderate_position", "segment_fe_position", "outcome_norm_position")),
+    "two-season lag: no estimate significant at 5% (Section 6)":
+        all(rk("lag_two_seasons", m).p_wild > 0.05 and rk("lag_two_seasons", m).p_t > 0.05 for m, _ in METRICS),
     "all three measures go with a better position (Section 6)": all(r.coef < 0 for r in pos.values()),
-    "position: clustered and bootstrap p agree on the 0.10 level (Section 6)":
-        all(pd.notna(r.p_wild) and (r.p_value < 0.10) == (r.p_wild < 0.10) for r in pos.values()),
+    "position: t(G-1) and bootstrap p agree on the 0.10 level (Section 6)":
+        all(pd.notna(r.p_wild) and (r.p_t < 0.10) == (r.p_wild < 0.10) for r in pos.values()),
     "staff points share: not significant once accounting scope is controlled (abstract, Sections 5-6)":
         sc.p_wild > 0.05,
     "staff position: bootstrap p < 0.05 with and without the scope control (abstract, Section 6)":
@@ -200,13 +250,11 @@ CLAIMS = {
         abs(sc.coef - rk("baseline", "staff_costs").coef) < 0.05,
     "no within-team result survives Holm at 5%; staff position is the smallest (abstract, Section 6)":
         (holm.p_wild > 0.05).all() and hpos.p_wild == holm.p_wild.min(),
-    "every within-team 95% interval in Table 2 includes zero (Section 5)":
-        all((models.loc[f"{m}_{sp}"].ci_low < 0 < models.loc[f"{m}_{sp}"].ci_high) for m, _ in METRICS for sp in ("team_fe", "twfe")),
     "team-FE turnover estimate much smaller than pooled (Section 5)":
         models.loc["turnover_team_fe"].coef < 0.5 * models.loc["turnover_pooled"].coef,
     **CLAIMS_EXTRA,
     "no measurable change under the cost cap (abstract, Section 6)":
-        all(rk("h3_cap_interaction", m).p_value > 0.10 for m, _ in METRICS),
+        all(rk("h3_cap_interaction", m).p_t > 0.10 for m, _ in METRICS),
 }
 failed = [c for c, ok in CLAIMS.items() if not ok]
 if failed:
@@ -219,10 +267,10 @@ if failed:
 
 # ---------------------------------------------------------------------------- Table 1: descriptives
 wide = eff.pivot_table(index=["team_id", "season"], columns="metric", values="value").reset_index()
-wide = wide.merge(turn[["team_id", "season", "points_share", "efficiency_ratio"]], on=["team_id", "season"])
+wide = wide.merge(turn[["team_id", "season", "points_share", "points_to_resource_share_ratio"]], on=["team_id", "season"])
 g = (wide.groupby("team_id")
      .agg(n=("season", "size"), a=("season", "min"), b=("season", "max"), t=("turnover", "mean"),
-          s=("staff_costs", "mean"), h=("headcount", "mean"), ps=("points_share", "mean"), e=("efficiency_ratio", "mean"))
+          s=("staff_costs", "mean"), h=("headcount", "mean"), ps=("points_share", "mean"), e=("points_to_resource_share_ratio", "mean"))
      .sort_values("t", ascending=False))
 lines = []
 for tid, r in g.iterrows():
@@ -235,9 +283,10 @@ lines = []
 for i, (met, lab) in enumerate(METRICS):
     for sp, sl in SPECS:
         r = models.loc[f"{met}_{sp}"]
-        w = rk("baseline", met, sp).p_wild
-        lines.append(f"{lab if sp == 'pooled' else ''} & {sl} & {num(r.coef)} & [{num(r.ci_low)}, {num(r.ci_high)}] & "
-                     f"{pval(r.p_value)} & {'' if pd.isna(w) else f'{w:.2f}'} & {int(r.n_obs)} & {int(r.n_teams)} \\\\")
+        boot = "" if pd.isna(r.ci_boot_low) else f"[{num(r.ci_boot_low)}, {num(r.ci_boot_high)}]"
+        lines.append(f"{lab if sp == 'pooled' else ''} & {sl} & {num(r.coef)} & {num(r.se)} & "
+                     f"[{num(r.ci_t_low)}, {num(r.ci_t_high)}] & {pval(r.p_t)} & {boot} & "
+                     f"{'' if pd.isna(r.p_wild) else pval(r.p_wild)} \\\\")
     if i < len(METRICS) - 1:
         lines.append("\\addlinespace")
 (OUT / "table2_models.tex").write_text("\n".join(lines) + "\n")
@@ -250,7 +299,7 @@ for cid, lab in (("no_reset_seasons", "Without rule-reset seasons (2014, 2017, 2
                  ("h3_cap_interaction", "Interaction with cost-cap period$^{a}$")):
     for met, ml in METRICS:
         r = rk(cid, met)
-        pv = pval(r.p_value) + (f" ({pval(r.p_wild)})" if pd.notna(r.p_wild) else "")
+        pv = pval(r.p_t) + (f" ({pval(r.p_wild)})" if pd.notna(r.p_wild) else "")
         base = "" if cid == "position_outcome" else num(rk("baseline", met).coef)
         lines.append(f"{lab if met == 'turnover' else ''} & {ml} & {num(r.coef)} & {pv} & {base} \\\\")
     lines.append("\\addlinespace")
@@ -260,13 +309,13 @@ for cid, lab in (("scope_control", "Control for group vs company accounts"),
         r = rk(cid, met)
         base = num(rk("baseline" if cid == "scope_control" else "position_outcome", met).coef)
         lines.append(f"{lab if met == 'turnover' else ''} & {ml} & {num(r.coef)} & "
-                     f"{pval(r.p_value)} ({pval(r.p_wild)}) & {base} \\\\")
+                     f"{pval(r.p_t)} ({pval(r.p_wild)}) & {base} \\\\")
     lines.append("\\addlinespace")
 for cid, lab, mets in (("annualised_periods", "Accounting periods scaled to 12 months", ("turnover", "staff_costs")),
                        ("staff_costs_ex_share_based_pay", "Staff costs without share-based pay$^{c}$", ("staff_costs",))):
     for i, met in enumerate(mets):
         r = rk(cid, met)
-        lines.append(f"{lab if i == 0 else ''} & {dict(METRICS)[met]} & {num(r.coef)} & {pval(r.p_value)} ({pval(r.p_wild)}) & "
+        lines.append(f"{lab if i == 0 else ''} & {dict(METRICS)[met]} & {num(r.coef)} & {pval(r.p_t)} ({pval(r.p_wild)}) & "
                      f"{num(rk('baseline', met).coef)} \\\\")
     lines.append("\\addlinespace")
 for met, ml in (("turnover", "Turnover"), ("staff_costs", "Staff costs")):
@@ -275,6 +324,27 @@ for met, ml in (("turnover", "Turnover"), ("staff_costs", "Staff costs")):
     lines.append(f"{'Leave one team out (range)' if met == 'turnover' else ''} & {ml} & {num(a.coef)} to {num(b.coef)} & "
                  f"without {TINY[a.dropped]} / {TINY[b.dropped]} & {num(rk('baseline', met).coef)} \\\\")
 (OUT / "table3_robustness.tex").write_text("\n".join(lines) + "\n")
+
+# ---------------------------------------------------------------------------- Table 4: comparable samples, outcomes, timing
+lines = []
+T4 = (("sample_high_points_share", "High comparability only; points share"),
+      ("sample_high_moderate_points_share", "High or moderate comparability; points share"),
+      ("segment_fe_points_share", "Team $\\times$ accounting-basis effects; points share"),
+      ("sample_high_position", "High comparability only; position$^{a}$"),
+      ("sample_high_moderate_position", "High or moderate comparability; position$^{a}$"),
+      ("segment_fe_position", "Team $\\times$ accounting-basis effects; position$^{a}$"),
+      ("outcome_covered_share", "Outcome: points share of covered teams"),
+      ("outcome_norm_position", "Outcome: normalised position$^{b}$"),
+      ("lag_two_seasons", "Resource lagged two seasons"),
+      ("reverse_direction", "Reverse: log resource on last season's points share$^{c}$"))
+for cid, lab in T4:
+    for met, ml in METRICS:
+        r = rk(cid, met)
+        d = 2 if cid.endswith("_position") and not cid.startswith("outcome") else 3
+        lines.append(f"{lab if met == 'turnover' else ''} & {ml} & {num(r.coef, d)} & [{num(r.ci_boot_low, d)}, "
+                     f"{num(r.ci_boot_high, d)}] & {pval(r.p_t)} & {pval(r.p_wild)} & {int(r.n_obs)} & {int(r.n_teams)} \\\\")
+    lines.append("\\addlinespace")
+(OUT / "table4_samples_timing.tex").write_text("\n".join(lines[:-1]) + "\n")
 
 # ---------------------------------------------------------------------------- Table C1: unusual periods
 def tex_amp(x: str) -> str:
@@ -344,14 +414,15 @@ fig, axes = plt.subplots(1, 3, figsize=(6.2, 2.5), sharey=True)
 for ax, (met, lab) in zip(axes, METRICS):
     for j, (sp, sl) in enumerate(SPECS):
         r = models.loc[f"{met}_{sp}"]
-        ax.errorbar(r.coef, j, xerr=[[r.coef - r.ci_low], [r.ci_high - r.coef]], fmt="o", ms=4,
+        lo, hi = (r.ci_t_low, r.ci_t_high) if pd.isna(r.ci_boot_low) else (r.ci_boot_low, r.ci_boot_high)
+        ax.errorbar(r.coef, j, xerr=[[r.coef - lo], [hi - r.coef]], fmt="o", ms=4,
                     color="#0072B2", ecolor="#0072B2", elinewidth=1.4, capsize=0)
     ax.axvline(0, color="#999999", lw=0.8, ls="--")
     ax.set_title(lab, fontsize=9)
     ax.set_yticks(range(3)); ax.set_yticklabels([s for _, s in SPECS])
     ax.invert_yaxis() if ax is axes[0] else None
     ax.grid(axis="x", color="#e5e5e5", lw=0.6); ax.set_axisbelow(True)
-axes[1].set_xlabel("Coefficient on log resource in previous season (95% CI)")
+axes[1].set_xlabel("Coefficient on log resource in previous season (95% interval)")
 fig.tight_layout(); fig.savefig(OUT / "fig2_coefficients.pdf"); plt.close(fig)
 
-print(f"Wrote {len(macros)} numbers, 3 tables and 2 figures to {OUT}")
+print(f"Wrote {len(macros)} numbers, 4 tables and 2 figures to {OUT}")

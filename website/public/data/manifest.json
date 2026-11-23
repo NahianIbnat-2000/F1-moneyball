@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-23T11:19:23+00:00",
-  "pipeline_commit": "264696a",
+  "generated_at_utc": "2026-11-23T13:56:37+00:00",
+  "pipeline_commit": "9569997",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -203,7 +203,16 @@
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -372,7 +381,16 @@
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -502,7 +520,16 @@
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -636,7 +663,16 @@
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -752,7 +788,16 @@
         {
           "id": "fia_regulations",
           "name": "FIA Formula 1 regulations",
-          "url": "https://www.fia.com/regulation/category/110"
+          "url": "https://www.fia.com/regulation/category/110",
+          "rights": {
+            "licence": "No open licence. Copyright FIA.",
+            "licence_url": "https://www.fia.com/sites/default/files/basicpage/file/Terms%20and%20Conditions%20FIA%20Website.pdf",
+            "attribution": "Source: FIA Formula 1 regulations, cited by document, issue and article.",
+            "restrictions": "Extracts may be quoted with the source. Other use needs the FIA's prior written consent. Regulation PDFs are linked, not redistributed.",
+            "status": "verified",
+            "evidence": "https://www.fia.com/sites/default/files/basicpage/file/Terms%20and%20Conditions%20FIA%20Website.pdf",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -942,7 +987,16 @@
         {
           "id": "companies_house",
           "name": "UK Companies House",
-          "url": "https://find-and-update.company-information.service.gov.uk/"
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -952,7 +1006,7 @@
     },
     "efficiency": {
       "name": "efficiency",
-      "title": "Financial efficiency indicators",
+      "title": "Points relative to resources",
       "description": "Descriptive comparison of each team's share of points with its share of resources, within groups of teams reporting the same measure, in the same currency, for the same season.",
       "key": [
         "team_id",
@@ -1139,13 +1193,13 @@
           "unit": "share",
           "description": "Team points / points of teams in the group"
         },
-        "efficiency_ratio": {
+        "points_to_resource_share_ratio": {
           "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Blank when the row is excluded",
           "type": "float",
           "unit": "ratio",
-          "description": "points_share_in_group / resource_share. Above 1: more points share than resource share"
+          "description": "Points-to-resource-share ratio (points-to-turnover-share ratio when metric is turnover) = points_share_in_group / resource_share. 1 = same share of points as of resources; above 1 = larger share of points. Called efficiency_ratio before version 3.1"
         },
         "points_per_million": {
           "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
@@ -1187,21 +1241,40 @@
       },
       "limitations": [
         "Descriptive ratio, not a measure of technical or production efficiency, and not causal.",
+        "The ratio is unstable for teams with very few points, where one result moves it a lot.",
         "Shares cover only the teams in the comparison group, not the whole grid.",
         "No currency conversion: teams reporting in different currencies are never in the same group.",
         "Legal-entity accounts may not capture the full cost of running a team."
       ],
-      "version": "1a33f19523ff",
+      "version": "45b466eb52b8",
       "sources": [
         {
           "id": "companies_house",
           "name": "UK Companies House",
-          "url": "https://find-and-update.company-information.service.gov.uk/"
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
         },
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -1221,7 +1294,7 @@
         "model_id"
       ],
       "rows": 9,
-      "n_variables": 20,
+      "n_variables": 26,
       "columns": {
         "model_id": {
           "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
@@ -1319,21 +1392,63 @@
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
-          "description": "95% CI lower bound"
+          "description": "95% CI lower bound, normal critical values (kept for comparison with earlier versions)"
         },
         "ci_high": {
           "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
-          "description": "95% CI upper bound"
+          "description": "95% CI upper bound, normal critical values (kept for comparison with earlier versions)"
         },
         "p_value": {
           "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
-          "description": "p-value"
+          "description": "Clustered p-value, normal reference distribution (kept for comparison with earlier versions)"
+        },
+        "p_t": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Clustered p-value with the t distribution and G - 1 degrees of freedom (G = number of teams)"
+        },
+        "ci_t_low": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI lower bound, coef - t(0.975, G - 1) x se"
+        },
+        "ci_t_high": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI upper bound, coef + t(0.975, G - 1) x se"
+        },
+        "p_wild": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Restricted wild cluster bootstrap p-value (Webb weights, 9,999 draws, seed 20261119); fixed-effects models only"
+        },
+        "ci_boot_low": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Lower bound of the 95% interval from inverting the wild cluster bootstrap test; fixed-effects models only"
+        },
+        "ci_boot_high": {
+          "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Upper bound of the 95% interval from inverting the wild cluster bootstrap test; fixed-effects models only"
         },
         "r2": {
           "source": "UK Companies House, Jolpica-F1 API (Ergast-compatible)",
@@ -1370,17 +1485,35 @@
         "With few teams, clustered standard errors are unreliable.",
         "Fixed-effects estimates rely on small within-team changes and are imprecise."
       ],
-      "version": "faf4b2171b2d",
+      "version": "61bd23fb7bde",
       "sources": [
         {
           "id": "companies_house",
           "name": "UK Companies House",
-          "url": "https://find-and-update.company-information.service.gov.uk/"
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
         },
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -1399,7 +1532,7 @@
         "specification"
       ],
       "rows": 40,
-      "n_variables": 24,
+      "n_variables": 25,
       "columns": {
         "kind": {
           "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
@@ -1506,6 +1639,13 @@
           "type": "float",
           "description": "95% CI upper bound"
         },
+        "mde_80": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Smallest level change the model could detect with 80% power at the 5% level (2.8 x standard error); the Newey-West standard error is itself likely too small with 16 seasons"
+        },
         "p_value": {
           "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House",
           "transformation": "None (as reported by the source)",
@@ -1576,17 +1716,35 @@
         "Only five capped seasons with comparable rules (2021-2025).",
         "Dose-response results are suggestive: big spenders may also have adapted differently to the 2022 rules."
       ],
-      "version": "b8910c04f01c",
+      "version": "98735db60490",
       "sources": [
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         },
         {
           "id": "companies_house",
           "name": "UK Companies House",
-          "url": "https://find-and-update.company-information.service.gov.uk/"
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -1678,12 +1836,30 @@
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         },
         {
           "id": "companies_house",
           "name": "UK Companies House",
-          "url": "https://find-and-update.company-information.service.gov.uk/"
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -1708,91 +1884,91 @@
       "n_variables": 13,
       "columns": {
         "region_id": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Region identifier"
         },
         "region_name": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Region name"
         },
         "country": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Country"
         },
         "is_host": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "bool",
           "description": "True if the region hosts a Grand Prix"
         },
         "month": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Month (YYYY-MM)"
         },
         "series": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "arrivals | overnight_stays | hotel_occupancy"
         },
         "value": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Value as published"
         },
         "unit": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Unit as published"
         },
         "source_name": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Official source"
         },
         "source_url": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Source URL"
         },
         "table_id": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Table or series ID at the source"
         },
         "retrieval_date": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "date",
           "description": "Date downloaded"
         },
         "notes": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
@@ -1807,9 +1983,32 @@
       "version": "eb1f7485c55c",
       "sources": [
         {
-          "id": "national_statistics",
-          "name": "National statistics offices and official tourism authorities",
-          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+          "id": "statistik_austria",
+          "name": "Statistik Austria open government data",
+          "url": "https://data.statistik.gv.at/web/",
+          "rights": {
+            "licence": "CC BY 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "Data: Statistik Austria, data.statistik.gv.at, licensed under CC BY 4.0.",
+            "restrictions": "None beyond attribution and noting changes.",
+            "status": "verified",
+            "evidence": "https://data.statistik.gv.at/web/",
+            "checked": "2026-11-23"
+          }
+        },
+        {
+          "id": "singapore_stb",
+          "name": "Singapore Tourism Board via data.gov.sg",
+          "url": "https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view",
+          "rights": {
+            "licence": "Singapore Open Data Licence",
+            "licence_url": "https://data.gov.sg/open-data-licence",
+            "attribution": "Contains information from Total Visitor International Arrivals and International Visitor Arrivals by Place of Residence (Singapore Tourism Board), accessed on 2026-11-19 from data.gov.sg, made available under the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence).",
+            "restrictions": "Do not suggest official status or endorsement by the agency. Provided as is.",
+            "status": "verified",
+            "evidence": "https://data.gov.sg/open-data-licence",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -1886,7 +2085,16 @@
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -1907,70 +2115,70 @@
       "n_variables": 13,
       "columns": {
         "region_id": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Host region"
         },
         "region_name": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Host name"
         },
         "series": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Series"
         },
         "k": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Months relative to the race month (0 = race month)"
         },
         "estimated": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "bool",
           "description": "False when the sample is too small"
         },
         "coef": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Coefficient (log points)"
         },
         "se": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "HAC standard error"
         },
         "ci_low": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "95% CI lower"
         },
         "ci_high": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "95% CI upper"
         },
         "pct_effect": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
@@ -1978,21 +2186,21 @@
           "unit": "%"
         },
         "n_months": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "int",
           "description": "Months used"
         },
         "n_races": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "int",
           "description": "Races in the sample"
         },
         "note": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
@@ -2006,9 +2214,32 @@
       "version": "90fe59f0044d",
       "sources": [
         {
-          "id": "national_statistics",
-          "name": "National statistics offices and official tourism authorities",
-          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+          "id": "statistik_austria",
+          "name": "Statistik Austria open government data",
+          "url": "https://data.statistik.gv.at/web/",
+          "rights": {
+            "licence": "CC BY 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "Data: Statistik Austria, data.statistik.gv.at, licensed under CC BY 4.0.",
+            "restrictions": "None beyond attribution and noting changes.",
+            "status": "verified",
+            "evidence": "https://data.statistik.gv.at/web/",
+            "checked": "2026-11-23"
+          }
+        },
+        {
+          "id": "singapore_stb",
+          "name": "Singapore Tourism Board via data.gov.sg",
+          "url": "https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view",
+          "rights": {
+            "licence": "Singapore Open Data Licence",
+            "licence_url": "https://data.gov.sg/open-data-licence",
+            "attribution": "Contains information from Total Visitor International Arrivals and International Visitor Arrivals by Place of Residence (Singapore Tourism Board), accessed on 2026-11-19 from data.gov.sg, made available under the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence).",
+            "restrictions": "Do not suggest official status or endorsement by the agency. Provided as is.",
+            "status": "verified",
+            "evidence": "https://data.gov.sg/open-data-licence",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -2029,49 +2260,49 @@
       "n_variables": 7,
       "columns": {
         "region_id": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Host region"
         },
         "series": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Series"
         },
         "month": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Month"
         },
         "observed": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Observed log value"
         },
         "synthetic": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Synthetic log value"
         },
         "gap": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Observed minus synthetic (log points)"
         },
         "period": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
@@ -2082,12 +2313,21 @@
         "Valid only if the pre-entry fit is good (see gp_scm_inference).",
         "Other events after entry also enter the gap."
       ],
-      "version": "2015cdb5e881",
+      "version": "91ff1e2d910c",
       "sources": [
         {
-          "id": "national_statistics",
-          "name": "National statistics offices and official tourism authorities",
-          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+          "id": "statistik_austria",
+          "name": "Statistik Austria open government data",
+          "url": "https://data.statistik.gv.at/web/",
+          "rights": {
+            "licence": "CC BY 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "Data: Statistik Austria, data.statistik.gv.at, licensed under CC BY 4.0.",
+            "restrictions": "None beyond attribution and noting changes.",
+            "status": "verified",
+            "evidence": "https://data.statistik.gv.at/web/",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -2108,70 +2348,70 @@
       "n_variables": 14,
       "columns": {
         "region_id": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Host region"
         },
         "series": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Series"
         },
         "unit": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Host or placebo region"
         },
         "is_host": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "bool",
           "description": "True for the real host"
         },
         "estimated": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "bool",
           "description": "False when not estimated"
         },
         "entry_month": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Month of first race in the data"
         },
         "rmspe_pre": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Root mean squared gap before entry (log points)"
         },
         "rmspe_post": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Root mean squared gap after entry"
         },
         "rmspe_ratio": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Post / pre RMSPE"
         },
         "mean_post_gap_pct": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
@@ -2179,28 +2419,28 @@
           "unit": "%"
         },
         "p_value": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Placebo p-value: rank of the host's ratio among all units"
         },
         "weights": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Comparison-region weights (host only)"
         },
         "poor_pre_fit": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "bool",
           "description": "True if pre-entry RMSPE above 0.10"
         },
         "note": {
-          "source": "National statistics offices and official tourism authorities",
+          "source": "Statistik Austria open government data, Singapore Tourism Board via data.gov.sg",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
@@ -2211,12 +2451,35 @@
         "With few comparison regions the smallest possible p-value is 1/(regions+1).",
         "Poor pre-entry fit invalidates the estimate."
       ],
-      "version": "7240d4cdbbf4",
+      "version": "cfcb19cb05ee",
       "sources": [
         {
-          "id": "national_statistics",
-          "name": "National statistics offices and official tourism authorities",
-          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+          "id": "statistik_austria",
+          "name": "Statistik Austria open government data",
+          "url": "https://data.statistik.gv.at/web/",
+          "rights": {
+            "licence": "CC BY 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "Data: Statistik Austria, data.statistik.gv.at, licensed under CC BY 4.0.",
+            "restrictions": "None beyond attribution and noting changes.",
+            "status": "verified",
+            "evidence": "https://data.statistik.gv.at/web/",
+            "checked": "2026-11-23"
+          }
+        },
+        {
+          "id": "singapore_stb",
+          "name": "Singapore Tourism Board via data.gov.sg",
+          "url": "https://data.gov.sg/datasets/d_33796e0e35e57890bdd6aa34364b898d/view",
+          "rights": {
+            "licence": "Singapore Open Data Licence",
+            "licence_url": "https://data.gov.sg/open-data-licence",
+            "attribution": "Contains information from Total Visitor International Arrivals and International Visitor Arrivals by Place of Residence (Singapore Tourism Board), accessed on 2026-11-19 from data.gov.sg, made available under the Singapore Open Data Licence version 1.0 (https://data.gov.sg/open-data-licence).",
+            "restrictions": "Do not suggest official status or endorsement by the agency. Provided as is.",
+            "status": "verified",
+            "evidence": "https://data.gov.sg/open-data-licence",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
@@ -2235,137 +2498,172 @@
         "metric",
         "model"
       ],
-      "rows": 108,
-      "n_variables": 19,
+      "rows": 138,
+      "n_variables": 24,
       "columns": {
         "study": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Article slug the check belongs to"
         },
         "check_id": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Short check identifier"
         },
         "check": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "What the check changes"
         },
         "metric": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Resource measure, balance indicator or tourism series"
         },
         "model": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Model or specification"
         },
         "coef": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Coefficient of interest (for the synthetic control row: mean post-entry gap, percent)"
         },
         "se": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Standard error (clustered by team, Newey-West or HAC as in the main model)"
         },
         "ci_low": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "95% CI lower bound"
         },
         "ci_high": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "95% CI upper bound"
         },
         "p_value": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
-          "description": "Conventional p-value"
+          "description": "Conventional p-value (clustered by team, normal reference distribution)"
+        },
+        "ci_boot_low": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Lower bound of the 95% interval from inverting the wild cluster bootstrap test (main fixed-effects models)"
+        },
+        "ci_boot_high": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Upper bound of the 95% interval from inverting the wild cluster bootstrap test (main fixed-effects models)"
+        },
+        "ci_t_low": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI lower bound with t(G - 1) critical values"
+        },
+        "ci_t_high": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "95% CI upper bound with t(G - 1) critical values"
+        },
+        "p_t": {
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "float",
+          "description": "Clustered p-value with the t distribution and G - 1 degrees of freedom (G = number of teams); a small-sample alternative to p_value"
         },
         "p_wild": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
-          "description": "Wild cluster restricted bootstrap p-value, Webb weights, 9,999 draws (six-team models only)"
+          "description": "Wild cluster restricted bootstrap p-value, Webb weights, 9,999 draws"
         },
         "pct_effect": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "Coefficient as a percent change (event studies)"
         },
         "r2": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "R-squared"
         },
         "n_obs": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "int",
           "description": "Observations (team-seasons, seasons, months or units)"
         },
         "n_teams": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "int",
           "description": "Teams (clusters)"
         },
         "baseline_coef": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "float",
           "description": "The main estimate the check is compared with"
         },
         "dropped": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Team left out (leave-one-team-out rows)"
         },
         "region": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
           "description": "Region (Grand Prix rows)"
         },
         "note": {
-          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, National statistics offices and official tourism authorities",
+          "source": "Jolpica-F1 API (Ergast-compatible), UK Companies House, Statistik Austria open government data, Office for National Statistics (UK CPI, series D7BT)",
           "transformation": "None (as reported by the source)",
           "missing_treatment": "Left blank. Never imputed.",
           "type": "str",
@@ -2374,29 +2672,176 @@
       },
       "limitations": [
         "Associations and descriptive comparisons, not causal effects.",
-        "The six-team models stay imprecise even with bootstrap p-values."
+        "Models with six to eight teams stay imprecise even with bootstrap p-values and intervals."
       ],
-      "version": "ae85825e8423",
+      "version": "6000960e967c",
       "sources": [
         {
           "id": "jolpica",
           "name": "Jolpica-F1 API (Ergast-compatible)",
-          "url": "https://github.com/jolpica/jolpica-f1"
+          "url": "https://github.com/jolpica/jolpica-f1",
+          "rights": {
+            "licence": "CC BY-NC-SA 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "attribution": "Data from the Jolpica-F1 API (jolpi.ca), licensed under CC BY-NC-SA 4.0.",
+            "restrictions": "Non-commercial use only. Adapted data must be shared under the same licence.",
+            "status": "verified",
+            "evidence": "https://github.com/jolpica/jolpica-f1/blob/main/TERMS.md",
+            "checked": "2026-11-23"
+          }
         },
         {
           "id": "companies_house",
           "name": "UK Companies House",
-          "url": "https://find-and-update.company-information.service.gov.uk/"
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
         },
         {
-          "id": "national_statistics",
-          "name": "National statistics offices and official tourism authorities",
-          "url": "Each row in data/manual/gp_tourism_monthly.csv records its own official source URL and table ID."
+          "id": "statistik_austria",
+          "name": "Statistik Austria open government data",
+          "url": "https://data.statistik.gv.at/web/",
+          "rights": {
+            "licence": "CC BY 4.0",
+            "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "Data: Statistik Austria, data.statistik.gv.at, licensed under CC BY 4.0.",
+            "restrictions": "None beyond attribution and noting changes.",
+            "status": "verified",
+            "evidence": "https://data.statistik.gv.at/web/",
+            "checked": "2026-11-23"
+          }
+        },
+        {
+          "id": "ons",
+          "name": "Office for National Statistics (UK CPI, series D7BT)",
+          "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/d7bt/mm23",
+          "rights": {
+            "licence": "Open Government Licence v3.0",
+            "licence_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+            "attribution": "Adapted from data from the Office for National Statistics licensed under the Open Government Licence v.3.0.",
+            "restrictions": "None beyond attribution.",
+            "status": "verified",
+            "evidence": "https://www.ons.gov.uk/help/terms-conditions",
+            "checked": "2026-11-23"
+          }
         }
       ],
       "files": {
         "json": "data/robustness_checks.json",
         "csv": "data/robustness_checks.csv"
+      }
+    },
+    "financial_comparability": {
+      "name": "financial_comparability",
+      "title": "Financial comparability",
+      "description": "How well each team-season's accounts measure the team's racing resources, classified from facts recorded from the filings (see src/f1moneyball/econometrics/comparability.py for the rules).",
+      "key": [
+        "team_id",
+        "season",
+        "metric"
+      ],
+      "rows": 314,
+      "n_variables": 9,
+      "columns": {
+        "team_id": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "Team lineage"
+        },
+        "season": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Season the accounting period is mapped to"
+        },
+        "metric": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "Resource measure: turnover, staff_costs or headcount"
+        },
+        "category": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "High, Moderate, Limited or Insufficient information"
+        },
+        "reasons": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "The recorded facts behind the category"
+        },
+        "accounting_basis": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "Accounting standard and scope (group consolidated or company only)"
+        },
+        "period_days": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "int",
+          "description": "Length of the accounting period in days"
+        },
+        "source": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "Filing title and page"
+        },
+        "source_url": {
+          "source": "UK Companies House",
+          "transformation": "None (as reported by the source)",
+          "missing_treatment": "Left blank. Never imputed.",
+          "type": "string",
+          "description": "Companies House filing history"
+        }
+      },
+      "limitations": [
+        "Categories are rule-based from recorded facts; they are not scores and do not rank teams.",
+        "Facts that were not recorded from a filing cannot affect the category."
+      ],
+      "version": "ac602dae9b04",
+      "sources": [
+        {
+          "id": "companies_house",
+          "name": "UK Companies House",
+          "url": "https://find-and-update.company-information.service.gov.uk/",
+          "rights": {
+            "licence": "No licence. Public register (Companies Act 2006); copyright in each filing belongs to the filing company.",
+            "licence_url": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "attribution": "Source: audited accounts filed at Companies House, cited by company number, period and page.",
+            "restrictions": "Figures (facts) are reported with citations. Copies of the filings are kept in the repository only so each figure can be checked; they will be replaced by links and hashes once each link is confirmed. Copyright in each filing stays with the filing company.",
+            "status": "verified",
+            "evidence": "https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright",
+            "checked": "2026-11-23"
+          }
+        }
+      ],
+      "files": {
+        "json": "data/financial_comparability.json",
+        "csv": "data/financial_comparability.csv"
+      },
+      "coverage": {
+        "season_min": 2010,
+        "season_max": 2025
       }
     }
   },

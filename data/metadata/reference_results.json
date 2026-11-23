@@ -1,0 +1,86 @@
+{
+  "_note": "Approved headline results. Tests fail if the published data drift from these values. Change a value only after the change has been reviewed and approved, and record why in data/manual/changelog.yaml.",
+  "approved_on": "2026-11-23",
+  "tolerance": {
+    "coef": 0.0005,
+    "p": 0.002,
+    "ci": 0.002
+  },
+  "main": [
+    {
+      "metric": "turnover",
+      "check_id": "baseline",
+      "model": "twfe",
+      "coef": 0.0479,
+      "p_wild": 0.1487,
+      "n_obs": 95,
+      "n_teams": 8,
+      "p_t": 0.1463,
+      "ci_boot_low": -0.0332,
+      "ci_boot_high": 0.1214
+    },
+    {
+      "metric": "turnover",
+      "check_id": "position_outcome",
+      "model": "twfe",
+      "coef": -1.5131,
+      "p_wild": 0.0554,
+      "n_obs": 95,
+      "n_teams": 8,
+      "p_t": 0.0582,
+      "ci_boot_low": -4.088,
+      "ci_boot_high": 0.0249
+    },
+    {
+      "metric": "staff_costs",
+      "check_id": "baseline",
+      "model": "twfe",
+      "coef": 0.1862,
+      "p_wild": 0.0424,
+      "n_obs": 95,
+      "n_teams": 8,
+      "p_t": 0.1558,
+      "ci_boot_low": 0.0017,
+      "ci_boot_high": 0.4925
+    },
+    {
+      "metric": "staff_costs",
+      "check_id": "position_outcome",
+      "model": "twfe",
+      "coef": -4.472,
+      "p_wild": 0.013,
+      "n_obs": 95,
+      "n_teams": 8,
+      "p_t": 0.04,
+      "ci_boot_low": -9.263,
+      "ci_boot_high": -1.8219
+    },
+    {
+      "metric": "headcount",
+      "check_id": "baseline",
+      "model": "twfe",
+      "coef": 0.0875,
+      "p_wild": 0.2523,
+      "n_obs": 95,
+      "n_teams": 8,
+      "p_t": 0.3302,
+      "ci_boot_low": -0.0077,
+      "ci_boot_high": 0.5077
+    },
+    {
+      "metric": "headcount",
+      "check_id": "position_outcome",
+      "model": "twfe",
+      "coef": -3.2812,
+      "p_wild": 0.0457,
+      "n_obs": 95,
+      "n_teams": 8,
+      "p_t": 0.0734,
+      "ci_boot_low": -11.0693,
+      "ci_boot_high": -0.159
+    }
+  ],
+  "pooled_turnover_coef": 0.0828,
+  "holm_min": 0.078,
+  "_inference_note": "p_t and ci_boot_* added in version 3.1 (approved by Nahian Ibnat on 2026-11-23): clustered p-values with t(G - 1) and bootstrap intervals by test inversion. Coefficients and bootstrap p-values are unchanged."
+}
