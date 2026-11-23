@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-23T14:55:21+00:00",
+  "generated_at_utc": "2026-11-23T16:57:35+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -410,7 +410,7 @@
       "coverage_start": 2010,
       "coverage_end": 2025,
       "observation_count": 527,
-      "variable_count": 22,
+      "variable_count": 24,
       "missingness": {
         "team_id": {
           "missing": 0,
@@ -499,10 +499,18 @@
         "comparability_warning": {
           "missing": 432,
           "share": 0.8197
+        },
+        "source_document_status": {
+          "missing": 0,
+          "share": 0.0
+        },
+        "source_document_url": {
+          "missing": 2,
+          "share": 0.0038
         }
       },
-      "version": "c12aa42dc2bd",
-      "last_updated": "2026-11-19T17:12:14+00:00",
+      "version": "410ab8413dda",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed_with_warnings",
       "validation_warnings": [
         "Accounting periods not about 12 months (not annualised in the data; see robustness check annualised_periods): ['silverstone 2019-08-31 (395 days)', 'silverstone 2020-12-31 (122 days)', 'banbury 2017-06-30 (547 days)', 'leafield 2010-12-31 (457 days)']",
@@ -854,7 +862,7 @@
         }
       },
       "version": "91ff1e2d910c",
-      "last_updated": "2026-11-20T15:42:26+00:00",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -938,7 +946,7 @@
         }
       },
       "version": "cfcb19cb05ee",
-      "last_updated": "2026-11-20T15:42:26+00:00",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1346,7 +1354,7 @@
         }
       },
       "version": "0f7fdc4beec0",
-      "last_updated": "2026-11-23T12:29:51+00:00",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,
@@ -1537,7 +1545,7 @@
         }
       },
       "version": "7f329fe905fc",
-      "last_updated": "2026-11-23T13:56:37+00:00",
+      "last_updated": "2026-11-23T16:57:35+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

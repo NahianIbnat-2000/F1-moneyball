@@ -310,6 +310,14 @@ financial_observation:
     comparability_warning:
       type: str
       description: Why this figure may not be comparable with other teams or years. Required for estimates.
+    source_document_status:
+      type: str
+      description: 'Status of the filing this figure was read from (data/metadata/source_documents.csv): verified = official file has the same SHA-256 as the copy used; candidate_unverified = official link found, hash not yet compared; not_recorded = no filing named'
+      transformation: Joined from data/metadata/source_documents.csv by the document named in notes
+    source_document_url:
+      type: str
+      description: Official Companies House link to the filing, where known
+      transformation: Joined from data/metadata/source_documents.csv
   limitations:
   - Figures belong to legal entities, not to 'teams'. An entity may include engine work or other business, or miss
     costs held in another company.

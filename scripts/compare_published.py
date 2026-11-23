@@ -25,7 +25,8 @@ VOLATILE = {"retrieved_at", "built_at", "generated_at_utc", "published_at", "ret
 # Columns built only from the raw Jolpica-F1 API pull (git-ignored), not from the committed processed data.
 # A clean checkout without network access cannot rebuild them; no model uses them.
 # Free-text columns: not used to match rows, and a wording change is reported but does not fail the check.
-FREE_TEXT = {"note", "notes", "description", "definition", "label", "title"}
+FREE_TEXT = {"note", "notes", "description", "definition", "label", "title",
+             "source_document_status", "source_document_url"}
 # Columns renamed on purpose, old name -> new name (version 3.1).
 RENAMED = {"efficiency.csv": {"efficiency_ratio": "points_to_resource_share_ratio"}}
 RAW_ONLY = {"constructor_season.csv": {"median_pit_gap_s", "pit_races", "service_pit_stops"}}

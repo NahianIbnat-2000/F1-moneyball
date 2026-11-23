@@ -7,7 +7,11 @@
 
 `check` runs in the tests. The two network commands run in the GitHub workflow "Source documents" and write
 data/metadata/source_documents_checked.csv as an artifact; they never delete or commit anything.
-A local copy is removed only after its official link is confirmed and the author has reviewed the result.
+
+verification_status:  verified              official file has the same SHA-256 as the copy used; no copy in the repository
+                      candidate_unverified  official link found but not yet compared by hash; copy kept in the
+                                            author's private archive, not in the public repository
+                      open_data_input       openly licensed file the pipeline reads; kept in the repository
 """
 from __future__ import annotations
 
@@ -53,10 +57,25 @@ def fetch(url: str) -> bytes:
         return r.read()
 
 
+STATUSES = {"verified", "candidate_unverified", "open_data_input"}
+
+
 def check() -> int:
     bad = 0
     for r in read():
         p = ROOT / r["path"]
+        problem = None
+        if r["verification_status"] not in STATUSES:
+            problem = f"unknown verification_status {r['verification_status']!r}"
+        elif len(r["sha256"]) != 64:
+            problem = "no SHA-256 hash"
+        elif r["verification_status"] in ("verified", "candidate_unverified") and not r["document_url"].startswith("https://"):
+            problem = "no official document link"
+        elif r["verification_status"] == "candidate_unverified" and not r["unconfirmed_reason"]:
+            problem = "unconfirmed without a recorded reason"
+        if problem:
+            print(f"INVALID  {r['path']}: {problem}")
+            bad += 1
         if r["local_copy"] == "kept":
             if not p.exists():
                 print(f"MISSING  {r['path']}")
@@ -65,7 +84,7 @@ def check() -> int:
                 print(f"CHANGED  {r['path']}")
                 bad += 1
         elif p.exists():
-            print(f"PRESENT  {r['path']} is marked removed but still exists")
+            print(f"PRESENT  {r['path']} is marked {r['local_copy']} but is still in the repository")
             bad += 1
     print("All local copies match the manifest." if not bad else f"{bad} problem(s).")
     return 1 if bad else 0
@@ -97,20 +116,22 @@ def _made_up_to(text: str) -> str | None:
     return f"{m.group(3)}-{MONTHS[m.group(2).lower()]:02d}-{int(m.group(1)):02d}"
 
 
-def accounts_links(company: str, max_pages: int = 15) -> dict[str, list[str]]:
-    """period end -> document links, read from the public filing-history pages (accounts category)."""
+def accounts_links(company: str, max_pages: int = 40) -> dict[str, list[str]]:
+    """period end -> document links, read from the public filing-history pages.
+
+    Reads every page until one has no rows: a page without accounts (for example insolvency filings of a dissolved
+    company) is not a reason to stop, which is how the first version of this reader missed Caterham's filings.
+    """
     out: dict[str, list[str]] = {}
     for page in range(1, max_pages + 1):
-        html = fetch(f"{CH}/company/{company}/filing-history?category=accounts&page={page}").decode("utf-8", "replace")
-        rows = html.split("<tr")[1:]
-        found = 0
+        html = fetch(f"{CH}/company/{company}/filing-history?page={page}").decode("utf-8", "replace")
+        rows = [r for r in html.split("<tr")[1:] if "filing-history/" in r]
         for row in rows:
             link = re.search(rf'href="(/company/{company}/filing-history/[A-Za-z0-9]+/document\?format=pdf[^"]*)"', row)
             end = _made_up_to(re.sub(r"<[^>]+>", " ", row))
             if link and end:
                 out.setdefault(end, []).append(CH + link.group(1).replace("&amp;", "&").replace("&download=0", ""))
-                found += 1
-        if not found:
+        if not rows:
             break
         time.sleep(1)
     return out
@@ -128,6 +149,8 @@ def resolve_ch() -> int:
             r["remote_check"] = f"filing history unreachable: {type(e).__name__}"
             continue
         cands = links.get(r["period_end"], [])
+        if r["document_url"] and r["document_url"] not in cands:
+            cands = [r["document_url"], *cands]          # a link already recorded is checked first
         if not cands:
             r["remote_check"] = "no accounts filing found for this period"
             continue

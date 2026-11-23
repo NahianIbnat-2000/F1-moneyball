@@ -199,6 +199,24 @@ draws = int(re.search(r"B_DRAWS = (\d+)", rsrc).group(1))
 mac("BootDraws", f"{draws:,}")
 mac("BootSeed", re.search(r"seed: int = (\d+)", rsrc).group(1))
 
+# Source documents (Appendix B): verification status from data/metadata/source_documents.csv
+docs = pd.read_csv(ROOT / "data" / "metadata" / "source_documents.csv", dtype=str).fillna("")
+ch = docs[docs.category == "companies_house"]
+mac("NDocCH", str(len(ch))); mac("NDocVerified", str(int((ch.verification_status == "verified").sum())))
+unv = ch[ch.verification_status != "verified"]
+excl = rob[rob.check_id.str.startswith("exclude_unverified_sources")]
+if len(unv) and len(excl):
+    ep, eq = (rk("exclude_unverified_sources_points_share", "staff_costs"), rk("exclude_unverified_sources_position", "staff_costs"))
+    mac("DocUnverified", f"For the other {len(unv)}, an official link has been found but not yet checked against the copy used; "
+        f"those copies are held in a private archive until it is. Leaving out the {int(unv.n_observations.astype(int).sum())} "
+        f"figures read from them ({int(ep.n_obs)} team-seasons and {int(ep.n_teams)} teams remain) gives a two-way staff-cost "
+        f"coefficient of {num(ep.coef)} for points share (bootstrap $p = {pval(ep.p_wild)}$) and {num(eq.coef, 2)} places for "
+        f"position (bootstrap $p = {pval(eq.p_wild)}$), close to the main estimates.")
+    CLAIMS_EXTRA["unverified-source exclusion stays close to the main staff estimates (Appendix B)"] = (
+        abs(ep.coef - rk("baseline", "staff_costs").coef) < 0.05 and abs(eq.coef - rk("position_outcome", "staff_costs").coef) < 0.5)
+else:
+    mac("DocUnverified", "")
+
 # ---------------------------------------------------------------------------- claim checks
 # main.tex makes a few statements in words that depend on the numbers. If new data make one of them
 # false, stop here so the text is revised instead of silently going out of date.

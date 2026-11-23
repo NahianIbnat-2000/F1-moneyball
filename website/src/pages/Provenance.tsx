@@ -6,7 +6,7 @@ import { datasetUrl, useDataset, type Row } from "../lib/data";
 // Data Provenance Explorer. Every cell is one team-season of the published financial_observation dataset.
 // Nothing here is typed by hand except the lineage labels and the order of the rows.
 
-const REPO = "https://github.com/NahianIbnat-2000/F1-moneyball/blob/main/";
+const MANIFEST = "https://github.com/NahianIbnat-2000/F1-moneyball/blob/main/data/metadata/source_documents.csv";
 const LINEAGES: [string, string][] = [
   ["red_bull", "Red Bull"], ["mercedes", "Mercedes"], ["mclaren", "McLaren"], ["williams", "Williams"],
   ["enstone", "Enstone (Renault, Lotus, Alpine)"], ["silverstone", "Silverstone (Force India, Racing Point, Aston Martin)"],
@@ -27,7 +27,11 @@ function fmtValue(r: Row) {
   if (r.metric === "headcount") return `${v.toLocaleString("en-GB")} people`;
   return `£${(v / 1e6).toLocaleString("en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 })}m`;
 }
-const localCopy = (notes: string) => notes.match(/Local copy: (\S+?\.pdf)/)?.[1];
+const DOC_STATUS: Record<string, string> = {
+  verified: "Verified: the official file has the same SHA-256 fingerprint as the copy the figure was read from.",
+  candidate_unverified: "Not yet verified: an official link was found, but it has not yet been checked against the copy used. That copy is held privately until it is.",
+  not_recorded: "No filing is recorded for this figure.",
+};
 const cleanNotes = (notes: string) => notes.replace(/Local copy: \S+\.pdf\.?/, "").trim();
 
 type Cell = { team: string; season: number; rows: Row[] };
@@ -178,8 +182,8 @@ export default function Provenance() {
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl">
           <Callout title="Where the numbers come from">
             <p className="text-sm text-fg">Audited annual accounts filed at UK Companies House. Each figure was read from the filing, checked by hand, and
-              recorded with the company number, the page of the PDF and any change made to it (for example £000 to £). A copy of every filing is kept in the
-              repository, so a figure can be checked even if the online register changes.</p>
+              recorded with the company number, the page of the PDF and any change made to it (for example £000 to £). Each filing is linked at Companies
+              House together with its SHA-256 fingerprint, so anyone can download it and confirm it is the exact file the figure was read from.</p>
           </Callout>
           <Callout title="What this page does not show" tone="caution">
             <p className="text-sm text-fg">Accounts belong to legal companies, not to teams. Some include other business, and some leave out costs held
@@ -205,7 +209,8 @@ function Detail({ rows, metricLabel }: { rows: Row[]; metricLabel: Record<string
   const start = str(r0.financial_year_start), end = str(r0.financial_year_end);
   const none = rows.every((r) => r.value === null || r.value === undefined);
   const n = start && end ? days(start, end) : null;
-  const local = localCopy(str(r0.notes));
+  const docUrl = str(r0.source_document_url);
+  const docStatus = str(r0.source_document_status);
   const warnings = [...new Set(rows.map((r) => str(r.comparability_warning)).filter(Boolean))];
   const facts: [string, React.ReactNode][] = [
     ["Company", <>{str(r0.entity_name)} <span className="text-muted">(no. {String(r0.entity_registration).padStart(8, "0")})</span></>],
@@ -214,8 +219,9 @@ function Detail({ rows, metricLabel }: { rows: Row[]; metricLabel: Record<string
     ["Document", <>{str(r0.document_title) || "n/a"}{str(r0.document_page) && <span className="text-muted"> · {str(r0.document_page)}</span>}</>],
     ["Links", <span className="flex flex-wrap gap-x-4">
       {str(r0.source_url) && <a className="underline decoration-accent" href={str(r0.source_url)} target="_blank" rel="noreferrer">Companies House filing history ↗</a>}
-      {local && <a className="underline decoration-accent" href={REPO + local} target="_blank" rel="noreferrer">Saved copy of the filing (PDF) ↗</a>}
+      {docUrl && <a className="underline decoration-accent" href={docUrl} target="_blank" rel="noreferrer">The filing (PDF) at Companies House ↗</a>}
     </span>],
+    ["Source check", docStatus ? <>{DOC_STATUS[docStatus] ?? docStatus}{" "}<a className="underline decoration-accent" href={MANIFEST} target="_blank" rel="noreferrer">Fingerprints of all documents</a></> : "n/a"],
     ["Entered by", str(r0.entered_by) || "n/a"],
   ];
   return (

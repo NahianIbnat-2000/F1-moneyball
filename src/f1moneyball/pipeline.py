@@ -35,6 +35,7 @@ from f1moneyball.ingestion import jolpica
 from f1moneyball.ingestion.snapshot import constructor_season_from_snapshot
 from f1moneyball.publishing.changelog import build_changelog
 from f1moneyball.publishing.publish import publish_dataset, write_manifest
+from f1moneyball.publishing.sources import with_source_status
 from f1moneyball.publishing.status import build_status
 from f1moneyball.publishing.status import registry as load_registry
 from f1moneyball.standardization.teams import add_team_id
@@ -190,7 +191,7 @@ def _load_processed() -> dict[str, pd.DataFrame]:
         if p.exists():
             out[name] = pd.read_parquet(p)
     out["regulation_event"] = pd.read_csv(config.MANUAL_DIR / "regulation_events.csv")
-    out["financial_observation"] = pd.read_csv(config.MANUAL_DIR / "financial_observations.csv")
+    out["financial_observation"] = with_source_status(pd.read_csv(config.MANUAL_DIR / "financial_observations.csv"))
     out["gp_tourism_monthly"], out["gp_race_events"] = load_gp()
     return out
 

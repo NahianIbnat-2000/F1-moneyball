@@ -13,7 +13,7 @@ table is the `rights` block of each source in `config/sources.yaml`; the Data Ex
 | Singapore Tourism Board via data.gov.sg | `data/source_documents/singapore_stb` (2 files) | Singapore Open Data Licence v1.0: notice "Contains information from {dataset} accessed on {date}", no suggestion of official status or endorsement ([licence](https://data.gov.sg/open-data-licence)) | Openly licensed (attribution) |
 | ONS (CPI, D7BT) | `data/source_documents/ons` (1 file) | Most ONS content is Crown copyright published under the Open Government Licence ([ONS terms](https://www.ons.gov.uk/help/terms-conditions)); OGL v3.0 requires attribution | Openly licensed (attribution) |
 | FIA regulations | none since version 3.1 (9 PDFs listed with links and hashes) | Copyright vests exclusively in the FIA; use subject to prior written consent; extracts may be quoted with the source; downloads and reproduction for personal non-commercial use only ([FIA website terms](https://www.fia.com/sites/default/files/basicpage/file/Terms%20and%20Conditions%20FIA%20Website.pdf), clauses 2.4 and 2.9) | **Restricted**: linked, not hosted |
-| Companies House filings | `data/source_documents/<team>` (105 PDFs, about 128 MB with the above) | Register made available under section 47 of the Copyright, Designs and Patents Act 1988; copyright in filed documents belongs to the filing company; Companies House does not license them under the OGL and imposes no rules on use of register information ([gov.uk](https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright)) | **Rights unclear** for republishing whole filings; extracted figures (facts) with citations are not affected |
+| Companies House filings | none since version 3.1 (105 PDFs listed with links and hashes) | Register made available under section 47 of the Copyright, Designs and Patents Act 1988; copyright in filed documents belongs to the filing company; Companies House does not license them under the OGL and imposes no rules on use of register information ([gov.uk](https://www.gov.uk/government/publications/companies-house-accreditation-to-information-fair-traders-scheme/public-task-copyright-and-crown-copyright)) | **Rights unclear** for republishing whole filings; extracted figures (facts) with citations are not affected |
 
 ## 2. What this means for the project
 
@@ -46,3 +46,34 @@ table is the `rights` block of each source in `config/sources.yaml`; the Data Ex
 Effect on reproducibility: no model reads the PDFs. `scripts/verify_large_changes.py` and the provenance explorer use
 the Companies House copies, which are still present. The FIA documents were used only to verify the regulation events,
 which cite document, issue and article; they can be downloaded from the links in the manifest and checked by hash.
+
+## 4. Companies House filings: links instead of copies (approved by Nahian Ibnat, 23 November 2026)
+
+The **Source documents** workflow downloaded each filing from Companies House and compared SHA-256 hashes.
+
+| Result | Filings | What was done |
+|---|---|---|
+| Official file identical to the copy used | 91 | Copy removed; manifest records the official link, hash and `verified` |
+| No link found by the automated reader | 14 | Candidate links then found by reading the public filing history by hand; not yet compared by hash. Copies moved to the author's private archive and removed from the repository; manifest records `candidate_unverified`, the link and the reason |
+
+The 14: Williams 2010 to 2019 (the reader returned no link; cause not established), Force India 2012 (same), and
+Caterham 2010 to 2012 (the company was dissolved after liquidation in 2020; the first page of its filing history holds
+only insolvency filings and the reader stopped there; fixed in `scripts/source_documents.py`). Their 70 financial
+figures (14 filings × 5 measures) are kept and flagged (`source_document_status` in `financial_observation`).
+
+Sensitivity: the robustness rows `exclude_unverified_sources_*` re-estimate the two-way models without those figures
+(81 of 95 team-seasons, 7 of 8 teams). Staff costs: 0.202 for points share (bootstrap p = 0.084; main estimate 0.186,
+p = 0.042) and −4.50 places for position (bootstrap p = 0.047; main −4.47, p = 0.013). The estimates barely move; the
+uncertainty grows, as in the other restricted samples. No conclusion changes.
+
+Not done: no git history was rewritten and no original file was deleted permanently. The copies remain in earlier
+commits and in the private archive. Next step: run the **Source documents** workflow again; where a candidate link's
+hash matches, its status becomes `verified` and the sensitivity rows for it disappear automatically.
+
+### Update, same day: all 14 confirmed
+
+A second run of the **Source documents** workflow compared the 14 hand-found links: all 14 official files are
+byte-for-byte identical to the copies used. All 105 filings are now `verified`. The sensitivity rows above were computed
+while they were unconfirmed and are kept here as a record; the pipeline no longer produces them because no figure comes
+from an unverified filing. The private archive copies are no longer needed for verification and are kept at the
+author's discretion.

@@ -302,6 +302,47 @@ def comparability_sample_checks(eff: pd.DataFrame, cs: pd.DataFrame, fin: pd.Dat
     return rows
 
 
+def unverified_source_checks(eff: pd.DataFrame, cs: pd.DataFrame, fin: pd.DataFrame, wild: bool = True) -> list[dict]:
+    """Two-way models without figures read from filings whose official copy is not yet confirmed by hash.
+
+    A team-season is left out when either its own or its previous season's figure comes from such a filing (the
+    lagged panel needs both). Driven by data/metadata/source_documents.csv, so the check disappears once every
+    filing is verified.
+    """
+    from f1moneyball.publishing.sources import unverified_figures
+    bad = unverified_figures(fin)
+    if not bad:
+        return []
+    pos = cs[["team_id", "season", "position"]]
+    x, rows = "log_resource_lag", []
+    for metric in METRICS:
+        g = eff[(eff["metric"] == metric) & (eff["value"] > 0)]
+        if g.empty:
+            continue
+        panel = lagged_panel(eff, metric, g["currency"].mode().iat[0]).merge(pos, on=["team_id", "season"], how="left")
+        drop = [(t, s, metric) in bad or (t, s - 1, metric) in bad for t, s in zip(panel["team_id"], panel["season"], strict=True)]
+        sub = panel[~np.array(drop, dtype=bool)]
+        for outcome in ("points_share", "position"):
+            d = sub.dropna(subset=[outcome])
+            full = panel.dropna(subset=[outcome])
+            base = _fit(f"{outcome} ~ {x} + C(team_id) + C(season)", full, x)["coef"]
+            row = {"study": "does-money-buy-speed", "metric": metric, "check_id": f"exclude_unverified_sources_{outcome}",
+                   "check": f"Without figures from filings not yet verified by hash; outcome: {outcome.replace('_', ' ')}",
+                   "model": "twfe", "baseline_coef": base}
+            G = d["team_id"].nunique()
+            if G < 4 or len(d) < 20:
+                rows.append({**row, "n_obs": len(d), "n_teams": G, "note": "Not estimated: too few team-seasons."})
+                continue
+            f = f"{outcome} ~ {x} + C(team_id) + C(season)"
+            r = _fit(f, d, x)
+            if wild:
+                r.update(_boot(f, d, x))
+            r["note"] = (f"{len(d)} of {len(full)} team-seasons, {G} of {full['team_id'].nunique()} teams; "
+                         f"{len(bad)} figures from unverified filings left out.")
+            rows.append({**row, **r})
+    return rows
+
+
 def alternative_outcome_checks(eff: pd.DataFrame, cs: pd.DataFrame, wild: bool = True) -> list[dict]:
     """Two-way models with other outcomes, the reverse direction and a two-season lag.
 
@@ -535,6 +576,8 @@ def run_robustness(eff: pd.DataFrame | None, cs: pd.DataFrame, balance: pd.DataF
             mb += comparability_checks(eff, cs, fin, wild)
             mb += comparability_sample_checks(eff, cs, fin, wild)
         mb += alternative_outcome_checks(eff, cs, wild)
+        if fin is not None:
+            mb += unverified_source_checks(eff, cs, fin, wild)
         mb += real_terms_checks(eff, cpi, wild)
         mb += multiple_testing_rows(mb)
         rows = mb + rows
