@@ -82,3 +82,8 @@
   title: Source licences recorded; FIA documents linked instead of copied (version 3.1)
   detail: Approved by Nahian Ibnat. Every dataset now shows its sources' licence, attribution and restrictions in the Data Explorer. The grouped source "national statistics" was split into Statistik Austria, the Singapore Tourism Board and ONS, and OpenF1 was removed from the pit-stop dataset because no code uses it. The nine FIA regulation PDFs were removed from the repository and listed with official links and SHA-256 hashes in data/metadata/source_documents.csv; the Companies House filings stay until a document-level link for each is confirmed by hash.
   datasets: [regulation_event, pit_stop, gp_tourism_monthly]
+- date: 2026-11-23
+  category: methodology
+  title: Bootstrap ties counted the same way on every computer (version 3.1)
+  detail: Found by the new Replication workflow. In the wild cluster bootstrap, a draw that gives every team the same weight reproduces the observed t statistic exactly; this happens about once in 9,999 draws when there are six or seven teams. Whether that draw counted as "at least as extreme" depended on the last bit of floating-point rounding, so different computers gave p-values that differed by 1/9,999. Ties are now always counted, as the definition of the p-value requires. Effect on published numbers, in the 7-team restricted samples and the 6-team cost-cap dose-response models only - 10 bootstrap p-values rise by 0.0001 and 6 bootstrap interval ends move slightly (largest - headcount, high or moderate comparability, position - lower end from -13.04 to -13.09). No coefficient, no 8-team main result, no Holm-adjusted p-value and no conclusion changes.
+  datasets: [robustness_checks]

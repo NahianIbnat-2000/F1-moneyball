@@ -72,3 +72,21 @@ def test_test_inversion_matches_bootstrap_p_and_brackets_estimate():
     lo, hi = w.ci()
     assert lo < w.beta < hi
     assert w.p_value(lo - 0.05) < 0.05 and w.p_value(hi + 0.05) < 0.05
+
+
+def test_constant_weight_draw_counts_as_tie():
+    """A draw with the same weight for every cluster reproduces |t| exactly and must count as at least as extreme."""
+    import numpy as np
+    import pandas as pd
+
+    from f1moneyball.econometrics.inference import WEBB, WildCluster, at_least_as_extreme
+    rng = np.random.default_rng(1)
+    d = pd.DataFrame({"team_id": np.repeat(list("abcdef"), 8), "x": rng.normal(size=48)})
+    d["y"] = 0.3 * d.x + rng.normal(size=48)
+    w = WildCluster("y ~ x + C(team_id)", d, "x", "team_id", draws=50, seed=3)
+    for c in WEBB:                      # every constant weight vector
+        w.W = np.full((1, len(w.G)), c)
+        y0 = w.y
+        fit = w.Pr @ y0
+        _, ts = w._t((fit[:, None] + (y0 - fit)[:, None] * w.W[:, w.idx].T), 0.0)
+        assert at_least_as_extreme(ts, w.beta / w.se).all()

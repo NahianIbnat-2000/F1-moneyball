@@ -22,7 +22,7 @@ from scipy import stats
 from f1moneyball.econometrics import comparability as comp
 from f1moneyball.econometrics import cost_cap as cc
 from f1moneyball.econometrics import gp_economy as gp
-from f1moneyball.econometrics.inference import WildCluster
+from f1moneyball.econometrics.inference import WildCluster, at_least_as_extreme
 from f1moneyball.econometrics.models import lagged_panel
 
 RESET_SEASONS = (2014, 2017, 2022)  # big technical rule changes
@@ -68,7 +68,7 @@ def wild_cluster_p(formula: str, data: pd.DataFrame, var: str, cluster: str, dra
     for d in range(draws):
         w = rng.choice(WEBB, size=len(G))[idx]
         t_star[d] = _cluster_t(Xv, fitted + resid * w, groups, j)[1]
-    return float((np.abs(t_star) >= abs(t_obs)).mean())
+    return float(at_least_as_extreme(t_star, t_obs).mean())
 
 
 def _fit(formula: str, data: pd.DataFrame, var: str) -> dict:

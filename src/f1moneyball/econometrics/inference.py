@@ -15,6 +15,17 @@ import patsy
 WEBB = np.array([-np.sqrt(1.5), -1.0, -np.sqrt(0.5), np.sqrt(0.5), 1.0, np.sqrt(1.5)])
 
 
+# A draw in which every cluster gets the same weight gives |t*| = |t| exactly, because the t statistic does not
+# change when the residuals are rescaled. Such exact ties occur in about 6 / 6^G of draws (G = clusters: once in
+# 9,999 draws with six or seven teams). The p-value counts them as "at least as extreme"; comparing with a tiny
+# relative tolerance makes that hold on every computer, instead of letting the last bit of rounding decide.
+TIE_RTOL = 1e-9
+
+
+def at_least_as_extreme(tstar: np.ndarray, t_obs: float) -> np.ndarray:
+    return np.abs(tstar) >= abs(t_obs) * (1 - TIE_RTOL)
+
+
 class WildCluster:
     """Restricted wild cluster bootstrap for one coefficient, vectorised over draws."""
 
@@ -55,7 +66,7 @@ class WildCluster:
         Ystar = (fit[:, None] + resid[:, None] * self.W[:, self.idx].T) + beta0 * self.X[:, self.j][:, None]
         _, tstar = self._t(Ystar, beta0)
         t_obs = (self.beta - beta0) / self.se
-        return float((np.abs(tstar) >= abs(t_obs)).mean())
+        return float(at_least_as_extreme(tstar, t_obs).mean())
 
     def ci(self, level: float = 0.95, tol: float = 1e-4) -> tuple[float, float]:
         """Confidence interval by inverting the bootstrap test; nan where the interval is unbounded."""

@@ -107,3 +107,13 @@ residuals would carry wide uncertainty and could be misread as managerial qualit
 1. Report bootstrap intervals with bootstrap p-values; label clustered inference as t(G−1).
 2. Relabel the efficiency ratio.
 3. Add the reverse-direction and covered-share results to the paper's robustness section.
+
+## Addendum (23 November 2026): exact ties across computers
+
+The Replication workflow found 9 bootstrap p-values that differed by 1/9,999 between GitHub's machine and the build
+environment. Cause: with Webb weights, a draw that gives every cluster the same weight leaves |t*| = |t| exactly (the t
+statistic is unchanged when residuals are rescaled); with 6 or 7 clusters this happens about once per 9,999 draws, and
+floating-point rounding decided whether it was counted. Diagnosed by counting near-ties in every bootstrap call: 16 of
+66 calls had exactly one (the 7-team restricted samples and the 6-team cost-cap models); none of the 8-team models did.
+Fix: `at_least_as_extreme()` in `inference.py` compares with a relative tolerance of 1e-9, so ties always count, as the
+p-value definition requires. Test: `test_constant_weight_draw_counts_as_tie`.
