@@ -55,6 +55,16 @@
     },
     {
       "date": "2026-11-23",
+      "category": "methodology",
+      "title": "Bootstrap ties counted the same way on every computer (version 3.1)",
+      "detail": "Found by the new Replication workflow. In the wild cluster bootstrap, a draw that gives every team the same weight reproduces the observed t statistic exactly; this happens about once in 9,999 draws when there are six or seven teams. Whether that draw counted as \"at least as extreme\" depended on the last bit of floating-point rounding, so different computers gave p-values that differed by 1/9,999. Ties are now always counted, as the definition of the p-value requires. Effect on published numbers, in the 7-team restricted samples and the 6-team cost-cap dose-response models only - 10 bootstrap p-values rise by 0.0001 and 6 bootstrap interval ends move slightly (largest - headcount, high or moderate comparability, position - lower end from -13.04 to -13.09). No coefficient, no 8-team main result, no Holm-adjusted p-value and no conclusion changes.",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-23",
       "category": "updated_data",
       "title": "Points relative to resources updated",
       "detail": "312 rows, version 5501643018dd (previously f490c85abf3f, 312 rows)",
@@ -98,6 +108,16 @@
       "category": "updated_data",
       "title": "Robustness checks updated",
       "detail": "138 rows, version 49fe8dd3ea1c (previously c2aad1de0bb0, 108 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "138 rows, version 7f329fe905fc (previously 49fe8dd3ea1c, 138 rows)",
       "datasets": [
         "robustness_checks"
       ],

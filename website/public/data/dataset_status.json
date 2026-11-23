@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-23T12:29:51+00:00",
+  "generated_at_utc": "2026-11-23T13:56:37+00:00",
   "statuses": [
     "published",
     "not_yet_collected",
@@ -1536,8 +1536,8 @@
           "share": 0.6159
         }
       },
-      "version": "49fe8dd3ea1c",
-      "last_updated": "2026-11-23T12:29:51+00:00",
+      "version": "7f329fe905fc",
+      "last_updated": "2026-11-23T13:56:37+00:00",
       "validation_status": "passed",
       "validation_warnings": [],
       "status_note": null,

@@ -1,7 +1,7 @@
 {
   "project": "F1 Moneyball",
-  "generated_at_utc": "2026-11-23T12:29:51+00:00",
-  "pipeline_commit": "005f730",
+  "generated_at_utc": "2026-11-23T13:56:37+00:00",
+  "pipeline_commit": "9569997",
   "is_synthetic_demo": false,
   "datasets": {
     "constructor_season": {
@@ -2674,7 +2674,7 @@
         "Associations and descriptive comparisons, not causal effects.",
         "Models with six to eight teams stay imprecise even with bootstrap p-values and intervals."
       ],
-      "version": "105c278cf7a3",
+      "version": "6000960e967c",
       "sources": [
         {
           "id": "jolpica",
