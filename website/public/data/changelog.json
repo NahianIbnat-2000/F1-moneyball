@@ -10,6 +10,100 @@
   },
   "entries": [
     {
+      "date": "2026-11-23",
+      "category": "methodology",
+      "title": "Small-sample inference reported for every model (version 3.1)",
+      "detail": "Approved by Nahian Ibnat. Clustered p-values and 95% intervals now use the t distribution with G - 1 degrees of freedom (G = 8 teams) instead of the normal distribution, and the fixed-effects models report a wild cluster bootstrap 95% interval obtained by inverting the bootstrap test, next to the bootstrap p-value. No coefficient and no bootstrap p-value changed. Clustered p-values rise (staff costs and points share, two-way model 0.11 to 0.16). The staff-cost bootstrap interval for points share (0.002 to 0.493) just excludes zero, matching its bootstrap p-value of 0.042; the earlier statement that every within-team interval includes zero referred to normal-based intervals and was revised. Normal-based columns are kept for comparison.",
+      "datasets": [
+        "model_results",
+        "robustness_checks"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-23",
+      "category": "revised_analysis",
+      "title": "Comparable-account samples, other outcomes and timing added to the paper (version 3.1)",
+      "detail": "Approved by Nahian Ibnat. Table 4 of the paper reports two-way models on samples restricted by financial comparability, with team-by-accounting-basis effects, with two other outcomes, with a two-season lag and in the reverse direction, each with bootstrap intervals. The staff-cost position result keeps its size and significance in the restricted samples; the points-share result keeps its size but not its significance. Turnover follows last season's points at least as closely as the reverse (clustered p = 0.01, bootstrap p = 0.07). Conclusions unchanged; the reverse-direction result is added to the limitations.",
+      "datasets": [
+        "robustness_checks",
+        "financial_comparability"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-23",
+      "category": "methodology",
+      "title": "Efficiency ratio renamed (version 3.1)",
+      "detail": "Approved by Nahian Ibnat. The ratio of points share to resource share is now called the points-to-resource-share ratio (points-to-turnover-share ratio for turnover), because it does not measure efficiency in the economic sense. Column efficiency_ratio renamed points_to_resource_share_ratio; values unchanged. The dataset file name (efficiency) is kept so links still work. The Lab's team comparison now takes the median over turnover only; it previously mixed turnover, staff costs and headcount.",
+      "datasets": [
+        "efficiency"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-23",
+      "category": "corrected_data",
+      "title": "Source licences recorded; FIA documents linked instead of copied (version 3.1)",
+      "detail": "Approved by Nahian Ibnat. Every dataset now shows its sources' licence, attribution and restrictions in the Data Explorer. The grouped source \"national statistics\" was split into Statistik Austria, the Singapore Tourism Board and ONS, and OpenF1 was removed from the pit-stop dataset because no code uses it. The nine FIA regulation PDFs were removed from the repository and listed with official links and SHA-256 hashes in data/metadata/source_documents.csv; the Companies House filings stay until a document-level link for each is confirmed by hash.",
+      "datasets": [
+        "regulation_event",
+        "pit_stop",
+        "gp_tourism_monthly"
+      ],
+      "automatic": false
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Points relative to resources updated",
+      "detail": "312 rows, version 5501643018dd (previously f490c85abf3f, 312 rows)",
+      "datasets": [
+        "efficiency"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Resources and performance models updated",
+      "detail": "9 rows, version d1c1302ecd3a (previously fb95fa8081ba, 9 rows)",
+      "datasets": [
+        "model_results"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Cost cap models updated",
+      "detail": "40 rows, version 0f7fdc4beec0 (previously 1038e9bafc8e, 40 rows)",
+      "datasets": [
+        "cost_cap_models"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "new_data",
+      "title": "Financial comparability published",
+      "detail": "314 rows, version ac602dae9b04",
+      "datasets": [
+        "financial_comparability"
+      ],
+      "automatic": true
+    },
+    {
+      "date": "2026-11-23",
+      "category": "updated_data",
+      "title": "Robustness checks updated",
+      "detail": "138 rows, version 49fe8dd3ea1c (previously c2aad1de0bb0, 108 rows)",
+      "datasets": [
+        "robustness_checks"
+      ],
+      "automatic": true
+    },
+    {
       "date": "2026-11-20",
       "category": "revised_analysis",
       "title": "Accounting comparability checks and multiple-testing correction",
