@@ -17,28 +17,26 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Work+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
 <style>
-  /* One-page summary: a light "research brief" look, deliberately different from the dark website.
-     The red-and-white kerb stripe is the only shared element. */
+  /* One-page summary: a light "research brief" look, deliberately different from the website.
+     Styled as a printed research brief so it is not mistaken for the website. */
   :root {
-    /* Race programme livery, matching the main site: powder blue, livery orange, navy ink. */
-    --bg: #F3F7FA; --paper: #FFFFFF; --tint: #E9F3F9; --line: #C4D9E6;
-    --fg: #13294B; --muted: #40536D;
-    --accent: #1D4E89;   /* navy blue: links, labels, emphasis (7.9:1 on white) */
-    --red: #B3470F;      /* burnt orange: small labels and marks (5.5:1 on white) */
-    --orange: #F26B21;   /* livery orange: stripes only */
-    --powder: #A9D4E9;   /* livery powder blue */
-    --serif: "Work Sans", system-ui, sans-serif;
-    --display: "Anton", "Arial Narrow", Impact, sans-serif;
-    --sans: "Work Sans", system-ui, sans-serif;
-    --mono: "DM Mono", ui-monospace, monospace;
+    /* Printed research brief: deliberately unlike the main site (no livery colours, no display font). */
+    --bg: #E7E3DA; --paper: #FFFEFB; --tint: #F4F1EA; --line: #D9D3C7;
+    --fg: #1C1B19; --muted: #5B5750;
+    --accent: #1F5C46;   /* bottle green: links and emphasis (7.4:1 on white) */
+    --red: #8A2B2B;      /* oxblood: small labels and marks (8.3:1 on white) */
+    --serif: "Newsreader", Georgia, serif;
+    --display: "Newsreader", Georgia, serif;
+    --sans: "IBM Plex Sans", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 1.06rem; line-height: 1.65; }
   a { color: var(--accent); }
-  .kerb { margin: 0 -44px; height: 9px; background: linear-gradient(var(--orange) 0 6px, var(--paper) 6px 7px, var(--fg) 7px 9px); }
+  .kerb { margin: 34px 0 0; height: 6px; border-top: 3px solid var(--fg); border-bottom: 1px solid var(--fg); }
   .wrap { max-width: 900px; margin: 28px auto 40px; padding: 0 44px; background: var(--paper);
           border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.05); }
 
@@ -48,7 +46,7 @@
 
   header { padding: 52px 0 36px; }
   .eyebrow { font-family: var(--sans); font-size: .76rem; font-weight: 600; color: var(--red); letter-spacing: .14em; text-transform: uppercase; }
-  h1 { font-family: var(--display); font-weight: 400; font-style: italic; text-transform: uppercase; font-size: clamp(2.8rem, 8vw, 4.8rem); line-height: 0.98; margin: 12px 0 6px; letter-spacing: .01em; }
+  h1 { font-family: var(--display); font-weight: 600; font-size: clamp(2.6rem, 7vw, 4rem); line-height: 1.04; margin: 12px 0 6px; letter-spacing: -.015em; }
   .tagline { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(1.2rem, 3vw, 1.55rem); color: var(--muted); margin: 0 0 26px; }
   .lede { max-width: 700px; font-size: 1.12rem; margin: 0; }
   ol.questions { max-width: 700px; margin: 16px 0 0; padding-left: 1.5em; font-size: 1.06rem; }
@@ -93,7 +91,7 @@
   .studies { display: grid; gap: 0; margin-top: 18px; }
   .study { display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
   .study:first-child { border-top: none; }
-  .study .num { font-family: var(--display); font-weight: 400; font-style: italic; font-size: 2.4rem; line-height: 1; color: var(--red); }
+  .study .num { font-family: var(--display); font-weight: 600; font-size: 2.2rem; line-height: 1; color: var(--red); }
   .study h3 { font-family: var(--serif); font-weight: 700; font-size: 1.35rem; margin: 0 0 2px; }
   .study .q { font-style: italic; color: var(--accent); margin: 0 0 8px; }
   .study p { margin: 0 0 8px; }
@@ -125,7 +123,7 @@
 
   @media (max-width: 760px) {
     .wrap { margin: 0; padding: 0 20px; border: none; box-shadow: none; }
-    .kerb { margin: 0 -20px; }
+    .kerb { margin: 20px 0 0; }
     .linkbar a { min-width: 0; width: 100%; }
     .cards { grid-template-columns: 1fr; }
     .facts { grid-template-columns: repeat(2, 1fr); }
@@ -140,7 +138,7 @@
 <body>
 <div class="wrap">
   <div class="kerb" aria-hidden="true"></div>
-  <div class="status"><span><b>●</b> F1 Moneyball / one-page summary</span><span>Personal research project · Nahian Ibnat · 2026</span></div>
+  <div class="status"><span><b>●</b> Research brief · F1 Moneyball</span><span>Personal research project · Nahian Ibnat · 2026</span></div>
 
   <header>
     <div class="eyebrow">An Independent Formula 1 Economics &amp; Finance Research Platform</div>
