@@ -73,21 +73,21 @@ export default function Home() {
   return (
     <>
       <section className="relative overflow-hidden">
-      {/* A racing line through a chicane: decorative, drawn in race red. */}
-      <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.06] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
-        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#E5372A" strokeWidth="46" strokeLinecap="round" />
-        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#0A0D10" strokeWidth="2" strokeDasharray="18 22" />
+      {/* A racing line through a chicane: decorative, drawn in livery orange. */}
+      <svg aria-hidden className="absolute inset-0 w-full h-full opacity-[0.10] pointer-events-none" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#F26B21" strokeWidth="46" strokeLinecap="round" />
+        <path d="M-50 520 C 250 520, 330 380, 520 380 S 760 520, 900 420 S 1080 140, 1260 120" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="18 22" />
       </svg>
       <div className="relative mx-auto max-w-6xl px-5 pt-12 pb-10 grid lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-10">
         <div>
           <div className="eyebrow">Formula 1 · Economics · Finance</div>
-          <h1 className="font-serif text-[3.4rem] md:text-[5.4rem] leading-[0.98] font-semibold tracking-tight text-head mt-5">{BRAND.headline}</h1>
+          <h1 className="font-display uppercase italic text-[3.6rem] md:text-[6rem] leading-[0.95] text-head mt-5">{BRAND.headline}</h1>
           <p className="mt-5 flex items-center gap-3 font-display uppercase tracking-[0.06em] text-lg md:text-xl font-semibold text-head"><span aria-hidden className="speedlines"><i /><i /><i /></span>{BRAND.positioning}</p>
           <p className="dropcap mt-5 font-serif text-xl leading-relaxed text-fg max-w-2xl">
             Formula 1 is a competition for milliseconds, but behind every performance is an economic decision. F1 Moneyball investigates how financial resources, regulatory constraints, technological investment, and organizational efficiency shape competitive advantage.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-6">
-            <Link to="/research" className="bg-accent text-bg font-mono text-sm uppercase tracking-wider font-semibold px-5 py-3 hover:bg-accent-fg inline-flex items-center gap-3">Explore the Research <span aria-hidden>→</span></Link>
+            <Link to="/research" className="bg-accent text-head font-mono text-sm uppercase tracking-wider font-semibold px-5 py-3 hover:bg-panel inline-flex items-center gap-3">Explore the Research <span aria-hidden>→</span></Link>
             <Link to="/data" className="font-mono text-sm uppercase tracking-wider text-head border border-line px-5 py-3 hover:border-accent hover:text-accent-fg">Explore the Data</Link>
           </div>
         </div>

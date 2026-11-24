@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-/** Page masthead in journal style: terminal kicker, serif title, serif standfirst. */
+/** Page masthead: kicker, title, standfirst. */
 export function PageHeader({ eyebrow, title, lede, children }: { eyebrow: string; title: string; lede?: string; children?: ReactNode }) {
   return (
     <section className="mx-auto max-w-6xl px-5 pt-12 pb-8">

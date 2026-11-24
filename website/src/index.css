@@ -1,59 +1,62 @@
 @import "tailwindcss";
 
-/* F1 Moneyball: "paddock terminal" theme.
-   Three registers, each with its own job:
-     motorsport (paddock)  - race red, kerb stripes, condensed race-number type
-     finance (terminal)    - amber data labels, monospace figures, gain/loss colours, panel headers
-     research (journal)    - serif headings and reading text, numbered figures, ruled notes
+/* F1 Moneyball: "race programme livery" theme.
+   A 1970s-80s race-programme look: powder-blue and orange livery bands, navy ink, heavy condensed race-number type.
+     livery (motorsport)  - powder-blue masthead and panel bars, orange stripes, Anton display type
+     programme (reading)  - light page, navy text, Work Sans for headings and reading text
+     results (figures)    - DM Mono figures, gain/loss colours, numbered figures
+   The bright livery orange is decoration only (2.8:1 on the page); text and focus use the darker burnt orange.
    Tokens are named by role, so components never hardcode a colour. */
 @theme {
-  --color-bg: #0A0D10;        /* terminal black: page surface */
-  --color-raise: #12171C;     /* raised panels, table stripes */
-  --color-panel: #171E24;     /* panel header bars */
-  --color-line: #252E36;      /* hairlines */
-  --color-fg: #E4E1D8;        /* paper ivory: body text (15:1) */
-  --color-head: #F6F4EE;      /* headings (17:1) */
-  --color-muted: #98A2A8;     /* secondary text (7.4:1) */
-  --color-accent: #F5A524;    /* terminal amber: data labels, active states (9.9:1) */
-  --color-accent-fg: #F7B54A; /* amber for text (10.9:1) */
-  --color-race: #E5372A;      /* race red: speed accents, kerbs. Never used for data. */
-  --color-navy: #0E1317;      /* masthead and footer panel */
-  --color-gain: #3FB950;      /* finance: increase */
-  --color-loss: #F26B5B;      /* finance: decrease (6.3:1) */
-  --color-timing-green: #3FB950;
-  --color-timing-purple: #A371F7;
+  --color-bg: #F3F7FA;        /* programme paper: page surface */
+  --color-raise: #FFFFFF;     /* raised panels, chart surfaces */
+  --color-panel: #A9D4E9;     /* livery powder blue: masthead, footer, panel header bars */
+  --color-line: #C4D9E6;      /* hairlines */
+  --color-fg: #13294B;        /* livery navy: body text (13.5:1) */
+  --color-head: #0A1A33;      /* headings (16:1) */
+  --color-muted: #40536D;     /* secondary text (7.2:1 on page, 4.9:1 on powder blue) */
+  --color-accent: #F26B21;    /* livery orange: stripes, fills, marks. Not for text. */
+  --color-accent-fg: #B3470F; /* burnt orange for text, links and focus (5.1:1) */
+  --color-race: #F26B21;      /* livery orange: race numbers, speed lines. Never used for data. */
+  --color-navy: #13294B;      /* livery navy */
+  --color-gain: #1C7A43;      /* finance: increase (5.0:1) */
+  --color-loss: #B9361C;      /* finance: decrease (5.4:1) */
+  --color-timing-green: #1C7A43;
+  --color-timing-purple: #6A3DC2;
 
-  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;   /* journal: headings, reading text */
-  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;     /* paddock: race-number type, kickers */
-  --font-sans: "Barlow", system-ui, sans-serif;                       /* interface */
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;             /* terminal: figures, tickers, codes */
+  --font-serif: "Work Sans", system-ui, sans-serif;                  /* headings and reading text */
+  --font-display: "Anton", "Arial Narrow", Impact, sans-serif;       /* livery: race-number type, kickers */
+  --font-sans: "Work Sans", system-ui, sans-serif;                   /* interface */
+  --font-mono: "DM Mono", ui-monospace, monospace;                   /* figures, codes */
 
-  /* Data series: validated categorical palette, dark-surface steps. Fixed order, never cycled. */
-  --color-series-1: #3987e5;
-  --color-series-2: #d95926;
-  --color-series-3: #199e70;
-  --color-series-4: #c98500;
-  --color-series-5: #d55181;
-  --color-series-6: #0ca30c;
-  --color-series-7: #9085e9;
-  --color-series-8: #e66767;
+  /* Data series: validated categorical palette, light-surface steps (dataviz reference palette;
+     validate_palette.js passes on #ffffff). Slots 3-5 are below 3:1, so charts keep their table views. */
+  --color-series-1: #2a78d6;
+  --color-series-2: #eb6834;
+  --color-series-3: #1baf7a;
+  --color-series-4: #eda100;
+  --color-series-5: #e87ba4;
+  --color-series-6: #008300;
+  --color-series-7: #6250d6;
+  --color-series-8: #e34948;
 }
 
-html { background: var(--color-bg); color: var(--color-fg); color-scheme: dark; }
+html { background: var(--color-bg); color: var(--color-fg); color-scheme: light; }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; font-size: 1.0625rem; }
 h1, h2, h3 { letter-spacing: 0.005em; }
 
 .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 code, .code { font-family: var(--font-mono); font-size: 0.85em; }
-.font-display { font-family: var(--font-display); }
-/* Section kicker: terminal-style amber code with a race-red sector bar. */
+/* Anton has one weight: never let the browser fake bold; a slanted (synthetic oblique) cut is part of the livery. */
+.font-display { font-family: var(--font-display); font-weight: 400 !important; font-synthesis: style; letter-spacing: 0.02em; }
+/* Section kicker: burnt-orange label with a livery stripe. */
 .eyebrow { font-family: var(--font-mono); font-weight: 400; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-accent-fg); display: inline-flex; align-items: center; gap: 0.6rem; }
 .eyebrow::before { content: ""; width: 1.1rem; height: 3px; background: var(--color-race); transform: skewX(-24deg); }
 .label { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 400; color: var(--color-muted); letter-spacing: 0.06em; text-transform: uppercase; }
 .rule-top { border-top: 1px solid var(--color-line); }
 .rule-thick { border-top: 3px solid var(--color-accent); }
-/* Kerb: red-and-white kerb stripe. */
-.kerb { height: 4px; background: repeating-linear-gradient(90deg, var(--color-race) 0 18px, var(--color-head) 18px 36px); }
+/* Livery stripe: a thick orange band over a thin navy pinstripe. */
+.kerb { height: 9px; background: linear-gradient(var(--color-accent) 0 6px, var(--color-bg) 6px 7px, var(--color-navy) 7px 9px); }
 /* Chequered strip, used once at the very bottom of the page. */
 .chequer { height: 10px; background-color: var(--color-fg);
   background-image: linear-gradient(45deg, var(--color-bg) 25%, transparent 25%, transparent 75%, var(--color-bg) 75%),
@@ -63,12 +66,12 @@ code, .code { font-family: var(--font-mono); font-size: 0.85em; }
 .speedlines { display: inline-flex; gap: 3px; }
 .speedlines > i { display: block; width: 6px; height: 0.9em; background: var(--color-race); transform: skewX(-24deg); }
 .speedlines > i:nth-child(2) { opacity: 0.6; } .speedlines > i:nth-child(3) { opacity: 0.3; }
-/* Terminal panel: a bordered block with a header bar (title left, code right). */
+/* Programme panel: a white block with a powder-blue header bar (title left, code right). */
 .panel { background: var(--color-raise); border: 1px solid var(--color-line); }
-.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: var(--color-panel); border-bottom: 1px solid var(--color-line); padding: 0.4rem 0.75rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent-fg); }
-.panel-head > span:last-child { color: var(--color-muted); }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: var(--color-panel); border-bottom: 1px solid var(--color-line); padding: 0.4rem 0.75rem; font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-head); }
+.panel-head > span:last-child { color: var(--color-fg); }
 .gain { color: var(--color-gain); } .loss { color: var(--color-loss); }
-/* Key chip: a terminal function key. */
+/* Key chip: a small numbered plate. */
 .key { font-family: var(--font-mono); font-size: 0.66rem; line-height: 1; padding: 0.2rem 0.3rem; border: 1px solid currentColor; border-radius: 2px; }
 .italic-skew { font-style: italic; }
 /* Ticker tape: scrolls only when motion is allowed. */
@@ -81,11 +84,11 @@ code, .code { font-family: var(--font-mono); font-size: 0.85em; }
 .prose-body ol { max-width: 68ch; }
 .prose-body li { margin-bottom: 0.35rem; line-height: 1.6; }
 .dropcap::first-letter { float: left; font-family: var(--font-serif); font-weight: 700; font-size: 3.9rem; line-height: 0.8; padding: 0.3rem 0.5rem 0 0; color: var(--color-accent-fg); }
-/* Timing-tower tables: zebra rows on dark. */
-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--color-raise) 80%, transparent); }
-/* Journal headings: proportional old-style figures read better in serif titles. */
+/* Results tables: faint powder-blue zebra rows. */
+table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--color-panel) 18%, transparent); }
+/* Headings. */
 h1, h2, h3 { font-feature-settings: "kern", "liga"; }
-select, input { color-scheme: dark; }
+select, input { color-scheme: light; }
 select option { background: var(--color-raise); color: var(--color-fg); }
 a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, tr:focus-visible, h2:focus-visible { outline: 2px solid var(--color-accent-fg); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
