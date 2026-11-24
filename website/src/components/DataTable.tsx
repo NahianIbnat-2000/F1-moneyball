@@ -51,7 +51,7 @@ export default function DataTable({ rows, columns, specs, pageSize = 25, onRowCl
           <tbody>
             {view.map((r, i) => (
               <tr key={i}
-                className={`border-t border-line hover:bg-raise/50 ${onRowClick ? "cursor-pointer" : ""} ${selected === r ? "bg-raise/70" : ""}`}
+                className={`border-t border-line hover:bg-panel/30 ${onRowClick ? "cursor-pointer" : ""} ${selected === r ? "bg-panel/50" : ""}`}
                 tabIndex={onRowClick ? 0 : undefined}
                 onClick={onRowClick ? () => onRowClick(r) : undefined}
                 onKeyDown={onRowClick ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onRowClick(r); } } : undefined}

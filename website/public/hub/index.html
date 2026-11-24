@@ -17,24 +17,28 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Work+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   /* One-page summary: a light "research brief" look, deliberately different from the dark website.
      The red-and-white kerb stripe is the only shared element. */
   :root {
-    --bg: #F4F2EC; --paper: #FFFFFF; --tint: #F7F5F0; --line: #DCD7CC;
-    --fg: #1B1D21; --muted: #575E66;
-    --accent: #1D4E89;   /* navy: links, labels, emphasis (7.9:1 on white) */
-    --red: #B3261E;      /* race red, small marks only (6.5:1 on white) */
-    --serif: "Source Serif 4", Georgia, serif;
-    --sans: "Inter", system-ui, sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, monospace;
+    /* Race programme livery, matching the main site: powder blue, livery orange, navy ink. */
+    --bg: #F3F7FA; --paper: #FFFFFF; --tint: #E9F3F9; --line: #C4D9E6;
+    --fg: #13294B; --muted: #40536D;
+    --accent: #1D4E89;   /* navy blue: links, labels, emphasis (7.9:1 on white) */
+    --red: #B3470F;      /* burnt orange: small labels and marks (5.5:1 on white) */
+    --orange: #F26B21;   /* livery orange: stripes only */
+    --powder: #A9D4E9;   /* livery powder blue */
+    --serif: "Work Sans", system-ui, sans-serif;
+    --display: "Anton", "Arial Narrow", Impact, sans-serif;
+    --sans: "Work Sans", system-ui, sans-serif;
+    --mono: "DM Mono", ui-monospace, monospace;
   }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--serif); font-size: 1.06rem; line-height: 1.65; }
   a { color: var(--accent); }
-  .kerb { margin: 0 -44px; height: 5px; background: repeating-linear-gradient(90deg, var(--red) 0 22px, #FFFFFF 22px 44px); }
+  .kerb { margin: 0 -44px; height: 9px; background: linear-gradient(var(--orange) 0 6px, var(--paper) 6px 7px, var(--fg) 7px 9px); }
   .wrap { max-width: 900px; margin: 28px auto 40px; padding: 0 44px; background: var(--paper);
           border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.05); }
 
@@ -44,7 +48,7 @@
 
   header { padding: 52px 0 36px; }
   .eyebrow { font-family: var(--sans); font-size: .76rem; font-weight: 600; color: var(--red); letter-spacing: .14em; text-transform: uppercase; }
-  h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(2.6rem, 7vw, 4.2rem); line-height: 1.02; margin: 12px 0 6px; letter-spacing: -.01em; }
+  h1 { font-family: var(--display); font-weight: 400; font-style: italic; text-transform: uppercase; font-size: clamp(2.8rem, 8vw, 4.8rem); line-height: 0.98; margin: 12px 0 6px; letter-spacing: .01em; }
   .tagline { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(1.2rem, 3vw, 1.55rem); color: var(--muted); margin: 0 0 26px; }
   .lede { max-width: 700px; font-size: 1.12rem; margin: 0; }
   ol.questions { max-width: 700px; margin: 16px 0 0; padding-left: 1.5em; font-size: 1.06rem; }
@@ -89,7 +93,7 @@
   .studies { display: grid; gap: 0; margin-top: 18px; }
   .study { display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
   .study:first-child { border-top: none; }
-  .study .num { font-family: var(--serif); font-weight: 700; font-size: 2.2rem; line-height: 1; color: var(--red); }
+  .study .num { font-family: var(--display); font-weight: 400; font-style: italic; font-size: 2.4rem; line-height: 1; color: var(--red); }
   .study h3 { font-family: var(--serif); font-weight: 700; font-size: 1.35rem; margin: 0 0 2px; }
   .study .q { font-style: italic; color: var(--accent); margin: 0 0 8px; }
   .study p { margin: 0 0 8px; }

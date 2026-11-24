@@ -298,7 +298,7 @@ export default function DataExplorer() {
                             <label className="text-xs label grid gap-1 flex-1 min-w-40">Search records
                               <input className={field} value={q} placeholder="Any value…" onChange={(e) => setQ(e.target.value)} />
                             </label>
-                            <button onClick={download} className="bg-accent text-bg font-semibold text-sm px-4 py-2 hover:bg-accent-fg">Download filtered CSV</button>
+                            <button onClick={download} className="bg-accent text-head font-semibold text-sm px-4 py-2 hover:bg-panel">Download filtered CSV</button>
                           </div>
                           <details className="mb-4 text-sm">
                             <summary className="cursor-pointer num text-xs text-muted">Choose variables ({cols.length} of {allCols.length})</summary>

@@ -7,9 +7,9 @@ export const TEAM_COLOR: Record<string, string> = {
 };
 // Plotly needs resolved hex values, not CSS variables.
 const HEX: Record<string, string> = {
-  "var(--color-series-1)": "#3987e5", "var(--color-series-2)": "#d95926", "var(--color-series-3)": "#199e70",
-  "var(--color-series-4)": "#c98500", "var(--color-series-5)": "#d55181", "var(--color-series-6)": "#0ca30c",
-  "var(--color-series-7)": "#9085e9", "var(--color-series-8)": "#e66767",
+  "var(--color-series-1)": "#2a78d6", "var(--color-series-2)": "#eb6834", "var(--color-series-3)": "#1baf7a",
+  "var(--color-series-4)": "#eda100", "var(--color-series-5)": "#e87ba4", "var(--color-series-6)": "#008300",
+  "var(--color-series-7)": "#6250d6", "var(--color-series-8)": "#e34948",
 };
-export const OTHER = "#6B7579";
+export const OTHER = "#8A99A8";
 export const teamHex = (id: string) => HEX[TEAM_COLOR[id]] ?? OTHER;

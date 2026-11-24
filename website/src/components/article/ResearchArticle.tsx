@@ -19,10 +19,10 @@ export default function ResearchArticle({ a }: { a: Article }) {
         <aside className="lg:sticky lg:top-6 self-start grid gap-8">
           <ArticleMetadata a={a} />
           <div className="hidden lg:block"><TableOfContents /></div>
-          {a.interactive && <Link to={a.interactive.to} className="block bg-accent text-bg font-semibold text-sm px-4 py-3 hover:bg-accent-fg">{a.interactive.label} →</Link>}
+          {a.interactive && <Link to={a.interactive.to} className="block bg-accent text-head font-semibold text-sm px-4 py-3 hover:bg-panel">{a.interactive.label} →</Link>}
           {a.paper && (
             <div className="grid gap-1 text-sm">
-              <a href={import.meta.env.BASE_URL + a.paper.pdf} className="block border border-accent text-accent font-semibold px-4 py-3 hover:bg-accent hover:text-bg">Working paper (PDF) ↓</a>
+              <a href={import.meta.env.BASE_URL + a.paper.pdf} className="block border border-accent text-accent-fg font-semibold px-4 py-3 hover:bg-accent hover:text-bg">Working paper (PDF) ↓</a>
               <a href={a.paper.source} className="text-muted underline px-1" target="_blank" rel="noreferrer">LaTeX source and code</a>
             </div>
           )}

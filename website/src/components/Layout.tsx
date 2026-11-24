@@ -5,7 +5,7 @@ import { useHead } from "../lib/head";
 import { useDataset, useManifest } from "../lib/data";
 import { fmtDate } from "../lib/status";
 
-// Navigation as terminal function keys. "F1" opens the home page.
+// Navigation as numbered programme plates. "F1" opens the home page.
 const NAV = [
   ["/", "Home"], ["/research", "Research"], ["/moneyball", "F1 Moneyball"], ["/lab", "Econometrics Lab"],
   ["/data", "Data Explorer"], ["/methodology", "Methodology"], ["/faq", "FAQ"], ["/about", "About"],
@@ -26,7 +26,7 @@ export function StartLights({ label = "Loading" }: { label?: string }) {
   );
 }
 
-/** Terminal status line: every value is read from the pipeline manifest. */
+/** Status line: every value is read from the pipeline manifest. */
 function StatusLine() {
   const m = useManifest();
   const q = m?.quality;
@@ -38,7 +38,7 @@ function StatusLine() {
   return (
     <div className="border-b border-line bg-bg">
       <div className="mx-auto max-w-6xl px-5 py-1.5 flex items-center justify-between gap-4 font-mono text-[0.68rem] uppercase tracking-[0.08em] text-muted">
-        <span className="flex items-center gap-2"><span aria-hidden className="w-1.5 h-1.5 rounded-full bg-race" />Research terminal</span>
+        <span className="flex items-center gap-2"><span aria-hidden className="w-1.5 h-1.5 rounded-full bg-race" />Race programme · research edition</span>
         <span className="hidden sm:flex gap-5">
           {m === undefined && <span>Loading…</span>}
           {m === null && <span>Pipeline not yet run</span>}
@@ -85,7 +85,7 @@ function Ticker() {
   );
   return (
     <div className="bg-raise border-b border-line flex items-stretch font-mono text-[0.75rem]">
-      <div className="shrink-0 bg-accent text-bg font-semibold uppercase tracking-wider px-3 py-1.5 flex items-center">
+      <div className="shrink-0 bg-accent text-head font-semibold uppercase tracking-wider px-3 py-1.5 flex items-center">
         {tape.latest} standings <span className="hidden sm:inline">&nbsp;· Δ pts vs {tape.latest - 1}</span>
       </div>
       <div className="ticker overflow-hidden flex-1 py-1.5" tabIndex={0} aria-label={`${tape.latest} constructors' standings and points change from ${tape.latest - 1}`}>
@@ -110,12 +110,12 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:p-2 focus:bg-bg">Skip to content</a>
-      <header className="bg-navy">
+      <header className="bg-panel">
         <StatusLine />
         <div className="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between gap-6">
           <Link to="/" className="flex items-center gap-3">
             {/* Race-number plate: a livery motif, not a team mark. */}
-            <span aria-hidden className="font-display font-bold italic text-[1.7rem] leading-none bg-race text-white px-2 py-1 -skew-x-12">F1</span>
+            <span aria-hidden className="font-display font-bold italic text-[1.7rem] leading-none bg-race text-head px-2 py-1 -skew-x-12">F1</span>
             <span>
               <span className="block font-display font-bold italic uppercase text-[1.9rem] md:text-[2.2rem] leading-none tracking-wide text-head">{BRAND.name.replace(/^F1 /, "")}</span>
               <span className="block font-serif italic text-sm text-muted mt-1">{BRAND.tagline}</span>
@@ -131,7 +131,7 @@ export default function Layout() {
         <Ticker />
       </header>
       <main id="main" className="flex-1"><Outlet /></main>
-      <footer className="mt-24 bg-navy border-t border-line">
+      <footer className="mt-24 bg-panel border-t border-line">
         <div className="kerb" aria-hidden />
         <div className="mx-auto max-w-6xl px-5 py-10 grid gap-8 md:grid-cols-[1fr_2fr] text-sm">
           <div>

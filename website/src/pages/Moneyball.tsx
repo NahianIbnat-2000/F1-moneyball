@@ -186,7 +186,7 @@ function EfficiencyBars({ rows, entry }: { rows: Row[]; entry?: DatasetEntry }) 
   return (
     <ChartFrame
       meta={{ id: measure === "points_to_resource_share_ratio" ? "MB-6" : measure === "points_per_million" ? "MB-7" : "MB-8", dataset: entry, methodology: "points-to-resource-share ratio",
-        title: `${labels[measure][0]}, ${mLabel(c.metric)}, ${season}`,
+        title: measure === "points_to_resource_share_ratio" ? `${labels[measure][0]}, ${season}` : `${labels[measure][0]}, ${mLabel(c.metric)}, ${season}`,
         caption: "Three separate descriptive measures, shown one at a time rather than combined into a single score. Shares are computed only among teams in the same comparison group.",
         source: "efficiency dataset, computed by src/f1moneyball/econometrics/efficiency.py.",
         shows: labels[measure][1] + `. Group: ${v.length} teams reporting ${mLabel(c.metric)} in ${c.ccy} for ${season}.`,
